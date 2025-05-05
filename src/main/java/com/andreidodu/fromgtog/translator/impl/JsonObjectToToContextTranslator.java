@@ -1,6 +1,7 @@
-package com.andreidodu.fromgtog.translator;
+package com.andreidodu.fromgtog.translator.impl;
 
 import com.andreidodu.fromgtog.dto.ToContext;
+import com.andreidodu.fromgtog.translator.JsonObjectToRecordTranslator;
 import com.andreidodu.fromgtog.type.EngineType;
 import com.andreidodu.fromgtog.type.RepoPrivacyType;
 import org.json.JSONException;
