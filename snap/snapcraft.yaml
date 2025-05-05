@@ -1,0 +1,65 @@
+name: fromgtog
+version: '5.0.0'
+summary: Clone ALL GitHub/Gitea/Local to GitHub/Gitea.
+description: |
+  Helps to clone all repositories from GitHub on Gitea/Local and vice versa.
+grade: stable
+confinement: strict
+base: core24
+icon: snap/gui/icon.png
+title: FromGtoG
+website: https://andre-i.eu
+issues: https://github.com/goto-eof
+license: MIT
+compression: xz
+slots:
+  fromgtog-dbus:
+    interface: dbus
+    bus: session
+    name: it.es5.fromgtog.dbus
+apps:
+  fromgtog:
+    environment:
+      LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$SNAP_DESKTOP_RUNTIME/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libproxy:$SNAP_DESKTOP_RUNTIME/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/gio/modules
+    command: executor
+    extensions: [ gnome ]
+    plugs:
+      - network
+      - x11
+      - browser-support
+      - unity7
+      - home
+      - desktop
+      - desktop-legacy
+      - removable-media
+      - wayland
+      - network-bind
+    slots:
+      - fromgtog-dbus
+platforms:
+  amd64:
+    build-on: [ amd64 ]
+    build-for: [ amd64 ]
+  arm64:
+    build-on: [ arm64 ]
+    build-for: [ arm64 ]
+parts:
+  wrapper:
+    plugin: dump
+    source: snap/local
+    source-type: local
+  application:
+    plugin: maven
+    source: .
+    build-packages:
+      - openjdk-17-jdk
+      - maven
+    stage-packages:
+      - openjdk-17-jre
+      - glib-networking
+      - libgtk-3-0
+      - xdg-utils
+    override-prime: |
+      snapcraftctl prime
+      rm -vf usr/lib/jvm/java-17-openjdk-*64/lib/security/blacklisted.certs
+

@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=FromGtoG
+Comment=Helps to migrate all repositories from GitHub on Gitea
+Exec=fromgtog
+Icon=${SNAP}/meta/gui/icon.png
+Terminal=false
+Type=Application
+StartupNotify=true
+Keywords=network;
+Categories=Network;
