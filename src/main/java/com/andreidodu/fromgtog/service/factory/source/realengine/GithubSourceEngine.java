@@ -1,15 +1,15 @@
-package com.andreidodu.fromgtog.engine.factory.source.realengine;
+package com.andreidodu.fromgtog.service.factory.source.realengine;
 
 import com.andreidodu.fromgtog.dto.EngineContext;
 import com.andreidodu.fromgtog.dto.RepositoryDTO;
-import com.andreidodu.fromgtog.engine.factory.source.AbstractSourceEngine;
+import com.andreidodu.fromgtog.service.factory.source.AbstractSourceEngine;
 import com.andreidodu.fromgtog.type.EngineType;
 
 import java.util.List;
 
-public class GiteaSourceEngine extends AbstractSourceEngine {
+public class GithubSourceEngine extends AbstractSourceEngine {
 
-    private final static EngineType SOURCE_ENGINE_TYPE = EngineType.GITEA;
+    private final static EngineType SOURCE_ENGINE_TYPE = EngineType.GITHUB;
 
     @Override
     public EngineType getEngineType() {

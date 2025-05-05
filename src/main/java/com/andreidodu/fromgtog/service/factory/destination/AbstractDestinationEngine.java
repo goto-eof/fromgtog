@@ -1,4 +1,4 @@
-package com.andreidodu.fromgtog.engine.factory.destination;
+package com.andreidodu.fromgtog.service.factory.destination;
 
 import com.andreidodu.fromgtog.type.EngineType;
 

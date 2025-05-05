@@ -1,7 +1,7 @@
-package com.andreidodu.fromgtog.engine.factory;
+package com.andreidodu.fromgtog.service.factory;
 
-import com.andreidodu.fromgtog.engine.factory.destination.DestinationEngine;
-import com.andreidodu.fromgtog.engine.factory.source.SourceEngine;
+import com.andreidodu.fromgtog.service.factory.destination.DestinationEngine;
+import com.andreidodu.fromgtog.service.factory.source.SourceEngine;
 import com.andreidodu.fromgtog.type.EngineType;
 
 public interface CloneFactory {
