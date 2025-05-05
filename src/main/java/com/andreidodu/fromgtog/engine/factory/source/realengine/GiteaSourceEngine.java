@@ -1,8 +1,8 @@
-package com.andreidodu.fromgtog.engine.source.realengine;
+package com.andreidodu.fromgtog.engine.factory.source.realengine;
 
 import com.andreidodu.fromgtog.dto.EngineContext;
 import com.andreidodu.fromgtog.dto.RepositoryDTO;
-import com.andreidodu.fromgtog.engine.source.AbstractSourceEngine;
+import com.andreidodu.fromgtog.engine.factory.source.AbstractSourceEngine;
 import com.andreidodu.fromgtog.type.EngineType;
 
 import java.util.List;

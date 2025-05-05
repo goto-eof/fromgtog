@@ -1,17 +1,15 @@
 package com.andreidodu.fromgtog.gui.controller.impl;
 
 import com.andreidodu.fromgtog.dto.EngineContext;
-import com.andreidodu.fromgtog.dto.SettingsContext;
 import com.andreidodu.fromgtog.gui.controller.DataProviderController;
 import com.andreidodu.fromgtog.gui.controller.DataProviderFromController;
 import com.andreidodu.fromgtog.gui.controller.DataProviderToController;
-import com.andreidodu.fromgtog.service.JsonObjectUtil;
+import com.andreidodu.fromgtog.util.JsonObjectUtil;
 import com.andreidodu.fromgtog.service.RepositoryCloner;
-import com.andreidodu.fromgtog.service.RepositoryClonerImpl;
+import com.andreidodu.fromgtog.service.impl.RepositoryClonerImpl;
 import com.andreidodu.fromgtog.translator.JsonObjectToAppContextTranslator;
 import com.andreidodu.fromgtog.translator.JsonObjectToFromContextTranslator;
 import com.andreidodu.fromgtog.translator.JsonObjectToToContextTranslator;
-import com.andreidodu.fromgtog.type.EngineType;
 import lombok.Getter;
 import lombok.Setter;
 import org.json.JSONObject;

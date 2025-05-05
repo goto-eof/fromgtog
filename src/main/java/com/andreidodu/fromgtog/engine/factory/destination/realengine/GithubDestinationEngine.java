@@ -1,15 +1,14 @@
-package com.andreidodu.fromgtog.engine.destination.realengine;
+package com.andreidodu.fromgtog.engine.factory.destination.realengine;
 
 import com.andreidodu.fromgtog.dto.EngineContext;
 import com.andreidodu.fromgtog.dto.RepositoryDTO;
-import com.andreidodu.fromgtog.engine.destination.AbstractDestinationEngine;
+import com.andreidodu.fromgtog.engine.factory.destination.AbstractDestinationEngine;
 import com.andreidodu.fromgtog.type.EngineType;
 
 import java.util.List;
 
-public class GiteaDestinationEngine extends AbstractDestinationEngine {
-
-    private final static EngineType DESTINATION_ENGINE_TYPE = EngineType.GITEA;
+public class GithubDestinationEngine extends AbstractDestinationEngine {
+    private final static EngineType DESTINATION_ENGINE_TYPE = EngineType.GITHUB;
 
     public EngineType getDestinationEngineType() {
         return DESTINATION_ENGINE_TYPE;

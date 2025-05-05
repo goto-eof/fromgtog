@@ -1,4 +1,4 @@
-package com.andreidodu.fromgtog.service;
+package com.andreidodu.fromgtog.util;
 
 import org.json.JSONObject;
 

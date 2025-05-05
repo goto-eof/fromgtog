@@ -1,15 +1,16 @@
-package com.andreidodu.fromgtog.engine.source.realengine;
+package com.andreidodu.fromgtog.engine.factory.source.realengine;
 
 import com.andreidodu.fromgtog.dto.EngineContext;
 import com.andreidodu.fromgtog.dto.RepositoryDTO;
-import com.andreidodu.fromgtog.engine.source.AbstractSourceEngine;
+import com.andreidodu.fromgtog.engine.factory.source.AbstractSourceEngine;
 import com.andreidodu.fromgtog.type.EngineType;
+
 
 import java.util.List;
 
-public class GithubSourceEngine extends AbstractSourceEngine {
+public class LocalSourceEngine extends AbstractSourceEngine {
 
-    private final static EngineType SOURCE_ENGINE_TYPE = EngineType.GITHUB;
+    private final static EngineType SOURCE_ENGINE_TYPE = EngineType.LOCAL;
 
     @Override
     public EngineType getEngineType() {
