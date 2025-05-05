@@ -33,7 +33,7 @@ public class ToLocalController implements DataProviderToController {
         JSONObject jsonObject = new JSONObject();
 
         jsonObject.put(TO_LOCAL_ROOT_PATH, toLocalRootPathTextField.getText());
-        jsonObject.put(TO_LOCAL_GROUP_BY_OWNER, toLocalGroupByRepositoryOwnerCheckBox.getLocale());
+        jsonObject.put(TO_LOCAL_GROUP_BY_OWNER, toLocalGroupByRepositoryOwnerCheckBox.isSelected());
         jsonObject.put(ENGINE_TYPE, EngineType.fromValue(TAB_INDEX));
 
         return jsonObject;

@@ -24,6 +24,9 @@ public class ToGiteaController implements DataProviderToController {
         this.toGiteaUrlTextField = toGiteaUrlTextField;
         this.toGiteaTokenTextField = toGiteaTokenTextField;
         this.toGiteaPrivacyComboBox = toGiteaPrivacyComboBox;
+
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(new String[]{"All private", "All public"});
+        this.toGiteaPrivacyComboBox.setModel(model);
     }
 
     @Override

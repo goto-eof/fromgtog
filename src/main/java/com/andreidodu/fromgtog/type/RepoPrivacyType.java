@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum RepoPrivacyType {
-    ALL_PRIVATE(1), ALL_PUBLIC(2), ALL_DEFAULT(3);
+    ALL_PRIVATE(0), ALL_PUBLIC(1), ALL_DEFAULT(2);
     final int value;
 
     RepoPrivacyType(int value) {

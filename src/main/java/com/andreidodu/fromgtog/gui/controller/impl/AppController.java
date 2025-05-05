@@ -6,9 +6,12 @@ import com.andreidodu.fromgtog.gui.controller.DataProviderController;
 import com.andreidodu.fromgtog.gui.controller.DataProviderFromController;
 import com.andreidodu.fromgtog.gui.controller.DataProviderToController;
 import com.andreidodu.fromgtog.service.JsonObjectUtil;
+import com.andreidodu.fromgtog.service.RepositoryCloner;
+import com.andreidodu.fromgtog.service.RepositoryClonerImpl;
 import com.andreidodu.fromgtog.translator.JsonObjectToAppContextTranslator;
 import com.andreidodu.fromgtog.translator.JsonObjectToFromContextTranslator;
 import com.andreidodu.fromgtog.translator.JsonObjectToToContextTranslator;
+import com.andreidodu.fromgtog.type.EngineType;
 import lombok.Getter;
 import lombok.Setter;
 import org.json.JSONObject;
@@ -19,6 +22,11 @@ import java.util.List;
 import static com.andreidodu.fromgtog.gui.GuiKeys.APP_SLEEP_TIME;
 import static com.andreidodu.fromgtog.util.NumberUtil.toIntegerOrDefault;
 
+
+/**
+ * TODO error managing for retrieveJsonData -> show error alert
+ * TODO validate user input -> show error alert
+ */
 @Getter
 @Setter
 public class AppController {
@@ -74,17 +82,34 @@ public class AppController {
 
     private void defineAppStartButtonListener(List<DataProviderFromController> fromControllerList, List<DataProviderToController> toControllerList, JTabbedPane fromTabbedPane, JTabbedPane toTabbedPane) {
         this.appStartButton.addActionListener(e -> {
+            appLogTextArea.setText(String.format("%s\n(%s) -> (%s)",
+                            appLogTextArea.getText(),
+                            fromTabbedPane.getSelectedIndex(),
+                            toTabbedPane.getSelectedIndex()
+                    )
+            );
+
             JSONObject jsonObjectFrom = retrieveJsonData(fromControllerList, fromTabbedPane.getSelectedIndex());
             JSONObject jsonObjectTo = retrieveJsonData(toControllerList, toTabbedPane.getSelectedIndex());
             JSONObject jsonObjectApp = getDataFromChildren();
 
-            EngineContext.builder()
+            EngineContext engineContext = EngineContext.builder()
                     .settingsContext(translatorApp.translate(jsonObjectApp))
                     .fromContext(translatorFrom.translate(jsonObjectFrom))
                     .toContext(translatorTo.translate(jsonObjectTo))
                     .build();
 
-            // TODO call my service with mergedJsonObject
+            appLogTextArea.setText(String.format("%s\n%s(%s) -> %s(%s)",
+                            appLogTextArea.getText(),
+                            engineContext.fromContext().sourceEngineType(),
+                            fromTabbedPane.getSelectedIndex(),
+                            engineContext.toContext().engineType(),
+                            toTabbedPane.getSelectedIndex()
+                    )
+            );
+
+            RepositoryCloner repositoryCloner = new RepositoryClonerImpl();
+            repositoryCloner.cloneAllRepositories(engineContext);
         });
     }
 

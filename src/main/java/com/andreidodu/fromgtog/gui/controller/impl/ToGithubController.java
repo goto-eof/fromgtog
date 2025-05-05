@@ -8,6 +8,8 @@ import org.json.JSONObject;
 
 import javax.swing.*;
 
+import java.lang.reflect.Array;
+
 import static com.andreidodu.fromgtog.gui.GuiKeys.*;
 
 @Getter
@@ -21,6 +23,9 @@ public class ToGithubController implements DataProviderToController {
     public ToGithubController(JTextField toGithubTokenTextField, JComboBox toGithubPrivacyComboBox) {
         this.toGithubTokenTextField = toGithubTokenTextField;
         this.toGithubPrivacyComboBox = toGithubPrivacyComboBox;
+
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(new String[]{"All private", "All public"});
+        this.toGithubPrivacyComboBox.setModel(model);
     }
 
     @Override

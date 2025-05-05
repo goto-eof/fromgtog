@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum EngineType {
-    GITHUB(1), GITEA(2), LOCAL(3);
+    GITHUB(0), GITEA(1), LOCAL(2);
 
     private final int value;
 
