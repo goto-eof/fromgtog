@@ -3,16 +3,17 @@ package com.andreidodu.fromgtog.type;
 import lombok.Getter;
 
 @Getter
-public enum RepoPrivacyType {
-    ALL_PRIVATE(1), ALL_PUBLIC(2), ALL_DEFAULT(3);
-    final int value;
+public enum EngineType {
+    GITHUB(1), GITEA(2), LOCAL(3);
 
-    RepoPrivacyType(int value) {
+    private final int value;
+
+    EngineType(int value) {
         this.value = value;
     }
 
-    public static RepoPrivacyType fromValue(int value) {
-        for (RepoPrivacyType enumValue : RepoPrivacyType.values()) {
+    public static EngineType fromValue(int value) {
+        for (EngineType enumValue : EngineType.values()) {
             if (enumValue.getValue() == value) {
                 return enumValue;
             }

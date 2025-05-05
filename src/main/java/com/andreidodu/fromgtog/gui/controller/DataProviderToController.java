@@ -1,4 +1,4 @@
-package com.andreidodu.fromgtog.gui;
+package com.andreidodu.fromgtog.gui.controller;
 
 public interface DataProviderToController extends DataProviderController {
 }

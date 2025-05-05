@@ -1,11 +1,11 @@
 package com.andreidodu.fromgtog.engine.destination;
 
-import com.andreidodu.fromgtog.type.DestinationEngineType;
+import com.andreidodu.fromgtog.type.EngineType;
 
 public abstract class AbstractDestinationEngine implements DestinationEngine {
 
     @Override
-    public boolean accept(DestinationEngineType sourceEngineType) {
+    public boolean accept(EngineType sourceEngineType) {
         return getDestinationEngineType().equals(sourceEngineType);
     }
 }

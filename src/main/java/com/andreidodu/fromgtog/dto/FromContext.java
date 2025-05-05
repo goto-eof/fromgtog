@@ -1,13 +1,14 @@
 package com.andreidodu.fromgtog.dto;
 
-import com.andreidodu.fromgtog.type.SourceEngineType;
+import com.andreidodu.fromgtog.type.EngineType;
 import lombok.Builder;
 
 @Builder
 public record FromContext(
-        SourceEngineType sourceEngineType,
+        EngineType sourceEngineType,
 
         String url,
+
         String token,
         boolean cloneStarredReposFlag,
         boolean cloneForkedReposFlag,

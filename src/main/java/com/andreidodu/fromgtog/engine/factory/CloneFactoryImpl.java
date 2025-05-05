@@ -1,7 +1,6 @@
 package com.andreidodu.fromgtog.engine.factory;
 
-import com.andreidodu.fromgtog.type.DestinationEngineType;
-import com.andreidodu.fromgtog.type.SourceEngineType;
+import com.andreidodu.fromgtog.type.EngineType;
 import com.andreidodu.fromgtog.engine.destination.DestinationEngine;
 import com.andreidodu.fromgtog.engine.destination.realengine.GiteaDestinationEngine;
 import com.andreidodu.fromgtog.engine.destination.realengine.GithubDestinationEngine;
@@ -30,7 +29,7 @@ public class CloneFactoryImpl implements CloneFactory {
     };
 
     @Override
-    public SourceEngine buildSource(SourceEngineType sourceEngineType) {
+    public SourceEngine buildSource(EngineType sourceEngineType) {
         return Arrays.stream(sourceEngineArray)
                 .filter(sourceEngine -> sourceEngine.accept(sourceEngineType))
                 .findFirst()
@@ -38,9 +37,9 @@ public class CloneFactoryImpl implements CloneFactory {
     }
 
     @Override
-    public DestinationEngine buildDestination(DestinationEngineType destinationEngineType) {
+    public DestinationEngine buildDestination(EngineType engineType) {
         return Arrays.stream(destinationEngineArray)
-                .filter(destinationEngine -> destinationEngine.accept(destinationEngineType))
+                .filter(destinationEngine -> destinationEngine.accept(engineType))
                 .findFirst()
                 .orElseThrow(DestinationEngineNotFoundException::new);
     }

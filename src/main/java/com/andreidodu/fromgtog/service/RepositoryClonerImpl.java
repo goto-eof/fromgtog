@@ -6,7 +6,7 @@ import com.andreidodu.fromgtog.engine.factory.CloneFactoryImpl;
 import com.andreidodu.fromgtog.dto.RepositoryDTO;
 import com.andreidodu.fromgtog.engine.destination.DestinationEngine;
 import com.andreidodu.fromgtog.engine.source.SourceEngine;
-import com.andreidodu.fromgtog.type.SourceEngineType;
+import com.andreidodu.fromgtog.type.EngineType;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ public class RepositoryClonerImpl implements RepositoryCloner {
 
         CloneFactory cloneFactory = new CloneFactoryImpl();
         SourceEngine sourceEngine = cloneFactory.buildSource(engineContext.fromContext().sourceEngineType());
-        DestinationEngine destinationEngine = cloneFactory.buildDestination(engineContext.toContext().destinationEngineType());
+        DestinationEngine destinationEngine = cloneFactory.buildDestination(engineContext.toContext().engineType());
 
         return cloneFromAndTo(engineContext, sourceEngine, destinationEngine);
     }
@@ -30,8 +30,8 @@ public class RepositoryClonerImpl implements RepositoryCloner {
     }
 
     private static boolean isFromLocalToLocal(EngineContext engineContext) {
-        return SourceEngineType.LOCAL.equals(engineContext.fromContext().sourceEngineType()) &&
-                engineContext.fromContext().sourceEngineType().getValue() == engineContext.toContext().destinationEngineType().getValue();
+        return EngineType.LOCAL.equals(engineContext.fromContext().sourceEngineType()) &&
+                engineContext.fromContext().sourceEngineType().getValue() == engineContext.toContext().engineType().getValue();
     }
 
     private boolean cloneFromAndTo(EngineContext engineContext, SourceEngine sourceEngine, DestinationEngine destinationEngine) {

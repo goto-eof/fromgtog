@@ -1,12 +1,12 @@
 package com.andreidodu.fromgtog.dto;
 
-import com.andreidodu.fromgtog.type.DestinationEngineType;
+import com.andreidodu.fromgtog.type.EngineType;
 import com.andreidodu.fromgtog.type.RepoPrivacyType;
 import lombok.Builder;
 
 @Builder
 public record ToContext(
-        DestinationEngineType destinationEngineType,
+        EngineType engineType,
 
         String url,
         String token,

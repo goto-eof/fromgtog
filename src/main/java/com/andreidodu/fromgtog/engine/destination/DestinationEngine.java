@@ -2,15 +2,15 @@ package com.andreidodu.fromgtog.engine.destination;
 
 import com.andreidodu.fromgtog.dto.EngineContext;
 import com.andreidodu.fromgtog.dto.RepositoryDTO;
-import com.andreidodu.fromgtog.type.DestinationEngineType;
+import com.andreidodu.fromgtog.type.EngineType;
 
 import java.util.List;
 
 public interface DestinationEngine {
 
-    DestinationEngineType getDestinationEngineType();
+    EngineType getDestinationEngineType();
 
-    boolean accept(DestinationEngineType sourceEngineType);
+    boolean accept(EngineType sourceEngineType);
 
     boolean cloneAll(EngineContext engineContext, List<RepositoryDTO> repositoryDTOList);
 

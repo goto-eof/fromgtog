@@ -3,14 +3,14 @@ package com.andreidodu.fromgtog.engine.destination.realengine;
 import com.andreidodu.fromgtog.dto.EngineContext;
 import com.andreidodu.fromgtog.dto.RepositoryDTO;
 import com.andreidodu.fromgtog.engine.destination.AbstractDestinationEngine;
-import com.andreidodu.fromgtog.type.DestinationEngineType;
+import com.andreidodu.fromgtog.type.EngineType;
 
 import java.util.List;
 
 public class GithubDestinationEngine extends AbstractDestinationEngine {
-    private final static DestinationEngineType DESTINATION_ENGINE_TYPE = DestinationEngineType.GITHUB;
+    private final static EngineType DESTINATION_ENGINE_TYPE = EngineType.GITHUB;
 
-    public DestinationEngineType getDestinationEngineType() {
+    public EngineType getDestinationEngineType() {
         return DESTINATION_ENGINE_TYPE;
     }
 

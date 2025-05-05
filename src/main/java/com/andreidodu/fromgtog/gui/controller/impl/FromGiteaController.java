@@ -1,5 +1,7 @@
-package com.andreidodu.fromgtog.gui;
+package com.andreidodu.fromgtog.gui.controller.impl;
 
+import com.andreidodu.fromgtog.gui.controller.DataProviderFromController;
+import com.andreidodu.fromgtog.type.EngineType;
 import lombok.Getter;
 import lombok.Setter;
 import org.json.JSONObject;
@@ -12,7 +14,7 @@ import static com.andreidodu.fromgtog.gui.GuiKeys.*;
 @Setter
 public class FromGiteaController implements DataProviderFromController {
 
-    private final static int TAB_INDEX = 2;
+    private final static int TAB_INDEX = EngineType.GITEA.getValue();
 
     private JTextField fromGiteaUrlTextField;
     private JTextField fromGiteaTokenTextField;
@@ -51,6 +53,7 @@ public class FromGiteaController implements DataProviderFromController {
         jsonObject.put(FROM_GITEA_CLONE_ARCHIVED_REPO_FLAG, fromGiteaCloneArchivedRepositoriesCheckBox.isSelected());
         jsonObject.put(FROM_GITEA_CLONE_ORGANIZATIONS_REPO_FLAG, fromGiteaCloneOrganizationsRepositoriesCheckBox.isSelected());
         jsonObject.put(FROM_GITEA_EXCLUDE_ORGANIZATIONS, fromGiteaExcludeOrganizationTextField.getText());
+        jsonObject.put(ENGINE_TYPE, EngineType.fromValue(TAB_INDEX));
 
         return jsonObject;
     }

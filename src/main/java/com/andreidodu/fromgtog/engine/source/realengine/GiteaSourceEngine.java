@@ -3,16 +3,16 @@ package com.andreidodu.fromgtog.engine.source.realengine;
 import com.andreidodu.fromgtog.dto.EngineContext;
 import com.andreidodu.fromgtog.dto.RepositoryDTO;
 import com.andreidodu.fromgtog.engine.source.AbstractSourceEngine;
-import com.andreidodu.fromgtog.type.SourceEngineType;
+import com.andreidodu.fromgtog.type.EngineType;
 
 import java.util.List;
 
 public class GiteaSourceEngine extends AbstractSourceEngine {
 
-    private final static SourceEngineType SOURCE_ENGINE_TYPE = SourceEngineType.GITEA;
+    private final static EngineType SOURCE_ENGINE_TYPE = EngineType.GITEA;
 
     @Override
-    public SourceEngineType getSourceEngineType() {
+    public EngineType getEngineType() {
         return SOURCE_ENGINE_TYPE;
     }
 

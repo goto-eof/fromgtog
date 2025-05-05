@@ -1,6 +1,14 @@
-package com.andreidodu.fromgtog.gui;
+package com.andreidodu.fromgtog.gui.controller.impl;
 
+import com.andreidodu.fromgtog.dto.EngineContext;
+import com.andreidodu.fromgtog.dto.SettingsContext;
+import com.andreidodu.fromgtog.gui.controller.DataProviderController;
+import com.andreidodu.fromgtog.gui.controller.DataProviderFromController;
+import com.andreidodu.fromgtog.gui.controller.DataProviderToController;
 import com.andreidodu.fromgtog.service.JsonObjectUtil;
+import com.andreidodu.fromgtog.translator.JsonObjectToAppContextTranslator;
+import com.andreidodu.fromgtog.translator.JsonObjectToFromContextTranslator;
+import com.andreidodu.fromgtog.translator.JsonObjectToToContextTranslator;
 import lombok.Getter;
 import lombok.Setter;
 import org.json.JSONObject;
@@ -24,7 +32,12 @@ public class AppController {
     private JLabel appProgressStatusLabel;
     private JLabel appStatusProgressBarLabel;
     private JButton appStartButton;
+
     private JsonObjectUtil jsonObjectUtil;
+    private JsonObjectToFromContextTranslator translatorFrom;
+    private JsonObjectToToContextTranslator translatorTo;
+    private JsonObjectToAppContextTranslator translatorApp;
+
     private JTabbedPane fromTabbedPane;
     private JTabbedPane toTabbedPane;
 
@@ -52,21 +65,30 @@ public class AppController {
         this.toTabbedPane = toTabbedPane;
 
         this.jsonObjectUtil = new JsonObjectUtil();
+        this.translatorFrom = new JsonObjectToFromContextTranslator();
+        this.translatorTo = new JsonObjectToToContextTranslator();
+        this.translatorApp = new JsonObjectToAppContextTranslator();
 
         defineAppStartButtonListener(fromControllerList, toControllerList, fromTabbedPane, toTabbedPane);
     }
 
     private void defineAppStartButtonListener(List<DataProviderFromController> fromControllerList, List<DataProviderToController> toControllerList, JTabbedPane fromTabbedPane, JTabbedPane toTabbedPane) {
         this.appStartButton.addActionListener(e -> {
-            JSONObject jsonObjectFrom = getFromData(fromControllerList, fromTabbedPane.getSelectedIndex());
-            JSONObject jsonObjectTo = getFromData(toControllerList, toTabbedPane.getSelectedIndex());
-            JSONObject mergedJsonObject = this.jsonObjectUtil.merge(jsonObjectFrom, jsonObjectTo);
-            mergedJsonObject = this.jsonObjectUtil.merge(mergedJsonObject, getDataFromChildren());
+            JSONObject jsonObjectFrom = retrieveJsonData(fromControllerList, fromTabbedPane.getSelectedIndex());
+            JSONObject jsonObjectTo = retrieveJsonData(toControllerList, toTabbedPane.getSelectedIndex());
+            JSONObject jsonObjectApp = getDataFromChildren();
+
+            EngineContext.builder()
+                    .settingsContext(translatorApp.translate(jsonObjectApp))
+                    .fromContext(translatorFrom.translate(jsonObjectFrom))
+                    .toContext(translatorTo.translate(jsonObjectTo))
+                    .build();
+
             // TODO call my service with mergedJsonObject
         });
     }
 
-    private static <T extends DataProviderController> JSONObject getFromData(List<T> fromControllerList, int selectedIndex) {
+    private static <T extends DataProviderController> JSONObject retrieveJsonData(List<T> fromControllerList, int selectedIndex) {
         return fromControllerList.stream()
                 .filter(controller -> controller.accept(selectedIndex))
                 .findFirst()

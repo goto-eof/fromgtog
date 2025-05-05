@@ -1,5 +1,7 @@
 package com.andreidodu.fromgtog.gui;
 
+import com.andreidodu.fromgtog.gui.controller.*;
+import com.andreidodu.fromgtog.gui.controller.impl.*;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
