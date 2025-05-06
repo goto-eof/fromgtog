@@ -1,6 +1,6 @@
 package com.andreidodu.fromgtog.gui.controller.impl;
 
-import com.andreidodu.fromgtog.gui.controller.DataProviderToController;
+import com.andreidodu.fromgtog.gui.controller.GUIToController;
 import com.andreidodu.fromgtog.type.EngineType;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,13 +8,11 @@ import org.json.JSONObject;
 
 import javax.swing.*;
 
-import java.lang.reflect.Array;
-
 import static com.andreidodu.fromgtog.gui.GuiKeys.*;
 
 @Getter
 @Setter
-public class ToGithubController implements DataProviderToController {
+public class ToGithubController implements GUIToController {
 
     private JTextField toGithubTokenTextField;
     private JComboBox toGithubPrivacyComboBox;
@@ -30,7 +28,8 @@ public class ToGithubController implements DataProviderToController {
         applySettings(settings);
     }
 
-    private void applySettings(JSONObject settings) {
+    @Override
+    public void applySettings(JSONObject settings) {
         toGithubTokenTextField.setText(settings.optString(TO_GITHUB_TOKEN));
         toGithubPrivacyComboBox.setSelectedIndex(settings.optInt(TO_GITHUB_PRIVACY_INDEX));
     }

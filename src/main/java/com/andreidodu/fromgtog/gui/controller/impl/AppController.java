@@ -1,9 +1,10 @@
 package com.andreidodu.fromgtog.gui.controller.impl;
 
 import com.andreidodu.fromgtog.dto.EngineContext;
-import com.andreidodu.fromgtog.gui.controller.DataProviderController;
-import com.andreidodu.fromgtog.gui.controller.DataProviderFromController;
-import com.andreidodu.fromgtog.gui.controller.DataProviderToController;
+import com.andreidodu.fromgtog.gui.controller.GUIController;
+import com.andreidodu.fromgtog.gui.controller.GUIFromController;
+import com.andreidodu.fromgtog.gui.controller.GUIToController;
+import com.andreidodu.fromgtog.gui.controller.StrategyGUIController;
 import com.andreidodu.fromgtog.service.impl.SettingsServiceImpl;
 import com.andreidodu.fromgtog.util.JsonObjectServiceImpl;
 import com.andreidodu.fromgtog.service.RepositoryCloner;
@@ -30,12 +31,12 @@ import static com.andreidodu.fromgtog.util.NumberUtil.toIntegerOrDefault;
  */
 @Getter
 @Setter
-public class AppController {
+public class AppController implements GUIController {
 
     Logger log = LoggerFactory.getLogger(AppController.class);
 
-    private List<DataProviderFromController> fromControllerList;
-    private List<DataProviderToController> toControllerList;
+    private List<GUIFromController> fromControllerList;
+    private List<GUIToController> toControllerList;
     private JTextArea appLogTextArea;
     private JTextField appSleepTimeTextField;
     private JButton appSaveConfigurationButton;
@@ -53,8 +54,8 @@ public class AppController {
     private JTabbedPane toTabbedPane;
 
     public AppController(JSONObject settings,
-                         List<DataProviderFromController> fromControllerList,
-                         List<DataProviderToController> toControllerList,
+                         List<GUIFromController> fromControllerList,
+                         List<GUIToController> toControllerList,
                          JTextArea appLogTextArea,
                          JTextField appSleepTimeTextField,
                          JButton appSaveConfigurationButton,
@@ -84,13 +85,14 @@ public class AppController {
         applySettings(settings);
     }
 
-    private void applySettings(JSONObject settings) {
+    @Override
+    public void applySettings(JSONObject settings) {
         appSleepTimeTextField.setText(settings.optString(APP_SLEEP_TIME, "1"));
         fromTabbedPane.setSelectedIndex(settings.optInt(FROM_TAB_INDEX, 0));
         toTabbedPane.setSelectedIndex(settings.optInt(TO_TAB_INDEX, 0));
     }
 
-    private void defineAppStartButtonListener(List<DataProviderFromController> fromControllerList, List<DataProviderToController> toControllerList, JTabbedPane fromTabbedPane, JTabbedPane toTabbedPane) {
+    private void defineAppStartButtonListener(List<GUIFromController> fromControllerList, List<GUIToController> toControllerList, JTabbedPane fromTabbedPane, JTabbedPane toTabbedPane) {
         this.appStartButton.addActionListener(e -> {
             appLogTextArea.setText(String.format("%s\n(%s) -> (%s)",
                             appLogTextArea.getText(),
@@ -127,7 +129,7 @@ public class AppController {
         });
     }
 
-    private static <T extends DataProviderController> JSONObject retrieveJsonData(List<T> fromControllerList, int selectedIndex) {
+    private static <T extends StrategyGUIController> JSONObject retrieveJsonData(List<T> fromControllerList, int selectedIndex) {
         return fromControllerList.stream()
                 .filter(controller -> controller.accept(selectedIndex))
                 .findFirst()
@@ -135,6 +137,7 @@ public class AppController {
                 .getDataFromChildren();
     }
 
+    @Override
     public JSONObject getDataFromChildren() {
         JSONObject jsonObject = new JSONObject();
         int sleepSeconds = toIntegerOrDefault(appSleepTimeTextField.getText());

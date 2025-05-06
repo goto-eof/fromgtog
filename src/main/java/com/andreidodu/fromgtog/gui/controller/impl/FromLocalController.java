@@ -1,6 +1,6 @@
 package com.andreidodu.fromgtog.gui.controller.impl;
 
-import com.andreidodu.fromgtog.gui.controller.DataProviderFromController;
+import com.andreidodu.fromgtog.gui.controller.GUIFromController;
 import com.andreidodu.fromgtog.type.EngineType;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,7 +16,7 @@ import static com.andreidodu.fromgtog.gui.GuiKeys.*;
 
 @Getter
 @Setter
-public class FromLocalController implements DataProviderFromController {
+public class FromLocalController implements GUIFromController {
     private final static Logger log = LoggerFactory.getLogger(FromLocalController.class);
 
     private JTextField fromLocalRootPathTextField;
@@ -32,7 +32,8 @@ public class FromLocalController implements DataProviderFromController {
         addActionListenerToChooseButton();
     }
 
-    private void applySettings(JSONObject settings) {
+    @Override
+    public void applySettings(JSONObject settings) {
         fromLocalRootPathTextField.setText(settings.optString(FROM_LOCAL_ROOT_PATH));
     }
 

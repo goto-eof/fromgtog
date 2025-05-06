@@ -1,6 +1,6 @@
 package com.andreidodu.fromgtog.gui.controller.impl;
 
-import com.andreidodu.fromgtog.gui.controller.DataProviderFromController;
+import com.andreidodu.fromgtog.gui.controller.GUIFromController;
 import com.andreidodu.fromgtog.type.EngineType;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,7 +12,7 @@ import static com.andreidodu.fromgtog.gui.GuiKeys.*;
 
 @Getter
 @Setter
-public class FromGiteaController implements DataProviderFromController {
+public class FromGiteaController implements GUIFromController {
 
     private final static int TAB_INDEX = EngineType.GITEA.getValue();
 
@@ -40,7 +40,8 @@ public class FromGiteaController implements DataProviderFromController {
         applySettings(settings);
     }
 
-    private void applySettings(JSONObject settings) {
+    @Override
+    public void applySettings(JSONObject settings) {
         fromGiteaUrlTextField.setText(settings.optString(FROM_GITEA_URL));
         fromGiteaTokenTextField.setText(settings.optString(FROM_GITEA_TOKEN));
         fromGiteaCloneStarredRepositoriesCheckBox.setSelected(settings.optBooleanObject(FROM_GITEA_CLONE_STARRED_REPO_FLAG));

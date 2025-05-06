@@ -1,6 +1,6 @@
 package com.andreidodu.fromgtog.gui.controller.impl;
 
-import com.andreidodu.fromgtog.gui.controller.DataProviderToController;
+import com.andreidodu.fromgtog.gui.controller.GUIToController;
 import com.andreidodu.fromgtog.type.EngineType;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,7 +12,7 @@ import static com.andreidodu.fromgtog.gui.GuiKeys.*;
 
 @Getter
 @Setter
-public class ToGiteaController implements DataProviderToController {
+public class ToGiteaController implements GUIToController {
 
     private JTextField toGiteaUrlTextField;
     private JTextField toGiteaTokenTextField;
@@ -31,7 +31,8 @@ public class ToGiteaController implements DataProviderToController {
         applySettings(settings);
     }
 
-    private void applySettings(JSONObject settings) {
+    @Override
+    public void applySettings(JSONObject settings) {
         toGiteaUrlTextField.setText(settings.optString(TO_GITEA_URL));
         toGiteaTokenTextField.setText(settings.optString(TO_GITEA_TOKEN));
         toGiteaPrivacyComboBox.setSelectedIndex(settings.optInt(TO_GITEA_PRIVACY_INDEX));

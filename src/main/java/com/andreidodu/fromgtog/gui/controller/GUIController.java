@@ -2,9 +2,9 @@ package com.andreidodu.fromgtog.gui.controller;
 
 import org.json.JSONObject;
 
-public interface DataProviderController {
+public interface GUIController {
 
-    boolean accept(int tabIndex);
+    void applySettings(JSONObject settings);
 
     JSONObject getDataFromChildren();
 }

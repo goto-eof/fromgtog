@@ -1,6 +1,6 @@
 package com.andreidodu.fromgtog.gui.controller.impl;
 
-import com.andreidodu.fromgtog.gui.controller.DataProviderFromController;
+import com.andreidodu.fromgtog.gui.controller.GUIFromController;
 import com.andreidodu.fromgtog.type.EngineType;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,7 +12,7 @@ import static com.andreidodu.fromgtog.gui.GuiKeys.*;
 
 @Getter
 @Setter
-public class FromGithubController implements DataProviderFromController {
+public class FromGithubController implements GUIFromController {
 
     private final static int TAB_INDEX = EngineType.GITHUB.getValue();
 
@@ -38,7 +38,8 @@ public class FromGithubController implements DataProviderFromController {
         applySettings(settings);
     }
 
-    private void applySettings(JSONObject settings) {
+    @Override
+    public void applySettings(JSONObject settings) {
         fromGithubTokenTextField.setText(settings.optString(FROM_GITHUB_TOKEN));
         fromGithubCloneStarredRepositoriesCheckBox.setSelected(settings.optBooleanObject(FROM_GITHUB_CLONE_STARRED_REPO_FLAG));
         fromGithubCloneForkedRepositoriesCheckBox.setSelected(settings.optBooleanObject(FROM_GITHUB_CLONE_FORKED_REPO_FLAG));
