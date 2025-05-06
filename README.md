@@ -43,6 +43,10 @@ This release, the version 5.0.0, unlike the previous one, the 3.0.X, **will not 
 - override destination repository if exists
 - delete source repository after cloning
 
+# Technologies/Tools
+
+JDK 17, Intellij UI Designer (plugin for Intellij), Slf4J, Lombok, Apache Commons, JSON.
+
 ## Screenshot
 
 ![screenshot](images/screenshot.png)
