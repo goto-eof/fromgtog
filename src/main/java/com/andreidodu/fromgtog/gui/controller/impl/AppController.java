@@ -42,8 +42,8 @@ public class AppController implements GUIController {
     private JTextField appSleepTimeTextField;
     private JButton appSaveConfigurationButton;
     private JProgressBar appProgressBar;
-    private JLabel appProgressStatusLabel;
-    private JLabel appStatusProgressBarLabel;
+    private JLabel messageStatus;
+    private JLabel position;
     private JButton appStartButton;
 
     private JsonObjectServiceImpl jsonObjectUtil;
@@ -61,8 +61,8 @@ public class AppController implements GUIController {
                          JTextField appSleepTimeTextField,
                          JButton appSaveConfigurationButton,
                          JProgressBar appProgressBar,
-                         JLabel appProgressStatusLabel,
-                         JLabel appStatusProgressBarLabel,
+                         JLabel messageStatus,
+                         JLabel position,
                          JButton appStartButton,
                          JTabbedPane fromTabbedPane,
                          JTabbedPane toTabbedPane) {
@@ -72,8 +72,8 @@ public class AppController implements GUIController {
         this.appSleepTimeTextField = appSleepTimeTextField;
         this.appSaveConfigurationButton = appSaveConfigurationButton;
         this.appProgressBar = appProgressBar;
-        this.appProgressStatusLabel = appProgressStatusLabel;
-        this.appStatusProgressBarLabel = appStatusProgressBarLabel;
+        this.messageStatus = messageStatus;
+        this.position = position;
         this.appStartButton = appStartButton;
         this.fromTabbedPane = fromTabbedPane;
         this.toTabbedPane = toTabbedPane;
@@ -140,6 +140,10 @@ public class AppController implements GUIController {
             saveSettings(jsonObjectFrom, jsonObjectTo, jsonObjectApp);
             RepositoryCloner repositoryCloner = RepositoryClonerImpl.getInstance();
             repositoryCloner.cloneAllRepositories(engineContext);
+
+            this.updateApplicationStatusMessage("done!");
+            this.updateApplicationProgressBarMax(100);
+            this.updateApplicationProgressBarCurrent(0);
         });
     }
 
@@ -172,13 +176,13 @@ public class AppController implements GUIController {
     }
 
     private void updateApplicationStatusMessage(String message) {
-        SwingUtilities.invokeLater(() -> appProgressStatusLabel.setText(message));
+        SwingUtilities.invokeLater(() -> messageStatus.setText(message));
         SwingUtilities.invokeLater(() -> appLogTextArea.setText(String.format("%s\n%s", appLogTextArea.getText(), message)));
         log.info("{}", message);
     }
 
     private void updateApplicationProgressBarCurrent(int i) {
-        SwingUtilities.invokeLater(() -> appStatusProgressBarLabel.setText(i + "/" + appProgressBar.getMaximum()));
+        SwingUtilities.invokeLater(() -> position.setText(i + "/" + appProgressBar.getMaximum()));
         SwingUtilities.invokeLater(() -> appProgressBar.setValue(i));
         log.info("processing: {}/{}", i, appProgressBar.getMaximum());
 

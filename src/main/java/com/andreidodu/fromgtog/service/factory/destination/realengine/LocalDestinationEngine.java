@@ -1,10 +1,7 @@
 package com.andreidodu.fromgtog.service.factory.destination.realengine;
 
 import com.andreidodu.fromgtog.config.NoHomeGitConfigSystemReader;
-import com.andreidodu.fromgtog.dto.EngineContext;
-import com.andreidodu.fromgtog.dto.FromContext;
-import com.andreidodu.fromgtog.dto.RepositoryDTO;
-import com.andreidodu.fromgtog.dto.ToContext;
+import com.andreidodu.fromgtog.dto.*;
 import com.andreidodu.fromgtog.service.factory.destination.AbstractDestinationEngine;
 import com.andreidodu.fromgtog.type.EngineType;
 import org.eclipse.jgit.api.Git;
@@ -27,15 +24,23 @@ public class LocalDestinationEngine extends AbstractDestinationEngine {
     public boolean cloneAll(EngineContext engineContext, List<RepositoryDTO> repositoryDTOList) {
         FromContext fromContext = engineContext.fromContext();
         ToContext toContext = engineContext.toContext();
+        CallbackContainer callbackContainer = engineContext.callbackContainer();
 
+        callbackContainer.updateApplicationProgressBarCurrent().accept(repositoryDTOList.size());
+        callbackContainer.updateApplicationProgressBarCurrent().accept(0);
+        callbackContainer.updateApplicationStatusMessage().accept("initializing the cloning process");
 
+        int i = 1;
         for (RepositoryDTO repositoryDTO : repositoryDTOList) {
+            callbackContainer.updateApplicationProgressBarCurrent().accept(i++);
+
             String cloneUrl = repositoryDTO.getCloneAddress();
 
             if (repositoryDTO.isPrivateFlag()) {
                 cloneUrl = cloneUrl.replace("github.com", fromContext.login() + ":" + fromContext.token() + "@github.com");
             }
 
+            callbackContainer.updateApplicationStatusMessage().accept("processing repository: " + repositoryDTO.getName());
             File file = new File(toContext.rootPath() + "/" + repositoryDTO.getName());
             if (toContext.groupByRepositoryOwner()) {
                 String repositoryOwnerName = repositoryDTO.getLogin();
