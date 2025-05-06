@@ -7,7 +7,6 @@ import com.andreidodu.fromgtog.dto.RepositoryDTO;
 import com.andreidodu.fromgtog.dto.ToContext;
 import com.andreidodu.fromgtog.service.factory.destination.AbstractDestinationEngine;
 import com.andreidodu.fromgtog.type.EngineType;
-import org.apache.commons.io.FileUtils;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.slf4j.Logger;
@@ -47,7 +46,7 @@ public class LocalDestinationEngine extends AbstractDestinationEngine {
             log.debug("creating repository: {}", file.getAbsolutePath());
 
             if (file.exists()) {
-                log.debug("skipping bcause {} already exists", repositoryDTO.getName());
+                log.debug("skipping because {} already exists", repositoryDTO.getName());
                 continue;
             }
             NoHomeGitConfigSystemReader.install();

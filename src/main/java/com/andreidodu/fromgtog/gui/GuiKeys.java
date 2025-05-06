@@ -9,6 +9,7 @@ public interface GuiKeys {
     String FROM_GITEA_CLONE_STARRED_REPO_FLAG = "from.gitea.clone-starred-repo-flag";
     String FROM_GITEA_CLONE_FORKED_REPO_FLAG = "from.gitea.clone-forked-repo-flag";
     String FROM_GITEA_CLONE_PRIVATE_REPO_FLAG = "from.gitea.clone-private-repo-flag";
+    String FROM_GITEA_CLONE_PUBLIC_REPO_FLAG = "from.gitea.clone-public-repo-flag";
     String FROM_GITEA_CLONE_ARCHIVED_REPO_FLAG = "from.gitea.clone-archived-repo-flag";
     String FROM_GITEA_CLONE_ORGANIZATIONS_REPO_FLAG = "from.gitea.clone-organizations-repo-flag";
     String FROM_GITEA_EXCLUDE_ORGANIZATIONS = "from.gitea.exclude-organizations";

@@ -20,13 +20,19 @@ public class ToGiteaController implements DataProviderToController {
 
     final static int TAB_INDEX = EngineType.GITEA.getValue();
 
-    public ToGiteaController(JTextField toGiteaUrlTextField, JTextField toGiteaTokenTextField, JComboBox toGiteaPrivacyComboBox) {
+    public ToGiteaController(JSONObject settings, JTextField toGiteaUrlTextField, JTextField toGiteaTokenTextField, JComboBox toGiteaPrivacyComboBox) {
         this.toGiteaUrlTextField = toGiteaUrlTextField;
         this.toGiteaTokenTextField = toGiteaTokenTextField;
         this.toGiteaPrivacyComboBox = toGiteaPrivacyComboBox;
 
         DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(new String[]{"All private", "All public"});
         this.toGiteaPrivacyComboBox.setModel(model);
+
+        applySettings(settings);
+    }
+
+    private void applySettings(JSONObject settings) {
+
     }
 
     @Override

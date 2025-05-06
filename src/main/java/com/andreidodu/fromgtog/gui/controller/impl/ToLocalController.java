@@ -25,12 +25,18 @@ public class ToLocalController implements DataProviderToController {
     private JButton toLocalChooseButton;
     final static int TAB_INDEX = EngineType.LOCAL.getValue();
 
-    public ToLocalController(JTextField toLocalRootPathTextField, JCheckBox toLocalGroupByRepositoryOwnerCheckBox, JButton toLocalChooseButton) {
+    public ToLocalController(JSONObject settings, JTextField toLocalRootPathTextField, JCheckBox toLocalGroupByRepositoryOwnerCheckBox, JButton toLocalChooseButton) {
         this.toLocalRootPathTextField = toLocalRootPathTextField;
         this.toLocalGroupByRepositoryOwnerCheckBox = toLocalGroupByRepositoryOwnerCheckBox;
         this.toLocalChooseButton = toLocalChooseButton;
 
+
+        applySettings(settings);
         addActionListenerToChooseButton();
+
+    }
+
+    private void applySettings(JSONObject settings) {
 
     }
 

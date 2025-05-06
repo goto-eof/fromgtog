@@ -20,12 +20,18 @@ public class ToGithubController implements DataProviderToController {
     private JComboBox toGithubPrivacyComboBox;
     final static int TAB_INDEX = EngineType.GITHUB.getValue();
 
-    public ToGithubController(JTextField toGithubTokenTextField, JComboBox toGithubPrivacyComboBox) {
+    public ToGithubController(JSONObject settings, JTextField toGithubTokenTextField, JComboBox toGithubPrivacyComboBox) {
         this.toGithubTokenTextField = toGithubTokenTextField;
         this.toGithubPrivacyComboBox = toGithubPrivacyComboBox;
 
         DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(new String[]{"All private", "All public"});
         this.toGithubPrivacyComboBox.setModel(model);
+
+        applySettings(settings);
+    }
+
+    private void applySettings(JSONObject settings) {
+
     }
 
     @Override

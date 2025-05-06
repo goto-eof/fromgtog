@@ -4,7 +4,8 @@ import com.andreidodu.fromgtog.dto.EngineContext;
 import com.andreidodu.fromgtog.gui.controller.DataProviderController;
 import com.andreidodu.fromgtog.gui.controller.DataProviderFromController;
 import com.andreidodu.fromgtog.gui.controller.DataProviderToController;
-import com.andreidodu.fromgtog.util.JsonObjectUtil;
+import com.andreidodu.fromgtog.service.impl.SettingsServiceImpl;
+import com.andreidodu.fromgtog.util.JsonObjectServiceImpl;
 import com.andreidodu.fromgtog.service.RepositoryCloner;
 import com.andreidodu.fromgtog.service.impl.RepositoryClonerImpl;
 import com.andreidodu.fromgtog.translator.impl.JsonObjectToAppContextTranslator;
@@ -39,7 +40,7 @@ public class AppController {
     private JLabel appStatusProgressBarLabel;
     private JButton appStartButton;
 
-    private JsonObjectUtil jsonObjectUtil;
+    private JsonObjectServiceImpl jsonObjectUtil;
     private JsonObjectToFromContextTranslator translatorFrom;
     private JsonObjectToToContextTranslator translatorTo;
     private JsonObjectToAppContextTranslator translatorApp;
@@ -47,7 +48,8 @@ public class AppController {
     private JTabbedPane fromTabbedPane;
     private JTabbedPane toTabbedPane;
 
-    public AppController(List<DataProviderFromController> fromControllerList,
+    public AppController(JSONObject settings,
+                         List<DataProviderFromController> fromControllerList,
                          List<DataProviderToController> toControllerList,
                          JTextArea appLogTextArea,
                          JTextField appSleepTimeTextField,
@@ -58,24 +60,11 @@ public class AppController {
                          JButton appStartButton,
                          JTabbedPane fromTabbedPane,
                          JTabbedPane toTabbedPane) {
-        this.fromControllerList = fromControllerList;
-        this.toControllerList = toControllerList;
-        this.appLogTextArea = appLogTextArea;
-        this.appSleepTimeTextField = appSleepTimeTextField;
-        this.appSaveConfigurationButton = appSaveConfigurationButton;
-        this.appProgressBar = appProgressBar;
-        this.appProgressStatusLabel = appProgressStatusLabel;
-        this.appStatusProgressBarLabel = appStatusProgressBarLabel;
-        this.appStartButton = appStartButton;
-        this.fromTabbedPane = fromTabbedPane;
-        this.toTabbedPane = toTabbedPane;
 
-        this.jsonObjectUtil = new JsonObjectUtil();
-        this.translatorFrom = new JsonObjectToFromContextTranslator();
-        this.translatorTo = new JsonObjectToToContextTranslator();
-        this.translatorApp = new JsonObjectToAppContextTranslator();
+    }
 
-        defineAppStartButtonListener(fromControllerList, toControllerList, fromTabbedPane, toTabbedPane);
+    private void applySettings(JSONObject settings) {
+        appSleepTimeTextField.setText(settings.optString(APP_SLEEP_TIME));
     }
 
     private void defineAppStartButtonListener(List<DataProviderFromController> fromControllerList, List<DataProviderToController> toControllerList, JTabbedPane fromTabbedPane, JTabbedPane toTabbedPane) {
@@ -91,6 +80,7 @@ public class AppController {
             JSONObject jsonObjectTo = retrieveJsonData(toControllerList, toTabbedPane.getSelectedIndex());
             JSONObject jsonObjectApp = getDataFromChildren();
 
+
             EngineContext engineContext = EngineContext.builder()
                     .settingsContext(translatorApp.translate(jsonObjectApp))
                     .fromContext(translatorFrom.translate(jsonObjectFrom))
@@ -105,7 +95,8 @@ public class AppController {
                             toTabbedPane.getSelectedIndex()
                     )
             );
-
+            JSONObject allSettings = JsonObjectServiceImpl.getInstance().merge(jsonObjectFrom, jsonObjectTo, jsonObjectApp);
+            SettingsServiceImpl.getInstance().save(allSettings);
             RepositoryCloner repositoryCloner = RepositoryClonerImpl.getInstance();
             repositoryCloner.cloneAllRepositories(engineContext);
         });

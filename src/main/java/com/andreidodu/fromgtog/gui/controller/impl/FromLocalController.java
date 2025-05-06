@@ -18,8 +18,14 @@ public class FromLocalController implements DataProviderFromController {
 
     private final static int TAB_INDEX = EngineType.LOCAL.getValue();
 
-    public FromLocalController(JTextField fromLocalRootPathTextField) {
+    public FromLocalController(JSONObject settings, JTextField fromLocalRootPathTextField) {
         this.fromLocalRootPathTextField = fromLocalRootPathTextField;
+
+        applySettings(settings);
+    }
+
+    private void applySettings(JSONObject settings) {
+
     }
 
     @Override

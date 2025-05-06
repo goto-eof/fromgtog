@@ -21,19 +21,36 @@ public class FromGiteaController implements DataProviderFromController {
     private JCheckBox fromGiteaCloneStarredRepositoriesCheckBox;
     private JCheckBox fromGiteaCloneForkedRepositoriesCheckBox;
     private JCheckBox fromGiteaClonePrivateRepositoriesCheckBox;
+    private JCheckBox fromGiteaClonePublicRepositoriesCheckBox;
     private JCheckBox fromGiteaCloneArchivedRepositoriesCheckBox;
     private JCheckBox fromGiteaCloneOrganizationsRepositoriesCheckBox;
     private JTextField fromGiteaExcludeOrganizationTextField;
 
-    public FromGiteaController(JTextField fromGiteaUrlTextField, JTextField fromGiteaTokenTextField, JCheckBox fromGiteaCloneStarredRepositoriesCheckBox, JCheckBox fromGiteaCloneForkedRepositoriesCheckBox, JCheckBox fromGiteaClonePrivateRepositoriesCheckBox, JCheckBox fromGiteaCloneArchivedRepositoriesCheckBox, JCheckBox fromGiteaCloneOrganizationsRepositoriesCheckBox, JTextField fromGiteaExcludeOrganizationTextField) {
+    public FromGiteaController(JSONObject settings, JTextField fromGiteaUrlTextField, JTextField fromGiteaTokenTextField, JCheckBox fromGiteaCloneStarredRepositoriesCheckBox, JCheckBox fromGiteaCloneForkedRepositoriesCheckBox, JCheckBox fromGiteaClonePrivateRepositoriesCheckBox, JCheckBox fromGiteaClonePublicRepositoriesCheckBox, JCheckBox fromGiteaCloneArchivedRepositoriesCheckBox, JCheckBox fromGiteaCloneOrganizationsRepositoriesCheckBox, JTextField fromGiteaExcludeOrganizationTextField) {
         this.fromGiteaUrlTextField = fromGiteaUrlTextField;
         this.fromGiteaTokenTextField = fromGiteaTokenTextField;
         this.fromGiteaCloneStarredRepositoriesCheckBox = fromGiteaCloneStarredRepositoriesCheckBox;
         this.fromGiteaCloneForkedRepositoriesCheckBox = fromGiteaCloneForkedRepositoriesCheckBox;
         this.fromGiteaClonePrivateRepositoriesCheckBox = fromGiteaClonePrivateRepositoriesCheckBox;
+        this.fromGiteaClonePublicRepositoriesCheckBox = fromGiteaClonePublicRepositoriesCheckBox;
         this.fromGiteaCloneArchivedRepositoriesCheckBox = fromGiteaCloneArchivedRepositoriesCheckBox;
         this.fromGiteaCloneOrganizationsRepositoriesCheckBox = fromGiteaCloneOrganizationsRepositoriesCheckBox;
         this.fromGiteaExcludeOrganizationTextField = fromGiteaExcludeOrganizationTextField;
+
+        applySettings(settings);
+    }
+
+    private void applySettings(JSONObject settings) {
+        fromGiteaUrlTextField.setText(settings.optString(FROM_GITEA_URL));
+        fromGiteaUrlTextField.setText(settings.optString(FROM_GITEA_TOKEN));
+        fromGiteaCloneStarredRepositoriesCheckBox.setSelected(settings.optBooleanObject(FROM_GITEA_CLONE_STARRED_REPO_FLAG));
+        fromGiteaCloneForkedRepositoriesCheckBox.setSelected(settings.optBooleanObject(FROM_GITEA_CLONE_FORKED_REPO_FLAG));
+        fromGiteaClonePrivateRepositoriesCheckBox.setSelected(settings.optBooleanObject(FROM_GITEA_CLONE_PRIVATE_REPO_FLAG));
+        fromGiteaClonePublicRepositoriesCheckBox.setSelected(settings.optBooleanObject(FROM_GITEA_CLONE_PUBLIC_REPO_FLAG));
+        fromGiteaCloneArchivedRepositoriesCheckBox.setSelected(settings.optBooleanObject(FROM_GITEA_CLONE_ARCHIVED_REPO_FLAG));
+        fromGiteaCloneOrganizationsRepositoriesCheckBox.setSelected(settings.optBooleanObject(FROM_GITEA_CLONE_ORGANIZATIONS_REPO_FLAG));
+        fromGiteaUrlTextField.setText(settings.optString(FROM_GITEA_EXCLUDE_ORGANIZATIONS));
+
     }
 
     @Override

@@ -2,9 +2,11 @@ package com.andreidodu.fromgtog.gui;
 
 import com.andreidodu.fromgtog.gui.controller.*;
 import com.andreidodu.fromgtog.gui.controller.impl.*;
+import com.andreidodu.fromgtog.service.impl.SettingsServiceImpl;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
+import org.json.JSONObject;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -62,6 +64,7 @@ public class ApplicationGUI extends JFrame {
     private JComboBox toGithubPrivacyComboBox;
     private JCheckBox fromGithubClonePublicRepositoriesCheckBox;
     private JButton toLocalChooseButton;
+    private JCheckBox fromGiteaClonePublicRepositoriesCheckBox;
 
 
     public ApplicationGUI() {
@@ -73,15 +76,18 @@ public class ApplicationGUI extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
 
-        List<DataProviderFromController> fromControllerList = List.of(buildFromGithubController(), buildFromGiteaController(), buildFromLocalController());
-        List<DataProviderToController> toControllerList = List.of(buildToGithubController(), buildToGiteaController(), buildToLocalController());
+        JSONObject settings = SettingsServiceImpl.getInstance().load();
 
-        AppController appController = buildAppController(fromControllerList, toControllerList);
+        List<DataProviderFromController> fromControllerList = List.of(buildFromGithubController(settings), buildFromGiteaController(settings), buildFromLocalController(settings));
+        List<DataProviderToController> toControllerList = List.of(buildToGithubController(settings), buildToGiteaController(settings), buildToLocalController(settings));
+
+        AppController appController = buildAppController(settings, fromControllerList, toControllerList);
 
     }
 
-    private AppController buildAppController(List<DataProviderFromController> fromControllerList, List<DataProviderToController> toControllerList) {
+    private AppController buildAppController(JSONObject settings, List<DataProviderFromController> fromControllerList, List<DataProviderToController> toControllerList) {
         return new AppController(
+                settings,
                 fromControllerList,
                 toControllerList,
                 appLogTextArea,
@@ -96,50 +102,57 @@ public class ApplicationGUI extends JFrame {
         );
     }
 
-    private ToGithubController buildToGithubController() {
+    private ToGithubController buildToGithubController(JSONObject settings) {
         return new ToGithubController(
+                settings,
                 toGithubTokenTextField,
                 toGithubPrivacyComboBox
         );
     }
 
-    private ToGiteaController buildToGiteaController() {
+    private ToGiteaController buildToGiteaController(JSONObject settings) {
         return new ToGiteaController(
+                settings,
                 toGiteaUrlTextField,
                 toGiteaTokenTextField,
                 toGiteaPrivacyComboBox
         );
     }
 
-    private ToLocalController buildToLocalController() {
+    private ToLocalController buildToLocalController(JSONObject settings) {
         return new ToLocalController(
+                settings,
                 toLocalRootPathTextField,
                 toLocalGroupByRepositoryOwnerCheckBox,
                 toLocalChooseButton
         );
     }
 
-    private FromLocalController buildFromLocalController() {
+    private FromLocalController buildFromLocalController(JSONObject settings) {
         return new FromLocalController(
+                settings,
                 fromLocalRootPathTextField
         );
     }
 
-    private FromGiteaController buildFromGiteaController() {
+    private FromGiteaController buildFromGiteaController(JSONObject settings) {
         return new FromGiteaController(
+                settings,
                 fromGiteaUrlTextField,
                 fromGiteaTokenTextField,
                 fromGiteaCloneStarredRepositoriesCheckBox,
                 fromGiteaCloneForkedRepositoriesCheckBox,
                 fromGiteaClonePrivateRepositoriesCheckBox,
+                fromGiteaClonePublicRepositoriesCheckBox,
                 fromGiteaCloneArchivedRepositoriesCheckBox,
                 fromGiteaCloneOrganizationsRepositoriesCheckBox,
                 fromGiteaExcludeOrganizationTextField
         );
     }
 
-    private FromGithubController buildFromGithubController() {
+    private FromGithubController buildFromGithubController(JSONObject settings) {
         return new FromGithubController(
+                settings,
                 fromGithubTokenTextField,
                 fromGithubCloneStarredRepositoriesCheckBox,
                 fromGithubCloneForkedRepositoriesCheckBox,
@@ -254,7 +267,7 @@ public class ApplicationGUI extends JFrame {
         panel11.setLayout(new GridLayoutManager(6, 1, new Insets(0, 0, 0, 0), -1, -1));
         panel10.add(panel11, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         final JPanel panel12 = new JPanel();
-        panel12.setLayout(new GridLayoutManager(5, 2, new Insets(0, 0, 0, 0), -1, -1));
+        panel12.setLayout(new GridLayoutManager(6, 2, new Insets(0, 0, 0, 0), -1, -1));
         panel11.add(panel12, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         final JLabel label5 = new JLabel();
         label5.setText("Gitea Token");
@@ -273,6 +286,9 @@ public class ApplicationGUI extends JFrame {
         fromGiteaCloneArchivedRepositoriesCheckBox = new JCheckBox();
         fromGiteaCloneArchivedRepositoriesCheckBox.setText("clone archived repositories");
         panel12.add(fromGiteaCloneArchivedRepositoriesCheckBox, new GridConstraints(3, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        fromGiteaClonePublicRepositoriesCheckBox = new JCheckBox();
+        fromGiteaClonePublicRepositoriesCheckBox.setText("clone public repositories");
+        panel12.add(fromGiteaClonePublicRepositoriesCheckBox, new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel13 = new JPanel();
         panel13.setLayout(new GridLayoutManager(3, 1, new Insets(0, 0, 0, 0), -1, -1));
         panel11.add(panel13, new GridConstraints(3, 0, 3, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
