@@ -43,7 +43,9 @@ public class ToLocaleFromLocaleStrategy implements ToLocaleFromStrategy {
             String repositoryName = new File(path).getName();
             String toDirectoryPath = toContext.rootPath() + File.separator + repositoryName;
 
-            if (!new File(toDirectoryPath).exists()) {
+            if (new File(toDirectoryPath).exists()) {
+                log.debug("skipping because {} already exists", repositoryName);
+                callbackContainer.updateApplicationStatusMessage().accept("Skipping repository because it already exists: " + repositoryName);
                 continue;
             }
 
