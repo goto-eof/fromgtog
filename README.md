@@ -21,6 +21,28 @@ improve readability and application modularity, as well as adding new features, 
 - [ ] error managing -> show error alert
 - [ ] validate user input -> show error alert
 
+# Which features will be contained in this release?
+
+This release, in addition to having a more organized and therefore easily understandable code, will provide the
+following features:
+
+- clone from GitHub to GitHub
+- clone from GitHub to Gitea
+- clone from GitHub to Local
+- clone from Gitea to GitHub
+- clone from Gitea to Gitea
+- clone from Gitea to Local
+- clone from Local to GitHub
+- clone from Local to Gitea
+- clone from Local to Local
+
+# Which features will not be present?
+
+This release, the version 5.0.0, unlike the previous one, the 3.0.X, **will not contain** the following features:
+
+- override GitHub repository if exists
+- delete repository after cloning
+
 ## Screenshot
 
 ![screenshot](images/screenshot.png)
