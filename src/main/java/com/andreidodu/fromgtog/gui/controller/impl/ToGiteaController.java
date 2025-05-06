@@ -32,6 +32,9 @@ public class ToGiteaController implements DataProviderToController {
     }
 
     private void applySettings(JSONObject settings) {
+        toGiteaUrlTextField.setText(settings.optString(TO_GITEA_URL));
+        toGiteaTokenTextField.setText(settings.optString(TO_GITEA_TOKEN));
+        toGiteaPrivacyComboBox.setSelectedIndex(settings.optInt(TO_GITEA_PRIVACY_INDEX));
 
     }
 

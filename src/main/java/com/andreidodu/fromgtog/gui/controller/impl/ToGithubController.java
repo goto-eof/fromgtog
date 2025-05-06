@@ -31,7 +31,8 @@ public class ToGithubController implements DataProviderToController {
     }
 
     private void applySettings(JSONObject settings) {
-
+        toGithubTokenTextField.setText(settings.optString(TO_GITHUB_TOKEN));
+        toGithubPrivacyComboBox.setSelectedIndex(settings.optInt(TO_GITHUB_PRIVACY_INDEX));
     }
 
     @Override

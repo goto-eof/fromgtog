@@ -8,8 +8,7 @@ import org.json.JSONObject;
 
 import javax.swing.*;
 
-import static com.andreidodu.fromgtog.gui.GuiKeys.ENGINE_TYPE;
-import static com.andreidodu.fromgtog.gui.GuiKeys.FROM_LOCAL_ROOT_PATH;
+import static com.andreidodu.fromgtog.gui.GuiKeys.*;
 
 @Getter
 @Setter
@@ -25,6 +24,7 @@ public class FromLocalController implements DataProviderFromController {
     }
 
     private void applySettings(JSONObject settings) {
+        fromLocalRootPathTextField.setText(settings.optString(FROM_LOCAL_ROOT_PATH));
 
     }
 

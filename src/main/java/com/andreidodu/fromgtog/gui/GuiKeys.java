@@ -23,6 +23,8 @@ public interface GuiKeys {
     String FROM_GITHUB_CLONE_ORGANIZATIONS_REPO_FLAG = "from.github.clone-organizations-repo-flag";
     String FROM_GITHUB_EXCLUDE_ORGANIZATIONS = "from.github.exclude-organizations";
 
+    String FROM_LOCAL_ROOT_PATH = "from.local.root-path";
+
     String TO_GITEA_URL = "to.gitea.url";
     String TO_GITEA_TOKEN = "to.gitea.token";
     String TO_GITEA_PRIVACY_INDEX = "to.gitea.privacy-index";
@@ -32,7 +34,6 @@ public interface GuiKeys {
     String TO_GITHUB_PRIVACY_INDEX = "to.github-tab-index";
 
     String TO_LOCAL_ROOT_PATH = "to.local.root-path";
-    String FROM_LOCAL_ROOT_PATH = "from.local.root-path";
     String TO_LOCAL_GROUP_BY_OWNER = "to.local.group-by-owner";
 
     String ENGINE_TYPE = "engine-type";

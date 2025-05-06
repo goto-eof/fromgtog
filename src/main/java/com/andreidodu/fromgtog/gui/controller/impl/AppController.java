@@ -14,6 +14,8 @@ import com.andreidodu.fromgtog.translator.impl.JsonObjectToToContextTranslator;
 import lombok.Getter;
 import lombok.Setter;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.util.List;
@@ -29,6 +31,8 @@ import static com.andreidodu.fromgtog.util.NumberUtil.toIntegerOrDefault;
 @Getter
 @Setter
 public class AppController {
+
+    Logger log = LoggerFactory.getLogger(AppController.class);
 
     private List<DataProviderFromController> fromControllerList;
     private List<DataProviderToController> toControllerList;
@@ -60,7 +64,23 @@ public class AppController {
                          JButton appStartButton,
                          JTabbedPane fromTabbedPane,
                          JTabbedPane toTabbedPane) {
+        this.fromControllerList = fromControllerList;
+        this.toControllerList = toControllerList;
+        this.appLogTextArea = appLogTextArea;
+        this.appSleepTimeTextField = appSleepTimeTextField;
+        this.appSaveConfigurationButton = appSaveConfigurationButton;
+        this.appProgressBar = appProgressBar;
+        this.appProgressStatusLabel = appProgressStatusLabel;
+        this.appStatusProgressBarLabel = appStatusProgressBarLabel;
+        this.appStartButton = appStartButton;
+        this.fromTabbedPane = fromTabbedPane;
+        this.toTabbedPane = toTabbedPane;
+        this.translatorTo = new JsonObjectToToContextTranslator();
+        this.translatorApp = new JsonObjectToAppContextTranslator();
+        this.translatorFrom = new JsonObjectToFromContextTranslator();
 
+        defineAppStartButtonListener(fromControllerList, toControllerList, fromTabbedPane, toTabbedPane);
+        applySettings(settings);
     }
 
     private void applySettings(JSONObject settings) {
@@ -95,8 +115,10 @@ public class AppController {
                             toTabbedPane.getSelectedIndex()
                     )
             );
+            log.debug("Saving settings...");
             JSONObject allSettings = JsonObjectServiceImpl.getInstance().merge(jsonObjectFrom, jsonObjectTo, jsonObjectApp);
             SettingsServiceImpl.getInstance().save(allSettings);
+            log.debug("Done.");
             RepositoryCloner repositoryCloner = RepositoryClonerImpl.getInstance();
             repositoryCloner.cloneAllRepositories(engineContext);
         });

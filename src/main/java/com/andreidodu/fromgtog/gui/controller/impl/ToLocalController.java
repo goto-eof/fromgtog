@@ -37,6 +37,8 @@ public class ToLocalController implements DataProviderToController {
     }
 
     private void applySettings(JSONObject settings) {
+        toLocalRootPathTextField.setText(settings.optString(TO_LOCAL_ROOT_PATH));
+        toLocalGroupByRepositoryOwnerCheckBox.setSelected(settings.optBoolean(TO_LOCAL_GROUP_BY_OWNER));
 
     }
 
