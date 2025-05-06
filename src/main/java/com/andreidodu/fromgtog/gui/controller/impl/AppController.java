@@ -186,7 +186,6 @@ public class AppController implements GUIController {
 
     private void updateApplicationProgressBarMax(int value) {
         SwingUtilities.invokeLater(() -> appProgressBar.setMaximum(value));
-        log.info("number of items: {}", value);
     }
 
 }

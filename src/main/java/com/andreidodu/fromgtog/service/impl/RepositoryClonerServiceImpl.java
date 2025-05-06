@@ -41,7 +41,6 @@ public class RepositoryClonerServiceImpl implements RepositoryCloner {
         return true;
     }
 
-
     private void executeOnNewThread(EngineContext engineContext, SourceEngine sourceEngine, DestinationEngine destinationEngine) {
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.submit(() ->
@@ -51,9 +50,7 @@ public class RepositoryClonerServiceImpl implements RepositoryCloner {
     }
 
     private static void validateInput(EngineContext engineContext) {
-        if (isFromLocalToLocal(engineContext)) {
-            throw new IllegalArgumentException("It is not possible to clone from local to local.");
-        }
+        // TODO
     }
 
     private static boolean isFromLocalToLocal(EngineContext engineContext) {
