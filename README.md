@@ -40,8 +40,8 @@ following features:
 
 This release, the version 5.0.0, unlike the previous one, the 3.0.X, **will not contain** the following features:
 
-- override GitHub repository if exists
-- delete repository after cloning
+- override destination repository if exists
+- delete source repository after cloning
 
 ## Screenshot
 
