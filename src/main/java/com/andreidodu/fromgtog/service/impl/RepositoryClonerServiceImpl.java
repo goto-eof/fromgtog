@@ -14,18 +14,16 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
-public class RepositoryClonerImpl implements RepositoryCloner {
+public class RepositoryClonerServiceImpl implements RepositoryCloner {
 
-    private static RepositoryClonerImpl instance;
+    private static RepositoryClonerServiceImpl instance;
 
-    Logger log = LoggerFactory.getLogger(RepositoryClonerImpl.class);
+    Logger log = LoggerFactory.getLogger(RepositoryClonerServiceImpl.class);
 
-    public static RepositoryClonerImpl getInstance() {
+    public static RepositoryClonerServiceImpl getInstance() {
         if (instance == null) {
-            instance = new RepositoryClonerImpl();
+            instance = new RepositoryClonerServiceImpl();
         }
         return instance;
     }
@@ -50,8 +48,6 @@ public class RepositoryClonerImpl implements RepositoryCloner {
                 cloneFromAndTo(engineContext, sourceEngine, destinationEngine)
         );
         executor.shutdown();
-
-
     }
 
     private static void validateInput(EngineContext engineContext) {

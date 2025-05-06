@@ -9,7 +9,7 @@ import com.andreidodu.fromgtog.gui.controller.StrategyGUIController;
 import com.andreidodu.fromgtog.service.impl.SettingsServiceImpl;
 import com.andreidodu.fromgtog.util.JsonObjectServiceImpl;
 import com.andreidodu.fromgtog.service.RepositoryCloner;
-import com.andreidodu.fromgtog.service.impl.RepositoryClonerImpl;
+import com.andreidodu.fromgtog.service.impl.RepositoryClonerServiceImpl;
 import com.andreidodu.fromgtog.translator.impl.JsonObjectToAppContextTranslator;
 import com.andreidodu.fromgtog.translator.impl.JsonObjectToFromContextTranslator;
 import com.andreidodu.fromgtog.translator.impl.JsonObjectToToContextTranslator;
@@ -138,12 +138,8 @@ public class AppController implements GUIController {
                     )
             );
             saveSettings(jsonObjectFrom, jsonObjectTo, jsonObjectApp);
-            RepositoryCloner repositoryCloner = RepositoryClonerImpl.getInstance();
+            RepositoryCloner repositoryCloner = RepositoryClonerServiceImpl.getInstance();
             repositoryCloner.cloneAllRepositories(engineContext);
-
-            this.updateApplicationStatusMessage("done!");
-            this.updateApplicationProgressBarMax(100);
-            this.updateApplicationProgressBarCurrent(0);
         });
     }
 

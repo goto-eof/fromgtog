@@ -73,7 +73,9 @@ public class LocalDestinationEngine extends AbstractDestinationEngine {
             }
         }
 
-
+        callbackContainer.updateApplicationStatusMessage().accept("done!");
+        callbackContainer.updateApplicationProgressBarMax().accept(100);
+        callbackContainer.updateApplicationProgressBarCurrent().accept(0);
         return true;
     }
 }
