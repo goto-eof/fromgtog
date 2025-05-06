@@ -17,6 +17,7 @@ public interface GuiKeys {
     String FROM_GITHUB_CLONE_STARRED_REPO_FLAG = "from.github.clone-starred-repo-flag";
     String FROM_GITHUB_CLONE_FORKED_REPO_FLAG = "from.github.clone-forked-repo-flag";
     String FROM_GITHUB_CLONE_PRIVATE_REPO_FLAG = "from.github.clone-private-repo-flag";
+    String FROM_GITHUB_CLONE_PUBLIC_REPO_FLAG = "from.github.clone-public-repo-flag";
     String FROM_GITHUB_CLONE_ARCHIVED_REPO_FLAG = "from.github.clone-archived-repo-flag";
     String FROM_GITHUB_CLONE_ORGANIZATIONS_REPO_FLAG = "from.github.clone-organizations-repo-flag";
     String FROM_GITHUB_EXCLUDE_ORGANIZATIONS = "from.github.exclude-organizations";

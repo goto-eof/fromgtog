@@ -1,10 +1,14 @@
 package com.andreidodu.fromgtog.translator.impl;
 
 import com.andreidodu.fromgtog.dto.FromContext;
+import com.andreidodu.fromgtog.service.GitHubServiceService;
+import com.andreidodu.fromgtog.service.impl.GitHubServiceServiceImpl;
 import com.andreidodu.fromgtog.translator.JsonObjectToRecordTranslator;
 import com.andreidodu.fromgtog.type.EngineType;
+import org.apache.commons.lang3.NotImplementedException;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.kohsuke.github.GitHub;
 
 import static com.andreidodu.fromgtog.gui.GuiKeys.*;
 
@@ -36,6 +40,8 @@ public class JsonObjectToFromContextTranslator implements JsonObjectToRecordTran
                 engineType,
                 null,
                 null,
+                null,
+                false,
                 false,
                 false,
                 false,
@@ -47,13 +53,16 @@ public class JsonObjectToFromContextTranslator implements JsonObjectToRecordTran
     }
 
     private FromContext buildFromGiteaContext(EngineType engineType, JSONObject jsonObject) {
+        String giteaLogin = getGiteaLogin(jsonObject);
         return new FromContext(
                 engineType,
                 jsonObject.getString(FROM_GITEA_URL),
+                giteaLogin,
                 jsonObject.getString(FROM_GITEA_TOKEN),
                 jsonObject.getBoolean(FROM_GITEA_CLONE_STARRED_REPO_FLAG),
                 jsonObject.getBoolean(FROM_GITEA_CLONE_FORKED_REPO_FLAG),
                 jsonObject.getBoolean(FROM_GITEA_CLONE_PRIVATE_REPO_FLAG),
+                jsonObject.getBoolean(FROM_GITHUB_CLONE_PUBLIC_REPO_FLAG),
                 jsonObject.getBoolean(FROM_GITEA_CLONE_ARCHIVED_REPO_FLAG),
                 jsonObject.getBoolean(FROM_GITEA_CLONE_ORGANIZATIONS_REPO_FLAG),
                 jsonObject.getString(FROM_GITEA_EXCLUDE_ORGANIZATIONS),
@@ -61,18 +70,31 @@ public class JsonObjectToFromContextTranslator implements JsonObjectToRecordTran
         );
     }
 
+    private String getGiteaLogin(JSONObject jsonObject) {
+        throw new NotImplementedException("getGiteaLogin()");
+    }
+
     private FromContext buildFromGithubContext(EngineType engineType, JSONObject jsonObject) {
+        String githubLogin = getGitHubLogin(jsonObject);
         return new FromContext(
                 engineType,
                 null,
+                githubLogin,
                 jsonObject.getString(FROM_GITHUB_TOKEN),
                 jsonObject.getBoolean(FROM_GITHUB_CLONE_STARRED_REPO_FLAG),
                 jsonObject.getBoolean(FROM_GITHUB_CLONE_FORKED_REPO_FLAG),
                 jsonObject.getBoolean(FROM_GITHUB_CLONE_PRIVATE_REPO_FLAG),
+                jsonObject.getBoolean(FROM_GITHUB_CLONE_PUBLIC_REPO_FLAG),
                 jsonObject.getBoolean(FROM_GITHUB_CLONE_ARCHIVED_REPO_FLAG),
                 jsonObject.getBoolean(FROM_GITHUB_CLONE_ORGANIZATIONS_REPO_FLAG),
                 jsonObject.getString(FROM_GITHUB_EXCLUDE_ORGANIZATIONS),
                 null
         );
+    }
+
+    private static String getGitHubLogin(JSONObject jsonObject) {
+        GitHubServiceService gitHubService = GitHubServiceServiceImpl.getInstance();
+        GitHub githubClient = gitHubService.retrieveGitHubClient(jsonObject.getString(FROM_GITHUB_TOKEN));
+        return gitHubService.retrieveGitHubMyself(githubClient).getLogin();
     }
 }

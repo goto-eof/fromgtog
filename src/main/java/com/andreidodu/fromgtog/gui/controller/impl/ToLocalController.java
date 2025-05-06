@@ -5,8 +5,12 @@ import com.andreidodu.fromgtog.type.EngineType;
 import lombok.Getter;
 import lombok.Setter;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
+
+import java.io.File;
 
 import static com.andreidodu.fromgtog.gui.GuiKeys.*;
 
@@ -14,13 +18,35 @@ import static com.andreidodu.fromgtog.gui.GuiKeys.*;
 @Setter
 public class ToLocalController implements DataProviderToController {
 
+    private final static Logger log = LoggerFactory.getLogger(ToLocalController.class);
+
     private JTextField toLocalRootPathTextField;
     private JCheckBox toLocalGroupByRepositoryOwnerCheckBox;
+    private JButton toLocalChooseButton;
     final static int TAB_INDEX = EngineType.LOCAL.getValue();
 
-    public ToLocalController(JTextField toLocalRootPathTextField, JCheckBox toLocalGroupByRepositoryOwnerCheckBox) {
+    public ToLocalController(JTextField toLocalRootPathTextField, JCheckBox toLocalGroupByRepositoryOwnerCheckBox, JButton toLocalChooseButton) {
         this.toLocalRootPathTextField = toLocalRootPathTextField;
         this.toLocalGroupByRepositoryOwnerCheckBox = toLocalGroupByRepositoryOwnerCheckBox;
+        this.toLocalChooseButton = toLocalChooseButton;
+
+        addActionListenerToChooseButton();
+
+    }
+
+    private void addActionListenerToChooseButton() {
+        this.toLocalChooseButton.addActionListener(e -> {
+            JFileChooser chooser = new JFileChooser();
+            chooser.setDialogTitle("Select a Directory");
+            chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            chooser.setAcceptAllFileFilterUsed(false);
+            int result = chooser.showOpenDialog(null);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                File selectedDir = chooser.getSelectedFile();
+                toLocalRootPathTextField.setText(selectedDir.getAbsolutePath());
+                log.debug("Selected Directory: {}", selectedDir.getAbsolutePath());
+            }
+        });
     }
 
     @Override

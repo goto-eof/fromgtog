@@ -1,9 +1,11 @@
 package com.andreidodu.fromgtog.service;
 
+import org.json.JSONObject;
+
 import java.util.Map;
 
 public interface SettingsService {
-    void save(Map<String, String> map);
+    void save(JSONObject json);
 
-    Map<String, String> load();
+    JSONObject load();
 }

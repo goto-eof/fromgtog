@@ -9,10 +9,12 @@ public record FromContext(
 
         String url,
 
+        String login,
         String token,
         boolean cloneStarredReposFlag,
         boolean cloneForkedReposFlag,
         boolean clonePrivateReposFlag,
+        boolean clonePublicReposFlag,
         boolean cloneArchivedReposFlag,
         boolean cloneBelongingToOrganizationsReposFlag,
         String excludeOrganizations,

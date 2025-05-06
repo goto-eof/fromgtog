@@ -106,7 +106,7 @@ public class AppController {
                     )
             );
 
-            RepositoryCloner repositoryCloner = new RepositoryClonerImpl();
+            RepositoryCloner repositoryCloner = RepositoryClonerImpl.getInstance();
             repositoryCloner.cloneAllRepositories(engineContext);
         });
     }

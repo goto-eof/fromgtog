@@ -20,15 +20,17 @@ public class FromGithubController implements DataProviderFromController {
     private JCheckBox fromGithubCloneStarredRepositoriesCheckBox;
     private JCheckBox fromGithubCloneForkedRepositoriesCheckBox;
     private JCheckBox fromGithubClonePrivateRepositoriesCheckBox;
+    private JCheckBox fromGithubClonePublicRepositoriesCheckBox;
     private JCheckBox fromGithubCloneArchivedRepositoriesCheckBox;
     private JCheckBox fromGithubCloneOrganizationSRepositoriesCheckBox;
     private JTextField fromGithubExcludeOrganizationTextField;
 
-    public FromGithubController(JTextField fromGithubTokenTextField, JCheckBox fromGithubCloneStarredRepositoriesCheckBox, JCheckBox fromGithubCloneForkedRepositoriesCheckBox, JCheckBox fromGithubClonePrivateRepositoriesCheckBox, JCheckBox fromGithubCloneArchivedRepositoriesCheckBox, JCheckBox fromGithubCloneOrganizationSRepositoriesCheckBox, JTextField fromGithubExcludeOrganizationTextField) {
+    public FromGithubController(JTextField fromGithubTokenTextField, JCheckBox fromGithubCloneStarredRepositoriesCheckBox, JCheckBox fromGithubCloneForkedRepositoriesCheckBox, JCheckBox fromGithubClonePrivateRepositoriesCheckBox, JCheckBox fromGithubClonePublicRepositoriesCheckBox, JCheckBox fromGithubCloneArchivedRepositoriesCheckBox, JCheckBox fromGithubCloneOrganizationSRepositoriesCheckBox, JTextField fromGithubExcludeOrganizationTextField) {
         this.fromGithubTokenTextField = fromGithubTokenTextField;
         this.fromGithubCloneStarredRepositoriesCheckBox = fromGithubCloneStarredRepositoriesCheckBox;
         this.fromGithubCloneForkedRepositoriesCheckBox = fromGithubCloneForkedRepositoriesCheckBox;
         this.fromGithubClonePrivateRepositoriesCheckBox = fromGithubClonePrivateRepositoriesCheckBox;
+        this.fromGithubClonePublicRepositoriesCheckBox = fromGithubClonePublicRepositoriesCheckBox;
         this.fromGithubCloneArchivedRepositoriesCheckBox = fromGithubCloneArchivedRepositoriesCheckBox;
         this.fromGithubCloneOrganizationSRepositoriesCheckBox = fromGithubCloneOrganizationSRepositoriesCheckBox;
         this.fromGithubExcludeOrganizationTextField = fromGithubExcludeOrganizationTextField;
@@ -47,6 +49,7 @@ public class FromGithubController implements DataProviderFromController {
         jsonObject.put(FROM_GITHUB_CLONE_STARRED_REPO_FLAG, fromGithubCloneStarredRepositoriesCheckBox.isSelected());
         jsonObject.put(FROM_GITHUB_CLONE_FORKED_REPO_FLAG, fromGithubCloneForkedRepositoriesCheckBox.isSelected());
         jsonObject.put(FROM_GITHUB_CLONE_PRIVATE_REPO_FLAG, fromGithubClonePrivateRepositoriesCheckBox.isSelected());
+        jsonObject.put(FROM_GITHUB_CLONE_PUBLIC_REPO_FLAG, fromGithubClonePublicRepositoriesCheckBox.isSelected());
         jsonObject.put(FROM_GITHUB_CLONE_ARCHIVED_REPO_FLAG, fromGithubCloneArchivedRepositoriesCheckBox.isSelected());
         jsonObject.put(FROM_GITHUB_CLONE_ORGANIZATIONS_REPO_FLAG, fromGithubCloneOrganizationSRepositoriesCheckBox.isSelected());
         jsonObject.put(FROM_GITHUB_EXCLUDE_ORGANIZATIONS, fromGithubExcludeOrganizationTextField.getText());

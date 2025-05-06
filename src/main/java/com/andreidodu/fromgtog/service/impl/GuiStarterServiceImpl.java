@@ -3,11 +3,11 @@ package com.andreidodu.fromgtog.service.impl;
 
 import com.andreidodu.fromgtog.gui.ApplicationGUI;
 import com.andreidodu.fromgtog.service.GuiStarterService;
+import org.json.JSONObject;
 
 import javax.swing.*;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -59,8 +59,8 @@ public class GuiStarterServiceImpl implements GuiStarterService {
 
     private void applyPreferredTheme() {
         UIManager.LookAndFeelInfo[] installedLookAndFeels = UIManager.getInstalledLookAndFeels();
-        Map<String, String> settings = new SettingsServiceImpl().load();
-        Optional.ofNullable(settings.get("theme"))
+        JSONObject settings = SettingsServiceImpl.getInstance().load();
+        Optional.ofNullable(settings.optString("theme"))
                 .filter(themeName -> !themeName.isEmpty())
                 .filter(theme -> getSystemThemeNamesLowerCase(installedLookAndFeels).contains(theme.toLowerCase()))
                 .ifPresentOrElse(GuiStarterServiceImpl::applyTheme, () -> applyDefaultTheme(installedLookAndFeels, settings));
@@ -95,7 +95,7 @@ public class GuiStarterServiceImpl implements GuiStarterService {
         }
     }
 
-    private static void applyDefaultTheme(UIManager.LookAndFeelInfo[] installedLookAndFeels, Map<String, String> settings) {
+    private static void applyDefaultTheme(UIManager.LookAndFeelInfo[] installedLookAndFeels, JSONObject settings) {
 
         Optional<UIManager.LookAndFeelInfo> themeOptional = null;
 
@@ -134,9 +134,9 @@ public class GuiStarterServiceImpl implements GuiStarterService {
         }
     }
 
-    private static void updateSettings(Map<String, String> settings, String themeName) {
-        settings.put("theme", themeName);
-        new SettingsServiceImpl().save(settings);
+    private static void updateSettings(JSONObject jsonObject, String themeName) {
+        jsonObject.put("theme", themeName);
+        SettingsServiceImpl.getInstance().save(jsonObject);
     }
 
 
