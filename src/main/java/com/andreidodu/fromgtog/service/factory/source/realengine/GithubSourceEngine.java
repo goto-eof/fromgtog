@@ -7,6 +7,7 @@ import com.andreidodu.fromgtog.dto.RepositoryDTO;
 import com.andreidodu.fromgtog.exception.CloningSourceException;
 import com.andreidodu.fromgtog.mapper.GithubRepositoryMapper;
 import com.andreidodu.fromgtog.service.GitHubService;
+import com.andreidodu.fromgtog.service.factory.source.realengine.common.SourceEngineCommon;
 import com.andreidodu.fromgtog.service.impl.GitHubServiceImpl;
 import com.andreidodu.fromgtog.service.factory.source.AbstractSourceEngine;
 import com.andreidodu.fromgtog.type.EngineType;
@@ -20,7 +21,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 
 public class GithubSourceEngine extends AbstractSourceEngine {
 

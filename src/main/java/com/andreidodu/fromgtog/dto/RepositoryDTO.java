@@ -14,4 +14,6 @@ public class RepositoryDTO {
     private boolean privateFlag;
     private boolean archivedFlag;
 
+    private String path;
+
 }

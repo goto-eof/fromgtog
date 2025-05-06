@@ -1,8 +1,11 @@
 package com.andreidodu.fromgtog.service.factory.source.realengine;
 
 import com.andreidodu.fromgtog.dto.EngineContext;
+import com.andreidodu.fromgtog.dto.FromContext;
 import com.andreidodu.fromgtog.dto.RepositoryDTO;
 import com.andreidodu.fromgtog.service.factory.source.AbstractSourceEngine;
+import com.andreidodu.fromgtog.service.LocalService;
+import com.andreidodu.fromgtog.service.impl.LocalServiceImpl;
 import com.andreidodu.fromgtog.type.EngineType;
 
 
@@ -19,7 +22,12 @@ public class LocalSourceEngine extends AbstractSourceEngine {
 
     @Override
     public List<RepositoryDTO> retrieveRepositoryList(EngineContext engineContext) {
-        // TODO
-        return List.of();
+        FromContext contex = engineContext.fromContext();
+        LocalService localService = LocalServiceImpl.getInstance();
+
+        return localService.listAllRepos(contex.rootPath())
+                .stream()
+                .map(path -> RepositoryDTO.builder().path(path).build())
+                .toList();
     }
 }

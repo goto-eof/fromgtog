@@ -11,9 +11,9 @@ import java.util.Map;
 
 public class GitHubServiceImpl implements GitHubService {
 
-    private static GitHubServiceImpl instance;
+    private static GitHubService instance;
 
-    public static synchronized GitHubServiceImpl getInstance() {
+    public static synchronized GitHubService getInstance() {
         if (instance == null) {
             instance = new GitHubServiceImpl();
         }

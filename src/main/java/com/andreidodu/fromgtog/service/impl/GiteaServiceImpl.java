@@ -26,9 +26,9 @@ public class GiteaServiceImpl implements GiteaService {
     private static final String TOKEN_PREFIX = "token ";
     private static final String CONTENT_TYPE_JSON = "application/json";
 
-    private static GiteaServiceImpl instance;
+    private static GiteaService instance;
 
-    public static GiteaServiceImpl getInstance() {
+    public static GiteaService getInstance() {
         if (instance == null) {
             instance = new GiteaServiceImpl();
         }

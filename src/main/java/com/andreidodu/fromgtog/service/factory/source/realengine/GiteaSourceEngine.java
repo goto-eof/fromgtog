@@ -9,13 +9,11 @@ import com.andreidodu.fromgtog.dto.gitea.GiteaUserDTO;
 import com.andreidodu.fromgtog.mapper.GiteaRepositoryMapper;
 import com.andreidodu.fromgtog.service.GiteaService;
 import com.andreidodu.fromgtog.service.factory.source.AbstractSourceEngine;
+import com.andreidodu.fromgtog.service.factory.source.realengine.common.SourceEngineCommon;
 import com.andreidodu.fromgtog.service.impl.GiteaServiceImpl;
 import com.andreidodu.fromgtog.type.EngineType;
-import org.kohsuke.github.GHRepository;
-import org.kohsuke.github.GHUser;
 
 import java.util.List;
-import java.util.stream.Stream;
 
 public class GiteaSourceEngine extends AbstractSourceEngine {
 
