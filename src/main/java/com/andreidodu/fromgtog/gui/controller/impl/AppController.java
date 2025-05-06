@@ -20,6 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
+import java.io.IOException;
 import java.util.List;
 
 import static com.andreidodu.fromgtog.gui.GuiKeys.*;
@@ -54,6 +55,8 @@ public class AppController implements GUIController {
     private JTabbedPane fromTabbedPane;
     private JTabbedPane toTabbedPane;
 
+    private JButton appOpenLogFileButton;
+
     public AppController(JSONObject settings,
                          List<GUIFromController> fromControllerList,
                          List<GUIToController> toControllerList,
@@ -65,7 +68,8 @@ public class AppController implements GUIController {
                          JLabel position,
                          JButton appStartButton,
                          JTabbedPane fromTabbedPane,
-                         JTabbedPane toTabbedPane) {
+                         JTabbedPane toTabbedPane,
+                         JButton appOpenLogFileButton) {
         this.fromControllerList = fromControllerList;
         this.toControllerList = toControllerList;
         this.appLogTextArea = appLogTextArea;
@@ -77,14 +81,32 @@ public class AppController implements GUIController {
         this.appStartButton = appStartButton;
         this.fromTabbedPane = fromTabbedPane;
         this.toTabbedPane = toTabbedPane;
+        this.appOpenLogFileButton = appOpenLogFileButton;
 
         this.translatorTo = new JsonObjectToToContextTranslator();
         this.translatorApp = new JsonObjectToAppContextTranslator();
         this.translatorFrom = new JsonObjectToFromContextTranslator();
 
         defineAppStartButtonListener(fromControllerList, toControllerList, fromTabbedPane, toTabbedPane);
+
         defineSaveSettingsButtonListener();
+        defineOpenLogFileButtonListener();
+
         applySettings(settings);
+    }
+
+    private void defineOpenLogFileButtonListener() {
+        appOpenLogFileButton.addActionListener(e -> {
+            String logFilename = "logs/app.log";
+            try {
+                ProcessBuilder pb = new ProcessBuilder("xdg-open", logFilename);
+                pb.inheritIO();
+                pb.start();
+                log.debug("log file open request done");
+            } catch (IOException ee) {
+                log.error("failed to open log file: {}", ee.getMessage());
+            }
+        });
     }
 
     @Override

@@ -66,6 +66,7 @@ public class ApplicationGUI extends JFrame {
     private JButton toLocalChooseButton;
     private JCheckBox fromGiteaClonePublicRepositoriesCheckBox;
     private JButton fromLocalChooseButton;
+    private JButton appOpenLogFileButton;
 
 
     public ApplicationGUI() {
@@ -108,7 +109,8 @@ public class ApplicationGUI extends JFrame {
                 appProgressStatusLabel,
                 appStartButton,
                 fromTabbedPane,
-                toTabbedPane
+                toTabbedPane,
+                appOpenLogFileButton
         );
     }
 
@@ -501,7 +503,7 @@ public class ApplicationGUI extends JFrame {
         final Spacer spacer14 = new Spacer();
         panel1.add(spacer14, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         final JPanel panel35 = new JPanel();
-        panel35.setLayout(new GridLayoutManager(2, 1, new Insets(20, 20, 20, 20), -1, -1));
+        panel35.setLayout(new GridLayoutManager(3, 1, new Insets(20, 20, 20, 20), -1, -1));
         panel1.add(panel35, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         final JScrollPane scrollPane1 = new JScrollPane();
         panel35.add(scrollPane1, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(-1, 100), null, 0, false));
@@ -512,6 +514,9 @@ public class ApplicationGUI extends JFrame {
         final JLabel label20 = new JLabel();
         label20.setText("Log");
         panel35.add(label20, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        appOpenLogFileButton = new JButton();
+        appOpenLogFileButton.setText("open log file");
+        panel35.add(appOpenLogFileButton, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 
     /** @noinspection ALL */
