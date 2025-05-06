@@ -12,21 +12,14 @@ improve readability and application modularity, as well as adding new features, 
 
 # Work in progress | TODOs
 
-[] optimize `from GitHub` engine
-
-[] complete `from Gitea` engine
-
-[] start and complete `from Local` engine
-
-[] start and complete `to GitHub` engine
-
-[] start and complete `to Gitea` engine
-
-[] optimize `to Local` engine
-
-[] error managing -> show error alert
-
-[] validate user input -> show error alert
+- [] optimize `from GitHub` engine
+- [] complete `from Gitea` engine
+- [] start and complete `from Local` engine
+- [] start and complete `to GitHub` engine
+- [] start and complete `to Gitea` engine
+- [] optimize `to Local` engine
+- [] error managing -> show error alert
+- [] validate user input -> show error alert
 
 ## Screenshot
 
