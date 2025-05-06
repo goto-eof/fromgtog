@@ -5,8 +5,8 @@ import com.andreidodu.fromgtog.dto.FromContext;
 import com.andreidodu.fromgtog.dto.RepositoryDTO;
 import com.andreidodu.fromgtog.exception.CloningSourceException;
 import com.andreidodu.fromgtog.mapper.GHRepositoryMapper;
-import com.andreidodu.fromgtog.service.GitHubServiceService;
-import com.andreidodu.fromgtog.service.impl.GitHubServiceServiceImpl;
+import com.andreidodu.fromgtog.service.GitHubService;
+import com.andreidodu.fromgtog.service.impl.GitHubServiceImpl;
 import com.andreidodu.fromgtog.service.factory.source.AbstractSourceEngine;
 import com.andreidodu.fromgtog.type.EngineType;
 import org.apache.commons.lang3.tuple.Pair;
@@ -24,7 +24,7 @@ import java.util.stream.Stream;
 public class GithubSourceEngine extends AbstractSourceEngine {
 
     private final static EngineType SOURCE_ENGINE_TYPE = EngineType.GITHUB;
-    private final GitHubServiceService gitHubService = GitHubServiceServiceImpl.getInstance();
+    private final GitHubService gitHubService = GitHubServiceImpl.getInstance();
 
     @Override
     public EngineType getEngineType() {

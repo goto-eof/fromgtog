@@ -75,6 +75,7 @@ public class AppController {
         this.appStartButton = appStartButton;
         this.fromTabbedPane = fromTabbedPane;
         this.toTabbedPane = toTabbedPane;
+
         this.translatorTo = new JsonObjectToToContextTranslator();
         this.translatorApp = new JsonObjectToAppContextTranslator();
         this.translatorFrom = new JsonObjectToFromContextTranslator();

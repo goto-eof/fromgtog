@@ -42,14 +42,14 @@ public class FromGiteaController implements DataProviderFromController {
 
     private void applySettings(JSONObject settings) {
         fromGiteaUrlTextField.setText(settings.optString(FROM_GITEA_URL));
-        fromGiteaUrlTextField.setText(settings.optString(FROM_GITEA_TOKEN));
+        fromGiteaTokenTextField.setText(settings.optString(FROM_GITEA_TOKEN));
         fromGiteaCloneStarredRepositoriesCheckBox.setSelected(settings.optBooleanObject(FROM_GITEA_CLONE_STARRED_REPO_FLAG));
         fromGiteaCloneForkedRepositoriesCheckBox.setSelected(settings.optBooleanObject(FROM_GITEA_CLONE_FORKED_REPO_FLAG));
         fromGiteaClonePrivateRepositoriesCheckBox.setSelected(settings.optBooleanObject(FROM_GITEA_CLONE_PRIVATE_REPO_FLAG));
         fromGiteaClonePublicRepositoriesCheckBox.setSelected(settings.optBooleanObject(FROM_GITEA_CLONE_PUBLIC_REPO_FLAG));
         fromGiteaCloneArchivedRepositoriesCheckBox.setSelected(settings.optBooleanObject(FROM_GITEA_CLONE_ARCHIVED_REPO_FLAG));
         fromGiteaCloneOrganizationsRepositoriesCheckBox.setSelected(settings.optBooleanObject(FROM_GITEA_CLONE_ORGANIZATIONS_REPO_FLAG));
-        fromGiteaUrlTextField.setText(settings.optString(FROM_GITEA_EXCLUDE_ORGANIZATIONS));
+        fromGiteaExcludeOrganizationTextField.setText(settings.optString(FROM_GITEA_EXCLUDE_ORGANIZATIONS));
 
     }
 
@@ -67,6 +67,7 @@ public class FromGiteaController implements DataProviderFromController {
         jsonObject.put(FROM_GITEA_CLONE_STARRED_REPO_FLAG, fromGiteaCloneStarredRepositoriesCheckBox.isSelected());
         jsonObject.put(FROM_GITEA_CLONE_FORKED_REPO_FLAG, fromGiteaCloneForkedRepositoriesCheckBox.isSelected());
         jsonObject.put(FROM_GITEA_CLONE_PRIVATE_REPO_FLAG, fromGiteaClonePrivateRepositoriesCheckBox.isSelected());
+        jsonObject.put(FROM_GITEA_CLONE_PUBLIC_REPO_FLAG, fromGiteaClonePublicRepositoriesCheckBox.isSelected());
         jsonObject.put(FROM_GITEA_CLONE_ARCHIVED_REPO_FLAG, fromGiteaCloneArchivedRepositoriesCheckBox.isSelected());
         jsonObject.put(FROM_GITEA_CLONE_ORGANIZATIONS_REPO_FLAG, fromGiteaCloneOrganizationsRepositoriesCheckBox.isSelected());
         jsonObject.put(FROM_GITEA_EXCLUDE_ORGANIZATIONS, fromGiteaExcludeOrganizationTextField.getText());

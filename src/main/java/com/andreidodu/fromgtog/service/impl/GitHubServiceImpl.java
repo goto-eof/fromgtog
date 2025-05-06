@@ -1,7 +1,7 @@
 package com.andreidodu.fromgtog.service.impl;
 
 import com.andreidodu.fromgtog.exception.CloningSourceException;
-import com.andreidodu.fromgtog.service.GitHubServiceService;
+import com.andreidodu.fromgtog.service.GitHubService;
 import org.kohsuke.github.GHMyself;
 import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
@@ -9,13 +9,13 @@ import org.kohsuke.github.GitHub;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GitHubServiceServiceImpl implements GitHubServiceService {
+public class GitHubServiceImpl implements GitHubService {
 
-    private static GitHubServiceServiceImpl instance;
+    private static GitHubServiceImpl instance;
 
-    public static synchronized GitHubServiceServiceImpl getInstance() {
+    public static synchronized GitHubServiceImpl getInstance() {
         if (instance == null) {
-            instance = new GitHubServiceServiceImpl();
+            instance = new GitHubServiceImpl();
         }
         return instance;
     }

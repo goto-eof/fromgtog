@@ -6,7 +6,7 @@ import org.kohsuke.github.GitHub;
 
 import java.util.Map;
 
-public interface GitHubServiceService {
+public interface GitHubService {
     GitHub retrieveGitHubClient(String token);
 
     GHMyself retrieveGitHubMyself(GitHub githubClient);
