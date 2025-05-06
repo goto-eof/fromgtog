@@ -48,6 +48,8 @@ public class ToLocaleFromLocaleStrategy implements ToLocaleFromStrategy {
             }
 
             try {
+                callbackContainer.updateApplicationStatusMessage().accept("cloning " + repositoryName + " ...");
+
                 FileUtils.copyDirectory(new File(path), new File(toDirectoryPath));
             } catch (IOException e) {
                 log.error("unable to copy from {} to {} because {}", path, toDirectoryPath, e.getMessage());
