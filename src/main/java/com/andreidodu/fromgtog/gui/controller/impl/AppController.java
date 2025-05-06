@@ -1,5 +1,6 @@
 package com.andreidodu.fromgtog.gui.controller.impl;
 
+import com.andreidodu.fromgtog.dto.CallbackContainer;
 import com.andreidodu.fromgtog.dto.EngineContext;
 import com.andreidodu.fromgtog.gui.controller.GUIController;
 import com.andreidodu.fromgtog.gui.controller.GUIFromController;
@@ -82,6 +83,7 @@ public class AppController implements GUIController {
         this.translatorFrom = new JsonObjectToFromContextTranslator();
 
         defineAppStartButtonListener(fromControllerList, toControllerList, fromTabbedPane, toTabbedPane);
+        defineSaveSettingsButtonListener();
         applySettings(settings);
     }
 
@@ -90,6 +92,15 @@ public class AppController implements GUIController {
         appSleepTimeTextField.setText(settings.optString(APP_SLEEP_TIME, "1"));
         fromTabbedPane.setSelectedIndex(settings.optInt(FROM_TAB_INDEX, 0));
         toTabbedPane.setSelectedIndex(settings.optInt(TO_TAB_INDEX, 0));
+    }
+
+    private void defineSaveSettingsButtonListener() {
+        appSaveConfigurationButton.addActionListener(e -> {
+            JSONObject jsonObjectFrom = retrieveJsonData(fromControllerList, fromTabbedPane.getSelectedIndex());
+            JSONObject jsonObjectTo = retrieveJsonData(toControllerList, toTabbedPane.getSelectedIndex());
+            JSONObject jsonObjectApp = getDataFromChildren();
+            saveSettings(jsonObjectFrom, jsonObjectTo, jsonObjectApp);
+        });
     }
 
     private void defineAppStartButtonListener(List<GUIFromController> fromControllerList, List<GUIToController> toControllerList, JTabbedPane fromTabbedPane, JTabbedPane toTabbedPane) {
@@ -110,6 +121,12 @@ public class AppController implements GUIController {
                     .settingsContext(translatorApp.translate(jsonObjectApp))
                     .fromContext(translatorFrom.translate(jsonObjectFrom))
                     .toContext(translatorTo.translate(jsonObjectTo))
+                    .callbackContainer(CallbackContainer
+                            .builder()
+                            .updateApplicationProgressBarMax(this::updateApplicationProgressBarMax)
+                            .updateApplicationProgressBarCurrent(this::updateApplicationProgressBarCurrent)
+                            .updateApplicationStatusMessage(this::updateApplicationStatusMessage)
+                            .build())
                     .build();
 
             appLogTextArea.setText(String.format("%s\n%s(%s) -> %s(%s)",
@@ -120,13 +137,17 @@ public class AppController implements GUIController {
                             toTabbedPane.getSelectedIndex()
                     )
             );
-            log.debug("Saving settings...");
-            JSONObject allSettings = JsonObjectServiceImpl.getInstance().merge(jsonObjectFrom, jsonObjectTo, jsonObjectApp);
-            SettingsServiceImpl.getInstance().save(allSettings);
-            log.debug("Done.");
+            saveSettings(jsonObjectFrom, jsonObjectTo, jsonObjectApp);
             RepositoryCloner repositoryCloner = RepositoryClonerImpl.getInstance();
             repositoryCloner.cloneAllRepositories(engineContext);
         });
+    }
+
+    private void saveSettings(JSONObject... jsonObjectFrom) {
+        log.debug("Saving settings...");
+        JSONObject allSettings = JsonObjectServiceImpl.getInstance().merge(jsonObjectFrom);
+        SettingsServiceImpl.getInstance().save(allSettings);
+        log.debug("Done.");
     }
 
     private static <T extends StrategyGUIController> JSONObject retrieveJsonData(List<T> fromControllerList, int selectedIndex) {
@@ -150,5 +171,22 @@ public class AppController implements GUIController {
         return jsonObject;
     }
 
+    private void updateApplicationStatusMessage(String message) {
+        SwingUtilities.invokeLater(() -> appProgressStatusLabel.setText(message));
+        SwingUtilities.invokeLater(() -> appLogTextArea.setText(String.format("%s\n%s", appLogTextArea.getText(), message)));
+        log.info("{}", message);
+    }
+
+    private void updateApplicationProgressBarCurrent(int i) {
+        SwingUtilities.invokeLater(() -> appStatusProgressBarLabel.setText(i + "/" + appProgressBar.getMaximum()));
+        SwingUtilities.invokeLater(() -> appProgressBar.setValue(i));
+        log.info("processing: {}/{}", i, appProgressBar.getMaximum());
+
+    }
+
+    private void updateApplicationProgressBarMax(int value) {
+        SwingUtilities.invokeLater(() -> appProgressBar.setMaximum(value));
+        log.info("number of items: {}", value);
+    }
 
 }
