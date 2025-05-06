@@ -36,7 +36,7 @@ following features:
 - clone from Local to Gitea
 - clone from Local to Local
 
-# Which features will not be present?
+# Which features will NOT be present?
 
 This release, the version 5.0.0, unlike the previous one, the 3.0.X, **will not contain** the following features:
 
