@@ -180,7 +180,7 @@ public class AppController implements GUIController {
     private void updateApplicationProgressBarCurrent(int i) {
         SwingUtilities.invokeLater(() -> position.setText(i + "/" + appProgressBar.getMaximum()));
         SwingUtilities.invokeLater(() -> appProgressBar.setValue(i));
-        log.info("processing: {}/{}", i, appProgressBar.getMaximum());
+        log.info("cloning: {}/{}", i, appProgressBar.getMaximum());
 
     }
 

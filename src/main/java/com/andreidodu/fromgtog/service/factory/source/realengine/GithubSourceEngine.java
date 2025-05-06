@@ -1,5 +1,6 @@
 package com.andreidodu.fromgtog.service.factory.source.realengine;
 
+import com.andreidodu.fromgtog.dto.CallbackContainer;
 import com.andreidodu.fromgtog.dto.EngineContext;
 import com.andreidodu.fromgtog.dto.FromContext;
 import com.andreidodu.fromgtog.dto.RepositoryDTO;
@@ -34,6 +35,10 @@ public class GithubSourceEngine extends AbstractSourceEngine {
     @Override
     public List<RepositoryDTO> retrieveRepositoryList(EngineContext engineContext) {
         FromContext context = engineContext.fromContext();
+        CallbackContainer callbackContainer = engineContext.callbackContainer();
+
+        callbackContainer.updateApplicationStatusMessage().accept("Retrieving repositories information...");
+
         GitHub githubClient = gitHubService.retrieveGitHubClient(context.token());
         GHMyself myself = gitHubService.retrieveGitHubMyself(githubClient);
 
@@ -41,15 +46,12 @@ public class GithubSourceEngine extends AbstractSourceEngine {
 
         addStarredRepositoriesIfNecessary(context, githubClient, allUserRepositories);
 
-        List<String> blackListOrganizationsList = Stream.of(context.excludeOrganizations().split(","))
-                .map(String::trim)
-                .map(String::toLowerCase)
-                .distinct()
-                .toList();
+        SourceEngineCommon sourceEngineCommon = new SourceEngineCommon();
+        List<String> blacklistOrganizationsList = sourceEngineCommon.buildOrganizationBlacklist(context.excludeOrganizations());
 
         GithubRepositoryMapper mapper = new GithubRepositoryMapper();
 
-        return allUserRepositories
+        List<RepositoryDTO> repositoryDTOList = allUserRepositories
                 .values()
                 .stream()
                 .map(GithubSourceEngine::buildPair)
@@ -71,7 +73,7 @@ public class GithubSourceEngine extends AbstractSourceEngine {
                     if (!context.cloneBelongingToOrganizationsReposFlag() && !repositoryUser.getLogin().equals(myself.getLogin())) {
                         return false;
                     }
-                    if (context.cloneBelongingToOrganizationsReposFlag() && isOrganizationInBlacklist(repositoryUser, blackListOrganizationsList)) {
+                    if (context.cloneBelongingToOrganizationsReposFlag() && isOrganizationInBlacklist(repositoryUser, blacklistOrganizationsList)) {
                         return false;
                     }
                     return true;
@@ -79,6 +81,10 @@ public class GithubSourceEngine extends AbstractSourceEngine {
                 // not necessary -> .filter(ghRepository -> !context.cloneArchivedReposFlag() && ghRepository.isArchived())
                 .map(ghRepositoryGHUserPair -> mapper.toDTO(ghRepositoryGHUserPair.getLeft(), ghRepositoryGHUserPair.getRight()))
                 .toList();
+
+        callbackContainer.updateApplicationStatusMessage().accept("All repositories information were retrieved.");
+
+        return repositoryDTOList;
     }
 
     private static Pair<GHRepository, GHUser> buildPair(GHRepository ghRepository) {

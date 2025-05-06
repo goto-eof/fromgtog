@@ -15,7 +15,7 @@ import java.util.Map;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GiteaRepositoryDTO {
     private Long id;
-    private User owner;
+    private GiteaUserDTO owner;
 
     @JsonProperty("full_name")
     private String fullName;
@@ -115,10 +115,6 @@ public class GiteaRepositoryDTO {
     @JsonProperty("has_discussions")
     private boolean hasDiscussions;
 
-    // Add other fields as needed...
-
-    // Getters and setters...
-
     @Data
     public static class User {
         private int id;
@@ -153,9 +149,6 @@ public class GiteaRepositoryDTO {
         @JsonProperty("prohibit_login")
         private boolean prohibitLogin;
 
-        // Other user fields...
-
-        // Getters and setters...
     }
 
     @Data
@@ -169,8 +162,6 @@ public class GiteaRepositoryDTO {
 
         @JsonProperty("enable_issue_dependencies")
         private boolean enableIssueDependencies;
-
-        // Getters and setters...
     }
 
     @Data
@@ -182,9 +173,6 @@ public class GiteaRepositoryDTO {
         @JsonProperty("last_updated")
         private OffsetDateTime lastUpdated;
 
-        // Other mirror fields...
-
-        // Getters and setters...
     }
 
     @Data

@@ -41,7 +41,7 @@ public class LocalDestinationEngine extends AbstractDestinationEngine {
                 cloneUrl = cloneUrl.replace("github.com", fromContext.login() + ":" + fromContext.token() + "@github.com");
             }
 
-            callbackContainer.updateApplicationStatusMessage().accept("processing repository: " + repositoryDTO.getName());
+            callbackContainer.updateApplicationStatusMessage().accept("cloning repository: " + repositoryDTO.getName());
             File file = new File(toContext.rootPath() + "/" + repositoryDTO.getName());
             if (toContext.groupByRepositoryOwner()) {
                 String repositoryOwnerName = repositoryDTO.getLogin();
@@ -53,6 +53,7 @@ public class LocalDestinationEngine extends AbstractDestinationEngine {
 
             if (file.exists()) {
                 log.debug("skipping because {} already exists", repositoryDTO.getName());
+                callbackContainer.updateApplicationStatusMessage().accept("Skipping repository because it already exists: " + repositoryDTO.getName());
                 continue;
             }
             NoHomeGitConfigSystemReader.install();
@@ -64,6 +65,7 @@ public class LocalDestinationEngine extends AbstractDestinationEngine {
                         .call();
             } catch (GitAPIException e) {
                 log.error("Unable to clone repository {} because {}", repositoryDTO.getName(), e.getMessage());
+                callbackContainer.updateApplicationStatusMessage().accept("Unable to clone repository " + repositoryDTO.getName());
             }
 
             try {

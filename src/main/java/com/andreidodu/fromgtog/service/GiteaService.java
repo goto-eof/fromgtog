@@ -9,4 +9,6 @@ public interface GiteaService {
     GiteaUserDTO getMyself(String token, String urlString);
 
     List<GiteaRepositoryDTO> tryToRetrieveUserRepositories(String baseUrl, String token);
+
+    List<GiteaRepositoryDTO> tryToRetrieveStarredRepositories(String baseUrl, String token);
 }

@@ -94,6 +94,16 @@ public class GiteaServiceImpl implements GiteaService {
     }
 
 
+    @Override
+    public List<GiteaRepositoryDTO> tryToRetrieveStarredRepositories(String baseUrl, String token) {
+        try {
+            return fetchRepos(baseUrl + "/api/v1/user/starred", token);
+        } catch (Exception e) {
+            log.error("Failed to fetch repositories", e);
+            throw new CloningSourceException("failed to fetch starred repositories from Gitea", e);
+        }
+    }
+
     private List<GiteaRepositoryDTO> fetchRepos(String apiUrl, String token) {
         try {
             URL url = new URL(apiUrl);
