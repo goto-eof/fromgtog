@@ -3,10 +3,7 @@ package com.andreidodu.fromgtog.service.impl;
 import com.andreidodu.fromgtog.service.LocalService;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 public class LocalServiceImpl implements LocalService {
 
@@ -22,13 +19,23 @@ public class LocalServiceImpl implements LocalService {
     @Override
     public List<String> listAllRepos(final String rootPath) {
         Objects.requireNonNull(rootPath);
-        File pathFile = getFile(rootPath);
-        return Arrays.stream(Optional.ofNullable(pathFile.listFiles())
-                        .orElseGet(() -> new File[0]))
+        List<String> repos = new ArrayList<>();
+        findGitRepositoriesExcursively(rootPath, repos);
+        return repos;
+    }
+
+    private void findGitRepositoriesExcursively(String path, List<String> repositories) {
+        File pathFile = getFile(path);
+        List<String> foundRepositories = Arrays.stream(
+                        Optional.ofNullable(pathFile.listFiles())
+                                .orElseGet(() -> new File[0])
+                )
                 .filter(File::isDirectory)
                 .filter(this::isGitRepository)
                 .map(File::getAbsolutePath)
                 .toList();
+        repositories.addAll(foundRepositories);
+        foundRepositories.forEach(repoPath -> findGitRepositoriesExcursively(repoPath, repositories));
     }
 
     private boolean isGitRepository(File path) {
