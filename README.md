@@ -14,11 +14,11 @@ and Translator**, that improve readability and **application modularity**, as we
 # Work in progress | TODOs
 
 - [ ] optimize `from GitHub` engine
-- [ ] complete `from Gitea` engine
-- [ ] start and complete `from Local` engine
+- [ ] optimize `from Gitea` engine
+- [ ] optimize `from Local` engine
+- [ ] optimize `to Local` engine
 - [ ] start and complete `to GitHub` engine
 - [ ] start and complete `to Gitea` engine
-- [ ] optimize `to Local` engine
 - [ ] error managing -> show error alert
 - [ ] validate user input -> show error alert
 
