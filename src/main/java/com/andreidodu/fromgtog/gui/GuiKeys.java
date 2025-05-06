@@ -38,4 +38,7 @@ public interface GuiKeys {
 
     String ENGINE_TYPE = "engine-type";
 
+    String FROM_TAB_INDEX = "from.tab-index";
+    String TO_TAB_INDEX = "to.tab-index";
+
 }

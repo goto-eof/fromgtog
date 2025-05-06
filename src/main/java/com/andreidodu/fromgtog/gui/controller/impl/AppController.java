@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
 import javax.swing.*;
 import java.util.List;
 
-import static com.andreidodu.fromgtog.gui.GuiKeys.APP_SLEEP_TIME;
+import static com.andreidodu.fromgtog.gui.GuiKeys.*;
 import static com.andreidodu.fromgtog.util.NumberUtil.toIntegerOrDefault;
 
 
@@ -85,7 +85,9 @@ public class AppController {
     }
 
     private void applySettings(JSONObject settings) {
-        appSleepTimeTextField.setText(settings.optString(APP_SLEEP_TIME));
+        appSleepTimeTextField.setText(settings.optString(APP_SLEEP_TIME, "1"));
+        fromTabbedPane.setSelectedIndex(settings.optInt(FROM_TAB_INDEX, 0));
+        toTabbedPane.setSelectedIndex(settings.optInt(TO_TAB_INDEX, 0));
     }
 
     private void defineAppStartButtonListener(List<DataProviderFromController> fromControllerList, List<DataProviderToController> toControllerList, JTabbedPane fromTabbedPane, JTabbedPane toTabbedPane) {
@@ -139,6 +141,8 @@ public class AppController {
         appSleepTimeTextField.setText(String.valueOf(sleepSeconds));
 
         jsonObject.put(APP_SLEEP_TIME, sleepSeconds);
+        jsonObject.put(FROM_TAB_INDEX, fromTabbedPane.getSelectedIndex());
+        jsonObject.put(TO_TAB_INDEX, toTabbedPane.getSelectedIndex());
 
         return jsonObject;
     }

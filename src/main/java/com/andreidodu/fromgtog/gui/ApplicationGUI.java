@@ -79,8 +79,17 @@ public class ApplicationGUI extends JFrame {
 
         JSONObject settings = SettingsServiceImpl.getInstance().load();
 
-        List<DataProviderFromController> fromControllerList = List.of(buildFromGithubController(settings), buildFromGiteaController(settings), buildFromLocalController(settings));
-        List<DataProviderToController> toControllerList = List.of(buildToGithubController(settings), buildToGiteaController(settings), buildToLocalController(settings));
+        List<DataProviderFromController> fromControllerList = List.of(
+                buildFromGithubController(settings),
+                buildFromGiteaController(settings),
+                buildFromLocalController(settings)
+        );
+
+        List<DataProviderToController> toControllerList = List.of(
+                buildToGithubController(settings),
+                buildToGiteaController(settings),
+                buildToLocalController(settings)
+        );
 
         AppController appController = buildAppController(settings, fromControllerList, toControllerList);
 
