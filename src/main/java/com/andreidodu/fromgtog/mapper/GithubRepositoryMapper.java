@@ -4,7 +4,7 @@ import com.andreidodu.fromgtog.dto.RepositoryDTO;
 import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GHUser;
 
-public class GHRepositoryMapper {
+public class GithubRepositoryMapper {
 
     public RepositoryDTO toDTO(GHRepository ghRepository, GHUser repositoryUser) {
 

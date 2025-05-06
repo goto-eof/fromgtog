@@ -2,11 +2,12 @@ package com.andreidodu.fromgtog.service.factory.source;
 
 import com.andreidodu.fromgtog.dto.EngineContext;
 import com.andreidodu.fromgtog.dto.RepositoryDTO;
+import com.andreidodu.fromgtog.service.factory.Engine;
 import com.andreidodu.fromgtog.type.EngineType;
 
 import java.util.List;
 
-public interface SourceEngine {
+public interface SourceEngine extends Engine {
 
     EngineType getEngineType();
 

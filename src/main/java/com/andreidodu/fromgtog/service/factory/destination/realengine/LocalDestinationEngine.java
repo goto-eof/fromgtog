@@ -6,6 +6,7 @@ import com.andreidodu.fromgtog.service.factory.destination.AbstractDestinationEn
 import com.andreidodu.fromgtog.type.EngineType;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,7 +27,7 @@ public class LocalDestinationEngine extends AbstractDestinationEngine {
         ToContext toContext = engineContext.toContext();
         CallbackContainer callbackContainer = engineContext.callbackContainer();
 
-        callbackContainer.updateApplicationProgressBarCurrent().accept(repositoryDTOList.size());
+        callbackContainer.updateApplicationProgressBarMax().accept(repositoryDTOList.size());
         callbackContainer.updateApplicationProgressBarCurrent().accept(0);
         callbackContainer.updateApplicationStatusMessage().accept("initializing the cloning process");
 
@@ -59,9 +60,16 @@ public class LocalDestinationEngine extends AbstractDestinationEngine {
                 Git clonedRepo = Git.cloneRepository()
                         .setURI(cloneUrl)
                         .setDirectory(file)
+                        .setCredentialsProvider(new UsernamePasswordCredentialsProvider(fromContext.login(), fromContext.token()))
                         .call();
             } catch (GitAPIException e) {
-                log.error("Unable to clone repository {}", repositoryDTO.getName());
+                log.error("Unable to clone repository {} because {}", repositoryDTO.getName(), e.getMessage());
+            }
+
+            try {
+                Thread.sleep(engineContext.settingsContext().sleepTimeSeconds() * 1000L);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
             }
         }
 

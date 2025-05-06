@@ -4,7 +4,7 @@ import com.andreidodu.fromgtog.dto.EngineContext;
 import com.andreidodu.fromgtog.dto.FromContext;
 import com.andreidodu.fromgtog.dto.RepositoryDTO;
 import com.andreidodu.fromgtog.exception.CloningSourceException;
-import com.andreidodu.fromgtog.mapper.GHRepositoryMapper;
+import com.andreidodu.fromgtog.mapper.GithubRepositoryMapper;
 import com.andreidodu.fromgtog.service.GitHubService;
 import com.andreidodu.fromgtog.service.impl.GitHubServiceImpl;
 import com.andreidodu.fromgtog.service.factory.source.AbstractSourceEngine;
@@ -47,7 +47,7 @@ public class GithubSourceEngine extends AbstractSourceEngine {
                 .distinct()
                 .toList();
 
-        GHRepositoryMapper mapper = new GHRepositoryMapper();
+        GithubRepositoryMapper mapper = new GithubRepositoryMapper();
 
         return allUserRepositories
                 .values()
