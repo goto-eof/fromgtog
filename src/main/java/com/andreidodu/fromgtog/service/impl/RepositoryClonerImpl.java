@@ -34,6 +34,7 @@ public class RepositoryClonerImpl implements RepositoryCloner {
         SourceEngine sourceEngine = cloneFactory.buildSource(engineContext.fromContext().sourceEngineType());
         DestinationEngine destinationEngine = cloneFactory.buildDestination(engineContext.toContext().engineType());
 
+        log.debug("Source: {}, Destination: {}", sourceEngine.getEngineType(), destinationEngine.getDestinationEngineType());
         return cloneFromAndTo(engineContext, sourceEngine, destinationEngine);
     }
 
@@ -50,8 +51,8 @@ public class RepositoryClonerImpl implements RepositoryCloner {
 
     private boolean cloneFromAndTo(EngineContext engineContext, SourceEngine sourceEngine, DestinationEngine destinationEngine) {
         List<RepositoryDTO> repositories = sourceEngine.retrieveRepositoryList(engineContext);
-        log.debug("GitHub repositories size: {}", repositories.size());
-        log.debug("GitHub repositories: {}", repositories.toString());
+        log.debug("Number of repositories size: {}", repositories.size());
+        log.debug("Repositories: {}", repositories);
         return destinationEngine.cloneAll(engineContext, repositories);
 
     }
