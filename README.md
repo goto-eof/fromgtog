@@ -10,6 +10,12 @@ understand and therefore more maintainable. So, I decided to implement version 5
 extensive use of several design patterns, like Abstract Factory, Strategy, Singleton, Builder, DTO and Translator, that
 improve readability and application modularity, as well as adding new features, such as local to remote cloning.
 
+# Work in progress | TODOs
+
+[] error managing -> show error alert
+
+[] validate user input -> show error alert
+
 ## Screenshot
 
 ![screenshot](images/screenshot.png)
