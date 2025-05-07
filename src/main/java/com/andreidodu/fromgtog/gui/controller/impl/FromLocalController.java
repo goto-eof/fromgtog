@@ -12,7 +12,7 @@ import javax.swing.*;
 
 import java.io.File;
 
-import static com.andreidodu.fromgtog.gui.GuiKeys.*;
+import static com.andreidodu.fromgtog.gui.controller.constants.GuiKeys.*;
 
 @Getter
 @Setter

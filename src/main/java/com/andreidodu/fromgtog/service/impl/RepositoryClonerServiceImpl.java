@@ -4,8 +4,8 @@ import com.andreidodu.fromgtog.dto.EngineContext;
 import com.andreidodu.fromgtog.service.factory.CloneFactory;
 import com.andreidodu.fromgtog.service.factory.CloneFactoryImpl;
 import com.andreidodu.fromgtog.dto.RepositoryDTO;
-import com.andreidodu.fromgtog.service.factory.destination.DestinationEngine;
-import com.andreidodu.fromgtog.service.factory.source.SourceEngine;
+import com.andreidodu.fromgtog.service.factory.to.engines.DestinationEngine;
+import com.andreidodu.fromgtog.service.factory.from.SourceEngine;
 import com.andreidodu.fromgtog.service.RepositoryCloner;
 import com.andreidodu.fromgtog.type.EngineType;
 import org.slf4j.Logger;
@@ -43,8 +43,16 @@ public class RepositoryClonerServiceImpl implements RepositoryCloner {
 
     private void executeOnNewThread(EngineContext engineContext, SourceEngine sourceEngine, DestinationEngine destinationEngine) {
         ExecutorService executor = Executors.newSingleThreadExecutor();
-        executor.submit(() ->
-                cloneFromAndTo(engineContext, sourceEngine, destinationEngine)
+        executor.submit(() -> {
+                    try {
+                        engineContext.callbackContainer().setEnabledUI().accept(false);
+                        cloneFromAndTo(engineContext, sourceEngine, destinationEngine);
+                        engineContext.callbackContainer().setEnabledUI().accept(true);
+                        engineContext.callbackContainer().showSuccessMessage().accept("Clone procedure completed successfully!");
+                    } catch (Exception e) {
+                        engineContext.callbackContainer().showErrorMessage().accept("Something went wrong while cloning: " + e.getMessage());
+                    }
+                }
         );
         executor.shutdown();
     }

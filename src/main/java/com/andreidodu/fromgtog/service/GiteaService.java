@@ -14,4 +14,8 @@ public interface GiteaService {
     List<GiteaRepositoryDTO> tryToRetrieveStarredRepositories(String baseUrl, String token);
 
     boolean updateRepositoryPrivacy(String token, String ownerName, String giteaUrl, String repositoryName, boolean isArchived, boolean isPrivate) throws IOException, InterruptedException;
+
+    boolean createRepository(String baseUrl, String token, String repoName, String description, boolean isPrivate) throws Exception;
+
+    void deleteRepository(String baseUrl, String token, String owner, String repoName);
 }

@@ -10,9 +10,9 @@ import com.andreidodu.fromgtog.service.impl.SettingsServiceImpl;
 import com.andreidodu.fromgtog.util.JsonObjectServiceImpl;
 import com.andreidodu.fromgtog.service.RepositoryCloner;
 import com.andreidodu.fromgtog.service.impl.RepositoryClonerServiceImpl;
-import com.andreidodu.fromgtog.translator.impl.JsonObjectToAppContextTranslator;
-import com.andreidodu.fromgtog.translator.impl.JsonObjectToFromContextTranslator;
-import com.andreidodu.fromgtog.translator.impl.JsonObjectToToContextTranslator;
+import com.andreidodu.fromgtog.gui.controller.translator.impl.JsonObjectToAppContextTranslator;
+import com.andreidodu.fromgtog.gui.controller.translator.impl.JsonObjectToFromContextTranslator;
+import com.andreidodu.fromgtog.gui.controller.translator.impl.JsonObjectToToContextTranslator;
 import lombok.Getter;
 import lombok.Setter;
 import org.json.JSONObject;
@@ -22,8 +22,9 @@ import org.slf4j.LoggerFactory;
 import javax.swing.*;
 import java.io.IOException;
 import java.util.List;
+import java.util.function.Consumer;
 
-import static com.andreidodu.fromgtog.gui.GuiKeys.*;
+import static com.andreidodu.fromgtog.gui.controller.constants.GuiKeys.*;
 import static com.andreidodu.fromgtog.util.NumberUtil.toIntegerOrDefault;
 
 
@@ -56,6 +57,13 @@ public class AppController implements GUIController {
     private JTabbedPane toTabbedPane;
 
     private JButton appOpenLogFileButton;
+    private Consumer<Boolean> setEnabledUI;
+
+    private JButton appStopButton;
+
+    @Getter
+    @Setter
+    private boolean shouldStop = false;
 
     public AppController(JSONObject settings,
                          List<GUIFromController> fromControllerList,
@@ -69,7 +77,9 @@ public class AppController implements GUIController {
                          JButton appStartButton,
                          JTabbedPane fromTabbedPane,
                          JTabbedPane toTabbedPane,
-                         JButton appOpenLogFileButton) {
+                         JButton appOpenLogFileButton,
+                         Consumer<Boolean> setEnabledUI,
+                         JButton appStopButton) {
         this.fromControllerList = fromControllerList;
         this.toControllerList = toControllerList;
         this.appLogTextArea = appLogTextArea;
@@ -82,17 +92,22 @@ public class AppController implements GUIController {
         this.fromTabbedPane = fromTabbedPane;
         this.toTabbedPane = toTabbedPane;
         this.appOpenLogFileButton = appOpenLogFileButton;
+        this.setEnabledUI = setEnabledUI;
+        this.appStopButton = appStopButton;
+
 
         this.translatorTo = new JsonObjectToToContextTranslator();
         this.translatorApp = new JsonObjectToAppContextTranslator();
         this.translatorFrom = new JsonObjectToFromContextTranslator();
 
         defineAppStartButtonListener(fromControllerList, toControllerList, fromTabbedPane, toTabbedPane);
-
+        defineAppStopButtonListener();
         defineSaveSettingsButtonListener();
         defineOpenLogFileButtonListener();
 
         applySettings(settings);
+
+        this.setShouldStop(true);
     }
 
     private void defineOpenLogFileButtonListener() {
@@ -125,8 +140,28 @@ public class AppController implements GUIController {
         });
     }
 
+    public synchronized void setShouldStop(boolean shouldStop) {
+        this.shouldStop = shouldStop;
+        SwingUtilities.invokeLater(() -> {
+            this.appStartButton.setVisible(shouldStop);
+            this.appStopButton.setVisible(!shouldStop);
+        });
+    }
+
+    private void defineAppStopButtonListener() {
+        this.appStopButton.addActionListener(e -> {
+            this.setShouldStop(true);
+            this.appStartButton.setVisible(true);
+            this.appStopButton.setVisible(false);
+        });
+    }
+
     private void defineAppStartButtonListener(List<GUIFromController> fromControllerList, List<GUIToController> toControllerList, JTabbedPane fromTabbedPane, JTabbedPane toTabbedPane) {
+
         this.appStartButton.addActionListener(e -> {
+            this.setShouldStop(false);
+            this.appStartButton.setVisible(false);
+            this.appStopButton.setVisible(true);
             appLogTextArea.setText(String.format("%s\n(%s) -> (%s)",
                             appLogTextArea.getText(),
                             fromTabbedPane.getSelectedIndex(),
@@ -148,6 +183,11 @@ public class AppController implements GUIController {
                             .updateApplicationProgressBarMax(this::updateApplicationProgressBarMax)
                             .updateApplicationProgressBarCurrent(this::updateApplicationProgressBarCurrent)
                             .updateApplicationStatusMessage(this::updateApplicationStatusMessage)
+                            .setEnabledUI(setEnabledUI)
+                            .showErrorMessage(this::showErrorMessage)
+                            .showSuccessMessage(this::showSuccessMessage)
+                            .isShouldStop(this::isShouldStop)
+                            .setShouldStop(this::setShouldStop)
                             .build())
                     .build();
 
@@ -159,6 +199,7 @@ public class AppController implements GUIController {
                             toTabbedPane.getSelectedIndex()
                     )
             );
+
             saveSettings(jsonObjectFrom, jsonObjectTo, jsonObjectApp);
             RepositoryCloner repositoryCloner = RepositoryClonerServiceImpl.getInstance();
             repositoryCloner.cloneAllRepositories(engineContext);
@@ -172,7 +213,17 @@ public class AppController implements GUIController {
         log.debug("Done.");
     }
 
-    private static <T extends StrategyGUIController> JSONObject retrieveJsonData(List<T> fromControllerList, int selectedIndex) {
+    private void showSuccessMessage(String message) {
+        JOptionPane.showMessageDialog(null, message, "Info", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+
+    private void showErrorMessage(String message) {
+        JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    private static <T extends StrategyGUIController> JSONObject retrieveJsonData(List<T> fromControllerList,
+                                                                                 int selectedIndex) {
         return fromControllerList.stream()
                 .filter(controller -> controller.accept(selectedIndex))
                 .findFirst()

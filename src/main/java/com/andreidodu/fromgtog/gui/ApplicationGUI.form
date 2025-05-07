@@ -3,89 +3,68 @@
   <grid id="27dc6" binding="mainPanel" layout-manager="GridLayoutManager" row-count="5" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="20" y="20" width="698" height="1125"/>
+      <xy x="20" y="20" width="803" height="1125"/>
     </constraints>
     <properties/>
     <border type="none"/>
     <children>
-      <grid id="93b78" layout-manager="GridLayoutManager" row-count="5" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-        <margin top="0" left="0" bottom="0" right="0"/>
+      <tabbedpane id="4c3af">
         <constraints>
           <grid row="0" column="0" row-span="5" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
-            <preferred-size width="1000" height="-1"/>
+            <preferred-size width="1200" height="200"/>
           </grid>
         </constraints>
         <properties/>
         <border type="none"/>
         <children>
-          <grid id="b44e7" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="122e5" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
-              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <tabbedpane title="FromGtoG"/>
             </constraints>
             <properties/>
             <border type="none"/>
             <children>
-              <tabbedpane id="a78ad" binding="fromTabbedPane">
+              <grid id="93b78" layout-manager="GridLayoutManager" row-count="4" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="20" left="0" bottom="0" right="0"/>
                 <constraints>
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                    <preferred-size width="200" height="200"/>
+                    <preferred-size width="1000" height="-1"/>
                   </grid>
                 </constraints>
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <grid id="58192" binding="fromGithubPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                    <margin top="20" left="20" bottom="20" right="20"/>
+                  <grid id="b44e7" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
                     <constraints>
-                      <tabbedpane title="From GitHub" icon="github.png" disabled-icon="github-disabled.png"/>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties/>
-                    <border type="etched" title="From GitHub">
-                      <font size="20" style="1"/>
-                    </border>
+                    <border type="none"/>
                     <children>
-                      <grid id="dc13e" layout-manager="GridLayoutManager" row-count="5" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                        <margin top="0" left="0" bottom="0" right="0"/>
+                      <tabbedpane id="a78ad" binding="fromTabbedPane">
                         <constraints>
-                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                            <preferred-size width="200" height="200"/>
+                          </grid>
                         </constraints>
-                        <properties/>
+                        <properties>
+                          <tabPlacement value="2"/>
+                        </properties>
                         <border type="none"/>
                         <children>
-                          <grid id="7f4bc" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                            <margin top="20" left="20" bottom="20" right="20"/>
+                          <grid id="58192" binding="fromGithubPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                            <margin top="20" left="20" bottom="10" right="20"/>
                             <constraints>
-                              <grid row="0" column="0" row-span="5" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                              <tabbedpane title="From GitHub" icon="github.png" disabled-icon="github-disabled.png"/>
                             </constraints>
                             <properties/>
-                            <border type="etched"/>
+                            <border type="etched" title="From GitHub">
+                              <font size="20" style="1"/>
+                            </border>
                             <children>
-                              <component id="f8c32" class="javax.swing.JLabel">
-                                <constraints>
-                                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                                </constraints>
-                                <properties>
-                                  <icon value="xl/github.png"/>
-                                  <text value=""/>
-                                </properties>
-                              </component>
-                            </children>
-                          </grid>
-                          <hspacer id="27e0e">
-                            <constraints>
-                              <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                            </constraints>
-                          </hspacer>
-                          <grid id="1c308" layout-manager="GridLayoutManager" row-count="4" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                            <margin top="0" left="0" bottom="0" right="0"/>
-                            <constraints>
-                              <grid row="0" column="1" row-span="4" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                            </constraints>
-                            <properties/>
-                            <border type="none"/>
-                            <children>
-                              <grid id="cb30" layout-manager="GridLayoutManager" row-count="6" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                              <grid id="dc13e" layout-manager="GridLayoutManager" row-count="5" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                                 <margin top="0" left="0" bottom="0" right="0"/>
                                 <constraints>
                                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -93,800 +72,899 @@
                                 <properties/>
                                 <border type="none"/>
                                 <children>
-                                  <component id="40d99" class="javax.swing.JLabel">
+                                  <grid id="7f4bc" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                                    <margin top="20" left="20" bottom="20" right="20"/>
                                     <constraints>
-                                      <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                                    </constraints>
-                                    <properties>
-                                      <text value="GitHub Token"/>
-                                    </properties>
-                                  </component>
-                                  <component id="3a62d" class="javax.swing.JTextField" binding="fromGithubTokenTextField">
-                                    <constraints>
-                                      <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                                        <preferred-size width="150" height="-1"/>
-                                      </grid>
+                                      <grid row="0" column="0" row-span="5" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                                     </constraints>
                                     <properties/>
-                                  </component>
-                                  <component id="9cf2a" class="javax.swing.JCheckBox" binding="fromGithubCloneStarredRepositoriesCheckBox">
+                                    <border type="etched"/>
+                                    <children>
+                                      <component id="f8c32" class="javax.swing.JLabel">
+                                        <constraints>
+                                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                        </constraints>
+                                        <properties>
+                                          <icon value="xl/github.png"/>
+                                          <text value=""/>
+                                        </properties>
+                                      </component>
+                                    </children>
+                                  </grid>
+                                  <hspacer id="27e0e">
                                     <constraints>
-                                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                      <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                                     </constraints>
-                                    <properties>
-                                      <text value="clone starred repositories"/>
-                                    </properties>
-                                  </component>
-                                  <component id="4d2db" class="javax.swing.JCheckBox" binding="fromGithubCloneForkedRepositoriesCheckBox">
-                                    <constraints>
-                                      <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                                    </constraints>
-                                    <properties>
-                                      <text value="clone forked repositories"/>
-                                    </properties>
-                                  </component>
-                                  <component id="14aa8" class="javax.swing.JCheckBox" binding="fromGithubClonePrivateRepositoriesCheckBox">
-                                    <constraints>
-                                      <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                                    </constraints>
-                                    <properties>
-                                      <text value="clone private repositories"/>
-                                    </properties>
-                                  </component>
-                                  <component id="2e10" class="javax.swing.JCheckBox" binding="fromGithubCloneArchivedRepositoriesCheckBox">
-                                    <constraints>
-                                      <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                                    </constraints>
-                                    <properties>
-                                      <text value="clone archived repositories"/>
-                                    </properties>
-                                  </component>
-                                  <component id="7c75c" class="javax.swing.JCheckBox" binding="fromGithubClonePublicRepositoriesCheckBox">
-                                    <constraints>
-                                      <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                                    </constraints>
-                                    <properties>
-                                      <text value="clone public repositories"/>
-                                    </properties>
-                                  </component>
-                                </children>
-                              </grid>
-                              <grid id="6637c" layout-manager="GridLayoutManager" row-count="3" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                                <margin top="0" left="0" bottom="0" right="0"/>
-                                <constraints>
-                                  <grid row="1" column="0" row-span="3" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                                </constraints>
-                                <properties/>
-                                <border type="none"/>
-                                <children>
-                                  <component id="ef4a6" class="javax.swing.JTextField" binding="fromGithubExcludeOrganizationTextField">
-                                    <constraints>
-                                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                                        <preferred-size width="150" height="-1"/>
-                                      </grid>
-                                    </constraints>
-                                    <properties/>
-                                  </component>
-                                  <component id="1666" class="javax.swing.JLabel">
-                                    <constraints>
-                                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                                    </constraints>
-                                    <properties>
-                                      <text value="exclude organizations (usernames separated by comma)"/>
-                                    </properties>
-                                  </component>
-                                  <component id="55715" class="javax.swing.JCheckBox" binding="fromGithubCloneOrganizationSRepositoriesCheckBox">
-                                    <constraints>
-                                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                                    </constraints>
-                                    <properties>
-                                      <text value="clone organization's repositories"/>
-                                    </properties>
-                                  </component>
-                                </children>
-                              </grid>
-                            </children>
-                          </grid>
-                        </children>
-                      </grid>
-                    </children>
-                  </grid>
-                  <grid id="bcc39" binding="fromGiteaPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                    <margin top="20" left="20" bottom="20" right="20"/>
-                    <constraints>
-                      <tabbedpane title="From Gitea" icon="gitea.png" disabled-icon="gitea-disabled.png"/>
-                    </constraints>
-                    <properties/>
-                    <border type="etched" title="From Gitea">
-                      <font size="20" style="1"/>
-                    </border>
-                    <children>
-                      <grid id="38e92" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                        <margin top="0" left="0" bottom="0" right="0"/>
-                        <constraints>
-                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                        <properties/>
-                        <border type="none"/>
-                        <children>
-                          <grid id="db9e2" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                            <margin top="20" left="20" bottom="20" right="20"/>
-                            <constraints>
-                              <grid row="0" column="0" row-span="2" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                            </constraints>
-                            <properties/>
-                            <border type="etched"/>
-                            <children>
-                              <component id="43ccc" class="javax.swing.JLabel">
-                                <constraints>
-                                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                                </constraints>
-                                <properties>
-                                  <icon value="xl/gitea.png"/>
-                                  <text value=""/>
-                                </properties>
-                              </component>
-                            </children>
-                          </grid>
-                          <hspacer id="6205e">
-                            <constraints>
-                              <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                            </constraints>
-                          </hspacer>
-                          <grid id="d74df" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                            <margin top="0" left="0" bottom="0" right="0"/>
-                            <constraints>
-                              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                            </constraints>
-                            <properties/>
-                            <border type="none"/>
-                            <children>
-                              <grid id="8c257" layout-manager="GridLayoutManager" row-count="6" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                                <margin top="0" left="0" bottom="0" right="0"/>
-                                <constraints>
-                                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                                </constraints>
-                                <properties/>
-                                <border type="none"/>
-                                <children>
-                                  <grid id="46134" layout-manager="GridLayoutManager" row-count="6" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                                  </hspacer>
+                                  <grid id="1c308" layout-manager="GridLayoutManager" row-count="4" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                                     <margin top="0" left="0" bottom="0" right="0"/>
                                     <constraints>
-                                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                                      <grid row="0" column="1" row-span="4" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                                     </constraints>
                                     <properties/>
                                     <border type="none"/>
                                     <children>
-                                      <component id="c3fc4" class="javax.swing.JLabel">
+                                      <grid id="cb30" layout-manager="GridLayoutManager" row-count="6" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                                        <margin top="0" left="0" bottom="0" right="0"/>
                                         <constraints>
-                                          <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                                        </constraints>
+                                        <properties/>
+                                        <border type="none"/>
+                                        <children>
+                                          <component id="40d99" class="javax.swing.JLabel">
+                                            <constraints>
+                                              <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                            </constraints>
+                                            <properties>
+                                              <text value="GitHub Token"/>
+                                            </properties>
+                                          </component>
+                                          <component id="3a62d" class="javax.swing.JTextField" binding="fromGithubTokenTextField">
+                                            <constraints>
+                                              <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                                                <preferred-size width="150" height="-1"/>
+                                              </grid>
+                                            </constraints>
+                                            <properties/>
+                                          </component>
+                                          <component id="9cf2a" class="javax.swing.JCheckBox" binding="fromGithubCloneStarredRepositoriesCheckBox">
+                                            <constraints>
+                                              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                            </constraints>
+                                            <properties>
+                                              <text value="clone starred repositories"/>
+                                            </properties>
+                                          </component>
+                                          <component id="4d2db" class="javax.swing.JCheckBox" binding="fromGithubCloneForkedRepositoriesCheckBox">
+                                            <constraints>
+                                              <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                            </constraints>
+                                            <properties>
+                                              <text value="clone forked repositories"/>
+                                            </properties>
+                                          </component>
+                                          <component id="14aa8" class="javax.swing.JCheckBox" binding="fromGithubClonePrivateRepositoriesCheckBox">
+                                            <constraints>
+                                              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                            </constraints>
+                                            <properties>
+                                              <text value="clone private repositories"/>
+                                            </properties>
+                                          </component>
+                                          <component id="2e10" class="javax.swing.JCheckBox" binding="fromGithubCloneArchivedRepositoriesCheckBox">
+                                            <constraints>
+                                              <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                            </constraints>
+                                            <properties>
+                                              <text value="clone archived repositories"/>
+                                            </properties>
+                                          </component>
+                                          <component id="7c75c" class="javax.swing.JCheckBox" binding="fromGithubClonePublicRepositoriesCheckBox">
+                                            <constraints>
+                                              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                            </constraints>
+                                            <properties>
+                                              <text value="clone public repositories"/>
+                                            </properties>
+                                          </component>
+                                        </children>
+                                      </grid>
+                                      <grid id="6637c" layout-manager="GridLayoutManager" row-count="3" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                                        <margin top="0" left="0" bottom="0" right="0"/>
+                                        <constraints>
+                                          <grid row="1" column="0" row-span="3" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                                        </constraints>
+                                        <properties/>
+                                        <border type="none"/>
+                                        <children>
+                                          <component id="ef4a6" class="javax.swing.JTextField" binding="fromGithubExcludeOrganizationTextField">
+                                            <constraints>
+                                              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                                                <preferred-size width="150" height="-1"/>
+                                              </grid>
+                                            </constraints>
+                                            <properties/>
+                                          </component>
+                                          <component id="1666" class="javax.swing.JLabel">
+                                            <constraints>
+                                              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                            </constraints>
+                                            <properties>
+                                              <text value="exclude organizations (usernames separated by comma)"/>
+                                            </properties>
+                                          </component>
+                                          <component id="55715" class="javax.swing.JCheckBox" binding="fromGithubCloneOrganizationSRepositoriesCheckBox">
+                                            <constraints>
+                                              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                            </constraints>
+                                            <properties>
+                                              <text value="clone organization's repositories"/>
+                                            </properties>
+                                          </component>
+                                        </children>
+                                      </grid>
+                                    </children>
+                                  </grid>
+                                </children>
+                              </grid>
+                            </children>
+                          </grid>
+                          <grid id="bcc39" binding="fromGiteaPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                            <margin top="20" left="20" bottom="10" right="20"/>
+                            <constraints>
+                              <tabbedpane title="From Gitea" icon="gitea.png" disabled-icon="gitea-disabled.png"/>
+                            </constraints>
+                            <properties/>
+                            <border type="etched" title="From Gitea">
+                              <font size="20" style="1"/>
+                            </border>
+                            <children>
+                              <grid id="38e92" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                                <margin top="0" left="0" bottom="0" right="0"/>
+                                <constraints>
+                                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                                <properties/>
+                                <border type="none"/>
+                                <children>
+                                  <grid id="db9e2" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                                    <margin top="20" left="20" bottom="20" right="20"/>
+                                    <constraints>
+                                      <grid row="0" column="0" row-span="2" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties/>
+                                    <border type="etched"/>
+                                    <children>
+                                      <component id="43ccc" class="javax.swing.JLabel">
+                                        <constraints>
+                                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                                         </constraints>
                                         <properties>
-                                          <text value="Gitea Token"/>
+                                          <icon value="xl/gitea.png"/>
+                                          <text value=""/>
                                         </properties>
                                       </component>
-                                      <component id="cf4e5" class="javax.swing.JTextField" binding="fromGiteaTokenTextField">
+                                    </children>
+                                  </grid>
+                                  <hspacer id="6205e">
+                                    <constraints>
+                                      <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                  </hspacer>
+                                  <grid id="d74df" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                                    <margin top="0" left="0" bottom="0" right="0"/>
+                                    <constraints>
+                                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties/>
+                                    <border type="none"/>
+                                    <children>
+                                      <grid id="8c257" layout-manager="GridLayoutManager" row-count="6" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                                        <margin top="0" left="0" bottom="0" right="0"/>
                                         <constraints>
-                                          <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                                        </constraints>
+                                        <properties/>
+                                        <border type="none"/>
+                                        <children>
+                                          <grid id="46134" layout-manager="GridLayoutManager" row-count="6" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                                            <margin top="0" left="0" bottom="0" right="0"/>
+                                            <constraints>
+                                              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                                            </constraints>
+                                            <properties/>
+                                            <border type="none"/>
+                                            <children>
+                                              <component id="c3fc4" class="javax.swing.JLabel">
+                                                <constraints>
+                                                  <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                                </constraints>
+                                                <properties>
+                                                  <text value="Gitea Token"/>
+                                                </properties>
+                                              </component>
+                                              <component id="cf4e5" class="javax.swing.JTextField" binding="fromGiteaTokenTextField">
+                                                <constraints>
+                                                  <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                                                    <preferred-size width="150" height="-1"/>
+                                                  </grid>
+                                                </constraints>
+                                                <properties/>
+                                              </component>
+                                              <component id="21fc8" class="javax.swing.JCheckBox" binding="fromGiteaCloneStarredRepositoriesCheckBox">
+                                                <constraints>
+                                                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                                </constraints>
+                                                <properties>
+                                                  <text value="clone starred repositories"/>
+                                                </properties>
+                                              </component>
+                                              <component id="372c" class="javax.swing.JCheckBox" binding="fromGiteaCloneForkedRepositoriesCheckBox">
+                                                <constraints>
+                                                  <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                                </constraints>
+                                                <properties>
+                                                  <text value="clone forked repositories"/>
+                                                </properties>
+                                              </component>
+                                              <component id="c1d49" class="javax.swing.JCheckBox" binding="fromGiteaClonePrivateRepositoriesCheckBox">
+                                                <constraints>
+                                                  <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                                </constraints>
+                                                <properties>
+                                                  <text value="clone private repositories"/>
+                                                </properties>
+                                              </component>
+                                              <component id="c455e" class="javax.swing.JCheckBox" binding="fromGiteaCloneArchivedRepositoriesCheckBox">
+                                                <constraints>
+                                                  <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                                </constraints>
+                                                <properties>
+                                                  <text value="clone archived repositories"/>
+                                                </properties>
+                                              </component>
+                                              <component id="5b182" class="javax.swing.JCheckBox" binding="fromGiteaClonePublicRepositoriesCheckBox">
+                                                <constraints>
+                                                  <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                                </constraints>
+                                                <properties>
+                                                  <text value="clone public repositories"/>
+                                                </properties>
+                                              </component>
+                                            </children>
+                                          </grid>
+                                          <grid id="3fefa" layout-manager="GridLayoutManager" row-count="3" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                                            <margin top="0" left="0" bottom="0" right="0"/>
+                                            <constraints>
+                                              <grid row="3" column="0" row-span="3" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                                            </constraints>
+                                            <properties/>
+                                            <border type="none"/>
+                                            <children>
+                                              <component id="a0a1f" class="javax.swing.JTextField" binding="fromGiteaExcludeOrganizationTextField">
+                                                <constraints>
+                                                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                                                    <preferred-size width="150" height="-1"/>
+                                                  </grid>
+                                                </constraints>
+                                                <properties/>
+                                              </component>
+                                              <component id="7e0bf" class="javax.swing.JLabel">
+                                                <constraints>
+                                                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                                </constraints>
+                                                <properties>
+                                                  <text value="exclude organizations (usernames separated by comma)"/>
+                                                </properties>
+                                              </component>
+                                              <component id="2c996" class="javax.swing.JCheckBox" binding="fromGiteaCloneOrganizationsRepositoriesCheckBox">
+                                                <constraints>
+                                                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                                </constraints>
+                                                <properties>
+                                                  <text value="clone organization's repositories"/>
+                                                </properties>
+                                              </component>
+                                            </children>
+                                          </grid>
+                                          <component id="e0c24" class="javax.swing.JTextField" binding="fromGiteaUrlTextField">
+                                            <constraints>
+                                              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                                                <preferred-size width="150" height="-1"/>
+                                              </grid>
+                                            </constraints>
+                                            <properties/>
+                                          </component>
+                                          <component id="7bf03" class="javax.swing.JLabel">
+                                            <constraints>
+                                              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                            </constraints>
+                                            <properties>
+                                              <text value="Gitea URL"/>
+                                            </properties>
+                                          </component>
+                                        </children>
+                                      </grid>
+                                    </children>
+                                  </grid>
+                                </children>
+                              </grid>
+                            </children>
+                          </grid>
+                          <grid id="77921" binding="fromLocalPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                            <margin top="20" left="20" bottom="10" right="20"/>
+                            <constraints>
+                              <tabbedpane title="From Local" icon="floppy.png" disabled-icon="floppy-disabled.png"/>
+                            </constraints>
+                            <properties/>
+                            <border type="etched" title="From Local">
+                              <font size="20" style="1"/>
+                            </border>
+                            <children>
+                              <grid id="35ab1" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                                <margin top="0" left="0" bottom="0" right="0"/>
+                                <constraints>
+                                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                                <properties/>
+                                <border type="none"/>
+                                <children>
+                                  <grid id="263d2" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                                    <margin top="20" left="20" bottom="20" right="20"/>
+                                    <constraints>
+                                      <grid row="0" column="0" row-span="2" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties/>
+                                    <border type="etched"/>
+                                    <children>
+                                      <component id="2a5c5" class="javax.swing.JLabel">
+                                        <constraints>
+                                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                        </constraints>
+                                        <properties>
+                                          <icon value="xl/floppy.png"/>
+                                          <text value=""/>
+                                        </properties>
+                                      </component>
+                                    </children>
+                                  </grid>
+                                  <hspacer id="3b1ab">
+                                    <constraints>
+                                      <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                  </hspacer>
+                                  <grid id="e173a" layout-manager="GridLayoutManager" row-count="3" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                                    <margin top="0" left="0" bottom="0" right="0"/>
+                                    <constraints>
+                                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties/>
+                                    <border type="none"/>
+                                    <children>
+                                      <component id="d5c52" class="javax.swing.JLabel">
+                                        <constraints>
+                                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                        </constraints>
+                                        <properties>
+                                          <text value="Root path"/>
+                                        </properties>
+                                      </component>
+                                      <vspacer id="33b55">
+                                        <constraints>
+                                          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                                        </constraints>
+                                      </vspacer>
+                                      <component id="b23e7" class="javax.swing.JTextField" binding="fromLocalRootPathTextField">
+                                        <constraints>
+                                          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                                             <preferred-size width="150" height="-1"/>
                                           </grid>
                                         </constraints>
                                         <properties/>
                                       </component>
-                                      <component id="21fc8" class="javax.swing.JCheckBox" binding="fromGiteaCloneStarredRepositoriesCheckBox">
+                                      <component id="b6074" class="javax.swing.JButton" binding="fromLocalChooseButton">
+                                        <constraints>
+                                          <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                                        </constraints>
+                                        <properties>
+                                          <text value="Choose"/>
+                                        </properties>
+                                      </component>
+                                    </children>
+                                  </grid>
+                                </children>
+                              </grid>
+                            </children>
+                          </grid>
+                        </children>
+                      </tabbedpane>
+                    </children>
+                  </grid>
+                  <grid id="b82e6" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties/>
+                    <border type="none"/>
+                    <children>
+                      <tabbedpane id="b60ce" binding="toTabbedPane">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <tabPlacement value="2"/>
+                        </properties>
+                        <border type="none">
+                          <font/>
+                        </border>
+                        <children>
+                          <grid id="3d36e" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                            <margin top="20" left="20" bottom="0" right="20"/>
+                            <constraints>
+                              <tabbedpane title="To GitHub" icon="github.png" disabled-icon="github-disabled.png"/>
+                            </constraints>
+                            <properties/>
+                            <border type="etched" title="To GitHub">
+                              <font size="20" style="1"/>
+                            </border>
+                            <children>
+                              <grid id="30833" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                                <margin top="0" left="0" bottom="0" right="0"/>
+                                <constraints>
+                                  <grid row="0" column="0" row-span="2" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                                <properties/>
+                                <border type="none"/>
+                                <children>
+                                  <grid id="ddf51" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                                    <margin top="20" left="20" bottom="20" right="20"/>
+                                    <constraints>
+                                      <grid row="0" column="1" row-span="2" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties/>
+                                    <border type="etched"/>
+                                    <children>
+                                      <component id="6e747" class="javax.swing.JLabel">
+                                        <constraints>
+                                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                        </constraints>
+                                        <properties>
+                                          <icon value="xl/github.png"/>
+                                          <text value=""/>
+                                        </properties>
+                                      </component>
+                                    </children>
+                                  </grid>
+                                  <hspacer id="68321">
+                                    <constraints>
+                                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                  </hspacer>
+                                  <grid id="38477" layout-manager="GridLayoutManager" row-count="5" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                                    <margin top="0" left="0" bottom="0" right="0"/>
+                                    <constraints>
+                                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties/>
+                                    <border type="none"/>
+                                    <children>
+                                      <component id="6812" class="javax.swing.JLabel">
+                                        <constraints>
+                                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                        </constraints>
+                                        <properties>
+                                          <text value="GitHub Token"/>
+                                        </properties>
+                                      </component>
+                                      <vspacer id="aa15b">
+                                        <constraints>
+                                          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                                        </constraints>
+                                      </vspacer>
+                                      <component id="19b95" class="javax.swing.JTextField" binding="toGithubTokenTextField">
+                                        <constraints>
+                                          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                                            <preferred-size width="150" height="-1"/>
+                                          </grid>
+                                        </constraints>
+                                        <properties/>
+                                      </component>
+                                      <component id="9c525" class="javax.swing.JLabel">
+                                        <constraints>
+                                          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                        </constraints>
+                                        <properties>
+                                          <text value="repository privacy"/>
+                                        </properties>
+                                      </component>
+                                      <component id="3015" class="javax.swing.JComboBox" binding="toGithubPrivacyComboBox">
+                                        <constraints>
+                                          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                                        </constraints>
+                                        <properties/>
+                                      </component>
+                                    </children>
+                                  </grid>
+                                </children>
+                              </grid>
+                            </children>
+                          </grid>
+                          <grid id="bf1b2" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                            <margin top="20" left="20" bottom="0" right="20"/>
+                            <constraints>
+                              <tabbedpane title="To Gitea" icon="gitea.png" disabled-icon="gitea-disabled.png"/>
+                            </constraints>
+                            <properties/>
+                            <border type="etched" title="To Gitea">
+                              <font size="20" style="1"/>
+                            </border>
+                            <children>
+                              <grid id="b44b6" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                                <margin top="0" left="0" bottom="0" right="0"/>
+                                <constraints>
+                                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                                <properties/>
+                                <border type="none"/>
+                                <children>
+                                  <grid id="6c0f4" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                                    <margin top="20" left="20" bottom="20" right="20"/>
+                                    <constraints>
+                                      <grid row="0" column="1" row-span="2" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties/>
+                                    <border type="etched"/>
+                                    <children>
+                                      <component id="c1ddb" class="javax.swing.JLabel">
+                                        <constraints>
+                                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                        </constraints>
+                                        <properties>
+                                          <icon value="xl/gitea.png"/>
+                                          <text value=""/>
+                                        </properties>
+                                      </component>
+                                    </children>
+                                  </grid>
+                                  <hspacer id="29a28">
+                                    <constraints>
+                                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                  </hspacer>
+                                  <grid id="2b239" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                                    <margin top="0" left="0" bottom="0" right="0"/>
+                                    <constraints>
+                                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties/>
+                                    <border type="none"/>
+                                    <children>
+                                      <grid id="d2797" layout-manager="GridLayoutManager" row-count="7" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                                        <margin top="0" left="0" bottom="0" right="0"/>
+                                        <constraints>
+                                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                                        </constraints>
+                                        <properties/>
+                                        <border type="none"/>
+                                        <children>
+                                          <component id="d7103" class="javax.swing.JLabel">
+                                            <constraints>
+                                              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                            </constraints>
+                                            <properties>
+                                              <text value="Gitea Token"/>
+                                            </properties>
+                                          </component>
+                                          <vspacer id="38f61">
+                                            <constraints>
+                                              <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                                            </constraints>
+                                          </vspacer>
+                                          <component id="6171f" class="javax.swing.JTextField" binding="toGiteaTokenTextField">
+                                            <constraints>
+                                              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                                                <preferred-size width="150" height="-1"/>
+                                              </grid>
+                                            </constraints>
+                                            <properties/>
+                                          </component>
+                                          <component id="69900" class="javax.swing.JLabel">
+                                            <constraints>
+                                              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                            </constraints>
+                                            <properties>
+                                              <text value="repository privacy"/>
+                                            </properties>
+                                          </component>
+                                          <component id="ad683" class="javax.swing.JComboBox" binding="toGiteaPrivacyComboBox">
+                                            <constraints>
+                                              <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                                            </constraints>
+                                            <properties/>
+                                          </component>
+                                          <component id="86ed6" class="javax.swing.JLabel">
+                                            <constraints>
+                                              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                            </constraints>
+                                            <properties>
+                                              <text value="Gitea URL"/>
+                                            </properties>
+                                          </component>
+                                          <component id="cd6e2" class="javax.swing.JTextField" binding="toGiteaUrlTextField">
+                                            <constraints>
+                                              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                                                <preferred-size width="150" height="-1"/>
+                                              </grid>
+                                            </constraints>
+                                            <properties/>
+                                          </component>
+                                        </children>
+                                      </grid>
+                                    </children>
+                                  </grid>
+                                </children>
+                              </grid>
+                            </children>
+                          </grid>
+                          <grid id="f24fb" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                            <margin top="20" left="20" bottom="0" right="20"/>
+                            <constraints>
+                              <tabbedpane title="To Local" icon="floppy.png" disabled-icon="floppy-disabled.png"/>
+                            </constraints>
+                            <properties/>
+                            <border type="etched" title="To Local">
+                              <font size="20" style="1"/>
+                            </border>
+                            <children>
+                              <grid id="b49ea" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                                <margin top="0" left="0" bottom="0" right="0"/>
+                                <constraints>
+                                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                                <properties/>
+                                <border type="none"/>
+                                <children>
+                                  <grid id="62375" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                                    <margin top="20" left="20" bottom="20" right="20"/>
+                                    <constraints>
+                                      <grid row="0" column="1" row-span="2" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties/>
+                                    <border type="etched"/>
+                                    <children>
+                                      <component id="556d3" class="javax.swing.JLabel">
+                                        <constraints>
+                                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                        </constraints>
+                                        <properties>
+                                          <icon value="xl/floppy.png"/>
+                                          <text value=""/>
+                                        </properties>
+                                      </component>
+                                    </children>
+                                  </grid>
+                                  <hspacer id="28f8e">
+                                    <constraints>
+                                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                  </hspacer>
+                                  <grid id="55a7a" layout-manager="GridLayoutManager" row-count="4" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                                    <margin top="0" left="0" bottom="0" right="0"/>
+                                    <constraints>
+                                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties/>
+                                    <border type="none"/>
+                                    <children>
+                                      <component id="d568" class="javax.swing.JLabel">
+                                        <constraints>
+                                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                        </constraints>
+                                        <properties>
+                                          <text value="Root path"/>
+                                        </properties>
+                                      </component>
+                                      <vspacer id="6f1df">
+                                        <constraints>
+                                          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                                        </constraints>
+                                      </vspacer>
+                                      <component id="e04ef" class="javax.swing.JTextField" binding="toLocalRootPathTextField">
+                                        <constraints>
+                                          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                                            <preferred-size width="150" height="-1"/>
+                                          </grid>
+                                        </constraints>
+                                        <properties/>
+                                      </component>
+                                      <component id="34ec0" class="javax.swing.JCheckBox" binding="toLocalGroupByRepositoryOwnerCheckBox">
                                         <constraints>
                                           <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                                         </constraints>
                                         <properties>
-                                          <text value="clone starred repositories"/>
+                                          <text value="group by repository owner"/>
                                         </properties>
                                       </component>
-                                      <component id="372c" class="javax.swing.JCheckBox" binding="fromGiteaCloneForkedRepositoriesCheckBox">
+                                      <component id="cf855" class="javax.swing.JButton" binding="toLocalChooseButton">
                                         <constraints>
-                                          <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                          <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                                         </constraints>
                                         <properties>
-                                          <text value="clone forked repositories"/>
-                                        </properties>
-                                      </component>
-                                      <component id="c1d49" class="javax.swing.JCheckBox" binding="fromGiteaClonePrivateRepositoriesCheckBox">
-                                        <constraints>
-                                          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                                        </constraints>
-                                        <properties>
-                                          <text value="clone private repositories"/>
-                                        </properties>
-                                      </component>
-                                      <component id="c455e" class="javax.swing.JCheckBox" binding="fromGiteaCloneArchivedRepositoriesCheckBox">
-                                        <constraints>
-                                          <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                                        </constraints>
-                                        <properties>
-                                          <text value="clone archived repositories"/>
-                                        </properties>
-                                      </component>
-                                      <component id="5b182" class="javax.swing.JCheckBox" binding="fromGiteaClonePublicRepositoriesCheckBox">
-                                        <constraints>
-                                          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                                        </constraints>
-                                        <properties>
-                                          <text value="clone public repositories"/>
+                                          <text value="Choose"/>
                                         </properties>
                                       </component>
                                     </children>
                                   </grid>
-                                  <grid id="3fefa" layout-manager="GridLayoutManager" row-count="3" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                                    <margin top="0" left="0" bottom="0" right="0"/>
-                                    <constraints>
-                                      <grid row="3" column="0" row-span="3" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                                    </constraints>
-                                    <properties/>
-                                    <border type="none"/>
-                                    <children>
-                                      <component id="a0a1f" class="javax.swing.JTextField" binding="fromGiteaExcludeOrganizationTextField">
-                                        <constraints>
-                                          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                                            <preferred-size width="150" height="-1"/>
-                                          </grid>
-                                        </constraints>
-                                        <properties/>
-                                      </component>
-                                      <component id="7e0bf" class="javax.swing.JLabel">
-                                        <constraints>
-                                          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                                        </constraints>
-                                        <properties>
-                                          <text value="exclude organizations (usernames separated by comma)"/>
-                                        </properties>
-                                      </component>
-                                      <component id="2c996" class="javax.swing.JCheckBox" binding="fromGiteaCloneOrganizationsRepositoriesCheckBox">
-                                        <constraints>
-                                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                                        </constraints>
-                                        <properties>
-                                          <text value="clone organization's repositories"/>
-                                        </properties>
-                                      </component>
-                                    </children>
-                                  </grid>
-                                  <component id="e0c24" class="javax.swing.JTextField" binding="fromGiteaUrlTextField">
-                                    <constraints>
-                                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                                        <preferred-size width="150" height="-1"/>
-                                      </grid>
-                                    </constraints>
-                                    <properties/>
-                                  </component>
-                                  <component id="7bf03" class="javax.swing.JLabel">
-                                    <constraints>
-                                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                                    </constraints>
-                                    <properties>
-                                      <text value="Gitea URL"/>
-                                    </properties>
-                                  </component>
                                 </children>
                               </grid>
                             </children>
                           </grid>
                         </children>
-                      </grid>
+                      </tabbedpane>
                     </children>
                   </grid>
-                  <grid id="77921" binding="fromLocalPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                    <margin top="20" left="20" bottom="20" right="20"/>
-                    <constraints>
-                      <tabbedpane title="From Local" icon="floppy.png" disabled-icon="floppy-disabled.png"/>
-                    </constraints>
-                    <properties/>
-                    <border type="etched" title="From Local">
-                      <font size="20" style="1"/>
-                    </border>
-                    <children>
-                      <grid id="35ab1" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                        <margin top="0" left="0" bottom="0" right="0"/>
-                        <constraints>
-                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                        <properties/>
-                        <border type="none"/>
-                        <children>
-                          <grid id="263d2" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                            <margin top="20" left="20" bottom="20" right="20"/>
-                            <constraints>
-                              <grid row="0" column="0" row-span="2" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                            </constraints>
-                            <properties/>
-                            <border type="etched"/>
-                            <children>
-                              <component id="2a5c5" class="javax.swing.JLabel">
-                                <constraints>
-                                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                                </constraints>
-                                <properties>
-                                  <icon value="xl/floppy.png"/>
-                                  <text value=""/>
-                                </properties>
-                              </component>
-                            </children>
-                          </grid>
-                          <hspacer id="3b1ab">
-                            <constraints>
-                              <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                            </constraints>
-                          </hspacer>
-                          <grid id="e173a" layout-manager="GridLayoutManager" row-count="3" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                            <margin top="0" left="0" bottom="0" right="0"/>
-                            <constraints>
-                              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                            </constraints>
-                            <properties/>
-                            <border type="none"/>
-                            <children>
-                              <component id="d5c52" class="javax.swing.JLabel">
-                                <constraints>
-                                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                                </constraints>
-                                <properties>
-                                  <text value="Root path"/>
-                                </properties>
-                              </component>
-                              <vspacer id="33b55">
-                                <constraints>
-                                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-                                </constraints>
-                              </vspacer>
-                              <component id="b23e7" class="javax.swing.JTextField" binding="fromLocalRootPathTextField">
-                                <constraints>
-                                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                                    <preferred-size width="150" height="-1"/>
-                                  </grid>
-                                </constraints>
-                                <properties/>
-                              </component>
-                              <component id="b6074" class="javax.swing.JButton" binding="fromLocalChooseButton">
-                                <constraints>
-                                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                                </constraints>
-                                <properties>
-                                  <text value="Choose"/>
-                                </properties>
-                              </component>
-                            </children>
-                          </grid>
-                        </children>
-                      </grid>
-                    </children>
-                  </grid>
-                </children>
-              </tabbedpane>
-            </children>
-          </grid>
-          <grid id="b82e6" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-            <margin top="0" left="0" bottom="0" right="0"/>
-            <constraints>
-              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties/>
-            <border type="none"/>
-            <children>
-              <tabbedpane id="b60ce" binding="toTabbedPane">
-                <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <tabPlacement value="2"/>
-                </properties>
-                <border type="none">
-                  <font/>
-                </border>
-                <children>
-                  <grid id="3d36e" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                    <margin top="20" left="20" bottom="20" right="20"/>
-                    <constraints>
-                      <tabbedpane title="To GitHub" icon="github.png" disabled-icon="github-disabled.png"/>
-                    </constraints>
-                    <properties/>
-                    <border type="etched" title="To GitHub">
-                      <font size="20" style="1"/>
-                    </border>
-                    <children>
-                      <grid id="30833" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                        <margin top="0" left="0" bottom="0" right="0"/>
-                        <constraints>
-                          <grid row="0" column="0" row-span="2" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                        <properties/>
-                        <border type="none"/>
-                        <children>
-                          <grid id="ddf51" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                            <margin top="20" left="20" bottom="20" right="20"/>
-                            <constraints>
-                              <grid row="0" column="1" row-span="2" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                            </constraints>
-                            <properties/>
-                            <border type="etched"/>
-                            <children>
-                              <component id="6e747" class="javax.swing.JLabel">
-                                <constraints>
-                                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                                </constraints>
-                                <properties>
-                                  <icon value="xl/github.png"/>
-                                  <text value=""/>
-                                </properties>
-                              </component>
-                            </children>
-                          </grid>
-                          <hspacer id="68321">
-                            <constraints>
-                              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                            </constraints>
-                          </hspacer>
-                          <grid id="38477" layout-manager="GridLayoutManager" row-count="5" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                            <margin top="0" left="0" bottom="0" right="0"/>
-                            <constraints>
-                              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                            </constraints>
-                            <properties/>
-                            <border type="none"/>
-                            <children>
-                              <component id="6812" class="javax.swing.JLabel">
-                                <constraints>
-                                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                                </constraints>
-                                <properties>
-                                  <text value="GitHub Token"/>
-                                </properties>
-                              </component>
-                              <vspacer id="aa15b">
-                                <constraints>
-                                  <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-                                </constraints>
-                              </vspacer>
-                              <component id="19b95" class="javax.swing.JTextField" binding="toGithubTokenTextField">
-                                <constraints>
-                                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                                    <preferred-size width="150" height="-1"/>
-                                  </grid>
-                                </constraints>
-                                <properties/>
-                              </component>
-                              <component id="9c525" class="javax.swing.JLabel">
-                                <constraints>
-                                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                                </constraints>
-                                <properties>
-                                  <text value="repository privacy"/>
-                                </properties>
-                              </component>
-                              <component id="3015" class="javax.swing.JComboBox" binding="toGithubPrivacyComboBox">
-                                <constraints>
-                                  <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
-                                </constraints>
-                                <properties/>
-                              </component>
-                            </children>
-                          </grid>
-                        </children>
-                      </grid>
-                    </children>
-                  </grid>
-                  <grid id="bf1b2" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                    <margin top="20" left="20" bottom="20" right="20"/>
-                    <constraints>
-                      <tabbedpane title="To Gitea" icon="gitea.png" disabled-icon="gitea-disabled.png"/>
-                    </constraints>
-                    <properties/>
-                    <border type="etched" title="To Gitea">
-                      <font size="20" style="1"/>
-                    </border>
-                    <children>
-                      <grid id="b44b6" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                        <margin top="0" left="0" bottom="0" right="0"/>
-                        <constraints>
-                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                        <properties/>
-                        <border type="none"/>
-                        <children>
-                          <grid id="6c0f4" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                            <margin top="20" left="20" bottom="20" right="20"/>
-                            <constraints>
-                              <grid row="0" column="1" row-span="2" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                            </constraints>
-                            <properties/>
-                            <border type="etched"/>
-                            <children>
-                              <component id="c1ddb" class="javax.swing.JLabel">
-                                <constraints>
-                                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                                </constraints>
-                                <properties>
-                                  <icon value="xl/gitea.png"/>
-                                  <text value=""/>
-                                </properties>
-                              </component>
-                            </children>
-                          </grid>
-                          <hspacer id="29a28">
-                            <constraints>
-                              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                            </constraints>
-                          </hspacer>
-                          <grid id="2b239" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                            <margin top="0" left="0" bottom="0" right="0"/>
-                            <constraints>
-                              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                            </constraints>
-                            <properties/>
-                            <border type="none"/>
-                            <children>
-                              <grid id="d2797" layout-manager="GridLayoutManager" row-count="7" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                                <margin top="0" left="0" bottom="0" right="0"/>
-                                <constraints>
-                                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                                </constraints>
-                                <properties/>
-                                <border type="none"/>
-                                <children>
-                                  <component id="d7103" class="javax.swing.JLabel">
-                                    <constraints>
-                                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                                    </constraints>
-                                    <properties>
-                                      <text value="Gitea Token"/>
-                                    </properties>
-                                  </component>
-                                  <vspacer id="38f61">
-                                    <constraints>
-                                      <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-                                    </constraints>
-                                  </vspacer>
-                                  <component id="6171f" class="javax.swing.JTextField" binding="toGiteaTokenTextField">
-                                    <constraints>
-                                      <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                                        <preferred-size width="150" height="-1"/>
-                                      </grid>
-                                    </constraints>
-                                    <properties/>
-                                  </component>
-                                  <component id="69900" class="javax.swing.JLabel">
-                                    <constraints>
-                                      <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                                    </constraints>
-                                    <properties>
-                                      <text value="repository privacy"/>
-                                    </properties>
-                                  </component>
-                                  <component id="ad683" class="javax.swing.JComboBox" binding="toGiteaPrivacyComboBox">
-                                    <constraints>
-                                      <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
-                                    </constraints>
-                                    <properties/>
-                                  </component>
-                                  <component id="86ed6" class="javax.swing.JLabel">
-                                    <constraints>
-                                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                                    </constraints>
-                                    <properties>
-                                      <text value="Gitea URL"/>
-                                    </properties>
-                                  </component>
-                                  <component id="cd6e2" class="javax.swing.JTextField" binding="toGiteaUrlTextField">
-                                    <constraints>
-                                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                                        <preferred-size width="150" height="-1"/>
-                                      </grid>
-                                    </constraints>
-                                    <properties/>
-                                  </component>
-                                </children>
-                              </grid>
-                            </children>
-                          </grid>
-                        </children>
-                      </grid>
-                    </children>
-                  </grid>
-                  <grid id="f24fb" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                    <margin top="20" left="20" bottom="20" right="20"/>
-                    <constraints>
-                      <tabbedpane title="To Local" icon="floppy.png" disabled-icon="floppy-disabled.png"/>
-                    </constraints>
-                    <properties/>
-                    <border type="etched" title="To Local">
-                      <font size="20" style="1"/>
-                    </border>
-                    <children>
-                      <grid id="b49ea" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                        <margin top="0" left="0" bottom="0" right="0"/>
-                        <constraints>
-                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                        <properties/>
-                        <border type="none"/>
-                        <children>
-                          <grid id="62375" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                            <margin top="20" left="20" bottom="20" right="20"/>
-                            <constraints>
-                              <grid row="0" column="1" row-span="2" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                            </constraints>
-                            <properties/>
-                            <border type="etched"/>
-                            <children>
-                              <component id="556d3" class="javax.swing.JLabel">
-                                <constraints>
-                                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                                </constraints>
-                                <properties>
-                                  <icon value="xl/floppy.png"/>
-                                  <text value=""/>
-                                </properties>
-                              </component>
-                            </children>
-                          </grid>
-                          <hspacer id="28f8e">
-                            <constraints>
-                              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                            </constraints>
-                          </hspacer>
-                          <grid id="55a7a" layout-manager="GridLayoutManager" row-count="4" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                            <margin top="0" left="0" bottom="0" right="0"/>
-                            <constraints>
-                              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                            </constraints>
-                            <properties/>
-                            <border type="none"/>
-                            <children>
-                              <component id="d568" class="javax.swing.JLabel">
-                                <constraints>
-                                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                                </constraints>
-                                <properties>
-                                  <text value="Root path"/>
-                                </properties>
-                              </component>
-                              <vspacer id="6f1df">
-                                <constraints>
-                                  <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-                                </constraints>
-                              </vspacer>
-                              <component id="e04ef" class="javax.swing.JTextField" binding="toLocalRootPathTextField">
-                                <constraints>
-                                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                                    <preferred-size width="150" height="-1"/>
-                                  </grid>
-                                </constraints>
-                                <properties/>
-                              </component>
-                              <component id="34ec0" class="javax.swing.JCheckBox" binding="toLocalGroupByRepositoryOwnerCheckBox">
-                                <constraints>
-                                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                                </constraints>
-                                <properties>
-                                  <text value="group by repository owner"/>
-                                </properties>
-                              </component>
-                              <component id="cf855" class="javax.swing.JButton" binding="toLocalChooseButton">
-                                <constraints>
-                                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                                </constraints>
-                                <properties>
-                                  <text value="Choose"/>
-                                </properties>
-                              </component>
-                            </children>
-                          </grid>
-                        </children>
-                      </grid>
-                    </children>
-                  </grid>
-                </children>
-              </tabbedpane>
-            </children>
-          </grid>
-          <grid id="f194e" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-            <margin top="0" left="0" bottom="0" right="0"/>
-            <constraints>
-              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties/>
-            <border type="none"/>
-            <children>
-              <grid id="6ebc3" layout-manager="GridLayoutManager" row-count="3" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                <margin top="20" left="20" bottom="20" right="20"/>
-                <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties/>
-                <border type="none"/>
-                <children>
-                  <component id="cd6ec" class="javax.swing.JButton" binding="appStartButton">
-                    <constraints>
-                      <grid row="2" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <text value="Start"/>
-                    </properties>
-                  </component>
-                  <grid id="8608e" layout-manager="GridLayoutManager" row-count="1" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                  <grid id="f194e" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                     <margin top="0" left="0" bottom="0" right="0"/>
                     <constraints>
-                      <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                      <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties/>
                     <border type="none"/>
                     <children>
-                      <component id="1bf4d" class="javax.swing.JLabel" binding="appProgressMessageStatusLabel">
+                      <grid id="6ebc3" layout-manager="GridLayoutManager" row-count="3" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                        <margin top="0" left="20" bottom="0" right="20"/>
                         <constraints>
-                          <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                         </constraints>
-                        <properties>
-                          <text value="waiting for user action"/>
-                        </properties>
-                      </component>
-                      <hspacer id="35d9d">
-                        <constraints>
-                          <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                      </hspacer>
-                      <component id="43dce" class="javax.swing.JLabel" binding="appProgressStatusLabel">
-                        <constraints>
-                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                        <properties>
-                          <text value="0/0"/>
-                        </properties>
-                      </component>
-                      <hspacer id="afbe7">
-                        <constraints>
-                          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                      </hspacer>
+                        <properties/>
+                        <border type="none"/>
+                        <children>
+                          <component id="cd6ec" class="javax.swing.JButton" binding="appStartButton">
+                            <constraints>
+                              <grid row="2" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                            <properties>
+                              <text value="Start"/>
+                            </properties>
+                          </component>
+                          <grid id="8608e" layout-manager="GridLayoutManager" row-count="1" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                            <margin top="0" left="0" bottom="0" right="0"/>
+                            <constraints>
+                              <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                            <properties/>
+                            <border type="none"/>
+                            <children>
+                              <component id="1bf4d" class="javax.swing.JLabel" binding="appProgressMessageStatusLabel">
+                                <constraints>
+                                  <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                                <properties>
+                                  <text value="waiting for user action"/>
+                                </properties>
+                              </component>
+                              <hspacer id="35d9d">
+                                <constraints>
+                                  <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                              </hspacer>
+                              <component id="43dce" class="javax.swing.JLabel" binding="appProgressStatusLabel">
+                                <constraints>
+                                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                                <properties>
+                                  <text value="0/0"/>
+                                </properties>
+                              </component>
+                              <hspacer id="afbe7">
+                                <constraints>
+                                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                              </hspacer>
+                            </children>
+                          </grid>
+                          <component id="39b68" class="javax.swing.JProgressBar" binding="appProgressBar">
+                            <constraints>
+                              <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                            <properties/>
+                          </component>
+                          <hspacer id="4b0cd">
+                            <constraints>
+                              <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                          </hspacer>
+                          <grid id="f50b5" layout-manager="GridLayoutManager" row-count="3" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                            <margin top="0" left="0" bottom="0" right="0"/>
+                            <constraints>
+                              <grid row="0" column="0" row-span="3" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                            <properties/>
+                            <border type="none"/>
+                            <children>
+                              <component id="b583e" class="javax.swing.JTextField" binding="appSleepTimeTextField">
+                                <constraints>
+                                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                                    <preferred-size width="150" height="-1"/>
+                                  </grid>
+                                </constraints>
+                                <properties/>
+                              </component>
+                              <component id="eb1e3" class="javax.swing.JLabel">
+                                <constraints>
+                                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                                <properties>
+                                  <text value="sleep time (s)"/>
+                                </properties>
+                              </component>
+                              <component id="1812c" class="javax.swing.JButton" binding="appSaveConfigurationButton">
+                                <constraints>
+                                  <grid row="2" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                                <properties>
+                                  <text value="Save configuration"/>
+                                </properties>
+                              </component>
+                            </children>
+                          </grid>
+                          <component id="21f9" class="javax.swing.JButton" binding="appStopButton">
+                            <constraints>
+                              <grid row="2" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                            <properties>
+                              <text value="Stop"/>
+                            </properties>
+                          </component>
+                        </children>
+                      </grid>
                     </children>
                   </grid>
-                  <component id="39b68" class="javax.swing.JProgressBar" binding="appProgressBar">
+                  <grid id="95483" layout-manager="GridLayoutManager" row-count="3" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="20" bottom="0" right="20"/>
                     <constraints>
-                      <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties/>
-                  </component>
-                  <hspacer id="4b0cd">
-                    <constraints>
-                      <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                  </hspacer>
-                  <grid id="f50b5" layout-manager="GridLayoutManager" row-count="3" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                    <margin top="0" left="0" bottom="0" right="0"/>
-                    <constraints>
-                      <grid row="0" column="0" row-span="3" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties/>
                     <border type="none"/>
                     <children>
-                      <component id="b583e" class="javax.swing.JTextField" binding="appSleepTimeTextField">
+                      <scrollpane id="afe0c">
                         <constraints>
-                          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="0" indent="0" use-parent-layout="false">
-                            <preferred-size width="150" height="-1"/>
+                          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                            <minimum-size width="-1" height="100"/>
+                            <preferred-size width="-1" height="200"/>
                           </grid>
                         </constraints>
                         <properties/>
-                      </component>
-                      <component id="eb1e3" class="javax.swing.JLabel">
+                        <border type="none"/>
+                        <children>
+                          <component id="e4c11" class="javax.swing.JTextArea" binding="appLogTextArea">
+                            <constraints/>
+                            <properties>
+                              <minimumSize width="-1" height="-1"/>
+                              <rows value="5"/>
+                              <tabSize value="0"/>
+                              <text value=""/>
+                            </properties>
+                          </component>
+                        </children>
+                      </scrollpane>
+                      <component id="83f2b" class="javax.swing.JLabel">
                         <constraints>
                           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties>
-                          <text value="sleep time (s)"/>
+                          <text value="Log"/>
                         </properties>
                       </component>
-                      <component id="1812c" class="javax.swing.JButton" binding="appSaveConfigurationButton">
+                      <component id="b91ef" class="javax.swing.JButton" binding="appOpenLogFileButton">
                         <constraints>
-                          <grid row="2" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties>
-                          <text value="Save configuration"/>
+                          <text value="open log file"/>
                         </properties>
                       </component>
                     </children>
@@ -895,57 +973,206 @@
               </grid>
             </children>
           </grid>
-          <vspacer id="a5130">
+          <grid id="c31c3" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
-              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-            </constraints>
-          </vspacer>
-          <grid id="95483" layout-manager="GridLayoutManager" row-count="3" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-            <margin top="20" left="20" bottom="20" right="20"/>
-            <constraints>
-              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <tabbedpane title="Tools"/>
             </constraints>
             <properties/>
             <border type="none"/>
             <children>
-              <scrollpane id="afe0c">
+              <vspacer id="4aaed">
                 <constraints>
-                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                    <preferred-size width="-1" height="100"/>
-                  </grid>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </vspacer>
+              <grid id="ba553" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="20" left="20" bottom="20" right="20"/>
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <component id="e4c11" class="javax.swing.JTextArea" binding="appLogTextArea">
-                    <constraints/>
-                    <properties>
-                      <minimumSize width="-1" height="-1"/>
-                      <text value=""/>
-                    </properties>
-                  </component>
+                  <grid id="b473b" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="10" left="10" bottom="10" right="10"/>
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties/>
+                    <border type="line" title="DANGEROUS ZONE">
+                      <font size="20" style="1"/>
+                      <title-color color="-5363968"/>
+                      <color color="-5363968"/>
+                    </border>
+                    <children>
+                      <component id="e4733" class="javax.swing.JLabel">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <foreground color="-5363968"/>
+                          <text value="Delete all repositories on GitHub"/>
+                        </properties>
+                      </component>
+                      <grid id="79440" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                        <margin top="0" left="0" bottom="0" right="0"/>
+                        <constraints>
+                          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties/>
+                        <border type="none"/>
+                        <children>
+                          <component id="3b3bc" class="javax.swing.JButton" binding="toolsDeleteALLGitHubRepositoriesButton">
+                            <constraints>
+                              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                            <properties>
+                              <foreground color="-5363968"/>
+                              <text value="Delete ALL GitHub Repositories"/>
+                            </properties>
+                          </component>
+                          <hspacer id="aace4">
+                            <constraints>
+                              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                          </hspacer>
+                        </children>
+                      </grid>
+                      <component id="7525c" class="javax.swing.JLabel">
+                        <constraints>
+                          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <foreground color="-5363968"/>
+                          <text value="Delete all repositories on Gitea"/>
+                        </properties>
+                      </component>
+                      <grid id="9075a" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                        <margin top="0" left="0" bottom="0" right="0"/>
+                        <constraints>
+                          <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties/>
+                        <border type="none"/>
+                        <children>
+                          <component id="7dde3" class="javax.swing.JButton" binding="toolsDeleteALLGiteaRepositoriesButton">
+                            <constraints>
+                              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                            <properties>
+                              <foreground color="-5363968"/>
+                              <text value="Delete ALL Gitea Repositories "/>
+                            </properties>
+                          </component>
+                          <hspacer id="ab35a">
+                            <constraints>
+                              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                          </hspacer>
+                        </children>
+                      </grid>
+                    </children>
+                  </grid>
                 </children>
-              </scrollpane>
-              <component id="83f2b" class="javax.swing.JLabel">
+              </grid>
+            </children>
+          </grid>
+          <grid id="38ed0" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <tabbedpane title="About"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <grid id="3bec2" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
                 <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                 </constraints>
-                <properties>
-                  <text value="Log"/>
-                </properties>
-              </component>
-              <component id="b91ef" class="javax.swing.JButton" binding="appOpenLogFileButton">
-                <constraints>
-                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="open log file"/>
-                </properties>
-              </component>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <grid id="9bbb0" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="20" left="20" bottom="20" right="20"/>
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties/>
+                    <border type="none"/>
+                    <children>
+                      <component id="3ae28" class="javax.swing.JLabel">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <icon value="xl/icon.png"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                      <grid id="96839" layout-manager="GridLayoutManager" row-count="4" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                        <margin top="0" left="0" bottom="0" right="0"/>
+                        <constraints>
+                          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties/>
+                        <border type="etched"/>
+                        <children>
+                          <grid id="bef6d" layout-manager="GridLayoutManager" row-count="4" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                            <margin top="10" left="10" bottom="10" right="10"/>
+                            <constraints>
+                              <grid row="0" column="0" row-span="4" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                            <properties/>
+                            <border type="none"/>
+                            <children>
+                              <component id="5289a" class="javax.swing.JLabel">
+                                <constraints>
+                                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                                <properties>
+                                  <text value="FromGtoG"/>
+                                </properties>
+                              </component>
+                              <vspacer id="84de0">
+                                <constraints>
+                                  <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                              </vspacer>
+                              <component id="5c8fa" class="javax.swing.JLabel">
+                                <constraints>
+                                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                                <properties>
+                                  <text value="Version: 5.0.0"/>
+                                </properties>
+                              </component>
+                              <component id="3a408" class="javax.swing.JLabel">
+                                <constraints>
+                                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                                <properties>
+                                  <text value="Author: Andrei Dodu"/>
+                                </properties>
+                              </component>
+                            </children>
+                          </grid>
+                        </children>
+                      </grid>
+                    </children>
+                  </grid>
+                  <vspacer id="1812f">
+                    <constraints>
+                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                  </vspacer>
+                </children>
+              </grid>
             </children>
           </grid>
         </children>
-      </grid>
+      </tabbedpane>
     </children>
   </grid>
 </form>

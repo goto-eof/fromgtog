@@ -1,16 +1,16 @@
 package com.andreidodu.fromgtog.service.factory;
 
 import com.andreidodu.fromgtog.type.EngineType;
-import com.andreidodu.fromgtog.service.factory.destination.DestinationEngine;
-import com.andreidodu.fromgtog.service.factory.destination.realengine.GiteaDestinationEngine;
-import com.andreidodu.fromgtog.service.factory.destination.realengine.GithubDestinationEngine;
-import com.andreidodu.fromgtog.service.factory.destination.realengine.LocalDestinationEngine;
+import com.andreidodu.fromgtog.service.factory.to.engines.DestinationEngine;
+import com.andreidodu.fromgtog.service.factory.to.engines.GiteaDestinationEngine;
+import com.andreidodu.fromgtog.service.factory.to.engines.GithubDestinationEngine;
+import com.andreidodu.fromgtog.service.factory.to.engines.LocalDestinationEngine;
 import com.andreidodu.fromgtog.exception.DestinationEngineNotFoundException;
 import com.andreidodu.fromgtog.exception.SourceEngineNotFoundException;
-import com.andreidodu.fromgtog.service.factory.source.SourceEngine;
-import com.andreidodu.fromgtog.service.factory.source.realengine.GiteaSourceEngine;
-import com.andreidodu.fromgtog.service.factory.source.realengine.GithubSourceEngine;
-import com.andreidodu.fromgtog.service.factory.source.realengine.LocalSourceEngine;
+import com.andreidodu.fromgtog.service.factory.from.SourceEngine;
+import com.andreidodu.fromgtog.service.factory.from.engines.GiteaSourceEngine;
+import com.andreidodu.fromgtog.service.factory.from.engines.GithubSourceEngine;
+import com.andreidodu.fromgtog.service.factory.from.engines.LocalSourceEngine;
 
 import java.util.Arrays;
 

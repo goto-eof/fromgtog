@@ -167,4 +167,47 @@ public class GiteaServiceImpl implements GiteaService {
         return response.statusCode() == 200;
     }
 
+    @Override
+    public boolean createRepository(String baseUrl, String token, String repoName, String description, boolean isPrivate) throws Exception {
+        HttpClient client = HttpClient.newHttpClient();
+
+        String json = """
+                    {
+                      "name": "%s",
+                      "description": "%s",
+                      "private": %s,
+                      "auto_init": false
+                    }
+                """.formatted(repoName, description, isPrivate);
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(baseUrl + "/api/v1/user/repos"))
+                .header("Authorization", "token " + token)
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(json))
+                .build();
+
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        System.out.println("Status: " + response.statusCode());
+        System.out.println("Body: " + response.body());
+        return response.statusCode() == 201;
+    }
+
+
+    @Override
+    public void deleteRepository(String baseUrl, String token, String owner, String repoName) {
+        try {
+            String urlString = baseUrl + "/api/v1/repos/" + owner + "/" + repoName;
+            URL url = new URL(urlString);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("DELETE");
+            conn.setRequestProperty(HEADER_AUTHORIZATION, TOKEN_PREFIX + token);
+            conn.setRequestProperty(HEADER_ACCEPT, CONTENT_TYPE_JSON);
+            int responseCode = conn.getResponseCode();
+            log.info("Fetching {} -> Status: {}", urlString, responseCode);
+        } catch (Exception e) {
+            log.error("Failed to delete repository {}, because {}", repoName, e.getMessage());
+        }
+    }
+
 }

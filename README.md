@@ -13,10 +13,19 @@ and Translator**, that improve readability and **application modularity**, as we
 
 # Work in progress | TODOs
 
-- [ ] optimize `from GitHub` engine
+- [ ] `from GitHub` engine
+    - [ ] `to GitHub` engine
+    - [ ] `to Gitea` engine
+    - [ ] `to Local` engine
 - [ ] optimize `from Gitea` engine
-- [ ] optimize `from Local` engine
-- [ ] optimize `to Local` engine
+    - [ ] `to GitHub` engine
+    - [ ] `to Gitea` engine
+    - [ ] `to Local` engine
+- [x] `from Local` engine
+    - [x] `to GitHub` engine
+    - [x] `to Gitea` engine
+    - [x] `to Local` engine
+
 - [ ] start and complete `to GitHub` engine
 - [ ] start and complete `to Gitea` engine
 - [ ] error managing -> show error alert

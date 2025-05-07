@@ -8,7 +8,7 @@ import org.json.JSONObject;
 
 import javax.swing.*;
 
-import static com.andreidodu.fromgtog.gui.GuiKeys.*;
+import static com.andreidodu.fromgtog.gui.controller.constants.GuiKeys.*;
 
 @Getter
 @Setter

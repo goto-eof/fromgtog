@@ -82,6 +82,7 @@ public class LocalServiceImpl implements LocalService {
     @Override
     public boolean pushOnRemote(String login, String token, String baseUrl, String repositoryName, String ownerLogin, File localDir) throws IOException, GitAPIException, URISyntaxException {
         String remoteUrl = baseUrl + "/" + ownerLogin + "/" + repositoryName + ".git";
+        log.debug("pushOnRemote {}", remoteUrl);
         Git git = Git.open(localDir);
         for (RemoteConfig remote : git.remoteList().call()) {
             git.remoteRemove().setRemoteName(remote.getName()).call();
