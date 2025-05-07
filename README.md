@@ -34,15 +34,15 @@ and Translator**, that improve readability and **application modularity**, as we
 This release, in addition to having a more organized and therefore easily understandable code, provides the
 following features:
 
-- clone from GitHub to GitHub
-- clone from GitHub to Gitea
-- clone from GitHub to Local
-- clone from Gitea to GitHub
-- clone from Gitea to Gitea
-- clone from Gitea to Local
-- clone from Local to GitHub
-- clone from Local to Gitea
-- clone from Local to Local
+- cloning from GitHub to GitHub
+- cloning from GitHub to Gitea
+- cloning from GitHub to Local
+- cloning from Gitea to GitHub
+- cloning from Gitea to Gitea
+- cloning from Gitea to Local
+- cloning from Local to GitHub
+- cloning from Local to Gitea
+- cloning from Local to Local (copies only git repositories)
 
 # Which features will NOT be present?
 
