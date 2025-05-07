@@ -1,4 +1,4 @@
-package com.andreidodu.fromgtog.service.factory.destination.realengine.locale.strategies;
+package com.andreidodu.fromgtog.service.factory.destination.realengine.local.strategies;
 
 import com.andreidodu.fromgtog.config.NoHomeGitConfigSystemReader;
 import com.andreidodu.fromgtog.dto.*;
@@ -12,9 +12,9 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.List;
 
-public class ToLocaleFromRemoteStrategy implements ToLocaleFromStrategy {
+public class ToLocalFromRemoteStrategy implements ToLocalFromStrategy {
 
-    Logger log = LoggerFactory.getLogger(ToLocaleFromRemoteStrategy.class);
+    Logger log = LoggerFactory.getLogger(ToLocalFromRemoteStrategy.class);
 
     @Override
     public boolean accept(EngineType engineType) {

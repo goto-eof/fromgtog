@@ -3,8 +3,8 @@ package com.andreidodu.fromgtog.service.factory.destination.realengine;
 import com.andreidodu.fromgtog.dto.*;
 import com.andreidodu.fromgtog.exception.CloningDestinationException;
 import com.andreidodu.fromgtog.service.factory.destination.AbstractDestinationEngine;
-import com.andreidodu.fromgtog.service.factory.destination.realengine.locale.strategies.ToLocaleFromLocaleStrategy;
-import com.andreidodu.fromgtog.service.factory.destination.realengine.locale.strategies.ToLocaleFromRemoteStrategy;
+import com.andreidodu.fromgtog.service.factory.destination.realengine.local.strategies.ToLocalFromLocaleStrategy;
+import com.andreidodu.fromgtog.service.factory.destination.realengine.local.strategies.ToLocalFromRemoteStrategy;
 import com.andreidodu.fromgtog.type.EngineType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +22,7 @@ public class LocalDestinationEngine extends AbstractDestinationEngine {
     @Override
     public boolean cloneAll(EngineContext engineContext, List<RepositoryDTO> repositoryDTOList) {
         EngineType sourceEngineType = engineContext.fromContext().sourceEngineType();
-        return List.of(new ToLocaleFromRemoteStrategy(), new ToLocaleFromLocaleStrategy())
+        return List.of(new ToLocalFromRemoteStrategy(), new ToLocalFromLocaleStrategy())
                 .stream().filter(fromStrategy -> fromStrategy.accept(sourceEngineType))
                 .findFirst()
                 .orElseThrow(() -> new CloningDestinationException("Invalid from strategy"))

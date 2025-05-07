@@ -8,13 +8,19 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -140,4 +146,25 @@ public class GiteaServiceImpl implements GiteaService {
             return new ArrayList<>();
         }
     }
+
+    @Override
+    public boolean updateRepositoryPrivacy(String token, String ownerName, String giteaUrl, String repositoryName, boolean isArchived, boolean isPrivate) throws IOException, InterruptedException {
+        HttpClient httpClient = HttpClient.newHttpClient();
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("archived", isArchived);
+        jsonObject.put("private", isPrivate);
+
+        log.debug("Updating repository status: {}", jsonObject);
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(giteaUrl + "/api/v1/repos/" + ownerName + "/" + repositoryName + "?token=" + token))
+                .header("accept", "application/json")
+                .header("Content-Type", "application/json")
+                .method("PATCH", HttpRequest.BodyPublishers.ofString(jsonObject.toString()))
+                .build();
+        log.info(repositoryName);
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        log.debug(response.toString());
+        return response.statusCode() == 200;
+    }
+
 }

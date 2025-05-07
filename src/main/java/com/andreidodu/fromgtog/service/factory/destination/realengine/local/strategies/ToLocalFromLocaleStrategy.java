@@ -1,4 +1,4 @@
-package com.andreidodu.fromgtog.service.factory.destination.realengine.locale.strategies;
+package com.andreidodu.fromgtog.service.factory.destination.realengine.local.strategies;
 
 import com.andreidodu.fromgtog.dto.*;
 import com.andreidodu.fromgtog.type.EngineType;
@@ -11,8 +11,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-public class ToLocaleFromLocaleStrategy implements ToLocaleFromStrategy {
-    Logger log = LoggerFactory.getLogger(ToLocaleFromLocaleStrategy.class);
+public class ToLocalFromLocaleStrategy implements ToLocalFromStrategy {
+    Logger log = LoggerFactory.getLogger(ToLocalFromLocaleStrategy.class);
 
     @Override
     public boolean accept(EngineType engineType) {

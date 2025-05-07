@@ -7,7 +7,6 @@ import lombok.Builder;
 @Builder
 public record ToContext(
         EngineType engineType,
-
         String url,
         String token,
         RepoPrivacyType repositoryPrivacy,
