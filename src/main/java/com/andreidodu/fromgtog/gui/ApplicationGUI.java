@@ -683,7 +683,7 @@ public class ApplicationGUI extends JFrame {
         final Spacer spacer17 = new Spacer();
         panel46.add(spacer17, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         final JLabel label25 = new JLabel();
-        label25.setText("Version: 5.0.0");
+        label25.setText("Version: 5.0");
         panel46.add(label25, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label26 = new JLabel();
         label26.setText("Author: Andrei Dodu");
