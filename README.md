@@ -26,9 +26,7 @@ and Translator**, that improve readability and **application modularity**, as we
     - [x] `to Gitea` engine
     - [x] `to Local` engine
 
-- [ ] start and complete `to GitHub` engine
-- [ ] start and complete `to Gitea` engine
-- [ ] error managing -> show error alert
+- [x] error managing -> show error alert
 - [ ] validate user input -> show error alert
 
 # Which features will be contained in this release?
