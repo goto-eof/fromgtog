@@ -85,7 +85,7 @@ public class ToolsController {
                             }
                         });
             } catch (Exception eee) {
-                JOptionPane.showMessageDialog(null, "Something went wrong!", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Something went wrong! Your token must have the delete_repo permission. Error details: " + eee, "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 

@@ -60,7 +60,7 @@ public class GithubDestinationEngineFromRemoteStrategy implements GithubDestinat
             String repositoryName = repositoryDTO.getName();
             callbackContainer.updateApplicationStatusMessage().accept("cloning repository: " + repositoryName);
 
-            if (localService.isRemoteRepositoryExists(tokenOwnerLogin, toContext.token(), toContext.url() + "/" + tokenOwnerLogin + "/" + repositoryName + ".git")) {
+            if (localService.isRemoteRepositoryExists(tokenOwnerLogin, toContext.token(), "https://github.com" + "/" + tokenOwnerLogin + "/" + repositoryName + ".git")) {
                 log.debug("skipping because {} already exists", repositoryName);
                 callbackContainer.updateApplicationStatusMessage().accept("Skipping repository because it already exists: " + repositoryName);
                 continue;
@@ -93,7 +93,7 @@ public class GithubDestinationEngineFromRemoteStrategy implements GithubDestinat
 
             try {
                 log.debug("pushing...");
-                boolean result = localService.pushOnRemote(tokenOwnerLogin, toContext.token(), toContext.url(), repositoryName, tokenOwnerLogin, new File(stagedClonePath));
+                boolean result = localService.pushOnRemote(tokenOwnerLogin, toContext.token(), "https://github.com", repositoryName, tokenOwnerLogin, new File(stagedClonePath));
             } catch (IOException | GitAPIException | URISyntaxException e) {
                 callbackContainer.updateApplicationStatusMessage().accept("Unable to push repository " + repositoryName);
                 log.error("Unable to push repository {}", repositoryName, e);

@@ -10,6 +10,8 @@ import org.json.JSONObject;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.plaf.FontUIResource;
 import javax.swing.text.StyleContext;
 import java.awt.*;
@@ -73,7 +75,7 @@ public class ApplicationGUI extends JFrame {
     List<? extends JComponent> allComponentsList;
 
     public ApplicationGUI() {
-        setTitle("FromGtoG 5.0");
+        setTitle("FromGtoG");
         setResizable(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setContentPane(mainPanel);
@@ -100,7 +102,21 @@ public class ApplicationGUI extends JFrame {
 
         AppController appController = buildAppController(settings, fromControllerList, toControllerList);
 
+        disableGroupByRepositoryOwnerIfNecessary();
+        addFromTabbedPaneListener();
 
+    }
+
+    private void addFromTabbedPaneListener() {
+        fromTabbedPane.addChangeListener(e -> disableGroupByRepositoryOwnerIfNecessary());
+    }
+
+    private void disableGroupByRepositoryOwnerIfNecessary() {
+        if (fromTabbedPane.getSelectedIndex() == 2) {
+            toLocalGroupByRepositoryOwnerCheckBox.setVisible(false);
+            return;
+        }
+        toLocalGroupByRepositoryOwnerCheckBox.setVisible(true);
     }
 
     private void setEnabledAllComponents(boolean enabled) {

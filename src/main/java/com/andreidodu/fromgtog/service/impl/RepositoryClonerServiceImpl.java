@@ -50,6 +50,8 @@ public class RepositoryClonerServiceImpl implements RepositoryCloner {
                         engineContext.callbackContainer().setEnabledUI().accept(true);
                         engineContext.callbackContainer().showSuccessMessage().accept("Clone procedure completed successfully!");
                     } catch (Exception e) {
+                        engineContext.callbackContainer().setEnabledUI().accept(true);
+                        engineContext.callbackContainer().setShouldStop().accept(true);
                         engineContext.callbackContainer().showErrorMessage().accept("Something went wrong while cloning: " + e.getMessage());
                     }
                 }

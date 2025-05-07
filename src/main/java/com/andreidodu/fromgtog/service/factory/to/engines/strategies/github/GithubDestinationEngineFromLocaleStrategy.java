@@ -69,6 +69,8 @@ public class GithubDestinationEngineFromLocaleStrategy extends AbstractFromLocal
             log.debug("toDirectoryPath: {}", path);
 
 
+            log.debug("checking if repositoy {} already exists", repositoryName);
+            callbackContainer.updateApplicationStatusMessage().accept("checking if repository already exists: " + repositoryName);
             if (localService.isRemoteRepositoryExists(tokenOwnerLogin, toContext.token(), "https://github.com" + "/" + tokenOwnerLogin + "/" + repositoryName + ".git")) {
                 log.debug("skipping because {} already exists", repositoryName);
                 callbackContainer.updateApplicationStatusMessage().accept("Skipping repository because it already exists: " + repositoryName);
