@@ -29,9 +29,9 @@ and Translator**, that improve readability and **application modularity**, as we
 - [x] error managing -> show error alert
 - [ ] validate user input -> show error alert
 
-# Which features will be contained in this release?
+# Which features are in this release?
 
-This release, in addition to having a more organized and therefore easily understandable code, will provide the
+This release, in addition to having a more organized and therefore easily understandable code, provides the
 following features:
 
 - clone from GitHub to GitHub
