@@ -13,14 +13,14 @@ and Translator**, that improve readability and **application modularity**, as we
 
 # Work in progress | TODOs
 
-- [ ] `from GitHub` engine
-    - [ ] `to GitHub` engine
-    - [ ] `to Gitea` engine
-    - [ ] `to Local` engine
-- [ ] optimize `from Gitea` engine
-    - [ ] `to GitHub` engine
-    - [ ] `to Gitea` engine
-    - [ ] `to Local` engine
+- [x] `from GitHub` engine
+    - [x] `to GitHub` engine
+    - [x] `to Gitea` engine
+    - [x] `to Local` engine
+- [x] `from Gitea` engine
+    - [x] `to GitHub` engine
+    - [x] `to Gitea` engine
+    - [x] `to Local` engine
 - [x] `from Local` engine
     - [x] `to GitHub` engine
     - [x] `to Gitea` engine
