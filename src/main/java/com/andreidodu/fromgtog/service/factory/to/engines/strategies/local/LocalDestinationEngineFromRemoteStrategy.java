@@ -63,11 +63,13 @@ public class LocalDestinationEngineFromRemoteStrategy implements LocalDestinatio
             }
             NoHomeGitConfigSystemReader.install();
             try {
+                log.debug("starting the cloning process of {}...", repositoryDTO.getName());
                 Git clonedRepo = Git.cloneRepository()
                         .setURI(cloneUrl)
                         .setDirectory(file)
                         .setCredentialsProvider(new UsernamePasswordCredentialsProvider(fromContext.login(), fromContext.token()))
                         .call();
+                log.debug("Done! Repository {} cloned successfully.", repositoryDTO.getName());
             } catch (GitAPIException e) {
                 log.error("Unable to clone repository {} because {}", repositoryDTO.getName(), e.getMessage());
                 callbackContainer.updateApplicationStatusMessage().accept("Unable to clone repository " + repositoryDTO.getName());

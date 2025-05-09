@@ -82,7 +82,7 @@ public class ToolsController {
                 return;
             }
             GitlabService giteaService = GitlabServiceImpl.getInstance();
-            List<Project> giteaRepositoryDTOList = giteaService.tryToRetrieveUserRepositories(giteaUrl, giteaToken);
+            List<Project> giteaRepositoryDTOList = giteaService.tryToRetrieveUserRepositories(null, giteaUrl, giteaToken);
             giteaRepositoryDTOList.forEach(repositoryDTO -> {
                 giteaService.deleteRepository(giteaUrl, giteaToken, repositoryDTO.getNamespace().getFullPath(), repositoryDTO.getPath());
             });

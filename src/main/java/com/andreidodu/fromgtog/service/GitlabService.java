@@ -1,5 +1,6 @@
 package com.andreidodu.fromgtog.service;
 
+import com.andreidodu.fromgtog.dto.Filter;
 import com.andreidodu.fromgtog.service.factory.to.engines.strategies.generic.GenericDestinationEngineFromStrategyService;
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.User;
@@ -11,7 +12,7 @@ public interface GitlabService extends GenericDestinationEngineFromStrategyServi
 
     User getMyself(String token, String urlString);
 
-    List<Project> tryToRetrieveUserRepositories(String url, String token);
+    List<Project> tryToRetrieveUserRepositories(Filter privacy, String url, String token);
 
     Collection<Project> tryToRetrieveStarredRepositories(String url, String token);
 

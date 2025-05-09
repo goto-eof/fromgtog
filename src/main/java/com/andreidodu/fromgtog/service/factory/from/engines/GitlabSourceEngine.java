@@ -1,25 +1,20 @@
 package com.andreidodu.fromgtog.service.factory.from.engines;
 
-import com.andreidodu.fromgtog.dto.CallbackContainer;
-import com.andreidodu.fromgtog.dto.EngineContext;
-import com.andreidodu.fromgtog.dto.FromContext;
-import com.andreidodu.fromgtog.dto.RepositoryDTO;
-import com.andreidodu.fromgtog.dto.gitea.GiteaRepositoryDTO;
-import com.andreidodu.fromgtog.dto.gitea.GiteaUserDTO;
-import com.andreidodu.fromgtog.mapper.GiteaRepositoryMapper;
+import com.andreidodu.fromgtog.dto.*;
 import com.andreidodu.fromgtog.mapper.GitlabRepositoryMapper;
-import com.andreidodu.fromgtog.service.GiteaService;
 import com.andreidodu.fromgtog.service.GitlabService;
 import com.andreidodu.fromgtog.service.factory.from.AbstractSourceEngine;
 import com.andreidodu.fromgtog.service.factory.from.engines.common.SourceEngineCommon;
-import com.andreidodu.fromgtog.service.impl.GiteaServiceImpl;
 import com.andreidodu.fromgtog.service.impl.GitlabServiceImpl;
 import com.andreidodu.fromgtog.type.EngineType;
-import org.gitlab4j.api.models.Owner;
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.User;
+import org.gitlab4j.api.models.Visibility;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 // TODO adapt for GITLAB
 public class GitlabSourceEngine extends AbstractSourceEngine {
@@ -34,46 +29,41 @@ public class GitlabSourceEngine extends AbstractSourceEngine {
     @Override
     public List<RepositoryDTO> retrieveRepositoryList(EngineContext engineContext) {
         GitlabService gitlabService = new GitlabServiceImpl();
-        FromContext context = engineContext.fromContext();
+        FromContext fromContext = engineContext.fromContext();
         CallbackContainer callbackContainer = engineContext.callbackContainer();
 
         callbackContainer.updateApplicationStatusMessage().accept("Retrieving repositories information...");
 
-        List<Project> giteaRepositoryDTOList = gitlabService.tryToRetrieveUserRepositories(context.url(), context.token());
+        List<Project> giteaRepositoryDTOList = gitlabService.tryToRetrieveUserRepositories(
+                Filter.builder()
+                        .starredFlag(fromContext.cloneStarredReposFlag())
+                        .privateFlag(fromContext.clonePrivateReposFlag())
+                        .archivedFlag(fromContext.cloneArchivedReposFlag())
+                        .forkedFlag(fromContext.cloneForkedReposFlag())
+                        .publicFlag(fromContext.clonePublicReposFlag())
+                        .organizationFlag(fromContext.cloneBelongingToOrganizationsReposFlag())
+                        .excludedOrganizations(
+                                (String[]) Arrays
+                                        .stream(Optional.ofNullable(fromContext.excludeOrganizations()).orElseGet(() -> "").split(","))
+                                        .map(String::trim)
+                                        .<String>toArray(String[]::new))
+                        .build(),
+                fromContext.url(),
+                fromContext.token()
+        );
 
-       //  addStarredRepositoriesIfNecessary(context, giteaRepositoryDTOList, gitlabService);
+        // addStarredRepositoriesIfNecessary(fromContext, giteaRepositoryDTOList, gitlabService);
 
-        User myself = gitlabService.getMyself(context.token(), context.url());
+        User myself = gitlabService.getMyself(fromContext.token(), fromContext.url());
 
         SourceEngineCommon sourceEngineCommon = new SourceEngineCommon();
 
-        List<String> blackListOrganizationsList = sourceEngineCommon.buildOrganizationBlacklist(context.excludeOrganizations());
+        List<String> blackListOrganizationsList = sourceEngineCommon.buildOrganizationBlacklist(fromContext.excludeOrganizations());
 
         GitlabRepositoryMapper mapper = new GitlabRepositoryMapper();
 
         List<RepositoryDTO> repositoryDTOList = giteaRepositoryDTOList
                 .stream()
-                .filter(repository -> {
-                    if (!context.cloneArchivedReposFlag() && repository.getArchived()) {
-                        return false;
-                    }
-                    if (!context.cloneForkedReposFlag() && repository.getForkedFromProject() != null) {
-                        return false;
-                    }
-                    if (!context.clonePrivateReposFlag() && !repository.getPublic()) {
-                        return false;
-                    }
-                    if (!context.clonePublicReposFlag() && repository.getPublic()) {
-                        return false;
-                    }
-                    if (!context.cloneBelongingToOrganizationsReposFlag() && repository.getOwner() == null && repository.getNamespace().getKind().equals("group")) {
-                        return false;
-                    }
-                    if (context.cloneBelongingToOrganizationsReposFlag() && isOrganizationInBlacklist(repository.getNamespace().getFullPath(), blackListOrganizationsList)) {
-                        return false;
-                    }
-                    return true;
-                })
                 .map(mapper::toDTO)
                 .toList();
 
