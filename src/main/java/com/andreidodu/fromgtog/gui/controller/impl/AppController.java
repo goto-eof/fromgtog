@@ -159,50 +159,56 @@ public class AppController implements GUIController {
     private void defineAppStartButtonListener(List<GUIFromController> fromControllerList, List<GUIToController> toControllerList, JTabbedPane fromTabbedPane, JTabbedPane toTabbedPane) {
 
         this.appStartButton.addActionListener(e -> {
-            this.setShouldStop(false);
-            this.appStartButton.setVisible(false);
-            this.appStopButton.setVisible(true);
-            appLogTextArea.setText(String.format("%s\n(%s) -> (%s)",
-                            appLogTextArea.getText(),
-                            fromTabbedPane.getSelectedIndex(),
-                            toTabbedPane.getSelectedIndex()
-                    )
-            );
-
-            JSONObject jsonObjectFrom = retrieveJsonData(fromControllerList, fromTabbedPane.getSelectedIndex());
-            JSONObject jsonObjectTo = retrieveJsonData(toControllerList, toTabbedPane.getSelectedIndex());
-            JSONObject jsonObjectApp = getDataFromChildren();
 
 
-            EngineContext engineContext = EngineContext.builder()
-                    .settingsContext(translatorApp.translate(jsonObjectApp))
-                    .fromContext(translatorFrom.translate(jsonObjectFrom))
-                    .toContext(translatorTo.translate(jsonObjectTo))
-                    .callbackContainer(CallbackContainer
-                            .builder()
-                            .updateApplicationProgressBarMax(this::updateApplicationProgressBarMax)
-                            .updateApplicationProgressBarCurrent(this::updateApplicationProgressBarCurrent)
-                            .updateApplicationStatusMessage(this::updateApplicationStatusMessage)
-                            .setEnabledUI(setEnabledUI)
-                            .showErrorMessage(this::showErrorMessage)
-                            .showSuccessMessage(this::showSuccessMessage)
-                            .isShouldStop(this::isShouldStop)
-                            .setShouldStop(this::setShouldStop)
-                            .build())
-                    .build();
+            try {
+                this.setShouldStop(false);
+                this.appStartButton.setVisible(false);
+                this.appStopButton.setVisible(true);
+                appLogTextArea.setText(String.format("%s\n(%s) -> (%s)",
+                                appLogTextArea.getText(),
+                                fromTabbedPane.getSelectedIndex(),
+                                toTabbedPane.getSelectedIndex()
+                        )
+                );
 
-            appLogTextArea.setText(String.format("%s\n%s(%s) -> %s(%s)",
-                            appLogTextArea.getText(),
-                            engineContext.fromContext().sourceEngineType(),
-                            fromTabbedPane.getSelectedIndex(),
-                            engineContext.toContext().engineType(),
-                            toTabbedPane.getSelectedIndex()
-                    )
-            );
+                JSONObject jsonObjectFrom = retrieveJsonData(fromControllerList, fromTabbedPane.getSelectedIndex());
+                JSONObject jsonObjectTo = retrieveJsonData(toControllerList, toTabbedPane.getSelectedIndex());
+                JSONObject jsonObjectApp = getDataFromChildren();
 
-            saveSettings(jsonObjectFrom, jsonObjectTo, jsonObjectApp);
-            RepositoryCloner repositoryCloner = RepositoryClonerServiceImpl.getInstance();
-            repositoryCloner.cloneAllRepositories(engineContext);
+
+                EngineContext engineContext = EngineContext.builder()
+                        .settingsContext(translatorApp.translate(jsonObjectApp))
+                        .fromContext(translatorFrom.translate(jsonObjectFrom))
+                        .toContext(translatorTo.translate(jsonObjectTo))
+                        .callbackContainer(CallbackContainer
+                                .builder()
+                                .updateApplicationProgressBarMax(this::updateApplicationProgressBarMax)
+                                .updateApplicationProgressBarCurrent(this::updateApplicationProgressBarCurrent)
+                                .updateApplicationStatusMessage(this::updateApplicationStatusMessage)
+                                .setEnabledUI(setEnabledUI)
+                                .showErrorMessage(this::showErrorMessage)
+                                .showSuccessMessage(this::showSuccessMessage)
+                                .isShouldStop(this::isShouldStop)
+                                .setShouldStop(this::setShouldStop)
+                                .build())
+                        .build();
+
+                appLogTextArea.setText(String.format("%s\n%s(%s) -> %s(%s)",
+                                appLogTextArea.getText(),
+                                engineContext.fromContext().sourceEngineType(),
+                                fromTabbedPane.getSelectedIndex(),
+                                engineContext.toContext().engineType(),
+                                toTabbedPane.getSelectedIndex()
+                        )
+                );
+
+                saveSettings(jsonObjectFrom, jsonObjectTo, jsonObjectApp);
+                RepositoryCloner repositoryCloner = RepositoryClonerServiceImpl.getInstance();
+                repositoryCloner.cloneAllRepositories(engineContext);
+            } catch (Exception ee) {
+                this.showErrorMessage("Something went wrong. " + ee.getMessage());
+            }
         });
     }
 

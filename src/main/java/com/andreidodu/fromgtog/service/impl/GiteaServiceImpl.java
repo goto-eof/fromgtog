@@ -24,6 +24,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class GiteaServiceImpl implements GiteaService {
 
@@ -178,7 +179,7 @@ public class GiteaServiceImpl implements GiteaService {
 
     @Override
     public String getLogin(String token, String urlString) {
-        return this.getMyself(token, urlString).getLogin();
+        return Optional.ofNullable(getMyself(token, urlString)).orElseThrow(() -> new CloningSourceException("Invalid Gitea token?")).getLogin();
     }
 
     @Override
