@@ -84,11 +84,10 @@ public class LocalServiceImpl implements LocalService {
         String remoteUrl = baseUrl + "/" + ownerLogin + "/" + repositoryName + ".git";
         log.debug("pushOnRemote {}", remoteUrl);
         Git git = Git.open(localDir);
-        for (RemoteConfig remote : git.remoteList().call()) {
-            git.remoteRemove().setRemoteName(remote.getName()).call();
-        }
+
 
         final String GIT_REMOTE = "fromgtog";
+
         git.remoteAdd()
                 .setName(GIT_REMOTE)
                 .setUri(new URIish(remoteUrl))
@@ -99,6 +98,9 @@ public class LocalServiceImpl implements LocalService {
                 .setCredentialsProvider(new UsernamePasswordCredentialsProvider(login, token))
                 .setPushAll()
                 .call();
+
+        git.remoteRemove().setRemoteName(GIT_REMOTE).call();
+
         return isPushOK(pushResult);
     }
 

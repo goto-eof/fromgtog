@@ -24,7 +24,7 @@ public class GithubDestinationEngineFromRemoteStrategy implements GithubDestinat
 
     @Override
     public boolean accept(EngineType engineType) {
-        return List.of(EngineType.GITHUB, EngineType.GITEA).contains(engineType);
+        return List.of(EngineType.GITHUB, EngineType.GITEA, EngineType.GITLAB).contains(engineType);
     }
 
 

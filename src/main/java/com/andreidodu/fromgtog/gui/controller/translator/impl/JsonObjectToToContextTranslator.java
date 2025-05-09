@@ -20,12 +20,14 @@ public class JsonObjectToToContextTranslator implements JsonObjectToRecordTransl
 
         if (EngineType.GITEA.equals(engineType)) {
             return buildToGiteaContext(engineType, jsonObject);
-
         }
 
         if (EngineType.LOCAL.equals(engineType)) {
             return buildToLocalContext(engineType, jsonObject);
+        }
 
+        if (EngineType.GITLAB.equals(engineType)) {
+            return buildToGitlabContext(engineType, jsonObject);
         }
 
         throw new IllegalArgumentException("Invalid EngineType");
@@ -49,6 +51,17 @@ public class JsonObjectToToContextTranslator implements JsonObjectToRecordTransl
                 jsonObject.getString(TO_GITEA_URL),
                 jsonObject.getString(TO_GITEA_TOKEN),
                 RepoPrivacyType.fromValue(jsonObject.getInt(TO_GITEA_PRIVACY_INDEX)),
+                null,
+                false
+        );
+    }
+
+    private ToContext buildToGitlabContext(EngineType engineType, JSONObject jsonObject) {
+        return new ToContext(
+                engineType,
+                jsonObject.getString(TO_GITLAB_URL),
+                jsonObject.getString(TO_GITLAB_TOKEN),
+                RepoPrivacyType.fromValue(jsonObject.getInt(TO_GITLAB_PRIVACY_INDEX)),
                 null,
                 false
         );

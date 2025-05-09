@@ -1,12 +1,9 @@
-package com.andreidodu.fromgtog.service.factory.to.engines.strategies.gitea;
+package com.andreidodu.fromgtog.service.factory.to.engines.strategies.generic;
 
 import com.andreidodu.fromgtog.dto.*;
-import com.andreidodu.fromgtog.dto.gitea.GiteaUserDTO;
-import com.andreidodu.fromgtog.service.GiteaService;
 import com.andreidodu.fromgtog.service.LocalService;
 import com.andreidodu.fromgtog.service.factory.to.engines.strategies.AbstractFromLocalCommon;
 import com.andreidodu.fromgtog.service.factory.to.engines.strategies.github.GithubDestinationEngineFromLocaleStrategy;
-import com.andreidodu.fromgtog.service.impl.GiteaServiceImpl;
 import com.andreidodu.fromgtog.service.impl.LocalServiceImpl;
 import com.andreidodu.fromgtog.type.EngineType;
 import com.andreidodu.fromgtog.type.RepoPrivacyType;
@@ -20,8 +17,14 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
 
-public class GiteaDestinationEngineFromLocalStrategy extends AbstractFromLocalCommon implements GiteaDestinationEngineFromStrategy {
-    Logger log = LoggerFactory.getLogger(GithubDestinationEngineFromLocaleStrategy.class);
+public class GenericDestinationEngineFromLocalStrategy<Service extends GenericDestinationEngineFromStrategyService> extends AbstractFromLocalCommon implements GenericDestinationEngineFromStrategyCommon {
+    Logger log = LoggerFactory.getLogger(GenericDestinationEngineFromLocalStrategy.class);
+
+    private final Service service;
+
+    public GenericDestinationEngineFromLocalStrategy(Service service) {
+        this.service = service;
+    }
 
     @Override
     public boolean accept(EngineType engineType) {
@@ -46,9 +49,7 @@ public class GiteaDestinationEngineFromLocalStrategy extends AbstractFromLocalCo
                 .map(RepositoryDTO::getPath)
                 .toList();
 
-        GiteaService giteaService = GiteaServiceImpl.getInstance();
-        GiteaUserDTO giteaUser = giteaService.getMyself(toContext.token(), toContext.url());
-        String tokenOwnerLogin = giteaUser.getLogin();
+        String tokenOwnerLogin = service.getLogin(toContext.token(), toContext.url());
 
         log.debug("tokenOwnerLogin: {}", tokenOwnerLogin);
 
@@ -78,7 +79,11 @@ public class GiteaDestinationEngineFromLocalStrategy extends AbstractFromLocalCo
             callbackContainer.updateApplicationStatusMessage().accept("cloning repository: " + repositoryName);
 
             try {
-                giteaService.createRepository(toContext.url(), toContext.token(), repositoryName, "", RepoPrivacyType.ALL_PRIVATE.equals(toContext.repositoryPrivacy()));
+                if (!service.createRepository(toContext.url(), toContext.token(), repositoryName, "", RepoPrivacyType.ALL_PRIVATE.equals(toContext.repositoryPrivacy()))) {
+                    callbackContainer.updateApplicationStatusMessage().accept("unable to create repository: " + repositoryName);
+                    log.debug("unable to create repository: {}", repositoryName);
+                    continue;
+                }
             } catch (Exception e) {
                 callbackContainer.updateApplicationStatusMessage().accept("unable to create repository: " + repositoryName);
                 log.debug("unable to create repository: {}", repositoryName, e);
@@ -96,15 +101,12 @@ public class GiteaDestinationEngineFromLocalStrategy extends AbstractFromLocalCo
 
             try {
                 log.debug("updating repository privacy...");
-                boolean result = giteaService.updateRepositoryPrivacy(toContext.token(), tokenOwnerLogin, toContext.url(), repositoryName, false, RepoPrivacyType.ALL_PRIVATE.equals(toContext.repositoryPrivacy()));
-            } catch (IOException e) {
+                boolean result = service.updateRepositoryPrivacy(toContext.token(), tokenOwnerLogin, toContext.url(), repositoryName, false, RepoPrivacyType.ALL_PRIVATE.equals(toContext.repositoryPrivacy()));
+            } catch (Exception e) {
                 callbackContainer.updateApplicationStatusMessage().accept("Unable to push repository " + repositoryName);
                 log.error("Unable to push repository {}", repositoryName, e);
                 continue;
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
             }
-
             try {
                 log.debug("sleeping");
                 Thread.sleep(engineContext.settingsContext().sleepTimeSeconds() * 1000L);
