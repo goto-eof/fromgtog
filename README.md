@@ -13,26 +13,26 @@ others, that improve readability and **application modularity**, as well as addi
 
 # Currently the application is able to clone:
 
-- [x] `from GitHub` engine
-    - [x] `to GitHub` engine
-    - [x] `to Gitea` engine
-    - [x] `to Local` engine
-    - [x] `to Gitlab` engine
-- [x] `from Gitea` engine
-    - [x] `to GitHub` engine
-    - [x] `to Gitea` engine
-    - [x] `to Local` engine
-    - [x] `to Gitlab` engine
-- [x] `from Local` engine
-    - [x] `to GitHub` engine
-    - [x] `to Gitea` engine
-    - [x] `to Local` engine
-    - [x] `to Gitlab` engine
-- [x] `from Local` engine
-    - [x] `to GitHub` engine
-    - [x] `to Gitea` engine
-    - [x] `to Local` engine (copies only git repositories, other directories are skipped)
-    - [x] `to Gitlab` engine
+- [x] `from GitHub` 
+    - [x] `to GitHub` 
+    - [x] `to Gitea` 
+    - [x] `to Local` 
+    - [x] `to Gitlab` 
+- [x] `from Gitea` 
+    - [x] `to GitHub` 
+    - [x] `to Gitea` 
+    - [x] `to Local` 
+    - [x] `to Gitlab` 
+- [x] `from Local` 
+    - [x] `to GitHub` 
+    - [x] `to Gitea` 
+    - [x] `to Local` 
+    - [x] `to Gitlab` 
+- [x] `from Local` 
+    - [x] `to GitHub` 
+    - [x] `to Gitea` 
+    - [x] `to Local`  (copies only git repositories, other directories are skipped)
+    - [x] `to Gitlab` 
 
 # Which features will NOT be present?
 
