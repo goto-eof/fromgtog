@@ -12,7 +12,7 @@ target/
 *.iml
 *.ipr
 .idea
-app.log
+*.log
 logs/
 fromgtog_*_amd64.snap
 ### Eclipse ###
