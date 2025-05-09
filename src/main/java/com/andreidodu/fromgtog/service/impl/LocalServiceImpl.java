@@ -99,12 +99,7 @@ public class LocalServiceImpl implements LocalService {
                 .setPushAll()
                 .call();
 
-
-        for (RemoteConfig remote : git.remoteList().call()) {
-            if (GIT_REMOTE.equalsIgnoreCase(remote.getName())) {
-                git.remoteRemove().setRemoteName(remote.getName()).call();
-            }
-        }
+        git.remoteRemove().setRemoteName(GIT_REMOTE).call();
 
         return isPushOK(pushResult);
     }
