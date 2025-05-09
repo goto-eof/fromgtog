@@ -76,6 +76,11 @@
             <artifactId>json</artifactId>
             <version>20250107</version>
         </dependency>
+        <dependency>
+            <groupId>org.gitlab4j</groupId>
+            <artifactId>gitlab4j-api</artifactId>
+            <version>5.0.1</version> <!-- check for latest version -->
+        </dependency>
     </dependencies>
     <build>
         <plugins>

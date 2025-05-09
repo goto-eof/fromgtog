@@ -4,6 +4,7 @@ import com.andreidodu.fromgtog.dto.gitea.GiteaRepositoryDTO;
 import com.andreidodu.fromgtog.dto.gitea.GiteaUserDTO;
 import com.andreidodu.fromgtog.exception.CloningSourceException;
 import com.andreidodu.fromgtog.service.GiteaService;
+import com.andreidodu.fromgtog.service.factory.to.engines.strategies.generic.GenericDestinationEngineFromStrategyService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -35,6 +36,14 @@ public class GiteaServiceImpl implements GiteaService {
     private static GiteaService instance;
 
     public static GiteaService getInstance() {
+        if (instance == null) {
+            instance = new GiteaServiceImpl();
+        }
+        return instance;
+    }
+
+
+    public static GenericDestinationEngineFromStrategyService getFullInstance() {
         if (instance == null) {
             instance = new GiteaServiceImpl();
         }
@@ -168,31 +177,44 @@ public class GiteaServiceImpl implements GiteaService {
     }
 
     @Override
-    public boolean createRepository(String baseUrl, String token, String repoName, String description, boolean isPrivate) throws Exception {
-        HttpClient client = HttpClient.newHttpClient();
-
-        String json = """
-                    {
-                      "name": "%s",
-                      "description": "%s",
-                      "private": %s,
-                      "auto_init": false
-                    }
-                """.formatted(repoName, description, isPrivate);
-
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(baseUrl + "/api/v1/user/repos"))
-                .header("Authorization", "token " + token)
-                .header("Content-Type", "application/json")
-                .POST(HttpRequest.BodyPublishers.ofString(json))
-                .build();
-
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        System.out.println("Status: " + response.statusCode());
-        System.out.println("Body: " + response.body());
-        return response.statusCode() == 201;
+    public String getLogin(String token, String urlString) {
+        return this.getMyself(token, urlString).getLogin();
     }
 
+    @Override
+    public boolean createRepository(String baseUrl, String token, String repoName, String description, boolean isPrivate) {
+        try {
+            HttpClient client = HttpClient.newHttpClient();
+
+            String json = """
+                        {
+                          "name": "%s",
+                          "description": "%s",
+                          "private": %s,
+                          "auto_init": false
+                        }
+                    """.formatted(repoName, description, isPrivate);
+
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(baseUrl + "/api/v1/user/repos"))
+                    .header("Authorization", "token " + token)
+                    .header("Content-Type", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(json))
+                    .build();
+
+            HttpResponse<String> response = null;
+
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            System.out.println("Status: " + response.statusCode());
+            System.out.println("Body: " + response.body());
+            return response.statusCode() == 201;
+
+        } catch (IOException | InterruptedException e) {
+            log.error("unable to create repository: {}", e.toString());
+            return false;
+        }
+    }
 
     @Override
     public void deleteRepository(String baseUrl, String token, String owner, String repoName) {

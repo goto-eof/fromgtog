@@ -10,4 +10,6 @@ public interface DestinationEngineStrategy {
     boolean accept(EngineType engineType);
 
     boolean cloneAll(EngineContext engineContext, List<RepositoryDTO> repositoryDTOList);
+
+
 }

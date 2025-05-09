@@ -1,10 +1,8 @@
 package com.andreidodu.fromgtog.service.factory;
 
+import com.andreidodu.fromgtog.service.factory.from.engines.GitlabSourceEngine;
+import com.andreidodu.fromgtog.service.factory.to.engines.*;
 import com.andreidodu.fromgtog.type.EngineType;
-import com.andreidodu.fromgtog.service.factory.to.engines.DestinationEngine;
-import com.andreidodu.fromgtog.service.factory.to.engines.GiteaDestinationEngine;
-import com.andreidodu.fromgtog.service.factory.to.engines.GithubDestinationEngine;
-import com.andreidodu.fromgtog.service.factory.to.engines.LocalDestinationEngine;
 import com.andreidodu.fromgtog.exception.DestinationEngineNotFoundException;
 import com.andreidodu.fromgtog.exception.SourceEngineNotFoundException;
 import com.andreidodu.fromgtog.service.factory.from.SourceEngine;
@@ -19,12 +17,14 @@ public class CloneFactoryImpl implements CloneFactory {
     private final SourceEngine[] sourceEngineArray = {
             new GithubSourceEngine(),
             new GiteaSourceEngine(),
+            new GitlabSourceEngine(),
             new LocalSourceEngine()
     };
 
     private final DestinationEngine[] destinationEngineArray = {
             new GithubDestinationEngine(),
             new GiteaDestinationEngine(),
+            new GitlabDestinationEngine(),
             new LocalDestinationEngine()
     };
 

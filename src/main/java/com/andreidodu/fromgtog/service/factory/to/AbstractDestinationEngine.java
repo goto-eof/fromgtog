@@ -20,7 +20,8 @@ public abstract class AbstractDestinationEngine implements DestinationEngine {
     public boolean cloneAll(EngineContext engineContext, List<RepositoryDTO> repositoryDTOList) {
         EngineType sourceEngineType = engineContext.fromContext().sourceEngineType();
         return getStrategies()
-                .stream().filter(fromStrategy -> fromStrategy.accept(sourceEngineType))
+                .stream()
+                .filter(fromStrategy -> fromStrategy.accept(sourceEngineType))
                 .findFirst()
                 .orElseThrow(() -> new CloningDestinationException("Invalid from strategy"))
                 .cloneAll(engineContext, repositoryDTOList);

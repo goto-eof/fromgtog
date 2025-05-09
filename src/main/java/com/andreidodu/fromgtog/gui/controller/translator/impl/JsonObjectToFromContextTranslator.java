@@ -5,6 +5,7 @@ import com.andreidodu.fromgtog.service.GitHubService;
 import com.andreidodu.fromgtog.service.impl.GitHubServiceImpl;
 import com.andreidodu.fromgtog.service.impl.GiteaServiceImpl;
 import com.andreidodu.fromgtog.gui.controller.translator.JsonObjectToRecordTranslator;
+import com.andreidodu.fromgtog.service.impl.GitlabServiceImpl;
 import com.andreidodu.fromgtog.type.EngineType;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,12 +24,14 @@ public class JsonObjectToFromContextTranslator implements JsonObjectToRecordTran
 
         if (EngineType.GITEA.equals(engineType)) {
             return buildFromGiteaContext(engineType, jsonObject);
-
         }
 
         if (EngineType.LOCAL.equals(engineType)) {
             return buildFromLocalContext(engineType, jsonObject);
+        }
 
+        if (EngineType.GITLAB.equals(engineType)) {
+            return buildFromGitlabContext(engineType, jsonObject);
         }
 
         throw new IllegalArgumentException("Invalid EngineType");
@@ -70,8 +73,31 @@ public class JsonObjectToFromContextTranslator implements JsonObjectToRecordTran
         );
     }
 
+
+    private FromContext buildFromGitlabContext(EngineType engineType, JSONObject jsonObject) {
+        String giteaLogin = getGitlabLogin(jsonObject);
+        return new FromContext(
+                engineType,
+                jsonObject.getString(FROM_GITLAB_URL),
+                giteaLogin,
+                jsonObject.getString(FROM_GITLAB_TOKEN),
+                jsonObject.getBoolean(FROM_GITLAB_CLONE_STARRED_REPO_FLAG),
+                jsonObject.getBoolean(FROM_GITLAB_CLONE_FORKED_REPO_FLAG),
+                jsonObject.getBoolean(FROM_GITLAB_CLONE_PRIVATE_REPO_FLAG),
+                jsonObject.getBoolean(FROM_GITLAB_CLONE_PUBLIC_REPO_FLAG),
+                jsonObject.getBoolean(FROM_GITLAB_CLONE_ARCHIVED_REPO_FLAG),
+                jsonObject.getBoolean(FROM_GITLAB_CLONE_ORGANIZATIONS_REPO_FLAG),
+                jsonObject.getString(FROM_GITLAB_EXCLUDE_ORGANIZATIONS),
+                null
+        );
+    }
+
     private String getGiteaLogin(JSONObject jsonObject) {
-        return GiteaServiceImpl.getInstance().getMyself(jsonObject.getString(FROM_GITEA_TOKEN), jsonObject.getString(FROM_GITEA_URL)).getLogin();
+        return GiteaServiceImpl.getInstance().getLogin(jsonObject.getString(FROM_GITEA_TOKEN), jsonObject.getString(FROM_GITEA_URL));
+    }
+
+    private String getGitlabLogin(JSONObject jsonObject) {
+        return GitlabServiceImpl.getInstance().getLogin(jsonObject.getString(FROM_GITLAB_TOKEN), jsonObject.getString(FROM_GITLAB_URL));
     }
 
     private FromContext buildFromGithubContext(EngineType engineType, JSONObject jsonObject) {
