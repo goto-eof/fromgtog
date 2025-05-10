@@ -36,6 +36,7 @@ import static com.andreidodu.fromgtog.util.NumberUtil.toIntegerOrDefault;
 @Setter
 public class AppController implements GUIController {
 
+    public static final String FROMGTOG_LOGS_PATH = "fromgtog/logs/application.log";
     Logger log = LoggerFactory.getLogger(AppController.class);
 
     private List<GUIFromController> fromControllerList;
@@ -112,16 +113,35 @@ public class AppController implements GUIController {
 
     private void defineOpenLogFileButtonListener() {
         appOpenLogFileButton.addActionListener(e -> {
-            String logFilename = "logs/app.log";
             try {
-                ProcessBuilder pb = new ProcessBuilder("xdg-open", logFilename);
-                pb.inheritIO();
-                pb.start();
-                log.debug("log file open request done");
-            } catch (IOException ee) {
-                log.error("failed to open log file: {}", ee.getMessage());
+                openLogFileOnLinux(FROMGTOG_LOGS_PATH);
+            } catch (Exception ex) {
+                openLogFileOnWindows(FROMGTOG_LOGS_PATH);
             }
         });
+    }
+
+    private void openLogFileOnLinux(String logFilename) {
+        try {
+            ProcessBuilder pb = new ProcessBuilder("xdg-open", logFilename);
+            pb.inheritIO();
+            pb.start();
+            log.debug("log file open request done");
+        } catch (IOException ee) {
+            log.error("failed to open log file: {}", ee.getMessage());
+            throw new RuntimeException("failed to open log file: " + ee.getMessage());
+        }
+    }
+
+    private void openLogFileOnWindows(String logFilename) {
+        try {
+            ProcessBuilder pb = new ProcessBuilder("notepad", logFilename);
+            pb.inheritIO();
+            pb.start();
+            log.debug("log file open request done");
+        } catch (IOException eee) {
+            log.error("failed to open log file: {}", eee.getMessage());
+        }
     }
 
     @Override

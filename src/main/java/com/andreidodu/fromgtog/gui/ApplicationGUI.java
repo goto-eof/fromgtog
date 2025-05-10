@@ -88,6 +88,9 @@ public class ApplicationGUI extends JFrame {
     private JTextField toGitlabTokenTextField;
     private JComboBox toGitlabPrivacyComboBox;
     private JTabbedPane mainTabbedPane;
+    private JButton buyMeACoffeeButton;
+    private JButton projectWebsiteButton;
+    private JButton reportAnIssueButton;
 
     List<? extends JComponent> allComponentsList;
 
@@ -118,6 +121,7 @@ public class ApplicationGUI extends JFrame {
 
         this.allComponentsList = buildListOfComponents();
         buildToolsController();
+        buildAboutController();
 
         AppController appController = buildAppController(settings, fromControllerList, toControllerList);
 
@@ -172,6 +176,14 @@ public class ApplicationGUI extends JFrame {
                 toolsDeleteALLGitHubRepositoriesButton,
                 toolsDeleteALLGiteaRepositoriesButton,
                 toolsDeleteALLGitlabRepositoriesButton
+        );
+    }
+
+    private AboutController buildAboutController() {
+        return new AboutController(
+                projectWebsiteButton,
+                reportAnIssueButton,
+                buyMeACoffeeButton
         );
     }
 
@@ -328,7 +340,10 @@ public class ApplicationGUI extends JFrame {
                 toGitlabUrlTextField,
                 toGitlabTokenTextField,
                 toGitlabPrivacyComboBox,
-                mainTabbedPane
+                mainTabbedPane,
+                buyMeACoffeeButton,
+                projectWebsiteButton,
+                reportAnIssueButton
         );
     }
 
@@ -351,7 +366,8 @@ public class ApplicationGUI extends JFrame {
         mainPanel.add(mainTabbedPane, new GridConstraints(0, 0, 5, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         final JPanel panel1 = new JPanel();
         panel1.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
-        mainTabbedPane.addTab("FromGtoG", panel1);
+        mainTabbedPane.addTab("FromGtoG", new ImageIcon(getClass().getResource("/images/sm/copy.png")), panel1);
+        mainTabbedPane.setDisabledIconAt(0, new ImageIcon(getClass().getResource("/images/sm/copy-disabled.png")));
         final JScrollPane scrollPane1 = new JScrollPane();
         panel1.add(scrollPane1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         final JPanel panel2 = new JPanel();
@@ -365,8 +381,8 @@ public class ApplicationGUI extends JFrame {
         panel3.add(fromTabbedPane, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, new Dimension(200, 200), null, 0, false));
         fromGithubPanel = new JPanel();
         fromGithubPanel.setLayout(new GridLayoutManager(1, 1, new Insets(20, 20, 10, 20), -1, -1));
-        fromTabbedPane.addTab("From GitHub", new ImageIcon(getClass().getResource("/github.png")), fromGithubPanel);
-        fromTabbedPane.setDisabledIconAt(0, new ImageIcon(getClass().getResource("/github-disabled.png")));
+        fromTabbedPane.addTab("From GitHub", new ImageIcon(getClass().getResource("/images/sm/github.png")), fromGithubPanel);
+        fromTabbedPane.setDisabledIconAt(0, new ImageIcon(getClass().getResource("/images/sm/github-disabled.png")));
         fromGithubPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "From GitHub", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, this.$$$getFont$$$(null, Font.BOLD, 20, fromGithubPanel.getFont()), null));
         final JPanel panel4 = new JPanel();
         panel4.setLayout(new GridLayoutManager(5, 2, new Insets(0, 0, 0, 0), -1, -1));
@@ -376,7 +392,7 @@ public class ApplicationGUI extends JFrame {
         panel4.add(panel5, new GridConstraints(0, 0, 5, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         panel5.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), null, TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
         final JLabel label1 = new JLabel();
-        label1.setIcon(new ImageIcon(getClass().getResource("/xl/github.png")));
+        label1.setIcon(new ImageIcon(getClass().getResource("/images/xl/github.png")));
         label1.setText("");
         panel5.add(label1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer1 = new Spacer();
@@ -417,8 +433,8 @@ public class ApplicationGUI extends JFrame {
         panel7.add(fromGithubExcludeOrganizationTextField, new GridConstraints(6, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         fromGiteaPanel = new JPanel();
         fromGiteaPanel.setLayout(new GridLayoutManager(1, 1, new Insets(20, 20, 10, 20), -1, -1));
-        fromTabbedPane.addTab("From Gitea", new ImageIcon(getClass().getResource("/gitea.png")), fromGiteaPanel);
-        fromTabbedPane.setDisabledIconAt(1, new ImageIcon(getClass().getResource("/gitea-disabled.png")));
+        fromTabbedPane.addTab("From Gitea", new ImageIcon(getClass().getResource("/images/sm/gitea.png")), fromGiteaPanel);
+        fromTabbedPane.setDisabledIconAt(1, new ImageIcon(getClass().getResource("/images/sm/gitea-disabled.png")));
         fromGiteaPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "From Gitea", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, this.$$$getFont$$$(null, Font.BOLD, 20, fromGiteaPanel.getFont()), null));
         final JPanel panel8 = new JPanel();
         panel8.setLayout(new GridLayoutManager(2, 2, new Insets(0, 0, 0, 0), -1, -1));
@@ -428,7 +444,7 @@ public class ApplicationGUI extends JFrame {
         panel8.add(panel9, new GridConstraints(0, 0, 2, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         panel9.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), null, TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
         final JLabel label4 = new JLabel();
-        label4.setIcon(new ImageIcon(getClass().getResource("/xl/gitea.png")));
+        label4.setIcon(new ImageIcon(getClass().getResource("/images/xl/gitea.png")));
         label4.setText("");
         panel9.add(label4, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer2 = new Spacer();
@@ -486,8 +502,8 @@ public class ApplicationGUI extends JFrame {
         panel15.add(fromGiteaTokenTextField, new GridConstraints(1, 0, 1, 2, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         fromLocalPanel = new JPanel();
         fromLocalPanel.setLayout(new GridLayoutManager(1, 1, new Insets(20, 20, 10, 20), -1, -1));
-        fromTabbedPane.addTab("From Local", new ImageIcon(getClass().getResource("/floppy.png")), fromLocalPanel);
-        fromTabbedPane.setDisabledIconAt(2, new ImageIcon(getClass().getResource("/floppy-disabled.png")));
+        fromTabbedPane.addTab("From Local", new ImageIcon(getClass().getResource("/images/sm/floppy.png")), fromLocalPanel);
+        fromTabbedPane.setDisabledIconAt(2, new ImageIcon(getClass().getResource("/images/sm/floppy-disabled.png")));
         fromLocalPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "From Local", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, this.$$$getFont$$$(null, Font.BOLD, 20, fromLocalPanel.getFont()), null));
         final JPanel panel16 = new JPanel();
         panel16.setLayout(new GridLayoutManager(2, 2, new Insets(0, 0, 0, 0), -1, -1));
@@ -497,7 +513,7 @@ public class ApplicationGUI extends JFrame {
         panel16.add(panel17, new GridConstraints(0, 0, 2, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         panel17.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), null, TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
         final JLabel label8 = new JLabel();
-        label8.setIcon(new ImageIcon(getClass().getResource("/xl/floppy.png")));
+        label8.setIcon(new ImageIcon(getClass().getResource("/images/xl/floppy.png")));
         label8.setText("");
         panel17.add(label8, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer3 = new Spacer();
@@ -517,7 +533,7 @@ public class ApplicationGUI extends JFrame {
         panel18.add(fromLocalChooseButton, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         fromGitlabPanel = new JPanel();
         fromGitlabPanel.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
-        fromTabbedPane.addTab("From Gitlab", new ImageIcon(getClass().getResource("/gitlab.png")), fromGitlabPanel);
+        fromTabbedPane.addTab("From Gitlab", new ImageIcon(getClass().getResource("/images/sm/gitlab.png")), fromGitlabPanel);
         fromGitlabPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "From Gitlab", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, this.$$$getFont$$$(null, Font.BOLD, 20, fromGitlabPanel.getFont()), new Color(-2104859)));
         final JPanel panel19 = new JPanel();
         panel19.setLayout(new GridLayoutManager(2, 2, new Insets(0, 0, 0, 0), -1, -1));
@@ -527,7 +543,7 @@ public class ApplicationGUI extends JFrame {
         panel19.add(panel20, new GridConstraints(0, 0, 2, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         panel20.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), null, TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
         final JLabel label10 = new JLabel();
-        label10.setIcon(new ImageIcon(getClass().getResource("/xl/gitlab.png")));
+        label10.setIcon(new ImageIcon(getClass().getResource("/images/xl/gitlab.png")));
         label10.setText("");
         panel20.add(label10, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer5 = new Spacer();
@@ -591,8 +607,8 @@ public class ApplicationGUI extends JFrame {
         panel27.add(toTabbedPane, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         final JPanel panel28 = new JPanel();
         panel28.setLayout(new GridLayoutManager(2, 2, new Insets(20, 20, 0, 20), -1, -1));
-        toTabbedPane.addTab("To GitHub", new ImageIcon(getClass().getResource("/github.png")), panel28);
-        toTabbedPane.setDisabledIconAt(0, new ImageIcon(getClass().getResource("/github-disabled.png")));
+        toTabbedPane.addTab("To GitHub", new ImageIcon(getClass().getResource("/images/sm/github.png")), panel28);
+        toTabbedPane.setDisabledIconAt(0, new ImageIcon(getClass().getResource("/images/sm/github-disabled.png")));
         panel28.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "To GitHub", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, this.$$$getFont$$$(null, Font.BOLD, 20, panel28.getFont()), null));
         final JPanel panel29 = new JPanel();
         panel29.setLayout(new GridLayoutManager(2, 2, new Insets(0, 0, 0, 0), -1, -1));
@@ -602,7 +618,7 @@ public class ApplicationGUI extends JFrame {
         panel29.add(panel30, new GridConstraints(0, 1, 2, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         panel30.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), null, TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
         final JLabel label14 = new JLabel();
-        label14.setIcon(new ImageIcon(getClass().getResource("/xm/github.png")));
+        label14.setIcon(new ImageIcon(getClass().getResource("/images/xm/github.png")));
         label14.setText("");
         panel30.add(label14, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer6 = new Spacer();
@@ -624,8 +640,8 @@ public class ApplicationGUI extends JFrame {
         panel31.add(toGithubPrivacyComboBox, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel32 = new JPanel();
         panel32.setLayout(new GridLayoutManager(1, 1, new Insets(20, 20, 0, 20), -1, -1));
-        toTabbedPane.addTab("To Gitea", new ImageIcon(getClass().getResource("/gitea.png")), panel32);
-        toTabbedPane.setDisabledIconAt(1, new ImageIcon(getClass().getResource("/gitea-disabled.png")));
+        toTabbedPane.addTab("To Gitea", new ImageIcon(getClass().getResource("/images/sm/gitea.png")), panel32);
+        toTabbedPane.setDisabledIconAt(1, new ImageIcon(getClass().getResource("/images/sm/gitea-disabled.png")));
         panel32.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "To Gitea", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, this.$$$getFont$$$(null, Font.BOLD, 20, panel32.getFont()), null));
         final JPanel panel33 = new JPanel();
         panel33.setLayout(new GridLayoutManager(2, 2, new Insets(0, 0, 0, 0), -1, -1));
@@ -635,7 +651,7 @@ public class ApplicationGUI extends JFrame {
         panel33.add(panel34, new GridConstraints(0, 1, 2, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         panel34.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), null, TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
         final JLabel label17 = new JLabel();
-        label17.setIcon(new ImageIcon(getClass().getResource("/xm/gitea.png")));
+        label17.setIcon(new ImageIcon(getClass().getResource("/images/xm/gitea.png")));
         label17.setText("");
         panel34.add(label17, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer8 = new Spacer();
@@ -674,8 +690,8 @@ public class ApplicationGUI extends JFrame {
         panel39.add(toGiteaUrlTextField, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final JPanel panel40 = new JPanel();
         panel40.setLayout(new GridLayoutManager(1, 1, new Insets(20, 20, 0, 20), -1, -1));
-        toTabbedPane.addTab("To Local", new ImageIcon(getClass().getResource("/floppy.png")), panel40);
-        toTabbedPane.setDisabledIconAt(2, new ImageIcon(getClass().getResource("/floppy-disabled.png")));
+        toTabbedPane.addTab("To Local", new ImageIcon(getClass().getResource("/images/sm/floppy.png")), panel40);
+        toTabbedPane.setDisabledIconAt(2, new ImageIcon(getClass().getResource("/images/sm/floppy-disabled.png")));
         panel40.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "To Local", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, this.$$$getFont$$$(null, Font.BOLD, 20, panel40.getFont()), null));
         final JPanel panel41 = new JPanel();
         panel41.setLayout(new GridLayoutManager(2, 2, new Insets(0, 0, 0, 0), -1, -1));
@@ -685,7 +701,7 @@ public class ApplicationGUI extends JFrame {
         panel41.add(panel42, new GridConstraints(0, 1, 2, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         panel42.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), null, TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
         final JLabel label21 = new JLabel();
-        label21.setIcon(new ImageIcon(getClass().getResource("/xm/floppy.png")));
+        label21.setIcon(new ImageIcon(getClass().getResource("/images/xm/floppy.png")));
         label21.setText("");
         panel42.add(label21, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer10 = new Spacer();
@@ -708,7 +724,7 @@ public class ApplicationGUI extends JFrame {
         panel43.add(toLocalChooseButton, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         toGitlabPanel = new JPanel();
         toGitlabPanel.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
-        toTabbedPane.addTab("To Gitlab", new ImageIcon(getClass().getResource("/gitlab.png")), toGitlabPanel);
+        toTabbedPane.addTab("To Gitlab", new ImageIcon(getClass().getResource("/images/sm/gitlab.png")), toGitlabPanel);
         final JPanel panel44 = new JPanel();
         panel44.setLayout(new GridLayoutManager(2, 2, new Insets(0, 0, 0, 0), -1, -1));
         toGitlabPanel.add(panel44, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
@@ -718,7 +734,7 @@ public class ApplicationGUI extends JFrame {
         panel44.add(panel45, new GridConstraints(0, 1, 2, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         panel45.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), null, TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
         final JLabel label23 = new JLabel();
-        label23.setIcon(new ImageIcon(getClass().getResource("/xm/gitlab.png")));
+        label23.setIcon(new ImageIcon(getClass().getResource("/images/xm/gitlab.png")));
         label23.setText("");
         panel45.add(label23, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer12 = new Spacer();
@@ -814,7 +830,8 @@ public class ApplicationGUI extends JFrame {
         panel55.add(appStopButton, new GridConstraints(2, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel57 = new JPanel();
         panel57.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
-        mainTabbedPane.addTab("Tools", panel57);
+        mainTabbedPane.addTab("Tools", new ImageIcon(getClass().getResource("/images/sm/tools.png")), panel57);
+        mainTabbedPane.setDisabledIconAt(1, new ImageIcon(getClass().getResource("/images/sm/tools-disabled.png")));
         final JScrollPane scrollPane3 = new JScrollPane();
         panel57.add(scrollPane3, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         final JPanel panel58 = new JPanel();
@@ -883,7 +900,8 @@ public class ApplicationGUI extends JFrame {
         panel61.add(label33, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel64 = new JPanel();
         panel64.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
-        mainTabbedPane.addTab("About", panel64);
+        mainTabbedPane.addTab("About", new ImageIcon(getClass().getResource("/images/sm/about.png")), panel64);
+        mainTabbedPane.setDisabledIconAt(2, new ImageIcon(getClass().getResource("/images/sm/about-disabled.png")));
         final JPanel panel65 = new JPanel();
         panel65.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         panel64.add(panel65, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
@@ -893,7 +911,7 @@ public class ApplicationGUI extends JFrame {
         panel66.setLayout(new GridLayoutManager(2, 2, new Insets(20, 20, 20, 20), -1, -1));
         scrollPane4.setViewportView(panel66);
         final JLabel label34 = new JLabel();
-        label34.setIcon(new ImageIcon(getClass().getResource("/xl/icon.png")));
+        label34.setIcon(new ImageIcon(getClass().getResource("/images/xl/icon.png")));
         label34.setText("");
         panel66.add(label34, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel67 = new JPanel();
@@ -901,23 +919,47 @@ public class ApplicationGUI extends JFrame {
         panel66.add(panel67, new GridConstraints(0, 1, 2, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         panel67.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), null, TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
         final JPanel panel68 = new JPanel();
-        panel68.setLayout(new GridLayoutManager(5, 1, new Insets(10, 10, 10, 10), -1, -1));
+        panel68.setLayout(new GridLayoutManager(8, 4, new Insets(10, 10, 10, 10), -1, -1));
         panel67.add(panel68, new GridConstraints(0, 0, 4, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         final JLabel label35 = new JLabel();
         label35.setText("FromGtoG");
-        panel68.add(label35, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        panel68.add(label35, new GridConstraints(1, 0, 1, 3, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer22 = new Spacer();
-        panel68.add(spacer22, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        panel68.add(spacer22, new GridConstraints(6, 0, 1, 4, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         final JLabel label36 = new JLabel();
-        label36.setText("Version: 6.0.9");
-        panel68.add(label36, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        label36.setText("Version: 6.0.10");
+        panel68.add(label36, new GridConstraints(2, 0, 1, 4, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label37 = new JLabel();
         label37.setText("Author: Andrei Dodu");
-        panel68.add(label37, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        panel68.add(label37, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer23 = new Spacer();
-        panel68.add(spacer23, new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        panel68.add(spacer23, new GridConstraints(7, 0, 1, 4, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        final JPanel panel69 = new JPanel();
+        panel69.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        panel68.add(panel69, new GridConstraints(4, 0, 1, 4, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         final Spacer spacer24 = new Spacer();
-        panel66.add(spacer24, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        panel69.add(spacer24, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        final JPanel panel70 = new JPanel();
+        panel70.setLayout(new GridLayoutManager(3, 2, new Insets(0, 0, 0, 0), -1, -1));
+        panel68.add(panel70, new GridConstraints(5, 0, 1, 4, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        final JPanel panel71 = new JPanel();
+        panel71.setLayout(new GridLayoutManager(3, 2, new Insets(20, 0, 0, 0), -1, -1));
+        panel70.add(panel71, new GridConstraints(0, 0, 3, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        projectWebsiteButton = new JButton();
+        projectWebsiteButton.setText("Project website");
+        panel71.add(projectWebsiteButton, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final Spacer spacer25 = new Spacer();
+        panel71.add(spacer25, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        reportAnIssueButton = new JButton();
+        reportAnIssueButton.setText("Report an issue");
+        panel71.add(reportAnIssueButton, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        buyMeACoffeeButton = new JButton();
+        buyMeACoffeeButton.setText("Buy me a coffee");
+        panel71.add(buyMeACoffeeButton, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final Spacer spacer26 = new Spacer();
+        panel68.add(spacer26, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        final Spacer spacer27 = new Spacer();
+        panel66.add(spacer27, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
     }
 
     /** @noinspection ALL */
