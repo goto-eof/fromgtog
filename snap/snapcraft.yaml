@@ -1,5 +1,5 @@
 name: fromgtog
-version: '6.0.7'
+version: '6.0.8'
 summary: Clone ALL GitHub/Gitea/Local to GitHub/Gitea.
 description: |
   Helps to clone all repositories from GitHub on Gitea/Local and vice versa.

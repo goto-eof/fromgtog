@@ -6,6 +6,7 @@ import org.kohsuke.github.GHMyself;
 import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -64,5 +65,18 @@ public class GitHubServiceImpl implements GitHubService {
         }
     }
 
+
+    @Override
+    public void deleteAllRepositories(String token) {
+        retrieveGitHubMyself(retrieveGitHubClient(token))
+                .getAllRepositories()
+                .forEach((s, ghRepository) -> {
+                    try {
+                        ghRepository.delete();
+                    } catch (IOException ee) {
+                        throw new RuntimeException(ee);
+                    }
+                });
+    }
 
 }

@@ -1,6 +1,7 @@
 package com.andreidodu.fromgtog.service.impl;
 
 import com.andreidodu.fromgtog.dto.Filter;
+import com.andreidodu.fromgtog.exception.CloningSourceException;
 import com.andreidodu.fromgtog.service.GitlabService;
 import com.andreidodu.fromgtog.service.factory.to.engines.strategies.generic.GenericDestinationEngineFromStrategyService;
 import org.gitlab4j.api.GitLabApi;
@@ -72,8 +73,8 @@ public class GitlabServiceImpl implements GitlabService {
             return projects;
         } catch (Exception e) {
             log.error("{}", e.toString());
+            throw new CloningSourceException("all repositories retrieval failed.", e);
         }
-        return List.of();
     }
 
     private List<Project> retrievePersonalProjects(Filter privacy, GitLabApi gitLabApi) throws GitLabApiException {
@@ -230,15 +231,22 @@ public class GitlabServiceImpl implements GitlabService {
         }
     }
 
-    @Override
-    public void deleteRepository(String baseUrl, String token, String owner, String repoName) {
+    private void deleteRepository(String baseUrl, String token, String owner, String repoName) {
         try {
+            log.debug("deleting repository {}...", repoName);
             GitLabApi gitLabApi = new GitLabApi(baseUrl, token);
             String projectIdOrPath = owner + "/" + repoName;
             gitLabApi.getProjectApi().deleteProject(projectIdOrPath);
             log.debug("Project deleted: {}", projectIdOrPath);
         } catch (Exception e) {
             log.error("Failed to delete repository {}, because {}", repoName, e.getMessage());
+            throw new CloningSourceException("Failed to delete repository " + repoName, e);
         }
+    }
+
+    @Override
+    public void deleteAllRepositories(String baseUrl, String token) {
+        tryToRetrieveUserRepositories(null, baseUrl, token)
+                .forEach(repo -> deleteRepository(baseUrl, token, repo.getNamespace().getFullPath(), repo.getPath()));
     }
 }

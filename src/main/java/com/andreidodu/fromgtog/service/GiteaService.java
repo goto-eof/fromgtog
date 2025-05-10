@@ -2,12 +2,11 @@ package com.andreidodu.fromgtog.service;
 
 import com.andreidodu.fromgtog.dto.gitea.GiteaRepositoryDTO;
 import com.andreidodu.fromgtog.dto.gitea.GiteaUserDTO;
-import com.andreidodu.fromgtog.service.factory.to.engines.strategies.generic.GenericDestinationEngineFromStrategyService;
 
 import java.io.IOException;
 import java.util.List;
 
-public interface GiteaService extends GenericDestinationEngineFromStrategyService {
+public interface GiteaService extends DeletableDestinationContentService {
     GiteaUserDTO getMyself(String token, String urlString);
 
     List<GiteaRepositoryDTO> tryToRetrieveUserRepositories(String baseUrl, String token);
@@ -18,5 +17,4 @@ public interface GiteaService extends GenericDestinationEngineFromStrategyServic
 
     boolean createRepository(String baseUrl, String token, String repoName, String description, boolean isPrivate);
 
-    void deleteRepository(String baseUrl, String token, String owner, String repoName);
 }

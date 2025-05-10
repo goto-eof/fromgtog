@@ -1,22 +1,20 @@
 package com.andreidodu.fromgtog.gui.controller.impl;
 
 
-import com.andreidodu.fromgtog.dto.gitea.GiteaRepositoryDTO;
+import com.andreidodu.fromgtog.service.DeletableDestinationContentService;
 import com.andreidodu.fromgtog.service.GitHubService;
-import com.andreidodu.fromgtog.service.GiteaService;
-import com.andreidodu.fromgtog.service.GitlabService;
 import com.andreidodu.fromgtog.service.impl.GitHubServiceImpl;
 import com.andreidodu.fromgtog.service.impl.GiteaServiceImpl;
 import com.andreidodu.fromgtog.service.impl.GitlabServiceImpl;
+import com.andreidodu.fromgtog.type.EngineType;
+import com.andreidodu.fromgtog.util.ThreadUtil;
 import lombok.Getter;
 import lombok.Setter;
-import org.gitlab4j.api.models.Project;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.io.IOException;
-import java.util.List;
 
 @Getter
 @Setter
@@ -41,53 +39,59 @@ public class ToolsController {
 
     public void addDeleteGiteaRepositoriesButtonListener() {
         this.toolsDeleteALLGiteaRepositoriesButton.addActionListener(e -> {
-            String giteaUrl = JOptionPane.showInputDialog(null, "Enter Gitea URL:", "Gitea URL", JOptionPane.QUESTION_MESSAGE);
-            if (giteaUrl == null || giteaUrl.isEmpty()) {
-                return;
-            }
-
-            String giteaToken = JOptionPane.showInputDialog(null, "Enter the Gitea Token:", "Gitea Token", JOptionPane.QUESTION_MESSAGE);
-            if (giteaToken == null || giteaToken.isEmpty()) {
-                return;
-            }
-
-            String areYouSure = JOptionPane.showInputDialog(null, "Are you sure that you want to delete all the repositories on Gitea (yes/no):", "Are you sure?", JOptionPane.QUESTION_MESSAGE);
-            if (areYouSure == null || !areYouSure.equalsIgnoreCase("yes")) {
-                return;
-            }
-            GiteaService giteaService = GiteaServiceImpl.getInstance();
-            List<GiteaRepositoryDTO> giteaRepositoryDTOList = giteaService.tryToRetrieveUserRepositories(giteaUrl, giteaToken);
-            giteaRepositoryDTOList.forEach(repositoryDTO -> {
-                giteaService.deleteRepository(giteaUrl, giteaToken, repositoryDTO.getOwner().getLogin(), repositoryDTO.getName());
-            });
-
-            JOptionPane.showMessageDialog(null, "All gitea repositories were deleted!", "Info", JOptionPane.INFORMATION_MESSAGE);
+            startDeletionProcedure(GiteaServiceImpl.getInstance(), EngineType.GITEA);
         });
     }
 
     public void addDeleteGitlabRepositoriesButtonListener() {
         this.toolsDeleteALLGitlabRepositoriesButton.addActionListener(e -> {
-            String giteaUrl = JOptionPane.showInputDialog(null, "Enter Gitlab URL:", "Gitea URL", JOptionPane.QUESTION_MESSAGE);
-            if (giteaUrl == null || giteaUrl.isEmpty()) {
-                return;
-            }
+            startDeletionProcedure(GitlabServiceImpl.getInstance(), EngineType.GITLAB);
+        });
+    }
 
-            String giteaToken = JOptionPane.showInputDialog(null, "Enter the Gitlab Token:", "Gitea Token", JOptionPane.QUESTION_MESSAGE);
-            if (giteaToken == null || giteaToken.isEmpty()) {
-                return;
-            }
 
-            String areYouSure = JOptionPane.showInputDialog(null, "Are you sure that you want to delete all the repositories on Gitlab (yes/no):", "Are you sure?", JOptionPane.QUESTION_MESSAGE);
-            if (areYouSure == null || !areYouSure.equalsIgnoreCase("yes")) {
-                return;
-            }
-            GitlabService giteaService = GitlabServiceImpl.getInstance();
-            List<Project> giteaRepositoryDTOList = giteaService.tryToRetrieveUserRepositories(null, giteaUrl, giteaToken);
-            giteaRepositoryDTOList.forEach(repositoryDTO -> {
-                giteaService.deleteRepository(giteaUrl, giteaToken, repositoryDTO.getNamespace().getFullPath(), repositoryDTO.getPath());
-            });
+    public <ServiceType extends DeletableDestinationContentService> void startDeletionProcedure(ServiceType service, EngineType engineType) {
+        String giteaUrl = JOptionPane.showInputDialog(null, "Enter " + engineType + " URL:", engineType + " URL", JOptionPane.QUESTION_MESSAGE);
+        if (giteaUrl == null || giteaUrl.isEmpty()) {
+            return;
+        }
 
-            JOptionPane.showMessageDialog(null, "All Gitlab repositories were deleted!", "Info", JOptionPane.INFORMATION_MESSAGE);
+        String giteaToken = JOptionPane.showInputDialog(null, "Enter the " + engineType + " Token:", engineType + " Token", JOptionPane.QUESTION_MESSAGE);
+        if (giteaToken == null || giteaToken.isEmpty()) {
+            return;
+        }
+
+        String areYouSure = JOptionPane.showInputDialog(null, "Are you sure that you want to delete all the repositories on " + engineType + " (yes/no):", "Are you sure?", JOptionPane.QUESTION_MESSAGE);
+        if (areYouSure == null || !areYouSure.equalsIgnoreCase("yes")) {
+            return;
+        }
+
+
+        ThreadUtil.executeOnSeparateThread(() -> {
+            try {
+                service.deleteAllRepositories(giteaUrl, giteaToken);
+                showRepositoriesDeletedSuccessfullyMessage(engineType);
+            } catch (Exception e) {
+                showFailedDeleteRepositoriesMessage(engineType);
+            }
+        });
+
+    }
+
+    private static void showFailedDeleteRepositoriesMessage(EngineType engineType) {
+        SwingUtilities.invokeLater(() -> {
+            JOptionPane.showMessageDialog(null, "Something wen wrong. Unable to delete " + engineType + " repositories.", "Error", JOptionPane.ERROR_MESSAGE);
+        });
+    }
+
+    private static void showRepositoriesDeletedSuccessfullyMessage(EngineType engineType) {
+        showInfoMessage("All " + engineType + " repositories were deleted!", "Info");
+    }
+
+
+    private static void showInfoMessage(String message, String title) {
+        SwingUtilities.invokeLater(() -> {
+            JOptionPane.showMessageDialog(null, message, title, JOptionPane.INFORMATION_MESSAGE);
         });
     }
 
@@ -104,23 +108,15 @@ public class ToolsController {
             }
 
             GitHubService gitHubService = GitHubServiceImpl.getInstance();
+            ThreadUtil.executeOnSeparateThread(() -> {
+                try {
+                    gitHubService.deleteAllRepositories(gitHubToken);
+                    showRepositoriesDeletedSuccessfullyMessage(EngineType.GITHUB);
+                } catch (Exception ee) {
+                    showFailedDeleteRepositoriesMessage(EngineType.GITHUB);
+                }
+            });
 
-            try {
-                gitHubService.retrieveGitHubMyself(gitHubService.retrieveGitHubClient(gitHubToken))
-                        .getAllRepositories()
-                        .forEach((s, ghRepository) -> {
-                            try {
-                                ghRepository.delete();
-                            } catch (IOException ee) {
-                                throw new RuntimeException(ee);
-                            }
-                        });
-            } catch (Exception eee) {
-                JOptionPane.showMessageDialog(null, "Something went wrong! Your token must have the delete_repo permission. Error details: " + eee, "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            JOptionPane.showMessageDialog(null, "All GitHub repositories were deleted!", "Info", JOptionPane.INFORMATION_MESSAGE);
         });
     }
 }

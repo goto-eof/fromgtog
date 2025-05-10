@@ -8,31 +8,31 @@ Given that the **initial idea** was only to clone code from GitHub to Gitea, fol
 application's features, I realized that it would be useful to **rewrite some functionalities** in order to make the code
 **easier to understand** and therefore more **maintainable**. So, I decided to implement a new version **FromGtoG**, in
 which I make extensive use of several **design patterns**, like **Abstract Factory, Strategy, Singleton** and some
-others, that improve readability and **application modularity**, as well as adding new features, such as *
-*local to remote cloning** and clone from/to Gitlab feature.
+others, that improve readability and **application modularity**, as well as adding new features, such as **local to
+remote cloning** and clone from/to Gitlab feature.
 
 # Currently the application is able to clone:
 
-- [x] `from GitHub` 
-    - [x] `to GitHub` 
-    - [x] `to Gitea` 
-    - [x] `to Local` 
-    - [x] `to Gitlab` 
-- [x] `from Gitea` 
-    - [x] `to GitHub` 
-    - [x] `to Gitea` 
-    - [x] `to Local` 
-    - [x] `to Gitlab` 
-- [x] `from Local` 
-    - [x] `to GitHub` 
-    - [x] `to Gitea` 
-    - [x] `to Local` 
-    - [x] `to Gitlab` 
-- [x] `from Local` 
-    - [x] `to GitHub` 
-    - [x] `to Gitea` 
+- [x] `from GitHub`
+    - [x] `to GitHub`
+    - [x] `to Gitea`
+    - [x] `to Local`
+    - [x] `to Gitlab`
+- [x] `from Gitea`
+    - [x] `to GitHub`
+    - [x] `to Gitea`
+    - [x] `to Local`
+    - [x] `to Gitlab`
+- [x] `from Local`
+    - [x] `to GitHub`
+    - [x] `to Gitea`
+    - [x] `to Local`
+    - [x] `to Gitlab`
+- [x] `from Local`
+    - [x] `to GitHub`
+    - [x] `to Gitea`
     - [x] `to Local`  (copies only git repositories, other directories are skipped)
-    - [x] `to Gitlab` 
+    - [x] `to Gitlab`
 
 # Which features will NOT be present?
 

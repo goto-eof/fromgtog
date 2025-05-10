@@ -14,4 +14,6 @@ public interface GitHubService {
     Map<String, GHRepository> retrieveAllGitHubRepositories(GitHub githubClient);
 
     Map<String, GHRepository> retrieveAllStarredGitHubRepositories(GitHub githubClient);
+
+    void deleteAllRepositories(String token);
 }

@@ -1,5 +1,6 @@
 package com.andreidodu.fromgtog.service.impl;
 
+import com.andreidodu.fromgtog.dto.Filter;
 import com.andreidodu.fromgtog.dto.gitea.GiteaRepositoryDTO;
 import com.andreidodu.fromgtog.dto.gitea.GiteaUserDTO;
 import com.andreidodu.fromgtog.exception.CloningSourceException;
@@ -153,7 +154,7 @@ public class GiteaServiceImpl implements GiteaService {
             });
             return new ArrayList<>(giteaRepositoryDTOS.stream().toList());
         } catch (Exception e) {
-            return new ArrayList<>();
+            throw new CloningSourceException("failed to fetch repositories", e);
         }
     }
 
@@ -217,8 +218,7 @@ public class GiteaServiceImpl implements GiteaService {
         }
     }
 
-    @Override
-    public void deleteRepository(String baseUrl, String token, String owner, String repoName) {
+    private void deleteRepository(String baseUrl, String token, String owner, String repoName) {
         try {
             String urlString = baseUrl + "/api/v1/repos/" + owner + "/" + repoName;
             URL url = new URL(urlString);
@@ -230,7 +230,13 @@ public class GiteaServiceImpl implements GiteaService {
             log.info("Fetching {} -> Status: {}", urlString, responseCode);
         } catch (Exception e) {
             log.error("Failed to delete repository {}, because {}", repoName, e.getMessage());
+            throw new CloningSourceException("Failed to delete repository " + repoName);
         }
     }
 
+    @Override
+    public void deleteAllRepositories(String baseUrl, String token) {
+        tryToRetrieveUserRepositories(baseUrl, token)
+                .forEach(repositoryDTO -> deleteRepository(baseUrl, token, repositoryDTO.getOwner().getLogin(), repositoryDTO.getName()));
+    }
 }
