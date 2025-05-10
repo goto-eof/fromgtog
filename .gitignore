@@ -27,7 +27,7 @@ settings.properties
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
-/dist/
+/windows/
 /nbdist/
 /.nb-gradle/
 build/
