@@ -2,7 +2,6 @@ package com.andreidodu.fromgtog.service.factory.to.engines.strategies.generic;
 
 import com.andreidodu.fromgtog.dto.*;
 import com.andreidodu.fromgtog.service.LocalService;
-import com.andreidodu.fromgtog.service.factory.to.engines.strategies.github.GithubDestinationEngineFromRemoteStrategy;
 import com.andreidodu.fromgtog.service.impl.LocalServiceImpl;
 import com.andreidodu.fromgtog.type.EngineType;
 import com.andreidodu.fromgtog.type.RepoPrivacyType;
@@ -16,11 +15,11 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
 
-public class GenericDestinationEngineFromRemoteStrategy<Service extends GenericDestinationEngineFromStrategyService> implements GenericDestinationEngineFromStrategyCommon {
+public class GenericDestinationEngineFromRemoteStrategy<ServiceType extends GenericDestinationEngineFromStrategyService> implements GenericDestinationEngineFromStrategyCommon {
     Logger log = LoggerFactory.getLogger(GenericDestinationEngineFromRemoteStrategy.class);
-    private final Service service;
+    private final ServiceType service;
 
-    public GenericDestinationEngineFromRemoteStrategy(Service service) {
+    public GenericDestinationEngineFromRemoteStrategy(ServiceType service) {
         this.service = service;
     }
 
