@@ -216,11 +216,11 @@ public class GitlabServiceImpl implements GitlabService {
     }
 
     @Override
-    public boolean updateRepositoryPrivacy(String token, String login, String url, String repositoryName, boolean isArchived, boolean isPrivates) throws IOException, InterruptedException {
+    public boolean updateRepositoryPrivacy(String token, String login, String url, String repositoryName, boolean isArchived, boolean isPrivate) throws IOException, InterruptedException {
         try {
             GitLabApi gitLabApi = new GitLabApi(url, token);
             Project project = gitLabApi.getProjectApi().getProject(login + "/" + repositoryName);
-            project.setVisibility(isPrivates ? Visibility.PRIVATE : Visibility.PUBLIC);
+            project.setVisibility(isPrivate ? Visibility.PRIVATE : Visibility.PUBLIC);
             project.setArchived(isArchived);
             gitLabApi.getProjectApi().updateProject(project);
             return true;

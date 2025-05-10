@@ -2,9 +2,6 @@ package com.andreidodu.fromgtog.mapper;
 
 import com.andreidodu.fromgtog.dto.RepositoryDTO;
 import com.andreidodu.fromgtog.dto.gitea.GiteaRepositoryDTO;
-import com.andreidodu.fromgtog.dto.gitea.GiteaUserDTO;
-import org.kohsuke.github.GHRepository;
-import org.kohsuke.github.GHUser;
 
 public class GiteaRepositoryMapper {
 
