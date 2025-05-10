@@ -4,15 +4,13 @@ import com.andreidodu.fromgtog.dto.EngineContext;
 import com.andreidodu.fromgtog.dto.FromContext;
 import com.andreidodu.fromgtog.dto.RepositoryDTO;
 import com.andreidodu.fromgtog.exception.CloningSourceException;
-import com.andreidodu.fromgtog.service.factory.from.AbstractSourceEngine;
 import com.andreidodu.fromgtog.service.LocalService;
+import com.andreidodu.fromgtog.service.factory.from.AbstractSourceEngine;
 import com.andreidodu.fromgtog.service.impl.LocalServiceImpl;
 import com.andreidodu.fromgtog.type.EngineType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
-import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;

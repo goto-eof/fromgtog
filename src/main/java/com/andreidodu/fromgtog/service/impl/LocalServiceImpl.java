@@ -41,12 +41,11 @@ public class LocalServiceImpl implements LocalService {
                         Optional.ofNullable(pathFile.listFiles())
                                 .orElseGet(() -> new File[0])
                 )
-                .peek(file -> {
-                    log.debug(file.getAbsolutePath());
-                })
+                .peek(file -> log.debug(file.getAbsolutePath()))
                 .filter(File::isDirectory)
                 .map(File::getAbsolutePath)
                 .toList();
+
         repositories.addAll(
                 foundRepositories.stream()
                         .map(File::new)
@@ -54,7 +53,11 @@ public class LocalServiceImpl implements LocalService {
                         .map(File::getAbsolutePath)
                         .toList()
         );
-        foundRepositories.forEach(repoPath -> findGitRepositoriesExcursively(repoPath, repositories));
+
+        foundRepositories
+                .stream()
+                .filter(repoPath -> !isGitRepository(new File(repoPath)))
+                .forEach(repoPath -> findGitRepositoriesExcursively(repoPath, repositories));
     }
 
     private boolean isGitRepository(File path) {
