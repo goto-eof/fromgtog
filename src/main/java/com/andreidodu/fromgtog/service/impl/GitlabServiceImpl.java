@@ -6,7 +6,6 @@ import com.andreidodu.fromgtog.service.GitlabService;
 import com.andreidodu.fromgtog.service.factory.to.engines.strategies.generic.GenericDestinationEngineFromStrategyService;
 import org.gitlab4j.api.GitLabApi;
 import org.gitlab4j.api.GitLabApiException;
-import org.gitlab4j.api.models.Namespace;
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.models.Visibility;
@@ -21,10 +20,6 @@ import java.util.stream.Stream;
 public class GitlabServiceImpl implements GitlabService {
 
     private final static Logger log = LoggerFactory.getLogger(GitlabServiceImpl.class);
-    private static final String HEADER_ACCEPT = "Accept";
-    private static final String HEADER_AUTHORIZATION = "Authorization";
-    private static final String TOKEN_PREFIX = "token ";
-    private static final String CONTENT_TYPE_JSON = "application/json";
 
     private static GitlabService instance;
 
@@ -36,10 +31,7 @@ public class GitlabServiceImpl implements GitlabService {
     }
 
     public static GenericDestinationEngineFromStrategyService getFullInstance() {
-        if (instance == null) {
-            instance = new GitlabServiceImpl();
-        }
-        return instance;
+        return getInstance();
     }
 
     @Override
@@ -135,7 +127,8 @@ public class GitlabServiceImpl implements GitlabService {
             try {
                 return gitLabApi.getProjectApi().getProject(id);
             } catch (GitLabApiException e) {
-                throw new RuntimeException(e);
+                log.error("Error while trying to retrieve repositories: {}", e.toString());
+                throw new CloningSourceException("Error while trying to retrieve repositories", e);
             }
         }).toList();
     }
@@ -195,8 +188,8 @@ public class GitlabServiceImpl implements GitlabService {
             GitLabApi gitLabApi = new GitLabApi(url, token);
             return addStarredProjects(gitLabApi);
         } catch (Exception e) {
-            log.error("{}", e, e);
-            return List.of();
+            log.error("Error while trying to retrieve starred repositories", e);
+            throw new CloningSourceException("Error when trying to retrieve starred repositories", e);
         }
 
     }
@@ -226,8 +219,8 @@ public class GitlabServiceImpl implements GitlabService {
             gitLabApi.getProjectApi().updateProject(project);
             return true;
         } catch (GitLabApiException e) {
-            log.error("error", e);
-            return false;
+            log.error("error when trying to update repository privacy", e);
+            throw new CloningSourceException("Error when trying to update repository privacy", e);
         }
     }
 

@@ -1,6 +1,5 @@
 package com.andreidodu.fromgtog.service.impl;
 
-import com.andreidodu.fromgtog.dto.Filter;
 import com.andreidodu.fromgtog.dto.gitea.GiteaRepositoryDTO;
 import com.andreidodu.fromgtog.dto.gitea.GiteaUserDTO;
 import com.andreidodu.fromgtog.exception.CloningSourceException;
@@ -44,12 +43,8 @@ public class GiteaServiceImpl implements GiteaService {
         return instance;
     }
 
-
     public static GenericDestinationEngineFromStrategyService getFullInstance() {
-        if (instance == null) {
-            instance = new GiteaServiceImpl();
-        }
-        return instance;
+        return getInstance();
     }
 
     @Override
@@ -84,8 +79,8 @@ public class GiteaServiceImpl implements GiteaService {
             log.info("User Info: {}", response.toString());
             return mapper.readValue(response.toString(), GiteaUserDTO.class);
         } catch (Exception e) {
-            log.error("Error: {}", e.getMessage());
-            return null;
+            log.error("Error getting user info", e);
+            throw new CloningSourceException("Error getting user info", e);
         }
     }
 
@@ -154,6 +149,7 @@ public class GiteaServiceImpl implements GiteaService {
             });
             return new ArrayList<>(giteaRepositoryDTOS.stream().toList());
         } catch (Exception e) {
+            log.error("Failed to fetch repositories", e);
             throw new CloningSourceException("failed to fetch repositories", e);
         }
     }
@@ -214,7 +210,7 @@ public class GiteaServiceImpl implements GiteaService {
 
         } catch (IOException | InterruptedException e) {
             log.error("unable to create repository: {}", e.toString());
-            return false;
+            throw new CloningSourceException("unable to create repository", e);
         }
     }
 

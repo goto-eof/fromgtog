@@ -63,11 +63,6 @@ public class RepositoryClonerServiceImpl implements RepositoryCloner {
         // TODO
     }
 
-    private static boolean isFromLocalToLocal(EngineContext engineContext) {
-        return EngineType.LOCAL.equals(engineContext.fromContext().sourceEngineType()) &&
-                engineContext.fromContext().sourceEngineType().getValue() == engineContext.toContext().engineType().getValue();
-    }
-
     private boolean cloneFromAndTo(EngineContext engineContext, SourceEngine sourceEngine, DestinationEngine destinationEngine) {
         List<RepositoryDTO> repositories = sourceEngine.retrieveRepositoryList(engineContext);
         log.debug("Number of repositories size: {}", repositories.size());

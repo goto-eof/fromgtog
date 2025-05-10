@@ -4,6 +4,8 @@ package com.andreidodu.fromgtog.service.impl;
 import com.andreidodu.fromgtog.gui.ApplicationGUI;
 import com.andreidodu.fromgtog.service.GuiStarterService;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.util.Arrays;
@@ -13,6 +15,8 @@ import java.util.stream.Collectors;
 
 
 public class GuiStarterServiceImpl implements GuiStarterService {
+
+    private static final Logger log = LoggerFactory.getLogger(GuiStarterServiceImpl.class);
 
     public static final String THEME_METAL_JAVA_IMPROVED = "Metal";
     public static final String THEME_CDE_MOTIF_WINDOWS_95 = "CDE/Motif";
@@ -33,7 +37,7 @@ public class GuiStarterServiceImpl implements GuiStarterService {
                 try {
                     applyPreferredTheme();
                 } catch (Exception e) {
-                    System.err.println("GUI error: " + e.getMessage());
+                    log.error("GUI error: {}", e.getMessage());
                     tryToApplyDefaultTheme();
                 }
                 new ApplicationGUI();
@@ -45,7 +49,7 @@ public class GuiStarterServiceImpl implements GuiStarterService {
         try {
             UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
         } catch (Exception ex) {
-            System.err.println("GUI error: " + ex.getMessage());
+            log.error("GUI error: {}", ex.getMessage());
         }
     }
 
@@ -77,6 +81,7 @@ public class GuiStarterServiceImpl implements GuiStarterService {
                         UIManager.setLookAndFeel(theme.getClassName());
                     } catch (ClassNotFoundException | UnsupportedLookAndFeelException | IllegalAccessException |
                              InstantiationException e) {
+                        log.error("Failed to apply theme: {}", themeName);
                         throw new RuntimeException(e);
                     }
                 });
@@ -91,6 +96,7 @@ public class GuiStarterServiceImpl implements GuiStarterService {
             System.out.println("Applied theme: " + lookAndFeelInfo.getName());
         } catch (ClassNotFoundException | UnsupportedLookAndFeelException | IllegalAccessException |
                  InstantiationException e) {
+            log.error("Failed to apply theme: {}", lookAndFeelInfo.getName());
             throw new RuntimeException(e);
         }
     }

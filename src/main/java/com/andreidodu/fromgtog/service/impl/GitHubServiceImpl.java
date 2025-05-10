@@ -1,16 +1,21 @@
 package com.andreidodu.fromgtog.service.impl;
 
+import com.andreidodu.fromgtog.exception.CloningDestinationException;
 import com.andreidodu.fromgtog.exception.CloningSourceException;
 import com.andreidodu.fromgtog.service.GitHubService;
 import org.kohsuke.github.GHMyself;
 import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 public class GitHubServiceImpl implements GitHubService {
+
+    private Logger log = LoggerFactory.getLogger(GitHubServiceImpl.class);
 
     private static GitHubService instance;
 
@@ -26,6 +31,7 @@ public class GitHubServiceImpl implements GitHubService {
         try {
             return GitHub.connectUsingOAuth(token);
         } catch (Exception e) {
+            log.error("Error while retrieving GitHub client", e);
             throw new CloningSourceException("Unable to connect to GitHub. Invalid token?", e);
         }
     }
@@ -35,6 +41,7 @@ public class GitHubServiceImpl implements GitHubService {
         try {
             return githubClient.getMyself();
         } catch (Exception e) {
+            log.error("Unable to retrieve GitHub Myself", e);
             throw new CloningSourceException("Unable to retrieve GitHub profile.", e);
         }
     }
@@ -44,6 +51,7 @@ public class GitHubServiceImpl implements GitHubService {
         try {
             return githubClient.getMyself().getAllRepositories();
         } catch (Exception e) {
+            log.error("Unable to retrieve all GitHub repositories.", e);
             throw new CloningSourceException("Unable to retrieve GitHub repositories.", e);
         }
     }
@@ -61,6 +69,7 @@ public class GitHubServiceImpl implements GitHubService {
                     });
             return result;
         } catch (Exception e) {
+            log.error("Unable to retrieve starred repositories.", e);
             throw new CloningSourceException("Unable to retrieve GitHub starred repositories.", e);
         }
     }
@@ -74,7 +83,8 @@ public class GitHubServiceImpl implements GitHubService {
                     try {
                         ghRepository.delete();
                     } catch (IOException ee) {
-                        throw new RuntimeException(ee);
+                        log.error("Error while trying to delete repository: {}", ee.toString());
+                        throw new CloningDestinationException("Error while trying to delete repository", ee);
                     }
                 });
     }
