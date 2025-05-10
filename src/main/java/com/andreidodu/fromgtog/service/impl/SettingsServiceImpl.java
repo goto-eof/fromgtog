@@ -20,7 +20,7 @@ public class SettingsServiceImpl implements SettingsService {
     private Logger log = LoggerFactory.getLogger(SettingsServiceImpl.class);
     private static SettingsServiceImpl instance;
 
-    public final static String FILENAME = "settings.properties";
+    public final static String FILENAME = "fromgtog/settings.properties";
     public static final String ENV_VAR_SETTINGS_FILE = "SETTINGS_FILE";
 
     public static SettingsServiceImpl getInstance() {
