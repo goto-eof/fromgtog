@@ -5,6 +5,7 @@ import com.andreidodu.fromgtog.service.LocalService;
 import com.andreidodu.fromgtog.service.factory.to.engines.strategies.AbstractFromLocalCommon;
 import com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.commands.ThreadSleepCommand;
 import com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.commands.UpdateStatusCommand;
+import com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.records.RemoteExistsCheckCommandContext;
 import com.andreidodu.fromgtog.service.impl.LocalServiceImpl;
 import com.andreidodu.fromgtog.type.EngineType;
 import com.andreidodu.fromgtog.type.RepoPrivacyType;
@@ -70,11 +71,13 @@ public class GenericDestinationEngineFromLocalStrategy<ServiceType extends Gener
             log.debug("toDirectoryPath: {}", path);
 
 
-            if (isRemoteRepositoryAlreadyExists(GenericDestinationEngineCommon.buildRemoteExistsCheckInput(engineContext, tokenOwnerLogin, repositoryName))) {
+            RemoteExistsCheckCommandContext remoteExistsCheckCommandContext = GenericDestinationEngineCommon.buildRemoteExistsCheckInput(engineContext, tokenOwnerLogin, repositoryName);
+            if (isRemoteRepositoryAlreadyExists(remoteExistsCheckCommandContext)) {
                 continue;
             }
 
-            if (localService.isRemoteRepositoryExists(tokenOwnerLogin, toContext.token(), toContext.url() + "/" + tokenOwnerLogin + "/" + repositoryName + ".git")) {
+            String remoteRepositoryUrl = toContext.url() + "/" + tokenOwnerLogin + "/" + repositoryName + ".git";
+            if (localService.isRemoteRepositoryExists(tokenOwnerLogin, toContext.token(), remoteRepositoryUrl)) {
                 log.debug("skipping because {} already exists", repositoryName);
                 callbackContainer.updateApplicationStatusMessage().accept("Skipping repository because it already exists: " + repositoryName);
                 continue;

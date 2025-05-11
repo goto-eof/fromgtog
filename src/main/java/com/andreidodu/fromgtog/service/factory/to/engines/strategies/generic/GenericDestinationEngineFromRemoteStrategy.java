@@ -4,6 +4,8 @@ import com.andreidodu.fromgtog.dto.*;
 import com.andreidodu.fromgtog.service.LocalService;
 import com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.commands.ThreadSleepCommand;
 import com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.commands.UpdateStatusCommand;
+import com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.records.RemoteExistsCheckCommandContext;
+import com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.records.StatusCommandContext;
 import com.andreidodu.fromgtog.service.impl.LocalServiceImpl;
 import com.andreidodu.fromgtog.type.EngineType;
 import com.andreidodu.fromgtog.type.RepoPrivacyType;
@@ -43,7 +45,8 @@ public class GenericDestinationEngineFromRemoteStrategy<ServiceType extends Gene
         String login = service.getLogin(toContext.token(), toContext.url());
 
 
-        new UpdateStatusCommand(buildUpdateStatusContext(engineContext.callbackContainer(), repositoryDTOList.size(), 0, "initializing the cloning process")).execute();
+        StatusCommandContext initializingTheCloningProcessInput = buildUpdateStatusContext(engineContext.callbackContainer(), repositoryDTOList.size(), 0, "initializing the cloning process");
+        new UpdateStatusCommand(initializingTheCloningProcessInput).execute();
 
 
         int i = 0;
@@ -57,12 +60,12 @@ public class GenericDestinationEngineFromRemoteStrategy<ServiceType extends Gene
             callbackContainer.updateApplicationProgressBarCurrent().accept(i++);
             callbackContainer.updateApplicationStatusMessage().accept("cloning repository: " + repositoryName);
 
-            if (isRemoteRepositoryAlreadyExists(GenericDestinationEngineCommon.buildRemoteExistsCheckInput(engineContext, login, repositoryName))) {
+            RemoteExistsCheckCommandContext remoteExistsCheckCommandContext = GenericDestinationEngineCommon.buildRemoteExistsCheckInput(engineContext, login, repositoryName);
+            if (isRemoteRepositoryAlreadyExists(remoteExistsCheckCommandContext)) {
                 continue;
             }
 
             String stagedClonePath = TEMP_DIRECTORY + File.separator + repositoryName;
-
             try {
                 log.debug("local cloning path: {}", stagedClonePath);
                 log.debug("from url: {}", repositoryDTO.getCloneAddress());
