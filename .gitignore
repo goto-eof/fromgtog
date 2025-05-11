@@ -14,7 +14,7 @@ target/
 .idea
 *.log
 logs/
-fromgtog/
+/fromgtog/
 fromgtog_*_amd64.snap
 ### Eclipse ###
 .apt_generated

@@ -2,6 +2,8 @@ package com.andreidodu.fromgtog.service.factory.to.engines.strategies.generic;
 
 import com.andreidodu.fromgtog.dto.*;
 import com.andreidodu.fromgtog.service.LocalService;
+import com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.commands.ThreadSleepCommand;
+import com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.commands.UpdateStatusCommand;
 import com.andreidodu.fromgtog.service.impl.LocalServiceImpl;
 import com.andreidodu.fromgtog.type.EngineType;
 import com.andreidodu.fromgtog.type.RepoPrivacyType;
@@ -14,6 +16,9 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
+
+import static com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.commands.CommandCommon.buildUpdateStatusContext;
+import static com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.commands.CommandCommon.isShouldStopTheProcess;
 
 public class GenericDestinationEngineFromRemoteStrategy<ServiceType extends GenericDestinationEngineFromStrategyService> implements GenericDestinationEngineFromStrategyCommon {
     Logger log = LoggerFactory.getLogger(GenericDestinationEngineFromRemoteStrategy.class);
@@ -39,19 +44,18 @@ public class GenericDestinationEngineFromRemoteStrategy<ServiceType extends Gene
         String login = service.getLogin(toContext.token(), toContext.url());
 
 
-        callbackContainer.updateApplicationProgressBarMax().accept(repositoryDTOList.size());
-        callbackContainer.updateApplicationProgressBarCurrent().accept(0);
-        callbackContainer.updateApplicationStatusMessage().accept("initializing the cloning process");
+        new UpdateStatusCommand(buildUpdateStatusContext(engineContext.callbackContainer(), repositoryDTOList.size(), 0, "initializing the cloning process")).execute();
+
 
         int i = 0;
         for (RepositoryDTO repositoryDTO : repositoryDTOList) {
-            if (callbackContainer.isShouldStop().get()) {
-                log.debug("skipping because {} because user stop request", repositoryDTO.getName());
-                callbackContainer.updateApplicationStatusMessage().accept("Skipping repository because user stop request: " + repositoryDTO.getName());
+            String repositoryName = repositoryDTO.getName();
+
+            if (isShouldStopTheProcess(repositoryName, callbackContainer)) {
                 break;
             }
+
             callbackContainer.updateApplicationProgressBarCurrent().accept(i++);
-            String repositoryName = repositoryDTO.getName();
             callbackContainer.updateApplicationStatusMessage().accept("cloning repository: " + repositoryName);
 
             if (localService.isRemoteRepositoryExists(login, toContext.token(), toContext.url() + "/" + login + "/" + repositoryName + ".git")) {
@@ -99,17 +103,13 @@ public class GenericDestinationEngineFromRemoteStrategy<ServiceType extends Gene
                 continue;
             }
 
-            try {
-                log.debug("sleeping");
-                Thread.sleep(engineContext.settingsContext().sleepTimeSeconds() * 1000L);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+            if (!new ThreadSleepCommand(engineContext.settingsContext().sleepTimeSeconds()).execute()) {
+                throw new RuntimeException("Unable to put thread on sleep " + repositoryName);
             }
 
         }
-        callbackContainer.updateApplicationStatusMessage().accept("done!");
-        callbackContainer.updateApplicationProgressBarMax().accept(100);
-        callbackContainer.updateApplicationProgressBarCurrent().accept(0);
+        new UpdateStatusCommand(buildUpdateStatusContext(engineContext.callbackContainer(), 100, 0, "done")).execute();
+
         callbackContainer.setShouldStop().accept(true);
         return true;
     }

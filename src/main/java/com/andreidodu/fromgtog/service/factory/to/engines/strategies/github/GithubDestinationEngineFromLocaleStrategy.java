@@ -4,6 +4,8 @@ import com.andreidodu.fromgtog.dto.*;
 import com.andreidodu.fromgtog.service.GitHubService;
 import com.andreidodu.fromgtog.service.LocalService;
 import com.andreidodu.fromgtog.service.factory.to.engines.strategies.AbstractFromLocalCommon;
+import com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.commands.ThreadSleepCommand;
+import com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.commands.UpdateStatusCommand;
 import com.andreidodu.fromgtog.service.impl.GitHubServiceImpl;
 import com.andreidodu.fromgtog.service.impl.LocalServiceImpl;
 import com.andreidodu.fromgtog.type.EngineType;
@@ -19,6 +21,9 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
+
+import static com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.commands.CommandCommon.buildUpdateStatusContext;
+import static com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.commands.CommandCommon.isShouldStopTheProcess;
 
 public class GithubDestinationEngineFromLocaleStrategy extends AbstractFromLocalCommon implements GithubDestinationEngineFromStrategy {
     Logger log = LoggerFactory.getLogger(GithubDestinationEngineFromLocaleStrategy.class);
@@ -38,9 +43,8 @@ public class GithubDestinationEngineFromLocaleStrategy extends AbstractFromLocal
             throw new IllegalArgumentException("Root paths cannot be the same");
         }
 
-        callbackContainer.updateApplicationProgressBarMax().accept(repositoryDTOList.size());
-        callbackContainer.updateApplicationProgressBarCurrent().accept(0);
-        callbackContainer.updateApplicationStatusMessage().accept("initializing the cloning process");
+        new UpdateStatusCommand(buildUpdateStatusContext(engineContext.callbackContainer(), repositoryDTOList.size(), 0, "initializing the cloning process")).execute();
+
 
         List<String> pathList = repositoryDTOList.stream()
                 .map(RepositoryDTO::getPath)
@@ -57,13 +61,13 @@ public class GithubDestinationEngineFromLocaleStrategy extends AbstractFromLocal
 
         int i = 1;
         for (String path : pathList) {
-            if (callbackContainer.isShouldStop().get()) {
-                log.debug("skipping because {} because user stop request", path);
-                callbackContainer.updateApplicationStatusMessage().accept("Skipping repository because user stop request: " + path);
+            String repositoryName = new File(path).getName();
+
+            if (isShouldStopTheProcess(repositoryName, callbackContainer)) {
                 break;
             }
+
             callbackContainer.updateApplicationProgressBarCurrent().accept(i++);
-            String repositoryName = new File(path).getName();
             repositoryName = correctRepositoryName(repositoryName);
 
             log.debug("toDirectoryPath: {}", path);
@@ -107,18 +111,14 @@ public class GithubDestinationEngineFromLocaleStrategy extends AbstractFromLocal
                 continue;
             }
 
-            try {
-                log.debug("sleeping");
-                Thread.sleep(engineContext.settingsContext().sleepTimeSeconds() * 1000L);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+            if (!new ThreadSleepCommand(engineContext.settingsContext().sleepTimeSeconds()).execute()) {
+                throw new RuntimeException("Unable to put thread on sleep " + repositoryName);
             }
 
 
         }
-        callbackContainer.updateApplicationStatusMessage().accept("done!");
-        callbackContainer.updateApplicationProgressBarMax().accept(100);
-        callbackContainer.updateApplicationProgressBarCurrent().accept(0);
+        new UpdateStatusCommand(buildUpdateStatusContext(engineContext.callbackContainer(), 100, 0, "done")).execute();
+
         callbackContainer.setShouldStop().accept(true);
         return true;
     }
