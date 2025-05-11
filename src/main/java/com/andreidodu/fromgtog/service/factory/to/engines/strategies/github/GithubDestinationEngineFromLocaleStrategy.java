@@ -22,8 +22,8 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
 
-import static com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.commands.CommandCommon.buildUpdateStatusContext;
-import static com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.commands.CommandCommon.isShouldStopTheProcess;
+import static com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.commands.CommandCommon.*;
+import static com.andreidodu.fromgtog.service.factory.to.engines.strategies.generic.GenericDestinationEngineCommon.buildRemoteExistsCheckInput;
 
 public class GithubDestinationEngineFromLocaleStrategy extends AbstractFromLocalCommon implements GithubDestinationEngineFromStrategy {
     Logger log = LoggerFactory.getLogger(GithubDestinationEngineFromLocaleStrategy.class);
@@ -70,14 +70,7 @@ public class GithubDestinationEngineFromLocaleStrategy extends AbstractFromLocal
             callbackContainer.updateApplicationProgressBarCurrent().accept(i++);
             repositoryName = correctRepositoryName(repositoryName);
 
-            log.debug("toDirectoryPath: {}", path);
-
-
-            log.debug("checking if repositoy {} already exists", repositoryName);
-            callbackContainer.updateApplicationStatusMessage().accept("checking if repository already exists: " + repositoryName);
-            if (localService.isRemoteRepositoryExists(tokenOwnerLogin, toContext.token(), "https://github.com" + "/" + tokenOwnerLogin + "/" + repositoryName + ".git")) {
-                log.debug("skipping because {} already exists", repositoryName);
-                callbackContainer.updateApplicationStatusMessage().accept("Skipping repository because it already exists: " + repositoryName);
+            if (isRemoteRepositoryAlreadyExists(GithubDestinationEngineCommon.buildRemoteExistsCheckInput(engineContext, tokenOwnerLogin, repositoryName))) {
                 continue;
             }
 

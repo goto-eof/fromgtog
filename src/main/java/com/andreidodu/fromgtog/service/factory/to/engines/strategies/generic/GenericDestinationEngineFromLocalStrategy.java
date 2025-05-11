@@ -4,9 +4,7 @@ import com.andreidodu.fromgtog.dto.*;
 import com.andreidodu.fromgtog.service.LocalService;
 import com.andreidodu.fromgtog.service.factory.to.engines.strategies.AbstractFromLocalCommon;
 import com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.commands.ThreadSleepCommand;
-import com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.commands.ThreadStopCheckCommand;
 import com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.commands.UpdateStatusCommand;
-import com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.records.ThreadStopCommandContext;
 import com.andreidodu.fromgtog.service.impl.LocalServiceImpl;
 import com.andreidodu.fromgtog.type.EngineType;
 import com.andreidodu.fromgtog.type.RepoPrivacyType;
@@ -20,8 +18,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
 
-import static com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.commands.CommandCommon.buildUpdateStatusContext;
-import static com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.commands.CommandCommon.isShouldStopTheProcess;
+import static com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.commands.CommandCommon.*;
 
 public class GenericDestinationEngineFromLocalStrategy<ServiceType extends GenericDestinationEngineFromStrategyService> extends AbstractFromLocalCommon implements GenericDestinationEngineFromStrategyCommon {
     Logger log = LoggerFactory.getLogger(GenericDestinationEngineFromLocalStrategy.class);
@@ -70,9 +67,12 @@ public class GenericDestinationEngineFromLocalStrategy<ServiceType extends Gener
 
             callbackContainer.updateApplicationProgressBarCurrent().accept(i++);
             repositoryName = super.correctRepositoryName(repositoryName);
-
             log.debug("toDirectoryPath: {}", path);
 
+
+            if (isRemoteRepositoryAlreadyExists(GenericDestinationEngineCommon.buildRemoteExistsCheckInput(engineContext, tokenOwnerLogin, repositoryName))) {
+                continue;
+            }
 
             if (localService.isRemoteRepositoryExists(tokenOwnerLogin, toContext.token(), toContext.url() + "/" + tokenOwnerLogin + "/" + repositoryName + ".git")) {
                 log.debug("skipping because {} already exists", repositoryName);

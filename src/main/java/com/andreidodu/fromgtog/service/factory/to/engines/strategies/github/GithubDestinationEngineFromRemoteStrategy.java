@@ -21,8 +21,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
 
-import static com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.commands.CommandCommon.buildUpdateStatusContext;
-import static com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.commands.CommandCommon.isShouldStopTheProcess;
+import static com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.commands.CommandCommon.*;
 
 public class GithubDestinationEngineFromRemoteStrategy implements GithubDestinationEngineFromStrategy {
     Logger log = LoggerFactory.getLogger(GithubDestinationEngineFromRemoteStrategy.class);
@@ -63,9 +62,7 @@ public class GithubDestinationEngineFromRemoteStrategy implements GithubDestinat
             callbackContainer.updateApplicationProgressBarCurrent().accept(i++);
             callbackContainer.updateApplicationStatusMessage().accept("cloning repository: " + repositoryName);
 
-            if (localService.isRemoteRepositoryExists(tokenOwnerLogin, toContext.token(), "https://github.com" + "/" + tokenOwnerLogin + "/" + repositoryName + ".git")) {
-                log.debug("skipping because {} already exists", repositoryName);
-                callbackContainer.updateApplicationStatusMessage().accept("Skipping repository because it already exists: " + repositoryName);
+            if (isRemoteRepositoryAlreadyExists(GithubDestinationEngineCommon.buildRemoteExistsCheckInput(engineContext, tokenOwnerLogin, repositoryName))) {
                 continue;
             }
 

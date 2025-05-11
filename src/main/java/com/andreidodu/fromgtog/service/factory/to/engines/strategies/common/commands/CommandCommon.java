@@ -1,10 +1,12 @@
 package com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.commands;
 
 import com.andreidodu.fromgtog.dto.CallbackContainer;
+import com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.records.RemoteExistsCheckCommandContext;
 import com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.records.StatusCommandContext;
 import com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.records.ThreadStopCommandContext;
 
 import java.io.File;
+import java.util.function.Consumer;
 
 public class CommandCommon {
     final static String TEMP_DIRECTORY = System.getProperty("java.io.tmpdir");
@@ -32,5 +34,10 @@ public class CommandCommon {
                         .updateApplicationStatusMessageConsumer(callbackContainer.updateApplicationStatusMessage())
                         .build()
         ).execute();
+    }
+
+
+    public static Boolean isRemoteRepositoryAlreadyExists(RemoteExistsCheckCommandContext remoteExistsCheckCommandContext) {
+        return new RemoteExistsCheckCommand(remoteExistsCheckCommandContext).execute();
     }
 }

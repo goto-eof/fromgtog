@@ -17,8 +17,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
 
-import static com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.commands.CommandCommon.buildUpdateStatusContext;
-import static com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.commands.CommandCommon.isShouldStopTheProcess;
+import static com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.commands.CommandCommon.*;
 
 public class GenericDestinationEngineFromRemoteStrategy<ServiceType extends GenericDestinationEngineFromStrategyService> implements GenericDestinationEngineFromStrategyCommon {
     Logger log = LoggerFactory.getLogger(GenericDestinationEngineFromRemoteStrategy.class);
@@ -58,9 +57,7 @@ public class GenericDestinationEngineFromRemoteStrategy<ServiceType extends Gene
             callbackContainer.updateApplicationProgressBarCurrent().accept(i++);
             callbackContainer.updateApplicationStatusMessage().accept("cloning repository: " + repositoryName);
 
-            if (localService.isRemoteRepositoryExists(login, toContext.token(), toContext.url() + "/" + login + "/" + repositoryName + ".git")) {
-                log.debug("skipping because {} already exists", repositoryName);
-                callbackContainer.updateApplicationStatusMessage().accept("Skipping repository because it already exists: " + repositoryName);
+            if (isRemoteRepositoryAlreadyExists(GenericDestinationEngineCommon.buildRemoteExistsCheckInput(engineContext, login, repositoryName))) {
                 continue;
             }
 
