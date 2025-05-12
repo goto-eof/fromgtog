@@ -6,6 +6,7 @@ import com.andreidodu.fromgtog.service.LocalService;
 import com.andreidodu.fromgtog.service.factory.to.engines.strategies.AbstractFromLocalCommon;
 import com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.commands.ThreadSleepCommand;
 import com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.commands.UpdateStatusCommand;
+import com.andreidodu.fromgtog.service.factory.to.engines.strategies.github.common.GithubDestinationEngineCommon;
 import com.andreidodu.fromgtog.service.impl.GitHubServiceImpl;
 import com.andreidodu.fromgtog.service.impl.LocalServiceImpl;
 import com.andreidodu.fromgtog.type.EngineType;
@@ -23,7 +24,6 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 import static com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.commands.CommandCommon.*;
-import static com.andreidodu.fromgtog.service.factory.to.engines.strategies.generic.GenericDestinationEngineCommon.buildRemoteExistsCheckInput;
 
 public class GithubDestinationEngineFromLocaleStrategy extends AbstractFromLocalCommon implements GithubDestinationEngineFromStrategy {
     public static final String GITHUB_URL = "https://github.com";

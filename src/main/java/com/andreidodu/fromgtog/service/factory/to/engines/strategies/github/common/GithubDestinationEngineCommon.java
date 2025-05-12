@@ -1,4 +1,4 @@
-package com.andreidodu.fromgtog.service.factory.to.engines.strategies.github;
+package com.andreidodu.fromgtog.service.factory.to.engines.strategies.github.common;
 
 import com.andreidodu.fromgtog.dto.EngineContext;
 import com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.records.RemoteExistsCheckCommandContext;
