@@ -4,19 +4,14 @@ import com.andreidodu.fromgtog.dto.*;
 import com.andreidodu.fromgtog.mapper.GitlabRepositoryMapper;
 import com.andreidodu.fromgtog.service.GitlabService;
 import com.andreidodu.fromgtog.service.factory.from.AbstractSourceEngine;
-import com.andreidodu.fromgtog.service.factory.from.engines.common.SourceEngineCommon;
 import com.andreidodu.fromgtog.service.impl.GitlabServiceImpl;
 import com.andreidodu.fromgtog.type.EngineType;
 import org.gitlab4j.api.models.Project;
-import org.gitlab4j.api.models.User;
-import org.gitlab4j.api.models.Visibility;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
-// TODO adapt for GITLAB
 public class GitlabSourceEngine extends AbstractSourceEngine {
 
     private final static EngineType SOURCE_ENGINE_TYPE = EngineType.GITLAB;
@@ -35,30 +30,10 @@ public class GitlabSourceEngine extends AbstractSourceEngine {
         callbackContainer.updateApplicationStatusMessage().accept("Retrieving repositories information...");
 
         List<Project> giteaRepositoryDTOList = gitlabService.tryToRetrieveUserRepositories(
-                Filter.builder()
-                        .starredFlag(fromContext.cloneStarredReposFlag())
-                        .privateFlag(fromContext.clonePrivateReposFlag())
-                        .archivedFlag(fromContext.cloneArchivedReposFlag())
-                        .forkedFlag(fromContext.cloneForkedReposFlag())
-                        .publicFlag(fromContext.clonePublicReposFlag())
-                        .organizationFlag(fromContext.cloneBelongingToOrganizationsReposFlag())
-                        .excludedOrganizations(
-                                (String[]) Arrays
-                                        .stream(Optional.ofNullable(fromContext.excludeOrganizations()).orElseGet(() -> "").split(","))
-                                        .map(String::trim)
-                                        .<String>toArray(String[]::new))
-                        .build(),
+                buildUserRepoFilterInput(fromContext),
                 fromContext.url(),
                 fromContext.token()
         );
-
-        // addStarredRepositoriesIfNecessary(fromContext, giteaRepositoryDTOList, gitlabService);
-
-        User myself = gitlabService.getMyself(fromContext.token(), fromContext.url());
-
-        SourceEngineCommon sourceEngineCommon = new SourceEngineCommon();
-
-        List<String> blackListOrganizationsList = sourceEngineCommon.buildOrganizationBlacklist(fromContext.excludeOrganizations());
 
         GitlabRepositoryMapper mapper = new GitlabRepositoryMapper();
 
@@ -72,14 +47,27 @@ public class GitlabSourceEngine extends AbstractSourceEngine {
         return repositoryDTOList;
     }
 
-    private void addStarredRepositoriesIfNecessary(FromContext context, List<Project> projects, GitlabService gitlabService) {
-        if (context.cloneStarredReposFlag()) {
-            projects.addAll(gitlabService.tryToRetrieveStarredRepositories(context.url(), context.token()));
-        }
+    private Filter buildUserRepoFilterInput(FromContext fromContext) {
+        return Filter.builder()
+                .starredFlag(fromContext.cloneStarredReposFlag())
+                .privateFlag(fromContext.clonePrivateReposFlag())
+                .archivedFlag(fromContext.cloneArchivedReposFlag())
+                .forkedFlag(fromContext.cloneForkedReposFlag())
+                .publicFlag(fromContext.clonePublicReposFlag())
+                .organizationFlag(fromContext.cloneBelongingToOrganizationsReposFlag())
+                .excludedOrganizations(getExcludedOrganizations(fromContext))
+                .build();
     }
 
-    private boolean isOrganizationInBlacklist(String ownerLogin, List<String> blackListOrganizationsList) {
-        return blackListOrganizationsList.contains(ownerLogin.toLowerCase());
+    private String[] getExcludedOrganizations(FromContext fromContext) {
+        return (String[]) Arrays
+                .stream(
+                        Optional.ofNullable(fromContext.excludeOrganizations())
+                                .orElseGet(() -> "")
+                                .split(",")
+                )
+                .map(String::trim)
+                .<String>toArray(String[]::new);
     }
 
 }
