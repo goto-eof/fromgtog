@@ -26,6 +26,7 @@ import static com.andreidodu.fromgtog.service.factory.to.engines.strategies.comm
 import static com.andreidodu.fromgtog.service.factory.to.engines.strategies.generic.GenericDestinationEngineCommon.buildRemoteExistsCheckInput;
 
 public class GithubDestinationEngineFromLocaleStrategy extends AbstractFromLocalCommon implements GithubDestinationEngineFromStrategy {
+    public static final String GITHUB_URL = "https://github.com";
     Logger log = LoggerFactory.getLogger(GithubDestinationEngineFromLocaleStrategy.class);
 
     @Override
@@ -87,7 +88,7 @@ public class GithubDestinationEngineFromLocaleStrategy extends AbstractFromLocal
 
             try {
                 log.debug("pushing...");
-                boolean result = localService.pushOnRemote(tokenOwnerLogin, toContext.token(), "https://github.com", repositoryName, tokenOwnerLogin, new File(path));
+                boolean result = localService.pushOnRemote(tokenOwnerLogin, toContext.token(), GITHUB_URL, repositoryName, tokenOwnerLogin, new File(path));
             } catch (IOException | GitAPIException | URISyntaxException e) {
                 callbackContainer.updateApplicationStatusMessage().accept("Unable to push repository " + repositoryName);
                 log.error("Unable to push repository {}", repositoryName, e);
@@ -97,7 +98,8 @@ public class GithubDestinationEngineFromLocaleStrategy extends AbstractFromLocal
 
             try {
                 log.debug("updating repository privacy...");
-                githubClient.getRepository(tokenOwnerLogin + "/" + repositoryName).setPrivate(RepoPrivacyType.ALL_PRIVATE.equals(toContext.repositoryPrivacy()));
+                githubClient.getRepository(tokenOwnerLogin + "/" + repositoryName)
+                        .setPrivate(RepoPrivacyType.ALL_PRIVATE.equals(toContext.repositoryPrivacy()));
             } catch (IOException e) {
                 callbackContainer.updateApplicationStatusMessage().accept("Unable to push repository " + repositoryName);
                 log.error("Unable to push repository {}", repositoryName, e);
