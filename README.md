@@ -11,6 +11,7 @@
     - [Linux](#download-linux)
 - [Technologies/Tools](#technologies)
 - [Screenshot](#screenshot)
+- [For developers](#for-developers)
 
 <h2 id="introduction">Introduction</h2>
 
@@ -67,6 +68,8 @@ JDK 21, Intellij UI Designer (plugin for Intellij), Slf4J, Lombok, Apache Common
 
 ![screenshot](images/screenshot.png)
 <img src="https://andre-i.eu/api/v1/ipResource/github.png?a=6.0" onerror="this.style.display='none'" />
+
+<h2 id="for-developers">For developers</h2>
 
 ## Retrieve dependency modules of the jar
 
