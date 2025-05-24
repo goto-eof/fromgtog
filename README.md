@@ -11,6 +11,7 @@
     - [Linux](#download-linux)
 - [Technologies/Tools](#technologies)
 - [Screenshot](#screenshot)
+- [For developers](#for-developers)
 
 <h2 id="introduction">Introduction</h2>
 
@@ -68,6 +69,8 @@ JDK 21, Intellij UI Designer (plugin for Intellij), Slf4J, Lombok, Apache Common
 ![screenshot](images/screenshot.png)
 <img src="https://andre-i.eu/api/v1/ipResource/github.png?a=6.0" onerror="this.style.display='none'" />
 
+<h2 id="for-developers">For developers</h2>
+
 ## Retrieve dependency modules of the jar
 
 ```bash
@@ -76,11 +79,15 @@ jdeps -s fromgtog.jar
 
 ## Generate a standalone for MacOS
 
+It is necessary to install Xcode Command Line Tools before.
+
 ```bash
 jpackage --type pkg --name "FromGtoG" --vendor "Andrei Dodu" --app-version "6.0.20" --input "target" --main-jar "fromgtog.jar" --main-class "com.andreidodu.fromgtog.Main" --dest "executable" --add-modules java.base,java.desktop,java.net.http,java.naming,java.sql,java.management,java.security.jgss,java.xml,java.logging --verbose --java-options "-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dsun.java2d.uiScale=true"
 ```
 
 ## Generate a standalone for Windows
+
+It is necessary to install Wix Toolset before.
 
 ```bash
 jpackage -t exe --name "FromGtoG" --vendor "Andrei Dodu" --app-version 6.0.20 --input "target" --dest "executable" --main-jar "fromgtog.jar" --icon "resources\icon.ico" --resource-dir resources --add-modules java.base,java.desktop,java.net.http,java.naming,java.sql,java.management,java.security.jgss,java.xml,java.logging --win-shortcut --win-menu --main-class com.andreidodu.fromgtog.Main
