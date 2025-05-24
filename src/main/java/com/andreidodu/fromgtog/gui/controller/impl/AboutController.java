@@ -42,15 +42,18 @@ public class AboutController {
 
     private void tryToOpenUrlCrossPlatform(String url) {
         try {
+            // Ubuntu
             openBrowser("xdg-open", url);
         } catch (Exception ex) {
             log.error(ex.getMessage());
             try {
+                // Windows
                 openBrowser("explorer", url);
             } catch (Exception ex1) {
                 log.error(ex1.getMessage());
                 log.error(ex.getMessage());
                 try {
+                    // MacOS
                     openBrowser("open", url);
                 } catch (Exception ex2) {
                     log.error(ex1.getMessage());

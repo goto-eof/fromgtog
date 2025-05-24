@@ -1,6 +1,7 @@
 package com.andreidodu.fromgtog.service.impl;
 
 import com.andreidodu.fromgtog.service.SettingsService;
+import com.andreidodu.fromgtog.util.ApplicationUtil;
 import org.apache.commons.configuration2.Configuration;
 import org.apache.commons.configuration2.PropertiesConfiguration;
 import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
@@ -13,11 +14,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 
-import static com.andreidodu.fromgtog.Main.CONF_DIR_NAME;
-import static com.andreidodu.fromgtog.Main.getApplicationRootDirectory;
+import static com.andreidodu.fromgtog.constants.ApplicationConstants.*;
 
 
 public class SettingsServiceImpl implements SettingsService {
@@ -25,8 +23,6 @@ public class SettingsServiceImpl implements SettingsService {
     private Logger log = LoggerFactory.getLogger(SettingsServiceImpl.class);
     private static SettingsServiceImpl instance;
 
-    public final static String FILENAME = "settings.properties";
-    public static final String ENV_VAR_SETTINGS_FILE = "SETTINGS_FILE";
 
     public static SettingsServiceImpl getInstance() {
         if (instance == null) {
@@ -67,13 +63,14 @@ public class SettingsServiceImpl implements SettingsService {
         return jsonObject;
     }
 
-    private static String retrieveFileName() {
-        File appDataDir = getApplicationRootDirectory();
+    private String retrieveFileName() {
+        File appDataDir = ApplicationUtil.getApplicationRootDirectory();
         File settingsDirName = new File(appDataDir, CONF_DIR_NAME);
         if (!settingsDirName.exists()) {
             settingsDirName.mkdirs();
         }
-        File settingsFile = new File(settingsDirName, FILENAME);
+        File settingsFile = new File(settingsDirName, SETTINGS_FILENAME);
+        log.debug("settings file path: {}", settingsFile.getAbsolutePath());
         String envVarSettngsFile = System.getenv(ENV_VAR_SETTINGS_FILE);
         return StringUtils.isNotBlank(envVarSettngsFile) ? envVarSettngsFile : settingsFile.getPath();
     }

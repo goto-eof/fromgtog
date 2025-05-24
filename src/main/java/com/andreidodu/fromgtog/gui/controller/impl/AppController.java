@@ -7,13 +7,14 @@ import com.andreidodu.fromgtog.gui.controller.GUIController;
 import com.andreidodu.fromgtog.gui.controller.GUIFromController;
 import com.andreidodu.fromgtog.gui.controller.GUIToController;
 import com.andreidodu.fromgtog.gui.controller.StrategyGUIController;
-import com.andreidodu.fromgtog.service.impl.SettingsServiceImpl;
-import com.andreidodu.fromgtog.util.JsonObjectServiceImpl;
-import com.andreidodu.fromgtog.service.RepositoryCloner;
-import com.andreidodu.fromgtog.service.impl.RepositoryClonerServiceImpl;
 import com.andreidodu.fromgtog.gui.controller.translator.impl.JsonObjectToAppContextTranslator;
 import com.andreidodu.fromgtog.gui.controller.translator.impl.JsonObjectToFromContextTranslator;
 import com.andreidodu.fromgtog.gui.controller.translator.impl.JsonObjectToToContextTranslator;
+import com.andreidodu.fromgtog.service.RepositoryCloner;
+import com.andreidodu.fromgtog.service.impl.RepositoryClonerServiceImpl;
+import com.andreidodu.fromgtog.service.impl.SettingsServiceImpl;
+import com.andreidodu.fromgtog.util.ApplicationUtil;
+import com.andreidodu.fromgtog.util.JsonObjectServiceImpl;
 import lombok.Getter;
 import lombok.Setter;
 import org.json.JSONObject;
@@ -26,7 +27,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.function.Consumer;
 
-import static com.andreidodu.fromgtog.Main.LOG_DIR_NAME;
+import static com.andreidodu.fromgtog.constants.ApplicationConstants.LOG_FILENAME;
+import static com.andreidodu.fromgtog.constants.ApplicationConstants.LOG_DIR_NAME;
 import static com.andreidodu.fromgtog.gui.controller.constants.GuiKeys.*;
 import static com.andreidodu.fromgtog.util.NumberUtil.toIntegerOrDefault;
 
@@ -39,7 +41,6 @@ import static com.andreidodu.fromgtog.util.NumberUtil.toIntegerOrDefault;
 @Setter
 public class AppController implements GUIController {
 
-    public static final String FROMGTOG_LOGS_PATH = "application.log";
     Logger log = LoggerFactory.getLogger(AppController.class);
 
     private List<GUIFromController> fromControllerList;
@@ -115,9 +116,9 @@ public class AppController implements GUIController {
     }
 
     private void defineOpenLogFileButtonListener() {
-        File appDataDir = Main.getApplicationRootDirectory();
+        File appDataDir = ApplicationUtil.getApplicationRootDirectory();
         File logDir = new File(appDataDir, LOG_DIR_NAME);
-        File logFile = new File(logDir, FROMGTOG_LOGS_PATH);
+        File logFile = new File(logDir, LOG_FILENAME);
 
         appOpenLogFileButton.addActionListener(e -> {
             String filename = logFile.getAbsolutePath();
