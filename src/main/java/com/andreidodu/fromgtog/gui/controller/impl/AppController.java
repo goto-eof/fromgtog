@@ -65,7 +65,7 @@ public class AppController implements GUIController {
     private Consumer<Boolean> setEnabledUI;
 
     private JButton appStopButton;
-
+    private JPanel statusContainerJPanel;
     @Getter
     @Setter
     private boolean shouldStop = false;
@@ -84,7 +84,8 @@ public class AppController implements GUIController {
                          JTabbedPane toTabbedPane,
                          JButton appOpenLogFileButton,
                          Consumer<Boolean> setEnabledUI,
-                         JButton appStopButton) {
+                         JButton appStopButton,
+                         JPanel statusContainerJPanel) {
         this.fromControllerList = fromControllerList;
         this.toControllerList = toControllerList;
         this.appLogTextArea = appLogTextArea;
@@ -99,6 +100,7 @@ public class AppController implements GUIController {
         this.appOpenLogFileButton = appOpenLogFileButton;
         this.setEnabledUI = setEnabledUI;
         this.appStopButton = appStopButton;
+        this.statusContainerJPanel = statusContainerJPanel;
 
 
         this.translatorTo = new JsonObjectToToContextTranslator();
@@ -253,6 +255,8 @@ public class AppController implements GUIController {
                 repositoryCloner.cloneAllRepositories(engineContext);
             } catch (Exception ee) {
                 this.showErrorMessage("Something went wrong. " + ee.getMessage());
+                setEnabledUI.accept(true);
+                setShouldStop(true);
             }
         });
     }
