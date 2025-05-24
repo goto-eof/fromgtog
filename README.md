@@ -29,7 +29,7 @@ Currently, the application is able to clone:
 
 - from GitHub to GitHub\Gitea\Local\Gitlab
 - from Gitea to GitHub\Gitea\Local\Gitlab
-- from Local to GitHub\Gitea\Local\Gitlab
+- from Gitlab to GitHub\Gitea\Local\Gitlab
 - from Local to GitHub\Gitea\Local (copies only git repositories, other directories are skipped)\Gitlab
 
 Further features (in the tools section)
