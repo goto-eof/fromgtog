@@ -44,12 +44,12 @@ Further features (in the tools section)
 - <h2 id="download-macos">MacOS</h2>
 
   [Download MacOS installer](https://github.com/goto-eof/fromgtog/releases/download/6.0.20/FromGtoG-6.0.20.pkg) - just
-  install the .pkg file
+  install the .pkg file. Note: for copy/paste actions, please use `Control + C` and `Control + V` (I will make work also `Command + C` and `Command + V` in the future.)
 
 - <h2 id="download-windows">Windows</h2>
 
   [Download Windows installer](https://github.com/goto-eof/fromgtog/releases/download/6.0.20/FromGtoG-6.0.20.exe) - just
-  install the .exe file and start cloning
+  install the .exe file and start cloning.
 
 - <h2 id="download-linux">Linux</h2>
 
