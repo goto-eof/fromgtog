@@ -44,7 +44,7 @@ Further features (in the tools section)
 - <h2 id="download-macos">MacOS</h2>
 
   [Download MacOS installer](https://github.com/goto-eof/fromgtog/releases/download/6.0.20/FromGtoG-6.0.20.pkg) - just
-  install the .pkg file. Note: for copy/paste actions, please use `Control + C` and `Control + V` (I will make work also `Command + C` and `Command + V` in the future.)
+  install the .pkg file. Note: for copy/paste actions, please use `Control + C` and `Control + V` (I will enable `Command + C` and `Command + V` in the future.)
 
 - <h2 id="download-windows">Windows</h2>
 
@@ -56,7 +56,7 @@ Further features (in the tools section)
   [Download Ubuntu .deb package](https://github.com/goto-eof/fromgtog/releases/download/6.0.20/fromgtog_6.0.20_amd64.deb) -
   in order to install the .deb package execute `sudo dpkg -i romgtog_6.0.20_amd64.deb`
 
-  [Install from Ubutnu Snapstore](https://snapcraft.io/fromgtog) - execute `sudo snap install fromgtog` in order to
+  [Install from Ubutnu Snapstore](https://snapcraft.io/fromgtog) - or execute `sudo snap install fromgtog` in order to
   install the application.
 
 <h2 id="technologies">Technologies/Tools</h2>
