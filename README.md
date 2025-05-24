@@ -43,7 +43,7 @@ Further features (in the tools section)
 
 - <h2 id="download-macos">MacOS</h2>
 
-[Download MacOS installer](https://github.com/goto-eof/fromgtog/releases/download/6.0.13/FromGtoG-6.0.13.pkg) - just
+  [Download MacOS installer](https://github.com/goto-eof/fromgtog/releases/download/6.0.13/FromGtoG-6.0.13.pkg) - just
 install the .pkg file
 
 - <h2 id="download-windows">Windows</h2>
