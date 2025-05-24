@@ -41,3 +41,4 @@ build/
 ### Mac OS ###
 .DS_Store
 ${project.build.directory}/
+target/

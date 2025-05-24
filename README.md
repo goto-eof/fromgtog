@@ -62,34 +62,11 @@ jdeps -s fromgtog.jar
 ## Generate a standalone for Windows
 
 ```bash
-jpackage --type exe \
-    --name "FromGtoG" \
-    --vendor "Andrei Dodu" \
-    --app-version "6.0.13" \
-    --input "target/fromgtog.jar" \
-    --main-jar "fromgtog.jar" \
-    --main-class "com.andreidodu.fromgtog.Main" \
-    --dest "executable" \
-    --add-modules java.base,java.desktop,java.net.http,java.naming,jdk.unsupported \
-    --icon "path/to/your/icon.ico" \
-    --win-menu \
-    --win-shortcut \
-    --win-console \
-    --verbose
+jpackage -t msi --name "FromGtoG" --vendor "Andrei Dodu" --app-version 6.0.13 --input "target" --dest "executable" --main-jar "fromgtog.jar" --icon "resources\icon.ico" --resource-dir resources --add-modules java.base,java.desktop,java.net.http,java.naming,java.sql --win-shortcut --win-menu --main-class com.andreidodu.fromgtog.Main
 ```
 
 ## Generate a standalone for Linux
 
 ```bash
-jpackage --type deb \
-    --name "FromGtoG" \
-    --vendor "Andrei Dodu" \
-    --app-version "6.0.13" \
-    --input "target" \
-    --main-jar "fromgtog.jar" \
-    --main-class "com.andreidodu.fromgtog.Main" \
-    --dest "executable" \
-    --add-modules java.base,java.desktop,java.net.http,java.naming,java.sql \
-    --linux-shortcut \
-    --verbose
+jpackage --type deb --name "FromGtoG" --vendor "Andrei Dodu" --app-version "6.0.13" --input "target" --main-jar "fromgtog.jar" --main-class "com.andreidodu.fromgtog.Main" --dest "executable" --add-modules java.base,java.desktop,java.net.http,java.naming,java.sql --linux-shortcut --verbose
 ```
