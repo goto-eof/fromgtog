@@ -1,6 +1,5 @@
 package com.andreidodu.fromgtog.gui.controller.impl;
 
-import com.andreidodu.fromgtog.Main;
 import com.andreidodu.fromgtog.dto.CallbackContainer;
 import com.andreidodu.fromgtog.dto.EngineContext;
 import com.andreidodu.fromgtog.gui.controller.GUIController;
@@ -27,8 +26,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.function.Consumer;
 
-import static com.andreidodu.fromgtog.constants.ApplicationConstants.LOG_FILENAME;
 import static com.andreidodu.fromgtog.constants.ApplicationConstants.LOG_DIR_NAME;
+import static com.andreidodu.fromgtog.constants.ApplicationConstants.LOG_FILENAME;
 import static com.andreidodu.fromgtog.gui.controller.constants.GuiKeys.*;
 import static com.andreidodu.fromgtog.util.NumberUtil.toIntegerOrDefault;
 
