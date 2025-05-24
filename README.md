@@ -40,7 +40,7 @@ Further features (in the tools section)
 
 <h2 id="download">Download</h2>
 
-- [portable Windows binary (amd64)](https://github.com/goto-eof/fromgtog/releases/download/6.0.10/amd64_fromgtog-6.0.10_portable.zip) -
+- [portable Windows binary (amd64)](https://github.com/goto-eof/fromgtog/releases/download/6.0.13/amd64_fromgtog-6.0.13_portable.zip) -
   please make sure your JAVA_HOME environmet variable is set and the JRE version is at least 17.
 - [Ubuntu snap (amd64, arm64)](https://snapcraft.io/fromgtog)
 
@@ -65,7 +65,7 @@ jdeps -s fromgtog.jar
 jpackage --type exe \
     --name "FromGtoG" \
     --vendor "Andrei Dodu" \
-    --app-version "6.0.10" \
+    --app-version "6.0.13" \
     --input "target/fromgtog.jar" \
     --main-jar "fromgtog.jar" \
     --main-class "com.andreidodu.fromgtog.Main" \
@@ -84,7 +84,7 @@ jpackage --type exe \
 jpackage --type deb \
     --name "FromGtoG" \
     --vendor "Andrei Dodu" \
-    --app-version "6.0.10" \
+    --app-version "6.0.13" \
     --input "target/fromgtog.jar" \
     --main-jar "fromgtog.jar" \
     --main-class "com.andreidodu.fromgtog.Main" \
