@@ -43,18 +43,18 @@ Further features (in the tools section)
 
 - <h2 id="download-macos">MacOS</h2>
 
-  [Download MacOS installer](https://github.com/goto-eof/fromgtog/releases/download/6.0.16/FromGtoG-6.0.16.pkg) - just
+  [Download MacOS installer](https://github.com/goto-eof/fromgtog/releases/download/6.0.20/FromGtoG-6.0.20.pkg) - just
   install the .pkg file
 
 - <h2 id="download-windows">Windows</h2>
 
-  [Download Windows installer](https://github.com/goto-eof/fromgtog/releases/download/6.0.16/FromGtoG-6.0.16.msi) - just
-  install the .msi file and start cloning
+  [Download Windows installer](https://github.com/goto-eof/fromgtog/releases/download/6.0.20/FromGtoG-6.0.20.exe) - just
+  install the .exe file and start cloning
 
 - <h2 id="download-linux">Linux</h2>
 
-  [Download Ubuntu .deb package](https://github.com/goto-eof/fromgtog/releases/download/6.0.16/fromgtog_6.0.16_amd64.deb) -
-  in order to install the .deb package execute `sudo dpkg -i romgtog_6.0.16_amd64.deb`
+  [Download Ubuntu .deb package](https://github.com/goto-eof/fromgtog/releases/download/6.0.20/fromgtog_6.0.20_amd64.deb) -
+  in order to install the .deb package execute `sudo dpkg -i romgtog_6.0.20_amd64.deb`
 
   [Install from Ubutnu Snapstore](https://snapcraft.io/fromgtog) - execute `sudo snap install fromgtog` in order to
   install the application.
@@ -77,17 +77,17 @@ jdeps -s fromgtog.jar
 ## Generate a standalone for MacOS
 
 ```bash
-jpackage --type pkg --name "FromGtoG" --vendor "Andrei Dodu" --app-version "6.0.13" --input "target" --main-jar "fromgtog.jar" --main-class "com.andreidodu.fromgtog.Main" --dest "executable" --add-modules java.base,java.desktop,java.net.http,java.naming,java.sql --verbose
+jpackage --type pkg --name "FromGtoG" --vendor "Andrei Dodu" --app-version "6.0.20" --input "target" --main-jar "fromgtog.jar" --main-class "com.andreidodu.fromgtog.Main" --dest "executable" --add-modules java.base,java.desktop,java.net.http,java.naming,java.sql,java.management,java.security.jgss,java.xml,java.logging --verbose --java-options "-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dsun.java2d.uiScale=true"
 ```
 
 ## Generate a standalone for Windows
 
 ```bash
-jpackage -t msi --name "FromGtoG" --vendor "Andrei Dodu" --app-version 6.0.13 --input "target" --dest "executable" --main-jar "fromgtog.jar" --icon "resources\icon.ico" --resource-dir resources --add-modules java.base,java.desktop,java.net.http,java.naming,java.sql --win-shortcut --win-menu --main-class com.andreidodu.fromgtog.Main
+jpackage -t exe --name "FromGtoG" --vendor "Andrei Dodu" --app-version 6.0.20 --input "target" --dest "executable" --main-jar "fromgtog.jar" --icon "resources\icon.ico" --resource-dir resources --add-modules java.base,java.desktop,java.net.http,java.naming,java.sql,java.management,java.security.jgss,java.xml,java.logging --win-shortcut --win-menu --main-class com.andreidodu.fromgtog.Main
 ```
 
 ## Generate a standalone for Linux
 
 ```bash
-jpackage --type deb --name "FromGtoG" --vendor "Andrei Dodu" --app-version "6.0.13" --input "target" --main-jar "fromgtog.jar" --main-class "com.andreidodu.fromgtog.Main" --dest "executable" --add-modules java.base,java.desktop,java.net.http,java.naming,java.sql --linux-shortcut --verbose
+jpackage --type deb --name "FromGtoG" --vendor "Andrei Dodu" --app-version "6.0.20" --input "target" --main-jar "fromgtog.jar" --main-class "com.andreidodu.fromgtog.Main" --dest "executable" --add-modules java.base,java.desktop,java.net.http,java.naming,java.sql,java.management,java.security.jgss,java.xml,java.logging --linux-shortcut --verbose
 ```
