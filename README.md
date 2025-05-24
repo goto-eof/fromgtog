@@ -74,7 +74,7 @@ JDK 21, Intellij UI Designer (plugin for Intellij), Slf4J, Lombok, Apache Common
 jdeps -s fromgtog.jar
 ```
 
-# Generate a standalone for MacOS
+## Generate a standalone for MacOS
 
 ```bash
 jpackage --type pkg --name "FromGtoG" --vendor "Andrei Dodu" --app-version "6.0.13" --input "target" --main-jar "fromgtog.jar" --main-class "com.andreidodu.fromgtog.Main" --dest "executable" --add-modules java.base,java.desktop,java.net.http,java.naming,java.sql --verbose
