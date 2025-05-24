@@ -42,13 +42,13 @@ Further features (in the tools section)
 
 - <h2 id="download-windows">Windows</h2>
 
-  [Windows installer](https://github.com/goto-eof/fromgtog/releases/download/6.0.13/FromGtoG-6.0.13.msi)
+  [Download Windows installer](https://github.com/goto-eof/fromgtog/releases/download/6.0.13/FromGtoG-6.0.13.msi)
 
 - <h2 id="download-linux">Linux</h2>
 
-[Ubuntu .deb package](https://github.com/goto-eof/fromgtog/releases/download/6.0.13/fromgtog_6.0.13_amd64.deb)
+  [Download Ubuntu .deb package](https://github.com/goto-eof/fromgtog/releases/download/6.0.13/fromgtog_6.0.13_amd64.deb)
 
-[Ubutnu - from Snapstore](https://snapcraft.io/fromgtog)
+  [Visit Ubutnu - from Snapstore](https://snapcraft.io/fromgtog)
 
 <h2 id="technologies">Technologies/Tools</h2>
 
