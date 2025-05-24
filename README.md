@@ -6,6 +6,8 @@
 - [Introduction](#introduction)
 - [Features](#features)
 - [Download](#download)
+    - [Windows](#download-windows)
+    - [Linux](#download-linux)
 - [Technologies/Tools](#technologies)
 - [Screenshot](#screenshot)
 
@@ -23,26 +25,10 @@ remote cloning** and clone from/to Gitlab feature.
 
 Currently, the application is able to clone:
 
-- `from GitHub`
-    - `to GitHub`
-    - `to Gitea`
-    - `to Local`
-    - `to Gitlab`
-- `from Gitea`
-    - `to GitHub`
-    - `to Gitea`
-    - `to Local`
-    - `to Gitlab`
-- `from Local`
-    - `to GitHub`
-    - `to Gitea`
-    - `to Local`
-    - `to Gitlab`
-- `from Local`
-    - `to GitHub`
-    - `to Gitea`
-    - `to Local`  (copies only git repositories, other directories are skipped)
-    - `to Gitlab`
+- from GitHub to GitHub\Gitea\Local\Gitlab
+- from Gitea to GitHub\Gitea\Local\Gitlab
+- from Local to GitHub\Gitea\Local\Gitlab
+- from Local to GitHub\Gitea\Local (copies only git repositories, other directories are skipped)\Gitlab
 
 Further features (in the tools section)
 
@@ -54,14 +40,57 @@ Further features (in the tools section)
 
 <h2 id="download">Download</h2>
 
-- [portable Windows binary (amd64)](https://github.com/goto-eof/fromgtog/releases/download/6.0.10/amd64_fromgtog-6.0.10_portable.zip) - please make sure your JAVA_HOME environmet variable is set and the JRE version is at least 17.
+- [portable Windows binary (amd64)](https://github.com/goto-eof/fromgtog/releases/download/6.0.10/amd64_fromgtog-6.0.10_portable.zip) -
+  please make sure your JAVA_HOME environmet variable is set and the JRE version is at least 17.
 - [Ubuntu snap (amd64, arm64)](https://snapcraft.io/fromgtog)
 
 <h2 id="technologies">Technologies/Tools</h2>
 
-JDK 17, Intellij UI Designer (plugin for Intellij), Slf4J, Lombok, Apache Commons, JSON.
+JDK 21, Intellij UI Designer (plugin for Intellij), Slf4J, Lombok, Apache Commons, JSON.
 
 <h2 id="screenshot">Screenshot</h2>
 
 ![screenshot](images/screenshot.png)
 <img src="https://andre-i.eu/api/v1/ipResource/github.png?a=6.0" onerror="this.style.display='none'" />
+
+## Retrieve dependency modules of the jar
+
+```bash
+jdeps -s fromgtog.jar
+```
+
+## Generate a standalone for Windows
+
+```bash
+jpackage --type exe \
+    --name "FromGtoG" \
+    --vendor "Andrei Dodu" \
+    --app-version "6.0.10" \
+    --input "target/fromgtog.jar" \
+    --main-jar "fromgtog.jar" \
+    --main-class "com.andreidodu.fromgtog.Main" \
+    --dest "executable" \
+    --add-modules java.base,java.desktop,java.net.http,java.naming,jdk.unsupported \
+    --icon "path/to/your/icon.ico" \
+    --win-menu \
+    --win-shortcut \
+    --win-console \
+    --verbose
+```
+
+## Generate a standalone for Linux
+
+```bash
+jpackage --type deb \
+    --name "FromGtoG" \
+    --vendor "Andrei Dodu" \
+    --app-version "6.0.10" \
+    --input "target/fromgtog.jar" \
+    --main-jar "fromgtog.jar" \
+    --main-class "com.andreidodu.fromgtog.Main" \
+    --dest "executable" \
+    --add-modules java.base,java.desktop,java.net.http,java.naming,jdk.unsupported \
+    --linux-menu \
+    --linux-shortcut \
+    --verbose
+```

@@ -13,6 +13,11 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+import static com.andreidodu.fromgtog.Main.CONF_DIR_NAME;
+import static com.andreidodu.fromgtog.Main.getApplicationRootDirectory;
 
 
 public class SettingsServiceImpl implements SettingsService {
@@ -20,7 +25,7 @@ public class SettingsServiceImpl implements SettingsService {
     private Logger log = LoggerFactory.getLogger(SettingsServiceImpl.class);
     private static SettingsServiceImpl instance;
 
-    public final static String FILENAME = "fromgtog/settings.properties";
+    public final static String FILENAME = "settings.properties";
     public static final String ENV_VAR_SETTINGS_FILE = "SETTINGS_FILE";
 
     public static SettingsServiceImpl getInstance() {
@@ -63,8 +68,14 @@ public class SettingsServiceImpl implements SettingsService {
     }
 
     private static String retrieveFileName() {
+        File appDataDir = getApplicationRootDirectory();
+        File settingsDirName = new File(appDataDir, CONF_DIR_NAME);
+        if (!settingsDirName.exists()) {
+            settingsDirName.mkdirs();
+        }
+        File settingsFile = new File(settingsDirName, FILENAME);
         String envVarSettngsFile = System.getenv(ENV_VAR_SETTINGS_FILE);
-        return StringUtils.isNotBlank(envVarSettngsFile) ? envVarSettngsFile : FILENAME;
+        return StringUtils.isNotBlank(envVarSettngsFile) ? envVarSettngsFile : settingsFile.getPath();
     }
 
 }
