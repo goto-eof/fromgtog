@@ -6,6 +6,7 @@
 - [Introduction](#introduction)
 - [Features](#features)
 - [Download](#download)
+    - [MacOS](#download-macos)
     - [Windows](#download-windows)
     - [Linux](#download-linux)
 - [Technologies/Tools](#technologies)
@@ -39,6 +40,11 @@ Further features (in the tools section)
     - from Gitlab
 
 <h2 id="download">Download</h2>
+
+- <h2 id="download-macos">MacOS</h2>
+
+[Download MacOS installer](https://github.com/goto-eof/fromgtog/releases/download/6.0.13/FromGtoG-6.0.13.pkg) - just
+install the .pkg file
 
 - <h2 id="download-windows">Windows</h2>
 
