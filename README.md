@@ -42,11 +42,13 @@ Further features (in the tools section)
 
 - <h2 id="download-windows">Windows</h2>
 
-  [Download Windows installer](https://github.com/goto-eof/fromgtog/releases/download/6.0.13/FromGtoG-6.0.13.msi)
+  [Download Windows installer](https://github.com/goto-eof/fromgtog/releases/download/6.0.13/FromGtoG-6.0.13.msi) - just
+  install the .msi file and start cloning
 
 - <h2 id="download-linux">Linux</h2>
 
-  [Download Ubuntu .deb package](https://github.com/goto-eof/fromgtog/releases/download/6.0.13/fromgtog_6.0.13_amd64.deb)
+  [Download Ubuntu .deb package](https://github.com/goto-eof/fromgtog/releases/download/6.0.13/fromgtog_6.0.13_amd64.deb) -
+  in order to install the .deb package execute `sudo dpkg -i romgtog_6.0.13_amd64.deb`
 
   [Visit Ubutnu - from Snapstore](https://snapcraft.io/fromgtog)
 
