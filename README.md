@@ -50,7 +50,7 @@ Further features (in the tools section)
   [Download Ubuntu .deb package](https://github.com/goto-eof/fromgtog/releases/download/6.0.13/fromgtog_6.0.13_amd64.deb) -
   in order to install the .deb package execute `sudo dpkg -i romgtog_6.0.13_amd64.deb`
 
-  [Visit Ubutnu - from Snapstore](https://snapcraft.io/fromgtog)
+  [Install from Ubutnu Snapstore](https://snapcraft.io/fromgtog) - execute `sudo snap install fromgtog` in order to install the application.
 
 <h2 id="technologies">Technologies/Tools</h2>
 
