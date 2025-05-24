@@ -61,5 +61,5 @@ parts:
       - xdg-utils
     override-prime: |
       snapcraftctl prime
-      rm -vf usr/lib/jvm/java-17-openjdk-*64/lib/security/blacklisted.certs
+      rm -vf usr/lib/jvm/java-21-openjdk-*64/lib/security/blacklisted.certs
 
