@@ -44,7 +44,7 @@ Further features (in the tools section)
 - <h2 id="download-macos">MacOS</h2>
 
   [Download MacOS installer](https://github.com/goto-eof/fromgtog/releases/download/6.0.13/FromGtoG-6.0.13.pkg) - just
-install the .pkg file
+  install the .pkg file
 
 - <h2 id="download-windows">Windows</h2>
 
@@ -72,6 +72,12 @@ JDK 21, Intellij UI Designer (plugin for Intellij), Slf4J, Lombok, Apache Common
 
 ```bash
 jdeps -s fromgtog.jar
+```
+
+# Generate a standalone for MacOS
+
+```bash
+jpackage --type pkg --name "FromGtoG" --vendor "Andrei Dodu" --app-version "6.0.13" --input "target" --main-jar "fromgtog.jar" --main-class "com.andreidodu.fromgtog.Main" --dest "executable" --add-modules java.base,java.desktop,java.net.http,java.naming,java.sql --verbose
 ```
 
 ## Generate a standalone for Windows
