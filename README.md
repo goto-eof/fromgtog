@@ -44,18 +44,18 @@ Further features (in the tools section)
 
 - <h2 id="download-macos">MacOS</h2>
 
-  [Download MacOS installer](https://github.com/goto-eof/fromgtog/releases/download/6.0.20/FromGtoG-6.0.20.pkg) - just
+  [Download MacOS installer](https://github.com/goto-eof/fromgtog/releases/download/6.0.22/FromGtoG-6.0.22.pkg) - just
   install the .pkg file. Note: for copy/paste actions, please use `Control + C` and `Control + V` (I will enable `Command + C` and `Command + V` in the future.)
 
 - <h2 id="download-windows">Windows</h2>
 
-  [Download Windows installer](https://github.com/goto-eof/fromgtog/releases/download/6.0.20/FromGtoG-6.0.20.exe) - just
+  [Download Windows installer](https://github.com/goto-eof/fromgtog/releases/download/6.0.22/FromGtoG-6.0.22.exe) - just
   install the .exe file and start cloning.
 
 - <h2 id="download-linux">Linux</h2>
 
-  [Download Ubuntu .deb package](https://github.com/goto-eof/fromgtog/releases/download/6.0.20/fromgtog_6.0.20_amd64.deb) -
-  in order to install the .deb package execute `sudo dpkg -i romgtog_6.0.20_amd64.deb`
+  [Download Ubuntu .deb package](https://github.com/goto-eof/fromgtog/releases/download/6.0.22/fromgtog_6.0.22_amd64.deb) -
+  in order to install the .deb package execute `sudo dpkg -i romgtog_6.0.22_amd64.deb`
 
   [Install from Ubutnu Snapstore](https://snapcraft.io/fromgtog) - or execute `sudo snap install fromgtog` in order to
   install the application.
@@ -82,7 +82,7 @@ jdeps -s fromgtog.jar
 It is necessary to install Xcode Command Line Tools before.
 
 ```bash
-jpackage --type pkg --name "FromGtoG" --vendor "Andrei Dodu" --app-version "6.0.20" --input "target" --main-jar "fromgtog.jar" --main-class "com.andreidodu.fromgtog.Main" --dest "executable" --add-modules java.base,java.desktop,java.net.http,java.naming,java.sql,java.management,java.security.jgss,java.xml,java.logging --verbose --java-options "-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dsun.java2d.uiScale=true"
+jpackage --type pkg --name "FromGtoG" --vendor "Andrei Dodu" --app-version "6.0.22" --input "target" --main-jar "fromgtog.jar" --main-class "com.andreidodu.fromgtog.Main" --dest "executable" --add-modules java.base,java.desktop,java.net.http,java.naming,java.sql,java.management,java.security.jgss,java.xml,java.logging --verbose --java-options "-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dsun.java2d.uiScale=true"
 ```
 
 ## Generate a standalone for Windows
@@ -90,11 +90,11 @@ jpackage --type pkg --name "FromGtoG" --vendor "Andrei Dodu" --app-version "6.0.
 It is necessary to install Wix Toolset before.
 
 ```bash
-jpackage -t exe --name "FromGtoG" --vendor "Andrei Dodu" --app-version 6.0.20 --input "target" --dest "executable" --main-jar "fromgtog.jar" --icon "resources\icon.ico" --resource-dir resources --add-modules java.base,java.desktop,java.net.http,java.naming,java.sql,java.management,java.security.jgss,java.xml,java.logging --win-shortcut --win-menu --main-class com.andreidodu.fromgtog.Main
+jpackage -t exe --name "FromGtoG" --vendor "Andrei Dodu" --app-version 6.0.22 --input "target" --dest "executable" --main-jar "fromgtog.jar" --icon "resources\icon.ico" --resource-dir resources --add-modules java.base,java.desktop,java.net.http,java.naming,java.sql,java.management,java.security.jgss,java.xml,java.logging --win-shortcut --win-menu --main-class com.andreidodu.fromgtog.Main
 ```
 
 ## Generate a standalone for Linux
 
 ```bash
-jpackage --type deb --name "FromGtoG" --vendor "Andrei Dodu" --app-version "6.0.20" --input "target" --main-jar "fromgtog.jar" --main-class "com.andreidodu.fromgtog.Main" --dest "executable" --add-modules java.base,java.desktop,java.net.http,java.naming,java.sql,java.management,java.security.jgss,java.xml,java.logging --linux-shortcut --verbose
+jpackage --type deb --name "FromGtoG" --vendor "Andrei Dodu" --app-version "6.0.22" --input "target" --main-jar "fromgtog.jar" --main-class "com.andreidodu.fromgtog.Main" --dest "executable" --add-modules java.base,java.desktop,java.net.http,java.naming,java.sql,java.management,java.security.jgss,java.xml,java.logging --linux-shortcut --verbose
 ```
