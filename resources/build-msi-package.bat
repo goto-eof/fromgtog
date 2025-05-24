@@ -1,1 +1,0 @@
-jpackage -t msi --name "FromGtoG" --vendor "Andrei Dodu" --app-version 6.0.13 --input "target" --dest "executable" --main-jar "fromgtog.jar" --icon "resources\icon.ico" --resource-dir resources --add-modules java.base,java.desktop,java.net.http,java.naming,java.sql --win-shortcut --win-menu --main-class com.andreidodu.fromgtog.Main
