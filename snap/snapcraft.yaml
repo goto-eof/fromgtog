@@ -52,10 +52,10 @@ parts:
     plugin: maven
     source: .
     build-packages:
-      - openjdk-17-jdk
+      - openjdk-21-jdk
       - maven
     stage-packages:
-      - openjdk-17-jre
+      - openjdk-21-jre
       - glib-networking
       - libgtk-3-0
       - xdg-utils
