@@ -41,7 +41,7 @@ Further features (in the tools section)
 <h2 id="download">Download</h2>
 
 - <h2 id="download-windows">Windows</h2>
-    - [portable Windows binary (amd64)](https://github.com/goto-eof/fromgtog/releases/download/6.0.13/FromGtoG-6.0.13.msi) -
+    - [portable Windows binary (amd64)](https://github.com/goto-eof/fromgtog/releases/download/6.0.13/FromGtoG-6.0.13.msi)
 - <h2 id="download-linux">Linux</h2>
     - [Ubuntu](https://github.com/goto-eof/fromgtog/releases/download/6.0.13/fromgtog_6.0.13_amd64.deb)
     - [Ubuntu snap (amd64, arm64)](https://snapcraft.io/fromgtog)
