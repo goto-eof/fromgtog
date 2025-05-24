@@ -1,5 +1,6 @@
 package com.andreidodu.fromgtog.gui.controller.impl;
 
+import com.andreidodu.fromgtog.Main;
 import com.andreidodu.fromgtog.dto.CallbackContainer;
 import com.andreidodu.fromgtog.dto.EngineContext;
 import com.andreidodu.fromgtog.gui.controller.GUIController;
@@ -20,10 +21,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.function.Consumer;
 
+import static com.andreidodu.fromgtog.Main.LOG_DIR_NAME;
 import static com.andreidodu.fromgtog.gui.controller.constants.GuiKeys.*;
 import static com.andreidodu.fromgtog.util.NumberUtil.toIntegerOrDefault;
 
@@ -36,7 +39,7 @@ import static com.andreidodu.fromgtog.util.NumberUtil.toIntegerOrDefault;
 @Setter
 public class AppController implements GUIController {
 
-    public static final String FROMGTOG_LOGS_PATH = "fromgtog/logs/application.log";
+    public static final String FROMGTOG_LOGS_PATH = "application.log";
     Logger log = LoggerFactory.getLogger(AppController.class);
 
     private List<GUIFromController> fromControllerList;
@@ -112,11 +115,20 @@ public class AppController implements GUIController {
     }
 
     private void defineOpenLogFileButtonListener() {
+        File appDataDir = Main.getApplicationRootDirectory();
+        File logDir = new File(appDataDir, LOG_DIR_NAME);
+        File logFile = new File(logDir, FROMGTOG_LOGS_PATH);
+
         appOpenLogFileButton.addActionListener(e -> {
+            String filename = logFile.getAbsolutePath();
             try {
-                openLogFileOnLinux(FROMGTOG_LOGS_PATH);
+                openLogFileOnLinux(filename);
             } catch (Exception ex) {
-                openLogFileOnWindows(FROMGTOG_LOGS_PATH);
+                try {
+                    openLogFileOnWindows(filename);
+                } catch (Exception ex1) {
+                    openLogFileOnMacOs(filename);
+                }
             }
         });
     }
@@ -128,8 +140,8 @@ public class AppController implements GUIController {
             pb.start();
             log.debug("log file open request done");
         } catch (IOException ee) {
-            log.error("failed to open log file: {}", ee.getMessage());
-            throw new RuntimeException("failed to open log file: " + ee.getMessage());
+            log.error("failed to open log file: {} - {}", logFilename, ee.getMessage());
+            throw new RuntimeException("failed to open log file: " + logFilename, ee);
         }
     }
 
@@ -140,7 +152,19 @@ public class AppController implements GUIController {
             pb.start();
             log.debug("log file open request done");
         } catch (IOException eee) {
-            log.error("failed to open log file: {}", eee.getMessage());
+            log.error("failed to open log file: {} - {}", logFilename, eee.getMessage());
+            throw new RuntimeException("failed to open log file: " + logFilename, eee);
+        }
+    }
+
+    private void openLogFileOnMacOs(String logFilename) {
+        try {
+            ProcessBuilder pb = new ProcessBuilder("open", logFilename);
+            pb.inheritIO();
+            pb.start();
+            log.debug("log file open request done");
+        } catch (IOException eee) {
+            log.error("failed to open log file: {} - {}", logFilename, eee.getMessage());
         }
     }
 

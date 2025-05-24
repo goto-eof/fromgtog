@@ -49,6 +49,12 @@ public class AboutController {
                 openBrowser("explorer", url);
             } catch (Exception ex1) {
                 log.error(ex1.getMessage());
+                log.error(ex.getMessage());
+                try {
+                    openBrowser("open", url);
+                } catch (Exception ex2) {
+                    log.error(ex1.getMessage());
+                }
             }
         }
     }

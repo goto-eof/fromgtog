@@ -7,7 +7,7 @@ import java.io.File;
 public class Main {
     private static final String FROMGTOG_LOG_FILE_PATH = "FROMGTOG_LOG_FILE_PATH";
     private static final String APP_NAME_FOR_DATA = ".fromgtog";
-    private static final String LOG_DIR_NAME = "logs";
+    public static final String LOG_DIR_NAME = "logs";
     public static final String CONF_DIR_NAME = "conf";
 
     public static void main(String[] args) {
