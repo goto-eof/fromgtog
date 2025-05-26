@@ -71,7 +71,6 @@ public class LocalServiceImpl implements LocalService {
 
     @Override
     public boolean clone(String login, String token, String cloneUrl, String toPath) throws GitAPIException {
-        NoHomeGitConfigSystemReader.install();
 
         Git git = Git.cloneRepository()
                 .setURI(cloneUrl)

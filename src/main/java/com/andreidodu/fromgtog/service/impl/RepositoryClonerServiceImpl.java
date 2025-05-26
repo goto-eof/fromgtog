@@ -41,7 +41,7 @@ public class RepositoryClonerServiceImpl implements RepositoryCloner {
 
     private void executeOnNewThread(EngineContext engineContext, SourceEngine sourceEngine, DestinationEngine destinationEngine) {
         ThreadUtil.getInstance().executeOnSeparateThread(() -> {
-                    TimeCounter timeManager = new TimeCounter(engineContext.callbackContainer().updateTimeLabel());
+                    TimeCounterService timeCounterService = new TimeCounterService(engineContext.callbackContainer().updateTimeLabel());
                     try {
                         EngineType from = engineContext.fromContext().sourceEngineType();
                         EngineType to = engineContext.toContext().engineType();
@@ -52,12 +52,12 @@ public class RepositoryClonerServiceImpl implements RepositoryCloner {
                         cloneFromAndTo(engineContext, sourceEngine, destinationEngine);
                         engineContext.callbackContainer().setEnabledUI().accept(true);
                         engineContext.callbackContainer().showSuccessMessage().accept("Clone procedure completed successfully!");
-                        timeManager.stopCounter();
+                        timeCounterService.stopCounter();
                     } catch (Exception e) {
                         engineContext.callbackContainer().setEnabledUI().accept(true);
                         engineContext.callbackContainer().setShouldStop().accept(true);
                         engineContext.callbackContainer().showErrorMessage().accept("Something went wrong while cloning: " + e.getMessage());
-                        timeManager.stopCounter();
+                        timeCounterService.stopCounter();
                     }
                 }
         );

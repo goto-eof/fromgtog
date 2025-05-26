@@ -13,9 +13,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 
-public class TimeCounter {
+public class TimeCounterService {
 
-    private Logger logger = LoggerFactory.getLogger(TimeCounter.class);
+    private Logger logger = LoggerFactory.getLogger(TimeCounterService.class);
 
     @Getter
     @Setter
@@ -24,7 +24,7 @@ public class TimeCounter {
     private static final AtomicBoolean timeEnabled = new AtomicBoolean(false);
     ScheduledFuture<?> future = null;
 
-    public TimeCounter(Consumer<String> updateTimeLabel) {
+    public TimeCounterService(Consumer<String> updateTimeLabel) {
         this.setTimeExecutorService(Executors.newSingleThreadScheduledExecutor());
         runTimeCounter(updateTimeLabel);
         reset(updateTimeLabel);

@@ -41,6 +41,8 @@ public class LocalDestinationEngineFromRemoteStrategy extends AbstractStrategyCo
         final ExecutorService executorService = threadUtil.createExecutor(engineContext.settingsContext().multithreadingEnabled());
 
         this.resetIndex();
+        NoHomeGitConfigSystemReader.install();
+
         for (RepositoryDTO repositoryDTO : repositoryDTOList) {
             final RepositoryDTO finalRepositoryDTO = repositoryDTO;
             executorService.execute(() -> processItem(engineContext, finalRepositoryDTO));
@@ -90,7 +92,7 @@ public class LocalDestinationEngineFromRemoteStrategy extends AbstractStrategyCo
             completeTask(callbackContainer);
             return;
         }
-        NoHomeGitConfigSystemReader.install();
+
         try {
             log.debug("starting the cloning process of {}...", repositoryDTO.getName());
             Git clonedRepo = Git.cloneRepository()

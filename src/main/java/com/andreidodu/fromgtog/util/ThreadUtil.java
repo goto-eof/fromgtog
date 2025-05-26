@@ -34,7 +34,7 @@ public class ThreadUtil {
 
         if (nThreads > 1) {
             log.info("Creating a new threadpool using thread count {}", nThreads);
-            return Executors.newFixedThreadPool(nThreads);
+            return Executors.newFixedThreadPool(nThreads, new CustomThreadFactory());
         }
 
         return Executors.newSingleThreadExecutor();

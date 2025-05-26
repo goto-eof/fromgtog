@@ -1,5 +1,6 @@
 package com.andreidodu.fromgtog.service.factory.to.engines.strategies.github;
 
+import com.andreidodu.fromgtog.config.NoHomeGitConfigSystemReader;
 import com.andreidodu.fromgtog.dto.*;
 import com.andreidodu.fromgtog.service.GitHubService;
 import com.andreidodu.fromgtog.service.LocalService;
@@ -52,6 +53,7 @@ public class GithubDestinationEngineFromRemoteStrategy extends AbstractStrategyC
         ThreadUtil threadUtil = ThreadUtil.getInstance();
         final ExecutorService executorService = threadUtil.createExecutor(engineContext.settingsContext().multithreadingEnabled());
         super.resetIndex();
+        NoHomeGitConfigSystemReader.install();
 
         for (RepositoryDTO repositoryDTO : repositoryDTOList) {
             executorService.execute(() -> processItem(engineContext, repositoryDTO, githubClient, tokenOwnerLogin));
