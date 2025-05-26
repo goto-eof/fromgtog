@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import static com.andreidodu.fromgtog.constants.ApplicationConstants.MAX_NUM_THREADS;
+
 public class LocalDestinationEngineFromRemoteStrategy implements LocalDestinationEngineFromStrategy {
 
     private int index = 0;
@@ -71,7 +73,7 @@ public class LocalDestinationEngineFromRemoteStrategy implements LocalDestinatio
             return 1;
         }
         int numProcessors = Runtime.getRuntime().availableProcessors();
-        return Math.min(numProcessors, 6);
+        return Math.min(numProcessors, MAX_NUM_THREADS);
     }
 
 
