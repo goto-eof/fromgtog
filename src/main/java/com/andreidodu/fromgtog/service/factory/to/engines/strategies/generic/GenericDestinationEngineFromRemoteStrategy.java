@@ -74,6 +74,7 @@ public class GenericDestinationEngineFromRemoteStrategy<ServiceType extends Gene
 
         LocalService localService = LocalServiceImpl.getInstance();
         if (isShouldStopTheProcess(repositoryName, callbackContainer)) {
+            completeTask(callbackContainer);
             return;
         }
 
@@ -81,6 +82,7 @@ public class GenericDestinationEngineFromRemoteStrategy<ServiceType extends Gene
 
         RemoteExistsCheckCommandContext remoteExistsCheckCommandContext = GenericDestinationEngineCommon.buildRemoteExistsCheckInput(engineContext, login, repositoryName);
         if (isRemoteRepositoryAlreadyExists(remoteExistsCheckCommandContext)) {
+            completeTask(callbackContainer);
             return;
         }
 
@@ -93,6 +95,7 @@ public class GenericDestinationEngineFromRemoteStrategy<ServiceType extends Gene
         } catch (Exception e) {
             callbackContainer.updateApplicationStatusMessage().accept("Unable to clone repository " + repositoryName);
             log.error("Unable to clone repository {}", repositoryName, e);
+            completeTask(callbackContainer);
             return;
         }
 
@@ -110,6 +113,7 @@ public class GenericDestinationEngineFromRemoteStrategy<ServiceType extends Gene
         } catch (IOException | GitAPIException | URISyntaxException | InterruptedException e) {
             callbackContainer.updateApplicationStatusMessage().accept("Unable to push repository " + repositoryName);
             log.error("Unable to push repository {}", repositoryName, e);
+            completeTask(callbackContainer);
             return;
         }
 
@@ -119,15 +123,16 @@ public class GenericDestinationEngineFromRemoteStrategy<ServiceType extends Gene
         } catch (Exception e) {
             callbackContainer.updateApplicationStatusMessage().accept("Unable to push repository " + repositoryName);
             log.error("Unable to push repository {}", repositoryName, e);
+            completeTask(callbackContainer);
             return;
         }
 
 
-        callbackContainer.updateApplicationProgressBarCurrent().accept(this.getIndex());
-        this.incrementIndex();
+        completeTask(callbackContainer);
 
         if (!new ThreadSleepCommand(engineContext.settingsContext().sleepTimeSeconds()).execute()) {
             throw new RuntimeException("Unable to put thread on sleep " + repositoryName);
         }
     }
+
 }

@@ -87,12 +87,14 @@ public class GithubDestinationEngineFromLocaleStrategy extends AbstractStrategyC
         LocalService localService = LocalServiceImpl.getInstance();
 
         if (isShouldStopTheProcess(repositoryName, callbackContainer)) {
+            completeTask(callbackContainer);
             return;
         }
 
         repositoryName = correctRepositoryName(repositoryName);
 
         if (isRemoteRepositoryAlreadyExists(GithubDestinationEngineCommon.buildRemoteExistsCheckInput(engineContext, tokenOwnerLogin, repositoryName))) {
+            completeTask(callbackContainer);
             return;
         }
 
@@ -104,6 +106,7 @@ public class GithubDestinationEngineFromLocaleStrategy extends AbstractStrategyC
         } catch (IOException e) {
             callbackContainer.updateApplicationStatusMessage().accept("unable to create repository: " + repositoryName);
             log.debug("unable to create repository: {}", repositoryName, e);
+            completeTask(callbackContainer);
             return;
         }
 
@@ -113,6 +116,7 @@ public class GithubDestinationEngineFromLocaleStrategy extends AbstractStrategyC
         } catch (IOException | GitAPIException | URISyntaxException e) {
             callbackContainer.updateApplicationStatusMessage().accept("Unable to push repository " + repositoryName);
             log.error("Unable to push repository {}", repositoryName, e);
+            completeTask(callbackContainer);
             return;
         }
 
@@ -123,12 +127,13 @@ public class GithubDestinationEngineFromLocaleStrategy extends AbstractStrategyC
         } catch (IOException e) {
             callbackContainer.updateApplicationStatusMessage().accept("Unable to push repository " + repositoryName);
             log.error("Unable to push repository {}", repositoryName, e);
+            completeTask(callbackContainer);
             return;
         }
 
 
-        callbackContainer.updateApplicationProgressBarCurrent().accept(this.getIndex());
-        this.incrementIndex();
+        completeTask(callbackContainer);
+
 
         if (!new ThreadSleepCommand(engineContext.settingsContext().sleepTimeSeconds()).execute()) {
             throw new RuntimeException("Unable to put thread on sleep " + repositoryName);

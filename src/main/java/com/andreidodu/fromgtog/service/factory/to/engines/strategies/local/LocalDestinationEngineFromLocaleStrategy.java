@@ -65,6 +65,7 @@ public class LocalDestinationEngineFromLocaleStrategy extends AbstractStrategyCo
         if (callbackContainer.isShouldStop().get()) {
             log.debug("skipping because {} because user stop request", path);
             callbackContainer.updateApplicationStatusMessage().accept("Skipping repository because user stop request: " + path);
+            completeTask(callbackContainer);
             return;
         }
         String repositoryName = new File(path).getName();
@@ -73,6 +74,7 @@ public class LocalDestinationEngineFromLocaleStrategy extends AbstractStrategyCo
         if (new File(toDirectoryPath).exists()) {
             log.debug("skipping because {} already exists", repositoryName);
             callbackContainer.updateApplicationStatusMessage().accept("Skipping repository because it already exists: " + repositoryName);
+            completeTask(callbackContainer);
             return;
         }
 
@@ -83,8 +85,7 @@ public class LocalDestinationEngineFromLocaleStrategy extends AbstractStrategyCo
             log.error("unable to copy from {} to {} because {}", path, toDirectoryPath, e.getMessage());
         }
 
-        callbackContainer.updateApplicationProgressBarCurrent().accept(this.getIndex());
-        this.incrementIndex();
+        completeTask(callbackContainer);
 
     }
 

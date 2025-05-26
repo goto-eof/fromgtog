@@ -63,6 +63,7 @@ public class LocalDestinationEngineFromRemoteStrategy extends AbstractStrategyCo
         if (callbackContainer.isShouldStop().get()) {
             log.debug("skipping because {} because user stop request", repositoryDTO.getName());
             callbackContainer.updateApplicationStatusMessage().accept("Skipping repository because user stop request: " + repositoryDTO.getName());
+            completeTask(callbackContainer);
             return;
         }
 
@@ -86,6 +87,7 @@ public class LocalDestinationEngineFromRemoteStrategy extends AbstractStrategyCo
         if (file.exists()) {
             log.debug("skipping because {} already exists", repositoryDTO.getName());
             callbackContainer.updateApplicationStatusMessage().accept("Skipping repository because it already exists: " + repositoryDTO.getName());
+            completeTask(callbackContainer);
             return;
         }
         NoHomeGitConfigSystemReader.install();
@@ -102,8 +104,7 @@ public class LocalDestinationEngineFromRemoteStrategy extends AbstractStrategyCo
             callbackContainer.updateApplicationStatusMessage().accept("Unable to clone repository " + repositoryDTO.getName());
         }
 
-        callbackContainer.updateApplicationProgressBarCurrent().accept(this.getIndex());
-        this.incrementIndex();
+        completeTask(callbackContainer);
 
         try {
             Thread.sleep(engineContext.settingsContext().sleepTimeSeconds() * 1000L);
