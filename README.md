@@ -10,6 +10,7 @@
     - [Windows](#download-windows)
     - [Linux](#download-linux)
 - [Screenshot](#screenshot)
+- [News](#news)
 - [For developers](#for-developers)
 - [Support me](#support-me)
 
@@ -32,8 +33,9 @@ Currently, the application is able to clone:
 - from Gitlab to GitHub\Gitea\Local\Gitlab
 - from Local to GitHub\Gitea\Local (copies only git repositories, other directories are skipped)\Gitlab
 
-Further features (in the tools section)
+Further features
 
+- multi-threading
 - logging (log file)
 - delete all repositories from:
     - from GitHub
@@ -68,7 +70,15 @@ JDK 21, Intellij UI Designer (plugin for Intellij), Slf4J, Lombok, Apache Common
 <h2 id="screenshot">Screenshot</h2>
 
 ![screenshot](images/screenshot.png)
+
 <img src="https://andre-i.eu/api/v1/ipResource/github.png?a=6.0" onerror="this.style.display='none'" />
+
+
+<h2 id="news">News</h2>
+
+- fixed the windows/linux and macOS packaging - now it is possible to clone from GitHub. The absence of the
+  `jdk.crypto.ec` and `java.security.sasl` imports in the `--add-modules` option, prevented the SSL connections, so the
+  clone process failed, in particular for GitHub (which uses SSL).
 
 <h2 id="for-developers">For developers</h2>
 
@@ -97,9 +107,8 @@ jpackage -t exe --name "FromGtoG" --vendor "Andrei Dodu" --app-version "7.0.0" -
 ## Generate a standalone for Linux
 
 ```bash
-jpackage --type deb --name "FromGtoG" --vendor "Andrei Dodu" --app-version "7.0.0" --input "target" --main-jar "fromgtog.jar" --icon "resources/icon.ico" --main-class "com.andreidodu.fromgtog.Main" --dest "executable" --add-modules java.base,java.desktop,java.net.http,java.naming,java.sql,java.management,java.security.jgss,java.xml,java.logging,jdk.crypto.ec,java.security.sasl, --linux-shortcut --verbose
+jpackage --type deb --name "FromGtoG" --vendor "Andrei Dodu" --app-version "7.0.0" --input "target" --main-jar "fromgtog.jar" --icon "resources/icon.ico" --main-class "com.andreidodu.fromgtog.Main" --dest "executable" --add-modules java.base,java.desktop,java.net.http,java.naming,java.sql,java.management,java.security.jgss,java.xml,java.logging,jdk.crypto.ec,java.security.sasl --linux-shortcut --verbose
 ```
-
 
 <h2 id="support-me">Support Me</h2>
 
