@@ -14,5 +14,6 @@ public interface ApplicationConstants {
     String CLONER_THREAD_NAME_PREFIX = "Mr.Cloner";
     String TERMINATOR_THREAD_NAME_PREFIX = "Mr.Terminator";
     String TICKER_THREAD_NAME_PREFIX = "Mr.Timer";
+    String ORCHESTRATOR_THREAD_NAME_PREFIX = "Mr.Orchestrator";
 
 }

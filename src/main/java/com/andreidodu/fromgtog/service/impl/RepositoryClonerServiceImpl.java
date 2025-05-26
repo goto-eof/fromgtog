@@ -14,6 +14,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
+import static com.andreidodu.fromgtog.constants.ApplicationConstants.ORCHESTRATOR_THREAD_NAME_PREFIX;
+
 public class RepositoryClonerServiceImpl implements RepositoryCloner {
 
     private static RepositoryClonerServiceImpl instance;
@@ -40,7 +42,7 @@ public class RepositoryClonerServiceImpl implements RepositoryCloner {
     }
 
     private void executeOnNewThread(EngineContext engineContext, SourceEngine sourceEngine, DestinationEngine destinationEngine) {
-        ThreadUtil.getInstance().executeOnSeparateThread("Mr.Orchestrator", () -> {
+        ThreadUtil.getInstance().executeOnSeparateThread(ORCHESTRATOR_THREAD_NAME_PREFIX, () -> {
                     TimeCounterService timeCounterService = new TimeCounterService(engineContext.callbackContainer().updateTimeLabel());
                     try {
                         EngineType from = engineContext.fromContext().sourceEngineType();
