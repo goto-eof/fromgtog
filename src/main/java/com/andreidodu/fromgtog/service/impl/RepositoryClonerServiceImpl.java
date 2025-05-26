@@ -40,7 +40,7 @@ public class RepositoryClonerServiceImpl implements RepositoryCloner {
     }
 
     private void executeOnNewThread(EngineContext engineContext, SourceEngine sourceEngine, DestinationEngine destinationEngine) {
-        ThreadUtil.getInstance().executeOnSeparateThread(() -> {
+        ThreadUtil.getInstance().executeOnSeparateThread("Mr.Orchestrator", () -> {
                     TimeCounterService timeCounterService = new TimeCounterService(engineContext.callbackContainer().updateTimeLabel());
                     try {
                         EngineType from = engineContext.fromContext().sourceEngineType();

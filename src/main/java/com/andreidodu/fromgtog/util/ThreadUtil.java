@@ -28,16 +28,16 @@ public class ThreadUtil {
         return instance;
     }
 
-    public ExecutorService createExecutor(boolean isMultithread) {
+    public ExecutorService createExecutor(String threadNamePrefix, boolean isMultithread) {
 
         int nThreads = calculateNumThreads(isMultithread);
 
         if (nThreads > 1) {
             log.info("Creating a new threadpool using thread count {}", nThreads);
-            return Executors.newFixedThreadPool(nThreads, new CustomThreadFactory());
+            return Executors.newFixedThreadPool(nThreads, new CustomThreadFactory(threadNamePrefix));
         }
 
-        return Executors.newSingleThreadExecutor();
+        return Executors.newSingleThreadExecutor(new CustomThreadFactory(threadNamePrefix));
     }
 
     private int calculateNumThreads(boolean multithreadingEnabled) {
@@ -50,8 +50,8 @@ public class ThreadUtil {
         return Math.min(numProcessors, MAX_NUM_THREADS);
     }
 
-    public void executeOnSeparateThread(Runnable runnable) {
-        final ExecutorService SINGLE_THREAD_EXECUTOR = Executors.newSingleThreadExecutor();
+    public void executeOnSeparateThread(String threadName, Runnable runnable) {
+        final ExecutorService SINGLE_THREAD_EXECUTOR = Executors.newSingleThreadExecutor(new CustomThreadFactory(threadName));
 
         SINGLE_THREAD_EXECUTOR.submit(() -> {
             log.debug("Thread task started");

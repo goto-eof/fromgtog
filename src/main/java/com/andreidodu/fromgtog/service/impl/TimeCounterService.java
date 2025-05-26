@@ -1,5 +1,6 @@
 package com.andreidodu.fromgtog.service.impl;
 
+import com.andreidodu.fromgtog.util.CustomThreadFactory;
 import com.andreidodu.fromgtog.util.TimeUtil;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,6 +14,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 
+import static com.andreidodu.fromgtog.constants.ApplicationConstants.TICKER_THREAD_NAME_PREFIX;
+
 public class TimeCounterService {
 
     private Logger logger = LoggerFactory.getLogger(TimeCounterService.class);
@@ -25,7 +28,7 @@ public class TimeCounterService {
     ScheduledFuture<?> future = null;
 
     public TimeCounterService(Consumer<String> updateTimeLabel) {
-        this.setTimeExecutorService(Executors.newSingleThreadScheduledExecutor());
+        this.setTimeExecutorService(Executors.newSingleThreadScheduledExecutor(new CustomThreadFactory(TICKER_THREAD_NAME_PREFIX)));
         runTimeCounter(updateTimeLabel);
         reset(updateTimeLabel);
     }

@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import static com.andreidodu.fromgtog.constants.ApplicationConstants.CLONER_THREAD_NAME_PREFIX;
 import static com.andreidodu.fromgtog.constants.ApplicationConstants.MAX_NUM_THREADS;
 
 public class LocalDestinationEngineFromRemoteStrategy extends AbstractStrategyCommon implements LocalDestinationEngineFromStrategy {
@@ -38,7 +39,7 @@ public class LocalDestinationEngineFromRemoteStrategy extends AbstractStrategyCo
         callbackContainer.updateApplicationStatusMessage().accept("initializing the cloning process");
 
         ThreadUtil threadUtil = ThreadUtil.getInstance();
-        final ExecutorService executorService = threadUtil.createExecutor(engineContext.settingsContext().multithreadingEnabled());
+        final ExecutorService executorService = threadUtil.createExecutor(CLONER_THREAD_NAME_PREFIX, engineContext.settingsContext().multithreadingEnabled());
 
         this.resetIndex();
         NoHomeGitConfigSystemReader.install();

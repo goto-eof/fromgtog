@@ -17,6 +17,8 @@ import javax.swing.*;
 import java.io.IOException;
 import java.util.function.Consumer;
 
+import static com.andreidodu.fromgtog.constants.ApplicationConstants.TERMINATOR_THREAD_NAME_PREFIX;
+
 @Getter
 @Setter
 public class ToolsController {
@@ -71,7 +73,7 @@ public class ToolsController {
         }
 
 
-        ThreadUtil.getInstance().executeOnSeparateThread(() -> {
+        ThreadUtil.getInstance().executeOnSeparateThread(TERMINATOR_THREAD_NAME_PREFIX + "-" + engineType, () -> {
             try {
                 this.setEnabledUI.accept(false);
                 service.deleteAllRepositories(giteaUrl, giteaToken);
@@ -116,7 +118,7 @@ public class ToolsController {
 
             this.setEnabledUI.accept(false);
             GitHubService gitHubService = GitHubServiceImpl.getInstance();
-            ThreadUtil.getInstance().executeOnSeparateThread(() -> {
+            ThreadUtil.getInstance().executeOnSeparateThread(TERMINATOR_THREAD_NAME_PREFIX + "-GITHUB", () -> {
                 try {
                     gitHubService.deleteAllRepositories(gitHubToken);
                     showRepositoriesDeletedSuccessfullyMessage(EngineType.GITHUB);

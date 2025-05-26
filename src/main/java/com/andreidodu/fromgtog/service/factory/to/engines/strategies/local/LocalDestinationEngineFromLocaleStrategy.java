@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 
+import static com.andreidodu.fromgtog.constants.ApplicationConstants.CLONER_THREAD_NAME_PREFIX;
+
 public class LocalDestinationEngineFromLocaleStrategy extends AbstractStrategyCommon implements LocalDestinationEngineFromStrategy {
     Logger log = LoggerFactory.getLogger(LocalDestinationEngineFromLocaleStrategy.class);
 
@@ -41,7 +43,7 @@ public class LocalDestinationEngineFromLocaleStrategy extends AbstractStrategyCo
                 .toList();
 
         ThreadUtil threadUtil = ThreadUtil.getInstance();
-        final ExecutorService executorService = threadUtil.createExecutor(engineContext.settingsContext().multithreadingEnabled());
+        final ExecutorService executorService = threadUtil.createExecutor(CLONER_THREAD_NAME_PREFIX, engineContext.settingsContext().multithreadingEnabled());
 
         super.resetIndex();
         for (String path : pathList) {

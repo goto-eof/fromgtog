@@ -24,6 +24,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 
+import static com.andreidodu.fromgtog.constants.ApplicationConstants.CLONER_THREAD_NAME_PREFIX;
 import static com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.commands.CommandCommon.*;
 
 public class GenericDestinationEngineFromRemoteStrategy<ServiceType extends GenericDestinationEngineFromStrategyService> extends AbstractStrategyCommon implements GenericDestinationEngineFromStrategyCommon {
@@ -50,7 +51,7 @@ public class GenericDestinationEngineFromRemoteStrategy<ServiceType extends Gene
 
 
         ThreadUtil threadUtil = ThreadUtil.getInstance();
-        final ExecutorService executorService = threadUtil.createExecutor(engineContext.settingsContext().multithreadingEnabled());
+        final ExecutorService executorService = threadUtil.createExecutor(CLONER_THREAD_NAME_PREFIX, engineContext.settingsContext().multithreadingEnabled());
         super.resetIndex();
         NoHomeGitConfigSystemReader.install();
 

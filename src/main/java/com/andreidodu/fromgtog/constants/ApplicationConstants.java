@@ -11,4 +11,8 @@ public interface ApplicationConstants {
     String SETTINGS_FILENAME = "settings.properties";
     int MAX_NUM_THREADS = 6;
 
+    String CLONER_THREAD_NAME_PREFIX = "Mr.Cloner";
+    String TERMINATOR_THREAD_NAME_PREFIX = "Mr.Terminator";
+    String TICKER_THREAD_NAME_PREFIX = "Mr.Timer";
+
 }
