@@ -100,6 +100,4 @@ jpackage --type deb --name "FromGtoG" --vendor "Andrei Dodu" --app-version "6.0.
 ```
 
 
-If you liked my application...
-
-<iframe src="https://github.com/sponsors/goto-eof/card" title="Sponsor goto-eof" height="225" width="600" style="border: 0;"></iframe>
+If you liked my application...[sponsor me](https://github.com/sponsors/goto-eof/card) :)
