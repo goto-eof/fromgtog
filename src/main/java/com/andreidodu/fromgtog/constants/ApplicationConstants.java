@@ -9,7 +9,7 @@ public interface ApplicationConstants {
     String CONF_DIR_NAME = "conf";
     String LOG_FILENAME = "application.log";
     String SETTINGS_FILENAME = "settings.properties";
-    int MAX_NUM_THREADS = 6;
+    int MAX_NUM_THREADS = 5;
 
     String CLONER_THREAD_NAME_PREFIX = "Mr.Cloner";
     String TERMINATOR_THREAD_NAME_PREFIX = "Mr.Terminator";
