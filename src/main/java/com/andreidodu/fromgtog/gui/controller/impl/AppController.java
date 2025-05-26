@@ -1,5 +1,6 @@
 package com.andreidodu.fromgtog.gui.controller.impl;
 
+import com.andreidodu.fromgtog.constants.SoundConstants;
 import com.andreidodu.fromgtog.dto.CallbackContainer;
 import com.andreidodu.fromgtog.dto.EngineContext;
 import com.andreidodu.fromgtog.gui.controller.GUIController;
@@ -12,6 +13,7 @@ import com.andreidodu.fromgtog.gui.controller.translator.impl.JsonObjectToToCont
 import com.andreidodu.fromgtog.service.RepositoryCloner;
 import com.andreidodu.fromgtog.service.impl.RepositoryClonerServiceImpl;
 import com.andreidodu.fromgtog.service.impl.SettingsServiceImpl;
+import com.andreidodu.fromgtog.service.impl.SoundPlayer;
 import com.andreidodu.fromgtog.util.ApplicationUtil;
 import com.andreidodu.fromgtog.util.JsonObjectServiceImpl;
 import lombok.Getter;
@@ -22,6 +24,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 import java.util.function.Consumer;
@@ -65,9 +68,14 @@ public class AppController implements GUIController {
 
     private JButton appStopButton;
     private JPanel statusContainerJPanel;
+    private JCheckBox multithreadingEnabled;
     @Getter
     @Setter
-    private boolean shouldStop = false;
+    private volatile boolean shouldStop = false;
+
+    private JButton clearLogFileButton;
+    private JLabel timeLabel;
+
 
     public AppController(JSONObject settings,
                          List<GUIFromController> fromControllerList,
@@ -84,7 +92,10 @@ public class AppController implements GUIController {
                          JButton appOpenLogFileButton,
                          Consumer<Boolean> setEnabledUI,
                          JButton appStopButton,
-                         JPanel statusContainerJPanel) {
+                         JPanel statusContainerJPanel,
+                         JCheckBox multithreadingEnabled,
+                         JButton clearLogFileButton,
+                         JLabel timeLabel) {
         this.fromControllerList = fromControllerList;
         this.toControllerList = toControllerList;
         this.appLogTextArea = appLogTextArea;
@@ -100,7 +111,9 @@ public class AppController implements GUIController {
         this.setEnabledUI = setEnabledUI;
         this.appStopButton = appStopButton;
         this.statusContainerJPanel = statusContainerJPanel;
-
+        this.multithreadingEnabled = multithreadingEnabled;
+        this.clearLogFileButton = clearLogFileButton;
+        this.timeLabel = timeLabel;
 
         this.translatorTo = new JsonObjectToToContextTranslator();
         this.translatorApp = new JsonObjectToAppContextTranslator();
@@ -110,16 +123,28 @@ public class AppController implements GUIController {
         defineAppStopButtonListener();
         defineSaveSettingsButtonListener();
         defineOpenLogFileButtonListener();
+        defineClearLogFileButtonListener();
 
         applySettings(settings);
 
         this.setShouldStop(true);
+
+    }
+
+    private void defineClearLogFileButtonListener() {
+        clearLogFileButton.addActionListener(e -> {
+            File logFile = getLogFile();
+            try (FileWriter writer = new FileWriter(logFile, false)) {
+                // do nothing -> it is used just to override the file
+            } catch (IOException ee) {
+                log.error(ee.getMessage());
+                showErrorMessage("Unable to clear the log file: " + ee.getMessage());
+            }
+        });
     }
 
     private void defineOpenLogFileButtonListener() {
-        File appDataDir = ApplicationUtil.getApplicationRootDirectory();
-        File logDir = new File(appDataDir, LOG_DIR_NAME);
-        File logFile = new File(logDir, LOG_FILENAME);
+        File logFile = getLogFile();
 
         appOpenLogFileButton.addActionListener(e -> {
             String filename = logFile.getAbsolutePath();
@@ -133,6 +158,13 @@ public class AppController implements GUIController {
                 }
             }
         });
+    }
+
+    private static File getLogFile() {
+        File appDataDir = ApplicationUtil.getApplicationRootDirectory();
+        File logDir = new File(appDataDir, LOG_DIR_NAME);
+        File logFile = new File(logDir, LOG_FILENAME);
+        return logFile;
     }
 
     private void openLogFileOnLinux(String logFilename) {
@@ -175,6 +207,7 @@ public class AppController implements GUIController {
         appSleepTimeTextField.setText(settings.optString(APP_SLEEP_TIME, "1"));
         fromTabbedPane.setSelectedIndex(settings.optInt(FROM_TAB_INDEX, 0));
         toTabbedPane.setSelectedIndex(settings.optInt(TO_TAB_INDEX, 0));
+        multithreadingEnabled.setSelected(settings.optBoolean(APP_MULTITHREADING_ENABLED, false));
     }
 
     private void defineSaveSettingsButtonListener() {
@@ -205,18 +238,10 @@ public class AppController implements GUIController {
     private void defineAppStartButtonListener(List<GUIFromController> fromControllerList, List<GUIToController> toControllerList, JTabbedPane fromTabbedPane, JTabbedPane toTabbedPane) {
 
         this.appStartButton.addActionListener(e -> {
-
-
             try {
                 this.setShouldStop(false);
                 this.appStartButton.setVisible(false);
                 this.appStopButton.setVisible(true);
-                appLogTextArea.setText(String.format("%s\n(%s) -> (%s)",
-                                appLogTextArea.getText(),
-                                fromTabbedPane.getSelectedIndex(),
-                                toTabbedPane.getSelectedIndex()
-                        )
-                );
 
                 JSONObject jsonObjectFrom = retrieveJsonData(fromControllerList, fromTabbedPane.getSelectedIndex());
                 JSONObject jsonObjectTo = retrieveJsonData(toControllerList, toTabbedPane.getSelectedIndex());
@@ -233,21 +258,13 @@ public class AppController implements GUIController {
                                 .updateApplicationProgressBarCurrent(this::updateApplicationProgressBarCurrent)
                                 .updateApplicationStatusMessage(this::updateApplicationStatusMessage)
                                 .setEnabledUI(setEnabledUI)
-                                .showErrorMessage(this::showErrorMessage)
-                                .showSuccessMessage(this::showSuccessMessage)
+                                .showErrorMessage(this::invokeLaterShowErrorMessage)
+                                .showSuccessMessage(this::invokeLaterSuccessMessage)
                                 .isShouldStop(this::isShouldStop)
                                 .setShouldStop(this::setShouldStop)
+                                .updateTimeLabel(this::updateTimeLabel)
                                 .build())
                         .build();
-
-                appLogTextArea.setText(String.format("%s\n%s(%s) -> %s(%s)",
-                                appLogTextArea.getText(),
-                                engineContext.fromContext().sourceEngineType(),
-                                fromTabbedPane.getSelectedIndex(),
-                                engineContext.toContext().engineType(),
-                                toTabbedPane.getSelectedIndex()
-                        )
-                );
 
                 saveSettings(jsonObjectFrom, jsonObjectTo, jsonObjectApp);
                 RepositoryCloner repositoryCloner = RepositoryClonerServiceImpl.getInstance();
@@ -260,6 +277,14 @@ public class AppController implements GUIController {
         });
     }
 
+
+    private void updateTimeLabel(String message) {
+        SwingUtilities.invokeLater(() -> {
+            timeLabel.setText(String.format("%s", message));
+        });
+    }
+
+
     private void saveSettings(JSONObject... jsonObjectFrom) {
         log.debug("Saving settings...");
         JSONObject allSettings = JsonObjectServiceImpl.getInstance().merge(jsonObjectFrom);
@@ -267,12 +292,25 @@ public class AppController implements GUIController {
         log.debug("Done.");
     }
 
+    private void invokeLaterSuccessMessage(String message) {
+        SwingUtilities.invokeLater(() -> {
+            showSuccessMessage(message);
+        });
+    }
+
     private void showSuccessMessage(String message) {
+        SoundPlayer.getInstance().play(SoundConstants.KEY_SUCCESS);
         JOptionPane.showMessageDialog(null, message, "Info", JOptionPane.INFORMATION_MESSAGE);
     }
 
+    private void invokeLaterShowErrorMessage(String message) {
+        SwingUtilities.invokeLater(() -> {
+            showErrorMessage(message);
+        });
+    }
 
     private void showErrorMessage(String message) {
+        SoundPlayer.getInstance().play(SoundConstants.KEY_ERROR);
         JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
     }
 
@@ -292,6 +330,7 @@ public class AppController implements GUIController {
         appSleepTimeTextField.setText(String.valueOf(sleepSeconds));
 
         jsonObject.put(APP_SLEEP_TIME, sleepSeconds);
+        jsonObject.put(APP_MULTITHREADING_ENABLED, multithreadingEnabled.isSelected());
         jsonObject.put(FROM_TAB_INDEX, fromTabbedPane.getSelectedIndex());
         jsonObject.put(TO_TAB_INDEX, toTabbedPane.getSelectedIndex());
 

@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class NoHomeGitConfigSystemReader extends SystemReader {
 
-    public static void install() {
+    public static synchronized void install() {
         SystemReader.setInstance(new NoHomeGitConfigSystemReader());
     }
 
