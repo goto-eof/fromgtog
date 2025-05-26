@@ -13,7 +13,7 @@ import java.io.IOException;
 @Setter
 public class AboutController {
 
-    public static final String URL_BUY_ME_COFFEE = "https://buymeacoffee.com/andrei.dodu";
+    public static final String URL_BUY_ME_COFFEE = "https://github.com/sponsors/goto-eof";
     public static final String URL_PROJECT_WEBSITE = "https://github.com/goto-eof/fromgtog";
     public static final String URL_REPORT_ISSUE = "https://github.com/goto-eof/fromgtog/issues";
 
