@@ -40,7 +40,7 @@ public class RepositoryClonerServiceImpl implements RepositoryCloner {
     }
 
     private void executeOnNewThread(EngineContext engineContext, SourceEngine sourceEngine, DestinationEngine destinationEngine) {
-        ThreadUtil.executeOnSeparateThread(() -> {
+        ThreadUtil.getInstance().executeOnSeparateThread(() -> {
                     try {
                         engineContext.callbackContainer().setEnabledUI().accept(false);
                         cloneFromAndTo(engineContext, sourceEngine, destinationEngine);

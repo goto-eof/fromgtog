@@ -3,6 +3,7 @@ package com.andreidodu.fromgtog.service.factory.to.engines.strategies.local;
 import com.andreidodu.fromgtog.config.NoHomeGitConfigSystemReader;
 import com.andreidodu.fromgtog.dto.*;
 import com.andreidodu.fromgtog.type.EngineType;
+import com.andreidodu.fromgtog.util.ThreadUtil;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
@@ -35,45 +36,23 @@ public class LocalDestinationEngineFromRemoteStrategy implements LocalDestinatio
         callbackContainer.updateApplicationProgressBarCurrent().accept(0);
         callbackContainer.updateApplicationStatusMessage().accept("initializing the cloning process");
 
-        int nThreads = calculateNumThreads(engineContext.settingsContext().multithreadingEnabled());
+        ThreadUtil threadUtil = ThreadUtil.getInstance();
+        final ExecutorService executorService = threadUtil.createExecutor(engineContext.settingsContext().multithreadingEnabled());
 
-
-        ExecutorService executorService = null;
-        if (nThreads > 0) {
-            executorService = Executors.newFixedThreadPool(nThreads);
-        } else {
-            executorService = Executors.newSingleThreadExecutor();
-        }
-
+        this.resetIndex();
         for (RepositoryDTO repositoryDTO : repositoryDTOList) {
             final RepositoryDTO finalRepositoryDTO = repositoryDTO;
             executorService.execute(() -> processItem(engineContext, finalRepositoryDTO));
         }
 
-        executorService.shutdown();
+        threadUtil.waitUntilShutDownCompleted(executorService);
 
-        while (!executorService.isTerminated()) {
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                throw new RuntimeException(e);
-            }
-        }
 
         callbackContainer.updateApplicationStatusMessage().accept("done!");
         callbackContainer.updateApplicationProgressBarMax().accept(100);
         callbackContainer.updateApplicationProgressBarCurrent().accept(0);
         callbackContainer.setShouldStop().accept(true);
         return true;
-    }
-
-    private static int calculateNumThreads(boolean multithreadingEnabled) {
-        if (!multithreadingEnabled) {
-            return 1;
-        }
-        int numProcessors = Runtime.getRuntime().availableProcessors();
-        return Math.min(numProcessors, MAX_NUM_THREADS);
     }
 
 

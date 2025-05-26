@@ -6,11 +6,50 @@ import org.slf4j.LoggerFactory;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import static com.andreidodu.fromgtog.constants.ApplicationConstants.MAX_NUM_THREADS;
+
 public class ThreadUtil {
+
+    private static ThreadUtil instance;
 
     private static final Logger log = LoggerFactory.getLogger(ThreadUtil.class);
 
-    public static void executeOnSeparateThread(Runnable runnable) {
+    public ThreadUtil() {
+        if (instance != null) {
+            throw new IllegalStateException("ThreadUtil already initialized");
+        }
+    }
+
+    public static ThreadUtil getInstance() {
+        if (instance == null) {
+            instance = new ThreadUtil();
+        }
+        return instance;
+    }
+
+    public ExecutorService createExecutor(boolean isMultithread) {
+        int nThreads = calculateNumThreads(isMultithread);
+
+
+        ExecutorService executorService = null;
+        if (nThreads > 0) {
+            executorService = Executors.newFixedThreadPool(nThreads);
+        } else {
+            executorService = Executors.newSingleThreadExecutor();
+        }
+
+        return executorService;
+    }
+
+    private int calculateNumThreads(boolean multithreadingEnabled) {
+        if (!multithreadingEnabled) {
+            return 1;
+        }
+        int numProcessors = Runtime.getRuntime().availableProcessors();
+        return Math.min(numProcessors, MAX_NUM_THREADS);
+    }
+
+    public void executeOnSeparateThread(Runnable runnable) {
         final ExecutorService SINGLE_THREAD_EXECUTOR = Executors.newSingleThreadExecutor();
 
         SINGLE_THREAD_EXECUTOR.submit(() -> {
@@ -23,4 +62,15 @@ public class ThreadUtil {
     }
 
 
+    public void waitUntilShutDownCompleted(ExecutorService executorService) {
+        executorService.shutdown();
+        while (!executorService.isTerminated()) {
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                throw new RuntimeException(e);
+            }
+        }
+    }
 }

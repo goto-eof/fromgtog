@@ -71,7 +71,7 @@ public class ToolsController {
         }
 
 
-        ThreadUtil.executeOnSeparateThread(() -> {
+        ThreadUtil.getInstance().executeOnSeparateThread(() -> {
             try {
                 this.setEnabledUI.accept(false);
                 service.deleteAllRepositories(giteaUrl, giteaToken);
@@ -116,7 +116,7 @@ public class ToolsController {
 
             this.setEnabledUI.accept(false);
             GitHubService gitHubService = GitHubServiceImpl.getInstance();
-            ThreadUtil.executeOnSeparateThread(() -> {
+            ThreadUtil.getInstance().executeOnSeparateThread(() -> {
                 try {
                     gitHubService.deleteAllRepositories(gitHubToken);
                     showRepositoriesDeletedSuccessfullyMessage(EngineType.GITHUB);
