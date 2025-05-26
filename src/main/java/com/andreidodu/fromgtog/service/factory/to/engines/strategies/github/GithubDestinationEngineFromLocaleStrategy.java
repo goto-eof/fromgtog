@@ -3,7 +3,6 @@ package com.andreidodu.fromgtog.service.factory.to.engines.strategies.github;
 import com.andreidodu.fromgtog.dto.*;
 import com.andreidodu.fromgtog.service.GitHubService;
 import com.andreidodu.fromgtog.service.LocalService;
-import com.andreidodu.fromgtog.service.factory.to.engines.strategies.AbstractFromLocalCommon;
 import com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.AbstractStrategyCommon;
 import com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.commands.ThreadSleepCommand;
 import com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.commands.UpdateStatusCommand;
@@ -116,7 +115,6 @@ public class GithubDestinationEngineFromLocaleStrategy extends AbstractStrategyC
             log.error("Unable to push repository {}", repositoryName, e);
             return;
         }
-
 
         try {
             log.debug("updating repository privacy...");

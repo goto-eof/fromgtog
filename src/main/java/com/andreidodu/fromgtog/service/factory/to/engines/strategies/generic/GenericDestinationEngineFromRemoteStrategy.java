@@ -2,6 +2,7 @@ package com.andreidodu.fromgtog.service.factory.to.engines.strategies.generic;
 
 import com.andreidodu.fromgtog.dto.*;
 import com.andreidodu.fromgtog.service.LocalService;
+import com.andreidodu.fromgtog.service.factory.Engine;
 import com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.AbstractStrategyCommon;
 import com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.commands.ThreadSleepCommand;
 import com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.commands.UpdateStatusCommand;
@@ -10,6 +11,7 @@ import com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.reco
 import com.andreidodu.fromgtog.service.impl.LocalServiceImpl;
 import com.andreidodu.fromgtog.type.EngineType;
 import com.andreidodu.fromgtog.type.RepoPrivacyType;
+import com.andreidodu.fromgtog.util.ThreadUtil;
 import org.apache.commons.io.FileUtils;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.slf4j.Logger;
@@ -19,6 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
 
 import static com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.commands.CommandCommon.*;
 
@@ -36,6 +39,33 @@ public class GenericDestinationEngineFromRemoteStrategy<ServiceType extends Gene
     }
 
     public boolean cloneAll(EngineContext engineContext, List<RepositoryDTO> repositoryDTOList) {
+        CallbackContainer callbackContainer = engineContext.callbackContainer();
+        ToContext toContext = engineContext.toContext();
+
+        String login = service.getLogin(toContext.token(), toContext.url());
+
+        StatusCommandContext initializingTheCloningProcessInput = buildUpdateStatusContext(engineContext.callbackContainer(), repositoryDTOList.size(), 0, "initializing the cloning process");
+        new UpdateStatusCommand(initializingTheCloningProcessInput).execute();
+
+
+        ThreadUtil threadUtil = ThreadUtil.getInstance();
+        final ExecutorService executorService = threadUtil.createExecutor(engineContext.settingsContext().multithreadingEnabled());
+        super.resetIndex();
+
+        for (RepositoryDTO repositoryDTO : repositoryDTOList) {
+            executorService.execute(() -> processItem(engineContext, repositoryDTO, login));
+        }
+
+        threadUtil.waitUntilShutDownCompleted(executorService);
+
+        new UpdateStatusCommand(buildUpdateStatusContext(engineContext.callbackContainer(), 100, 0, "done")).execute();
+
+        callbackContainer.setShouldStop().accept(true);
+        return true;
+    }
+
+    private void processItem(EngineContext engineContext, RepositoryDTO repositoryDTO, String login) {
+        String repositoryName = repositoryDTO.getName();
         FromContext fromContext = engineContext.fromContext();
         ToContext toContext = engineContext.toContext();
         CallbackContainer callbackContainer = engineContext.callbackContainer();
@@ -43,75 +73,61 @@ public class GenericDestinationEngineFromRemoteStrategy<ServiceType extends Gene
         final String TEMP_DIRECTORY = System.getProperty("java.io.tmpdir");
 
         LocalService localService = LocalServiceImpl.getInstance();
-        String login = service.getLogin(toContext.token(), toContext.url());
-
-
-        StatusCommandContext initializingTheCloningProcessInput = buildUpdateStatusContext(engineContext.callbackContainer(), repositoryDTOList.size(), 0, "initializing the cloning process");
-        new UpdateStatusCommand(initializingTheCloningProcessInput).execute();
-
-
-        int i = 0;
-        for (RepositoryDTO repositoryDTO : repositoryDTOList) {
-            String repositoryName = repositoryDTO.getName();
-
-            if (isShouldStopTheProcess(repositoryName, callbackContainer)) {
-                break;
-            }
-
-            callbackContainer.updateApplicationProgressBarCurrent().accept(i++);
-            callbackContainer.updateApplicationStatusMessage().accept("cloning repository: " + repositoryName);
-
-            RemoteExistsCheckCommandContext remoteExistsCheckCommandContext = GenericDestinationEngineCommon.buildRemoteExistsCheckInput(engineContext, login, repositoryName);
-            if (isRemoteRepositoryAlreadyExists(remoteExistsCheckCommandContext)) {
-                continue;
-            }
-
-            String stagedClonePath = TEMP_DIRECTORY + File.separator + repositoryName;
-            try {
-                log.debug("local cloning path: {}", stagedClonePath);
-                log.debug("from url: {}", repositoryDTO.getCloneAddress());
-                FileUtils.deleteDirectory(new File(stagedClonePath));
-                boolean result = localService.clone(fromContext.login(), fromContext.token(), repositoryDTO.getCloneAddress(), stagedClonePath);
-            } catch (Exception e) {
-                callbackContainer.updateApplicationStatusMessage().accept("Unable to clone repository " + repositoryName);
-                log.error("Unable to clone repository {}", repositoryName, e);
-                continue;
-            }
-
-
-            callbackContainer.updateApplicationStatusMessage().accept("cloning " + repositoryName + " ...");
-            callbackContainer.updateApplicationStatusMessage().accept("cloning repository: " + repositoryName);
-
-            try {
-                log.debug("creating repository {}", repositoryName);
-                boolean repositoryCreationResult = service.createRepository(toContext.url(), toContext.token(), repositoryName, "", RepoPrivacyType.ALL_PRIVATE.equals(toContext.repositoryPrivacy()));
-                log.debug("repository {} created: {}", repositoryName, repositoryCreationResult);
-                log.debug("pushing...");
-                boolean pushResult = localService.pushOnRemote(login, toContext.token(), toContext.url(), repositoryName, login, new File(stagedClonePath));
-                log.debug("pushed {}: {}", repositoryName, pushResult);
-            } catch (IOException | GitAPIException | URISyntaxException | InterruptedException e) {
-                callbackContainer.updateApplicationStatusMessage().accept("Unable to push repository " + repositoryName);
-                log.error("Unable to push repository {}", repositoryName, e);
-                continue;
-            }
-
-            try {
-                log.debug("updating repository privacy...");
-                boolean result = service.updateRepositoryPrivacy(toContext.token(), login, toContext.url(), repositoryName, false, RepoPrivacyType.ALL_PRIVATE.equals(toContext.repositoryPrivacy()));
-            } catch (Exception e) {
-                callbackContainer.updateApplicationStatusMessage().accept("Unable to push repository " + repositoryName);
-                log.error("Unable to push repository {}", repositoryName, e);
-                continue;
-            }
-
-            if (!new ThreadSleepCommand(engineContext.settingsContext().sleepTimeSeconds()).execute()) {
-                throw new RuntimeException("Unable to put thread on sleep " + repositoryName);
-            }
-
+        if (isShouldStopTheProcess(repositoryName, callbackContainer)) {
+            return;
         }
-        new UpdateStatusCommand(buildUpdateStatusContext(engineContext.callbackContainer(), 100, 0, "done")).execute();
 
-        callbackContainer.setShouldStop().accept(true);
-        return true;
+        callbackContainer.updateApplicationStatusMessage().accept("cloning repository: " + repositoryName);
+
+        RemoteExistsCheckCommandContext remoteExistsCheckCommandContext = GenericDestinationEngineCommon.buildRemoteExistsCheckInput(engineContext, login, repositoryName);
+        if (isRemoteRepositoryAlreadyExists(remoteExistsCheckCommandContext)) {
+            return;
+        }
+
+        String stagedClonePath = TEMP_DIRECTORY + File.separator + repositoryName;
+        try {
+            log.debug("local cloning path: {}", stagedClonePath);
+            log.debug("from url: {}", repositoryDTO.getCloneAddress());
+            FileUtils.deleteDirectory(new File(stagedClonePath));
+            boolean result = localService.clone(fromContext.login(), fromContext.token(), repositoryDTO.getCloneAddress(), stagedClonePath);
+        } catch (Exception e) {
+            callbackContainer.updateApplicationStatusMessage().accept("Unable to clone repository " + repositoryName);
+            log.error("Unable to clone repository {}", repositoryName, e);
+            return;
+        }
+
+
+        callbackContainer.updateApplicationStatusMessage().accept("cloning " + repositoryName + " ...");
+        callbackContainer.updateApplicationStatusMessage().accept("cloning repository: " + repositoryName);
+
+        try {
+            log.debug("creating repository {}", repositoryName);
+            boolean repositoryCreationResult = service.createRepository(toContext.url(), toContext.token(), repositoryName, "", RepoPrivacyType.ALL_PRIVATE.equals(toContext.repositoryPrivacy()));
+            log.debug("repository {} created: {}", repositoryName, repositoryCreationResult);
+            log.debug("pushing...");
+            boolean pushResult = localService.pushOnRemote(login, toContext.token(), toContext.url(), repositoryName, login, new File(stagedClonePath));
+            log.debug("pushed {}: {}", repositoryName, pushResult);
+        } catch (IOException | GitAPIException | URISyntaxException | InterruptedException e) {
+            callbackContainer.updateApplicationStatusMessage().accept("Unable to push repository " + repositoryName);
+            log.error("Unable to push repository {}", repositoryName, e);
+            return;
+        }
+
+        try {
+            log.debug("updating repository privacy...");
+            boolean result = service.updateRepositoryPrivacy(toContext.token(), login, toContext.url(), repositoryName, false, RepoPrivacyType.ALL_PRIVATE.equals(toContext.repositoryPrivacy()));
+        } catch (Exception e) {
+            callbackContainer.updateApplicationStatusMessage().accept("Unable to push repository " + repositoryName);
+            log.error("Unable to push repository {}", repositoryName, e);
+            return;
+        }
+
+
+        callbackContainer.updateApplicationProgressBarCurrent().accept(this.getIndex());
+        this.incrementIndex();
+
+        if (!new ThreadSleepCommand(engineContext.settingsContext().sleepTimeSeconds()).execute()) {
+            throw new RuntimeException("Unable to put thread on sleep " + repositoryName);
+        }
     }
 }
