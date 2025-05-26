@@ -32,6 +32,7 @@ public class ThreadUtil {
         int nThreads = calculateNumThreads(isMultithread);
 
         if (nThreads > 1) {
+            log.info("Creating a new threadpool using thread count {}", nThreads);
             return Executors.newFixedThreadPool(nThreads);
         }
 
