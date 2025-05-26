@@ -1648,7 +1648,7 @@
                                       <grid row="2" column="0" row-span="1" col-span="4" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                                     </constraints>
                                     <properties>
-                                      <text value="Version: 6.0.22"/>
+                                      <text value="Version: 7.0.0"/>
                                     </properties>
                                   </component>
                                   <component id="3a408" class="javax.swing.JLabel">
