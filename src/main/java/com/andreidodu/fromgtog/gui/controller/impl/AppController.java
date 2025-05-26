@@ -67,7 +67,7 @@ public class AppController implements GUIController {
     private JPanel statusContainerJPanel;
     @Getter
     @Setter
-    private boolean shouldStop = false;
+    private volatile boolean shouldStop = false;
 
     public AppController(JSONObject settings,
                          List<GUIFromController> fromControllerList,

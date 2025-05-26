@@ -11,10 +11,14 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class LocalDestinationEngineFromRemoteStrategy implements LocalDestinationEngineFromStrategy {
 
-    Logger log = LoggerFactory.getLogger(LocalDestinationEngineFromRemoteStrategy.class);
+    private int index = 0;
+
+    private Logger log = LoggerFactory.getLogger(LocalDestinationEngineFromRemoteStrategy.class);
 
     @Override
     public boolean accept(EngineType engineType) {
@@ -31,53 +35,19 @@ public class LocalDestinationEngineFromRemoteStrategy implements LocalDestinatio
         callbackContainer.updateApplicationProgressBarCurrent().accept(0);
         callbackContainer.updateApplicationStatusMessage().accept("initializing the cloning process");
 
-        int i = 1;
+        ExecutorService executorService = Executors.newFixedThreadPool(calculateNumThreads());
+
+
         for (RepositoryDTO repositoryDTO : repositoryDTOList) {
-            if (callbackContainer.isShouldStop().get()) {
-                log.debug("skipping because {} because user stop request", repositoryDTO.getName());
-                callbackContainer.updateApplicationStatusMessage().accept("Skipping repository because user stop request: " + repositoryDTO.getName());
-                break;
-            }
-            callbackContainer.updateApplicationProgressBarCurrent().accept(i++);
-
-            String cloneUrl = repositoryDTO.getCloneAddress();
-
-            if (repositoryDTO.isPrivateFlag()) {
-                cloneUrl = cloneUrl.replace("github.com", fromContext.login() + ":" + fromContext.token() + "@github.com");
-            }
-
-            callbackContainer.updateApplicationStatusMessage().accept("cloning repository: " + repositoryDTO.getName());
-            File file = new File(toContext.rootPath() + "/" + repositoryDTO.getName());
-            if (toContext.groupByRepositoryOwner()) {
-                String repositoryOwnerName = repositoryDTO.getLogin();
-                file = new File(toContext.rootPath() + "/" + repositoryOwnerName + "/" + repositoryDTO.getName());
-                log.debug("path: {}", file.getAbsolutePath());
-            }
-
-            log.debug("creating repository: {}", file.getAbsolutePath());
-
-            if (file.exists()) {
-                log.debug("skipping because {} already exists", repositoryDTO.getName());
-                callbackContainer.updateApplicationStatusMessage().accept("Skipping repository because it already exists: " + repositoryDTO.getName());
-                continue;
-            }
-            NoHomeGitConfigSystemReader.install();
+            final RepositoryDTO finalRepositoryDTO = repositoryDTO;
+            executorService.execute(() -> processItem(engineContext, finalRepositoryDTO));
+        }
+        executorService.shutdown();
+        while (!executorService.isTerminated()) {
             try {
-                log.debug("starting the cloning process of {}...", repositoryDTO.getName());
-                Git clonedRepo = Git.cloneRepository()
-                        .setURI(cloneUrl)
-                        .setDirectory(file)
-                        .setCredentialsProvider(new UsernamePasswordCredentialsProvider(fromContext.login(), fromContext.token()))
-                        .call();
-                log.debug("Done! Repository {} cloned successfully.", repositoryDTO.getName());
-            } catch (GitAPIException e) {
-                log.error("Unable to clone repository {} because {}", repositoryDTO.getName(), e.getMessage(), e);
-                callbackContainer.updateApplicationStatusMessage().accept("Unable to clone repository " + repositoryDTO.getName());
-            }
-
-            try {
-                Thread.sleep(engineContext.settingsContext().sleepTimeSeconds() * 1000L);
+                Thread.sleep(50);
             } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
                 throw new RuntimeException(e);
             }
         }
@@ -88,4 +58,80 @@ public class LocalDestinationEngineFromRemoteStrategy implements LocalDestinatio
         callbackContainer.setShouldStop().accept(true);
         return true;
     }
+
+    private static int calculateNumThreads() {
+        int numProcessors = Runtime.getRuntime().availableProcessors();
+        return Math.min(numProcessors, 6);
+    }
+
+
+    private void processItem(EngineContext engineContext, RepositoryDTO repositoryDTO) {
+        FromContext fromContext = engineContext.fromContext();
+        ToContext toContext = engineContext.toContext();
+        CallbackContainer callbackContainer = engineContext.callbackContainer();
+        if (callbackContainer.isShouldStop().get()) {
+            log.debug("skipping because {} because user stop request", repositoryDTO.getName());
+            callbackContainer.updateApplicationStatusMessage().accept("Skipping repository because user stop request: " + repositoryDTO.getName());
+            return;
+        }
+
+
+        String cloneUrl = repositoryDTO.getCloneAddress();
+
+        if (repositoryDTO.isPrivateFlag()) {
+            cloneUrl = cloneUrl.replace("github.com", fromContext.login() + ":" + fromContext.token() + "@github.com");
+        }
+
+        callbackContainer.updateApplicationStatusMessage().accept("cloning repository: " + repositoryDTO.getName());
+        File file = new File(toContext.rootPath() + "/" + repositoryDTO.getName());
+        if (toContext.groupByRepositoryOwner()) {
+            String repositoryOwnerName = repositoryDTO.getLogin();
+            file = new File(toContext.rootPath() + "/" + repositoryOwnerName + "/" + repositoryDTO.getName());
+            log.debug("path: {}", file.getAbsolutePath());
+        }
+
+        log.debug("creating repository: {}", file.getAbsolutePath());
+
+        if (file.exists()) {
+            log.debug("skipping because {} already exists", repositoryDTO.getName());
+            callbackContainer.updateApplicationStatusMessage().accept("Skipping repository because it already exists: " + repositoryDTO.getName());
+            return;
+        }
+        NoHomeGitConfigSystemReader.install();
+        try {
+            log.debug("starting the cloning process of {}...", repositoryDTO.getName());
+            Git clonedRepo = Git.cloneRepository()
+                    .setURI(cloneUrl)
+                    .setDirectory(file)
+                    .setCredentialsProvider(new UsernamePasswordCredentialsProvider(fromContext.login(), fromContext.token()))
+                    .call();
+            log.debug("Done! Repository {} cloned successfully.", repositoryDTO.getName());
+        } catch (GitAPIException e) {
+            log.error("Unable to clone repository {} because {}", repositoryDTO.getName(), e.getMessage(), e);
+            callbackContainer.updateApplicationStatusMessage().accept("Unable to clone repository " + repositoryDTO.getName());
+        }
+
+        callbackContainer.updateApplicationProgressBarCurrent().accept(this.getIndex());
+        this.incrementIndex();
+
+        try {
+            Thread.sleep(engineContext.settingsContext().sleepTimeSeconds() * 1000L);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    private synchronized void resetIndex() {
+        this.index = 0;
+    }
+
+    private int getIndex() {
+        return index;
+    }
+
+    private synchronized void incrementIndex() {
+        index++;
+    }
+
 }
