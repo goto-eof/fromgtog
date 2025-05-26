@@ -28,17 +28,14 @@ public class ThreadUtil {
     }
 
     public ExecutorService createExecutor(boolean isMultithread) {
+
         int nThreads = calculateNumThreads(isMultithread);
 
-
-        ExecutorService executorService = null;
-        if (nThreads > 0) {
-            executorService = Executors.newFixedThreadPool(nThreads);
-        } else {
-            executorService = Executors.newSingleThreadExecutor();
+        if (nThreads > 1) {
+            return Executors.newFixedThreadPool(nThreads);
         }
 
-        return executorService;
+        return Executors.newSingleThreadExecutor();
     }
 
     private int calculateNumThreads(boolean multithreadingEnabled) {
