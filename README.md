@@ -5,10 +5,14 @@
 
 - [Introduction](#introduction)
 - [Features](#features)
-- [Download](#download)
+- [Download (Stable)](#download)
     - [MacOS](#download-macos)
     - [Windows](#download-windows)
     - [Linux](#download-linux)
+- [Download (Unstable)](#download-unstable)
+    - [MacOS](#download-macos-unstable)
+    - [Windows](#download-windows-unstable)
+    - [Linux](#download-linux-unstable)
 - [Technologies/Tools](#technologies)
 - [Screenshot](#screenshot)
 - [For developers](#for-developers)
@@ -40,25 +44,41 @@ Further features (in the tools section)
     - from Gitea
     - from Gitlab
 
-<h2 id="download">Download</h2>
+<h2 id="download">Download (Stable)</h2>
 
 - <h2 id="download-macos">MacOS</h2>
 
-  [Download MacOS installer](https://github.com/goto-eof/fromgtog/releases/download/7.0.0/FromGtoG-7.0.0.pkg) - just
-  install the .pkg file. Note: for copy/paste actions, please use `Control + C` and `Control + V` (I will enable `Command + C` and `Command + V` in the future.)
+  [Download MacOS installer](https://github.com/goto-eof/fromgtog/releases/download/6.0.22/FromGtoG-6.0.22.pkg) - just
+  install the .pkg file. Note: for copy/paste actions, please use `Control + C` and `Control + V` (I will enable
+  `Command + C` and `Command + V` in the future.)
 
 - <h2 id="download-windows">Windows</h2>
 
-  [Download Windows installer](https://github.com/goto-eof/fromgtog/releases/download/7.0.0/FromGtoG-7.0.0.exe) - just
+  [Download Windows installer](https://github.com/goto-eof/fromgtog/releases/download/6.0.22/FromGtoG-6.0.22.exe) - just
   install the .exe file and start cloning.
 
 - <h2 id="download-linux">Linux</h2>
 
-  [Download Ubuntu .deb package](https://github.com/goto-eof/fromgtog/releases/download/7.0.0/fromgtog_7.0.0_amd64.deb) -
-  in order to install the .deb package execute `sudo dpkg -i romgtog_7.0.0_amd64.deb`
+  [Download Ubuntu .deb package](https://github.com/goto-eof/fromgtog/releases/download/6.0.22/fromgtog_6.0.22_amd64.deb) -
+  in order to install the .deb package execute `sudo dpkg -i romgtog_6.0.22_amd64.deb`
 
   [Install from Ubutnu Snapstore](https://snapcraft.io/fromgtog) - or execute `sudo snap install fromgtog` in order to
   install the application.
+
+<h2 id="download-unstable">Download (Unstable)</h2>
+
+- <h2 id="download-macos-unstable">MacOS</h2>
+
+  [Download MacOS installer](https://github.com/goto-eof/fromgtog/releases/download/7.0.0/FromGtoG-7.0.0.pkg)
+
+- <h2 id="download-windows-unstable">Windows</h2>
+
+  [Download Windows installer](https://github.com/goto-eof/fromgtog/releases/download/7.0.0/FromGtoG-7.0.0.exe)
+
+- <h2 id="download-linux-unstable">Linux</h2>
+
+  [Download Ubuntu .deb package](https://github.com/goto-eof/fromgtog/releases/download/7.0.0/fromgtog_7.0.0_amd64.deb)
+  [Install from Ubutnu Snapstore](https://snapcraft.io/fromgtog) - for the unstable release choose edge release
 
 <h2 id="technologies">Technologies/Tools</h2>
 
