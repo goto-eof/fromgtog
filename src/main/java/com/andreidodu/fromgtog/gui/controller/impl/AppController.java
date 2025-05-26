@@ -177,6 +177,7 @@ public class AppController implements GUIController {
         appSleepTimeTextField.setText(settings.optString(APP_SLEEP_TIME, "1"));
         fromTabbedPane.setSelectedIndex(settings.optInt(FROM_TAB_INDEX, 0));
         toTabbedPane.setSelectedIndex(settings.optInt(TO_TAB_INDEX, 0));
+        multithreadingEnabled.setSelected(settings.optBoolean(APP_MULTITHREADING_ENABLED, false));
     }
 
     private void defineSaveSettingsButtonListener() {

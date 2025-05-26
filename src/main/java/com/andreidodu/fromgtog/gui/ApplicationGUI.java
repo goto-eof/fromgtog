@@ -348,7 +348,8 @@ public class ApplicationGUI extends JFrame {
                 mainTabbedPane,
                 buyMeACoffeeButton,
                 projectWebsiteButton,
-                reportAnIssueButton
+                reportAnIssueButton,
+                multithreadingEnabled
         );
     }
 
