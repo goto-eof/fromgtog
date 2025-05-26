@@ -176,7 +176,8 @@ public class ApplicationGUI extends JFrame {
         return new ToolsController(
                 toolsDeleteALLGitHubRepositoriesButton,
                 toolsDeleteALLGiteaRepositoriesButton,
-                toolsDeleteALLGitlabRepositoriesButton
+                toolsDeleteALLGitlabRepositoriesButton,
+                this::setEnabledAllComponents
         );
     }
 

@@ -1,19 +1,17 @@
 package com.andreidodu.fromgtog.service.impl;
 
 import com.andreidodu.fromgtog.dto.EngineContext;
+import com.andreidodu.fromgtog.dto.RepositoryDTO;
+import com.andreidodu.fromgtog.service.RepositoryCloner;
 import com.andreidodu.fromgtog.service.factory.CloneFactory;
 import com.andreidodu.fromgtog.service.factory.CloneFactoryImpl;
-import com.andreidodu.fromgtog.dto.RepositoryDTO;
-import com.andreidodu.fromgtog.service.factory.to.engines.DestinationEngine;
 import com.andreidodu.fromgtog.service.factory.from.SourceEngine;
-import com.andreidodu.fromgtog.service.RepositoryCloner;
-import com.andreidodu.fromgtog.type.EngineType;
+import com.andreidodu.fromgtog.service.factory.to.engines.DestinationEngine;
+import com.andreidodu.fromgtog.util.ThreadUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class RepositoryClonerServiceImpl implements RepositoryCloner {
 
@@ -42,8 +40,7 @@ public class RepositoryClonerServiceImpl implements RepositoryCloner {
     }
 
     private void executeOnNewThread(EngineContext engineContext, SourceEngine sourceEngine, DestinationEngine destinationEngine) {
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        executor.submit(() -> {
+        ThreadUtil.executeOnSeparateThread(() -> {
                     try {
                         engineContext.callbackContainer().setEnabledUI().accept(false);
                         cloneFromAndTo(engineContext, sourceEngine, destinationEngine);
@@ -56,7 +53,6 @@ public class RepositoryClonerServiceImpl implements RepositoryCloner {
                     }
                 }
         );
-        executor.shutdown();
     }
 
     private static void validateInput(EngineContext engineContext) {

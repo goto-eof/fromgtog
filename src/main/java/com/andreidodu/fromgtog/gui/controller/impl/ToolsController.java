@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.io.IOException;
+import java.util.function.Consumer;
 
 @Getter
 @Setter
@@ -24,13 +25,16 @@ public class ToolsController {
     private JButton toolsDeleteALLGitHubRepositoriesButton;
     private JButton toolsDeleteALLGiteaRepositoriesButton;
     private JButton toolsDeleteALLGitlabRepositoriesButton;
+    private Consumer<Boolean> setEnabledUI;
 
     public ToolsController(JButton toolsDeleteALLGitHubRepositoriesButton,
                            JButton toolsDeleteALLGiteaRepositoriesButton,
-                           JButton toolsDeleteALLGitlabRepositoriesButton) {
+                           JButton toolsDeleteALLGitlabRepositoriesButton,
+                           Consumer<Boolean> setEnabledUI) {
         this.toolsDeleteALLGitHubRepositoriesButton = toolsDeleteALLGitHubRepositoriesButton;
         this.toolsDeleteALLGiteaRepositoriesButton = toolsDeleteALLGiteaRepositoriesButton;
         this.toolsDeleteALLGitlabRepositoriesButton = toolsDeleteALLGitlabRepositoriesButton;
+        this.setEnabledUI = setEnabledUI;
         addDeleteGiteaRepositoriesButtonListener();
         addDeleteGithubRepositoriesButtonListener();
         addDeleteGitlabRepositoriesButtonListener();
@@ -69,10 +73,13 @@ public class ToolsController {
 
         ThreadUtil.executeOnSeparateThread(() -> {
             try {
+                this.setEnabledUI.accept(false);
                 service.deleteAllRepositories(giteaUrl, giteaToken);
                 showRepositoriesDeletedSuccessfullyMessage(engineType);
+                this.setEnabledUI.accept(true);
             } catch (Exception e) {
                 showFailedDeleteRepositoriesMessage(engineType);
+                this.setEnabledUI.accept(true);
             }
         });
 
@@ -107,12 +114,15 @@ public class ToolsController {
                 return;
             }
 
+            this.setEnabledUI.accept(false);
             GitHubService gitHubService = GitHubServiceImpl.getInstance();
             ThreadUtil.executeOnSeparateThread(() -> {
                 try {
                     gitHubService.deleteAllRepositories(gitHubToken);
                     showRepositoriesDeletedSuccessfullyMessage(EngineType.GITHUB);
+                    this.setEnabledUI.accept(true);
                 } catch (Exception ee) {
+                    this.setEnabledUI.accept(true);
                     showFailedDeleteRepositoriesMessage(EngineType.GITHUB);
                 }
             });
