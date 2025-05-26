@@ -1,11 +1,13 @@
 package com.andreidodu.fromgtog.gui.controller.impl;
 
 
+import com.andreidodu.fromgtog.constants.SoundConstants;
 import com.andreidodu.fromgtog.service.DeletableDestinationContentService;
 import com.andreidodu.fromgtog.service.GitHubService;
 import com.andreidodu.fromgtog.service.impl.GitHubServiceImpl;
 import com.andreidodu.fromgtog.service.impl.GiteaServiceImpl;
 import com.andreidodu.fromgtog.service.impl.GitlabServiceImpl;
+import com.andreidodu.fromgtog.service.impl.SoundPlayer;
 import com.andreidodu.fromgtog.type.EngineType;
 import com.andreidodu.fromgtog.util.ThreadUtil;
 import lombok.Getter;
@@ -88,12 +90,14 @@ public class ToolsController {
     }
 
     private static void showFailedDeleteRepositoriesMessage(EngineType engineType) {
+        SoundPlayer.getInstance().play(SoundConstants.KEY_ERROR);
         SwingUtilities.invokeLater(() -> {
             JOptionPane.showMessageDialog(null, "Something wen wrong. Unable to delete " + engineType + " repositories.", "Error", JOptionPane.ERROR_MESSAGE);
         });
     }
 
     private static void showRepositoriesDeletedSuccessfullyMessage(EngineType engineType) {
+        SoundPlayer.getInstance().play(SoundConstants.KEY_SUCCESS);
         showInfoMessage("All " + engineType + " repositories were deleted!", "Info");
     }
 
