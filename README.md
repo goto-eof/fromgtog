@@ -98,3 +98,8 @@ jpackage -t exe --name "FromGtoG" --vendor "Andrei Dodu" --app-version 6.0.22 --
 ```bash
 jpackage --type deb --name "FromGtoG" --vendor "Andrei Dodu" --app-version "6.0.22" --input "target" --main-jar "fromgtog.jar" --icon "resources\icon.ico" --main-class "com.andreidodu.fromgtog.Main" --dest "executable" --add-modules java.base,java.desktop,java.net.http,java.naming,java.sql,java.management,java.security.jgss,java.xml,java.logging --linux-shortcut --verbose
 ```
+
+
+If you liked my application...
+
+<iframe src="https://github.com/sponsors/goto-eof/card" title="Sponsor goto-eof" height="225" width="600" style="border: 0;"></iframe>
