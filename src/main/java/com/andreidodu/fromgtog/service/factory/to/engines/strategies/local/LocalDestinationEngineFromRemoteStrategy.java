@@ -71,7 +71,7 @@ public class LocalDestinationEngineFromRemoteStrategy implements LocalDestinatio
                         .call();
                 log.debug("Done! Repository {} cloned successfully.", repositoryDTO.getName());
             } catch (GitAPIException e) {
-                log.error("Unable to clone repository {} because {}", repositoryDTO.getName(), e.getMessage());
+                log.error("Unable to clone repository {} because {}", repositoryDTO.getName(), e.getMessage(), e);
                 callbackContainer.updateApplicationStatusMessage().accept("Unable to clone repository " + repositoryDTO.getName());
             }
 
