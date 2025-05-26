@@ -51,8 +51,8 @@ public class GithubDestinationEngineFromRemoteStrategy extends AbstractStrategyC
 
         ThreadUtil threadUtil = ThreadUtil.getInstance();
         final ExecutorService executorService = threadUtil.createExecutor(engineContext.settingsContext().multithreadingEnabled());
-
         super.resetIndex();
+
         for (RepositoryDTO repositoryDTO : repositoryDTOList) {
             executorService.execute(() -> processItem(engineContext, repositoryDTO, githubClient, tokenOwnerLogin));
         }
