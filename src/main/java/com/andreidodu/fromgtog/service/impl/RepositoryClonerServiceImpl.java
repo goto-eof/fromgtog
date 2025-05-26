@@ -17,7 +17,6 @@ import java.util.List;
 public class RepositoryClonerServiceImpl implements RepositoryCloner {
 
     private static RepositoryClonerServiceImpl instance;
-
     Logger log = LoggerFactory.getLogger(RepositoryClonerServiceImpl.class);
 
     public static RepositoryClonerServiceImpl getInstance() {
@@ -42,6 +41,7 @@ public class RepositoryClonerServiceImpl implements RepositoryCloner {
 
     private void executeOnNewThread(EngineContext engineContext, SourceEngine sourceEngine, DestinationEngine destinationEngine) {
         ThreadUtil.getInstance().executeOnSeparateThread(() -> {
+                    TimeCounter timeManager = new TimeCounter(engineContext.callbackContainer().updateTimeLabel());
                     try {
                         EngineType from = engineContext.fromContext().sourceEngineType();
                         EngineType to = engineContext.toContext().engineType();
@@ -52,10 +52,12 @@ public class RepositoryClonerServiceImpl implements RepositoryCloner {
                         cloneFromAndTo(engineContext, sourceEngine, destinationEngine);
                         engineContext.callbackContainer().setEnabledUI().accept(true);
                         engineContext.callbackContainer().showSuccessMessage().accept("Clone procedure completed successfully!");
+                        timeManager.stopCounter();
                     } catch (Exception e) {
                         engineContext.callbackContainer().setEnabledUI().accept(true);
                         engineContext.callbackContainer().setShouldStop().accept(true);
                         engineContext.callbackContainer().showErrorMessage().accept("Something went wrong while cloning: " + e.getMessage());
+                        timeManager.stopCounter();
                     }
                 }
         );
@@ -64,6 +66,7 @@ public class RepositoryClonerServiceImpl implements RepositoryCloner {
     private static void validateInput(EngineContext engineContext) {
         // TODO
     }
+
 
     private boolean cloneFromAndTo(EngineContext engineContext, SourceEngine sourceEngine, DestinationEngine destinationEngine) {
         List<RepositoryDTO> repositories = sourceEngine.retrieveRepositoryList(engineContext);

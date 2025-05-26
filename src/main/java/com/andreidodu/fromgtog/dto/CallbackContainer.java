@@ -14,6 +14,7 @@ public record CallbackContainer(
         Consumer<String> showErrorMessage,
         Consumer<String> showSuccessMessage,
         Supplier<Boolean> isShouldStop,
-        Consumer<Boolean> setShouldStop
+        Consumer<Boolean> setShouldStop,
+        Consumer<String> updateTimeLabel
 ) {
 }

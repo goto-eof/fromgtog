@@ -25,6 +25,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 
 import static com.andreidodu.fromgtog.constants.ApplicationConstants.LOG_DIR_NAME;
@@ -72,6 +76,8 @@ public class AppController implements GUIController {
     private volatile boolean shouldStop = false;
 
     private JButton clearLogFileButton;
+    private JLabel timeLabel;
+
 
     public AppController(JSONObject settings,
                          List<GUIFromController> fromControllerList,
@@ -90,7 +96,8 @@ public class AppController implements GUIController {
                          JButton appStopButton,
                          JPanel statusContainerJPanel,
                          JCheckBox multithreadingEnabled,
-                         JButton clearLogFileButton) {
+                         JButton clearLogFileButton,
+                         JLabel timeLabel) {
         this.fromControllerList = fromControllerList;
         this.toControllerList = toControllerList;
         this.appLogTextArea = appLogTextArea;
@@ -108,6 +115,7 @@ public class AppController implements GUIController {
         this.statusContainerJPanel = statusContainerJPanel;
         this.multithreadingEnabled = multithreadingEnabled;
         this.clearLogFileButton = clearLogFileButton;
+        this.timeLabel = timeLabel;
 
         this.translatorTo = new JsonObjectToToContextTranslator();
         this.translatorApp = new JsonObjectToAppContextTranslator();
@@ -122,6 +130,7 @@ public class AppController implements GUIController {
         applySettings(settings);
 
         this.setShouldStop(true);
+
     }
 
     private void defineClearLogFileButtonListener() {
@@ -231,8 +240,6 @@ public class AppController implements GUIController {
     private void defineAppStartButtonListener(List<GUIFromController> fromControllerList, List<GUIToController> toControllerList, JTabbedPane fromTabbedPane, JTabbedPane toTabbedPane) {
 
         this.appStartButton.addActionListener(e -> {
-
-
             try {
                 this.setShouldStop(false);
                 this.appStartButton.setVisible(false);
@@ -257,6 +264,7 @@ public class AppController implements GUIController {
                                 .showSuccessMessage(this::invokeLaterSuccessMessage)
                                 .isShouldStop(this::isShouldStop)
                                 .setShouldStop(this::setShouldStop)
+                                .updateTimeLabel(this::updateTimeLabel)
                                 .build())
                         .build();
 
@@ -270,6 +278,14 @@ public class AppController implements GUIController {
             }
         });
     }
+
+
+    private void updateTimeLabel(String message) {
+        SwingUtilities.invokeLater(() -> {
+            timeLabel.setText(String.format("%s", message));
+        });
+    }
+
 
     private void saveSettings(JSONObject... jsonObjectFrom) {
         log.debug("Saving settings...");
