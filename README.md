@@ -102,6 +102,6 @@ jpackage --type deb --name "FromGtoG" --vendor "Andrei Dodu" --app-version "6.0.
 
 ## Support Me
 
-If you find this project helpful, consider [sponsoring me](https://github.com/sponsors/goto-eof) 💖
+If you find this project helpful, consider [sponsoring me](https://github.com/sponsors/goto-eof) 💚
 
-[![Sponsor](https://img.shields.io/badge/Sponsor-❤️-brightgreen)](https://github.com/sponsors/goto-eof)
+[![Sponsor](https://img.shields.io/badge/Sponsor-❤💚-brightgreen)](https://github.com/sponsors/goto-eof)
