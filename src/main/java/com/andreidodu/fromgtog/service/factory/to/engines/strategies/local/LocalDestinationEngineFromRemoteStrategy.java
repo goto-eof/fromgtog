@@ -2,6 +2,7 @@ package com.andreidodu.fromgtog.service.factory.to.engines.strategies.local;
 
 import com.andreidodu.fromgtog.config.NoHomeGitConfigSystemReader;
 import com.andreidodu.fromgtog.dto.*;
+import com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.AbstractStrategyCommon;
 import com.andreidodu.fromgtog.type.EngineType;
 import com.andreidodu.fromgtog.util.ThreadUtil;
 import org.eclipse.jgit.api.Git;
@@ -17,7 +18,7 @@ import java.util.concurrent.Executors;
 
 import static com.andreidodu.fromgtog.constants.ApplicationConstants.MAX_NUM_THREADS;
 
-public class LocalDestinationEngineFromRemoteStrategy implements LocalDestinationEngineFromStrategy {
+public class LocalDestinationEngineFromRemoteStrategy extends AbstractStrategyCommon implements LocalDestinationEngineFromStrategy {
 
     private int index = 0;
 
@@ -46,7 +47,6 @@ public class LocalDestinationEngineFromRemoteStrategy implements LocalDestinatio
         }
 
         threadUtil.waitUntilShutDownCompleted(executorService);
-
 
         callbackContainer.updateApplicationStatusMessage().accept("done!");
         callbackContainer.updateApplicationProgressBarMax().accept(100);
@@ -112,17 +112,5 @@ public class LocalDestinationEngineFromRemoteStrategy implements LocalDestinatio
         }
     }
 
-
-    private synchronized void resetIndex() {
-        this.index = 0;
-    }
-
-    private int getIndex() {
-        return index;
-    }
-
-    private synchronized void incrementIndex() {
-        index++;
-    }
 
 }

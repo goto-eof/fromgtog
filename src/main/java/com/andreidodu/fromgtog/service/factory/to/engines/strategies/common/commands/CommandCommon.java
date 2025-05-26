@@ -6,7 +6,6 @@ import com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.reco
 import com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.records.ThreadStopCommandContext;
 
 import java.io.File;
-import java.util.function.Consumer;
 
 public class CommandCommon {
     final static String TEMP_DIRECTORY = System.getProperty("java.io.tmpdir");

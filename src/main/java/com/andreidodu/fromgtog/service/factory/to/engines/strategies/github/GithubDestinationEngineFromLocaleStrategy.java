@@ -4,6 +4,7 @@ import com.andreidodu.fromgtog.dto.*;
 import com.andreidodu.fromgtog.service.GitHubService;
 import com.andreidodu.fromgtog.service.LocalService;
 import com.andreidodu.fromgtog.service.factory.to.engines.strategies.AbstractFromLocalCommon;
+import com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.AbstractStrategyCommon;
 import com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.commands.ThreadSleepCommand;
 import com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.commands.UpdateStatusCommand;
 import com.andreidodu.fromgtog.service.factory.to.engines.strategies.github.common.GithubDestinationEngineCommon;
@@ -25,7 +26,7 @@ import java.util.List;
 
 import static com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.commands.CommandCommon.*;
 
-public class GithubDestinationEngineFromLocaleStrategy extends AbstractFromLocalCommon implements GithubDestinationEngineFromStrategy {
+public class GithubDestinationEngineFromLocaleStrategy extends AbstractStrategyCommon implements GithubDestinationEngineFromStrategy {
     public static final String GITHUB_URL = "https://github.com";
     Logger log = LoggerFactory.getLogger(GithubDestinationEngineFromLocaleStrategy.class);
 

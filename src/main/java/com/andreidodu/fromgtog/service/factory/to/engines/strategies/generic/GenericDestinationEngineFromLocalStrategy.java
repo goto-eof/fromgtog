@@ -3,6 +3,7 @@ package com.andreidodu.fromgtog.service.factory.to.engines.strategies.generic;
 import com.andreidodu.fromgtog.dto.*;
 import com.andreidodu.fromgtog.service.LocalService;
 import com.andreidodu.fromgtog.service.factory.to.engines.strategies.AbstractFromLocalCommon;
+import com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.AbstractStrategyCommon;
 import com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.commands.ThreadSleepCommand;
 import com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.commands.UpdateStatusCommand;
 import com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.records.RemoteExistsCheckCommandContext;
@@ -21,7 +22,7 @@ import java.util.List;
 
 import static com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.commands.CommandCommon.*;
 
-public class GenericDestinationEngineFromLocalStrategy<ServiceType extends GenericDestinationEngineFromStrategyService> extends AbstractFromLocalCommon implements GenericDestinationEngineFromStrategyCommon {
+public class GenericDestinationEngineFromLocalStrategy<ServiceType extends GenericDestinationEngineFromStrategyService> extends AbstractStrategyCommon implements GenericDestinationEngineFromStrategyCommon {
     Logger log = LoggerFactory.getLogger(GenericDestinationEngineFromLocalStrategy.class);
 
     private final ServiceType service;
