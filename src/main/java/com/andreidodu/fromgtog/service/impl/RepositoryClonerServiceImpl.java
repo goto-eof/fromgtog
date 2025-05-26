@@ -7,6 +7,7 @@ import com.andreidodu.fromgtog.service.factory.CloneFactory;
 import com.andreidodu.fromgtog.service.factory.CloneFactoryImpl;
 import com.andreidodu.fromgtog.service.factory.from.SourceEngine;
 import com.andreidodu.fromgtog.service.factory.to.engines.DestinationEngine;
+import com.andreidodu.fromgtog.type.EngineType;
 import com.andreidodu.fromgtog.util.ThreadUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,6 +43,11 @@ public class RepositoryClonerServiceImpl implements RepositoryCloner {
     private void executeOnNewThread(EngineContext engineContext, SourceEngine sourceEngine, DestinationEngine destinationEngine) {
         ThreadUtil.getInstance().executeOnSeparateThread(() -> {
                     try {
+                        EngineType from = engineContext.fromContext().sourceEngineType();
+                        EngineType to = engineContext.toContext().engineType();
+                        log.info("Start to clone from {} to {}", from, to);
+                        engineContext.callbackContainer().updateApplicationStatusMessage().accept("Start to clone from " + from + " to " + to);
+
                         engineContext.callbackContainer().setEnabledUI().accept(false);
                         cloneFromAndTo(engineContext, sourceEngine, destinationEngine);
                         engineContext.callbackContainer().setEnabledUI().accept(true);

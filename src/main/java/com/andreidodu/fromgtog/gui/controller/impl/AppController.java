@@ -22,6 +22,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 import java.util.function.Consumer;
@@ -70,6 +71,8 @@ public class AppController implements GUIController {
     @Setter
     private volatile boolean shouldStop = false;
 
+    private JButton clearLogFileButton;
+
     public AppController(JSONObject settings,
                          List<GUIFromController> fromControllerList,
                          List<GUIToController> toControllerList,
@@ -86,7 +89,8 @@ public class AppController implements GUIController {
                          Consumer<Boolean> setEnabledUI,
                          JButton appStopButton,
                          JPanel statusContainerJPanel,
-                         JCheckBox multithreadingEnabled) {
+                         JCheckBox multithreadingEnabled,
+                         JButton clearLogFileButton) {
         this.fromControllerList = fromControllerList;
         this.toControllerList = toControllerList;
         this.appLogTextArea = appLogTextArea;
@@ -103,6 +107,7 @@ public class AppController implements GUIController {
         this.appStopButton = appStopButton;
         this.statusContainerJPanel = statusContainerJPanel;
         this.multithreadingEnabled = multithreadingEnabled;
+        this.clearLogFileButton = clearLogFileButton;
 
         this.translatorTo = new JsonObjectToToContextTranslator();
         this.translatorApp = new JsonObjectToAppContextTranslator();
@@ -112,16 +117,27 @@ public class AppController implements GUIController {
         defineAppStopButtonListener();
         defineSaveSettingsButtonListener();
         defineOpenLogFileButtonListener();
+        defineClearLogFileButtonListener();
 
         applySettings(settings);
 
         this.setShouldStop(true);
     }
 
+    private void defineClearLogFileButtonListener() {
+        clearLogFileButton.addActionListener(e -> {
+            File logFile = getLogFile();
+            try (FileWriter writer = new FileWriter(logFile, false)) {
+                // do nothing -> it is used just to override the file
+            } catch (IOException ee) {
+                log.error(ee.getMessage());
+                showErrorMessage("Unable to clear the log file: " + ee.getMessage());
+            }
+        });
+    }
+
     private void defineOpenLogFileButtonListener() {
-        File appDataDir = ApplicationUtil.getApplicationRootDirectory();
-        File logDir = new File(appDataDir, LOG_DIR_NAME);
-        File logFile = new File(logDir, LOG_FILENAME);
+        File logFile = getLogFile();
 
         appOpenLogFileButton.addActionListener(e -> {
             String filename = logFile.getAbsolutePath();
@@ -135,6 +151,13 @@ public class AppController implements GUIController {
                 }
             }
         });
+    }
+
+    private static File getLogFile() {
+        File appDataDir = ApplicationUtil.getApplicationRootDirectory();
+        File logDir = new File(appDataDir, LOG_DIR_NAME);
+        File logFile = new File(logDir, LOG_FILENAME);
+        return logFile;
     }
 
     private void openLogFileOnLinux(String logFilename) {
@@ -214,12 +237,6 @@ public class AppController implements GUIController {
                 this.setShouldStop(false);
                 this.appStartButton.setVisible(false);
                 this.appStopButton.setVisible(true);
-                appLogTextArea.setText(String.format("%s\n(%s) -> (%s)",
-                                appLogTextArea.getText(),
-                                fromTabbedPane.getSelectedIndex(),
-                                toTabbedPane.getSelectedIndex()
-                        )
-                );
 
                 JSONObject jsonObjectFrom = retrieveJsonData(fromControllerList, fromTabbedPane.getSelectedIndex());
                 JSONObject jsonObjectTo = retrieveJsonData(toControllerList, toTabbedPane.getSelectedIndex());
@@ -236,21 +253,12 @@ public class AppController implements GUIController {
                                 .updateApplicationProgressBarCurrent(this::updateApplicationProgressBarCurrent)
                                 .updateApplicationStatusMessage(this::updateApplicationStatusMessage)
                                 .setEnabledUI(setEnabledUI)
-                                .showErrorMessage(this::showErrorMessage)
-                                .showSuccessMessage(this::showSuccessMessage)
+                                .showErrorMessage(this::invokeLaterShowErrorMessage)
+                                .showSuccessMessage(this::invokeLaterSuccessMessage)
                                 .isShouldStop(this::isShouldStop)
                                 .setShouldStop(this::setShouldStop)
                                 .build())
                         .build();
-
-                appLogTextArea.setText(String.format("%s\n%s(%s) -> %s(%s)",
-                                appLogTextArea.getText(),
-                                engineContext.fromContext().sourceEngineType(),
-                                fromTabbedPane.getSelectedIndex(),
-                                engineContext.toContext().engineType(),
-                                toTabbedPane.getSelectedIndex()
-                        )
-                );
 
                 saveSettings(jsonObjectFrom, jsonObjectTo, jsonObjectApp);
                 RepositoryCloner repositoryCloner = RepositoryClonerServiceImpl.getInstance();
@@ -270,10 +278,21 @@ public class AppController implements GUIController {
         log.debug("Done.");
     }
 
+    private void invokeLaterSuccessMessage(String message) {
+        SwingUtilities.invokeLater(() -> {
+            showSuccessMessage(message);
+        });
+    }
+
     private void showSuccessMessage(String message) {
         JOptionPane.showMessageDialog(null, message, "Info", JOptionPane.INFORMATION_MESSAGE);
     }
 
+    private void invokeLaterShowErrorMessage(String message) {
+        SwingUtilities.invokeLater(() -> {
+            showErrorMessage(message);
+        });
+    }
 
     private void showErrorMessage(String message) {
         JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);

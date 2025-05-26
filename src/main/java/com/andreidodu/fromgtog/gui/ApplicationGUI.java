@@ -93,6 +93,7 @@ public class ApplicationGUI extends JFrame {
     private JButton reportAnIssueButton;
     private JPanel statusContainerJPanel;
     private JCheckBox multithreadingEnabled;
+    private JButton clearLogFileButton;
 
     List<? extends JComponent> allComponentsList;
 
@@ -208,7 +209,8 @@ public class ApplicationGUI extends JFrame {
                 this::setEnabledAllComponents,
                 appStopButton,
                 statusContainerJPanel,
-                multithreadingEnabled
+                multithreadingEnabled,
+                clearLogFileButton
         );
     }
 
@@ -849,17 +851,21 @@ public class ApplicationGUI extends JFrame {
         final Spacer spacer17 = new Spacer();
         panel57.add(spacer17, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         final JPanel panel58 = new JPanel();
-        panel58.setLayout(new GridLayoutManager(1, 3, new Insets(0, 0, 0, 0), -1, -1));
+        panel58.setLayout(new GridLayoutManager(1, 4, new Insets(0, 0, 0, 0), -1, -1));
         panel57.add(panel58, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         panel58.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Log", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
-        appOpenLogFileButton = new JButton();
-        appOpenLogFileButton.setText("open log file");
-        panel58.add(appOpenLogFileButton, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer18 = new Spacer();
         panel58.add(spacer18, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         final JLabel label29 = new JLabel();
         label29.setText("Open log file");
         panel58.add(label29, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        appOpenLogFileButton = new JButton();
+        appOpenLogFileButton.setText("open log file");
+        panel58.add(appOpenLogFileButton, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        clearLogFileButton = new JButton();
+        clearLogFileButton.setForeground(new Color(-2979020));
+        clearLogFileButton.setText("clear log file");
+        panel58.add(clearLogFileButton, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel59 = new JPanel();
         panel59.setLayout(new GridLayoutManager(1, 1, new Insets(30, 0, 0, 0), -1, -1));
         panel57.add(panel59, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
