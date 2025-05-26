@@ -1,5 +1,6 @@
 package com.andreidodu.fromgtog.gui.controller.impl;
 
+import com.andreidodu.fromgtog.constants.SoundConstants;
 import com.andreidodu.fromgtog.dto.CallbackContainer;
 import com.andreidodu.fromgtog.dto.EngineContext;
 import com.andreidodu.fromgtog.gui.controller.GUIController;
@@ -12,6 +13,7 @@ import com.andreidodu.fromgtog.gui.controller.translator.impl.JsonObjectToToCont
 import com.andreidodu.fromgtog.service.RepositoryCloner;
 import com.andreidodu.fromgtog.service.impl.RepositoryClonerServiceImpl;
 import com.andreidodu.fromgtog.service.impl.SettingsServiceImpl;
+import com.andreidodu.fromgtog.service.impl.SoundPlayer;
 import com.andreidodu.fromgtog.util.ApplicationUtil;
 import com.andreidodu.fromgtog.util.JsonObjectServiceImpl;
 import lombok.Getter;
@@ -25,10 +27,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 
 import static com.andreidodu.fromgtog.constants.ApplicationConstants.LOG_DIR_NAME;
@@ -301,6 +299,7 @@ public class AppController implements GUIController {
     }
 
     private void showSuccessMessage(String message) {
+        SoundPlayer.getInstance().play(SoundConstants.KEY_SUCCESS);
         JOptionPane.showMessageDialog(null, message, "Info", JOptionPane.INFORMATION_MESSAGE);
     }
 
@@ -311,6 +310,7 @@ public class AppController implements GUIController {
     }
 
     private void showErrorMessage(String message) {
+        SoundPlayer.getInstance().play(SoundConstants.KEY_ERROR);
         JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
     }
 
