@@ -51,9 +51,9 @@ public class ThreadUtil {
         final ExecutorService SINGLE_THREAD_EXECUTOR = Executors.newSingleThreadExecutor();
 
         SINGLE_THREAD_EXECUTOR.submit(() -> {
-            log.debug("Repositories deletion started");
+            log.debug("Thread task started");
             runnable.run();
-            System.out.println("Repositories deletion ended");
+            System.out.println("Thread task ended");
         });
 
         SINGLE_THREAD_EXECUTOR.shutdown();
