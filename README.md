@@ -12,6 +12,7 @@
 - [Technologies/Tools](#technologies)
 - [Screenshot](#screenshot)
 - [For developers](#for-developers)
+- [Support me](#support-me)
 
 <h2 id="introduction">Introduction</h2>
 
@@ -100,7 +101,7 @@ jpackage --type deb --name "FromGtoG" --vendor "Andrei Dodu" --app-version "6.0.
 ```
 
 
-## Support Me
+<h2 id="support-me">Support Me</h2>
 
 If you find this project helpful, consider [sponsoring me](https://github.com/sponsors/goto-eof) 💚
 
