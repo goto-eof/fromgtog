@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import static com.andreidodu.fromgtog.constants.ApplicationConstants.MAX_NUM_THREADS;
 
@@ -62,13 +63,11 @@ public class ThreadUtil {
 
     public void waitUntilShutDownCompleted(ExecutorService executorService) {
         executorService.shutdown();
-        while (!executorService.isTerminated()) {
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                throw new RuntimeException(e);
-            }
+        try {
+            executorService.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException(e);
         }
     }
 }
