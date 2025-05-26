@@ -27,22 +27,29 @@ public class LocalDestinationEngineFromRemoteStrategy implements LocalDestinatio
 
     @Override
     public boolean cloneAll(EngineContext engineContext, List<RepositoryDTO> repositoryDTOList) {
-        FromContext fromContext = engineContext.fromContext();
-        ToContext toContext = engineContext.toContext();
         CallbackContainer callbackContainer = engineContext.callbackContainer();
 
         callbackContainer.updateApplicationProgressBarMax().accept(repositoryDTOList.size());
         callbackContainer.updateApplicationProgressBarCurrent().accept(0);
         callbackContainer.updateApplicationStatusMessage().accept("initializing the cloning process");
 
-        ExecutorService executorService = Executors.newFixedThreadPool(calculateNumThreads());
+        int nThreads = calculateNumThreads(engineContext.settingsContext().multithreadingEnabled());
 
+
+        ExecutorService executorService = null;
+        if (nThreads > 0) {
+            executorService = Executors.newFixedThreadPool(nThreads);
+        } else {
+            executorService = Executors.newSingleThreadExecutor();
+        }
 
         for (RepositoryDTO repositoryDTO : repositoryDTOList) {
             final RepositoryDTO finalRepositoryDTO = repositoryDTO;
             executorService.execute(() -> processItem(engineContext, finalRepositoryDTO));
         }
+
         executorService.shutdown();
+
         while (!executorService.isTerminated()) {
             try {
                 Thread.sleep(50);
@@ -59,7 +66,10 @@ public class LocalDestinationEngineFromRemoteStrategy implements LocalDestinatio
         return true;
     }
 
-    private static int calculateNumThreads() {
+    private static int calculateNumThreads(boolean multithreadingEnabled) {
+        if (!multithreadingEnabled) {
+            return 1;
+        }
         int numProcessors = Runtime.getRuntime().availableProcessors();
         return Math.min(numProcessors, 6);
     }

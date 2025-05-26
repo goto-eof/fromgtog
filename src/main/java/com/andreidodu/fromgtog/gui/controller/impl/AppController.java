@@ -65,6 +65,7 @@ public class AppController implements GUIController {
 
     private JButton appStopButton;
     private JPanel statusContainerJPanel;
+    private JCheckBox multithreadingEnabled;
     @Getter
     @Setter
     private volatile boolean shouldStop = false;
@@ -84,7 +85,8 @@ public class AppController implements GUIController {
                          JButton appOpenLogFileButton,
                          Consumer<Boolean> setEnabledUI,
                          JButton appStopButton,
-                         JPanel statusContainerJPanel) {
+                         JPanel statusContainerJPanel,
+                         JCheckBox multithreadingEnabled) {
         this.fromControllerList = fromControllerList;
         this.toControllerList = toControllerList;
         this.appLogTextArea = appLogTextArea;
@@ -100,7 +102,7 @@ public class AppController implements GUIController {
         this.setEnabledUI = setEnabledUI;
         this.appStopButton = appStopButton;
         this.statusContainerJPanel = statusContainerJPanel;
-
+        this.multithreadingEnabled = multithreadingEnabled;
 
         this.translatorTo = new JsonObjectToToContextTranslator();
         this.translatorApp = new JsonObjectToAppContextTranslator();
@@ -292,6 +294,7 @@ public class AppController implements GUIController {
         appSleepTimeTextField.setText(String.valueOf(sleepSeconds));
 
         jsonObject.put(APP_SLEEP_TIME, sleepSeconds);
+        jsonObject.put(APP_MULTITHREADING_ENABLED, multithreadingEnabled.isSelected());
         jsonObject.put(FROM_TAB_INDEX, fromTabbedPane.getSelectedIndex());
         jsonObject.put(TO_TAB_INDEX, toTabbedPane.getSelectedIndex());
 
