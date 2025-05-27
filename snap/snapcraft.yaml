@@ -35,6 +35,7 @@ apps:
       - wayland
       - network-bind
       - pulseaudio
+      - alsa
     slots:
       - fromgtog-dbus
 platforms:
