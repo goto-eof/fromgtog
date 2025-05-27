@@ -1,5 +1,5 @@
 <h1 align="center"><img src="images/fromgtog_header.png" alt="header" /></h1>
-<h1 align="right" id="title">FromGtoG v. 6.0</h1>
+<h1 align="right" id="title">FromGtoG v. 7.0</h1>
 
 <h2 id="index">Index</h2>
 
@@ -82,10 +82,6 @@ JDK 21, Intellij UI Designer (plugin for Intellij), Slf4J, Lombok, Apache Common
 
 <h2 id="for-developers">For developers</h2>
 
-```bash
-jar tvf fromgtog.jar 
-```
-
 ## Retrieve dependency modules of the jar
 
 ```bash
@@ -112,6 +108,16 @@ jpackage -t exe --name "FromGtoG" --vendor "Andrei Dodu" --app-version "7.0.0" -
 
 ```bash
 jpackage --type deb --name "FromGtoG" --vendor "Andrei Dodu" --app-version "7.0.0" --input "target" --main-jar "fromgtog.jar" --icon "resources/icon.png" --main-class "com.andreidodu.fromgtog.Main" --dest "executable" --add-modules java.base,java.desktop,java.net.http,java.naming,java.sql,java.management,java.security.jgss,java.xml,java.logging,jdk.crypto.ec,java.security.sasl --linux-shortcut --verbose --linux-package-deps "libasound2, libpulse0"
+```
+
+## Usefully commands
+
+```bash
+jar tvf fromgtog.jar 
+```
+
+```bash
+ sudo snap remove fromgtog && sudo snapcraft && sudo snap install fromgtog_7.0.0_amd64.snap --dangerous && fromgtog
 ```
 
 <h2 id="support-me">Support Me</h2>
