@@ -34,6 +34,7 @@ apps:
       - removable-media
       - wayland
       - network-bind
+      - pulseaudio
     slots:
       - fromgtog-dbus
 platforms:
