@@ -85,7 +85,8 @@ public class SoundPlayer {
 
     private Clip loadClip(String soundFilename) {
         try {
-            InputStream soundURL = SoundPlayer.class.getResourceAsStream(soundFilename);
+            InputStream soundStream = SoundPlayer.class.getResourceAsStream(soundFilename);
+            URL soundURL = getClass().getClassLoader().getResource(soundFilename);
             if (soundURL == null) {
                 logger.error("File not found: {}", soundFilename);
                 return null;
