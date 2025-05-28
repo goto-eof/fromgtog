@@ -1,5 +1,5 @@
 name: fromgtog
-version: '7.0.0'
+version: '7.0.1'
 summary: Clone ALL GitHub/Gitea/Local to GitHub/Gitea.
 description: |
   Helps to clone all repositories from GitHub on Gitea/Local and vice versa.
@@ -20,6 +20,7 @@ slots:
 apps:
   fromgtog:
     environment:
+      ALSA_CONFIG_PATH: $SNAP/etc/asound.conf
       LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$SNAP_DESKTOP_RUNTIME/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libproxy:$SNAP_DESKTOP_RUNTIME/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/gio/modules
     command: executor
     extensions: [ gnome ]
@@ -38,18 +39,19 @@ apps:
       - alsa
     slots:
       - fromgtog-dbus
-platforms:
-  amd64:
-    build-on: [ amd64 ]
-    build-for: [ amd64 ]
-  arm64:
-    build-on: [ arm64 ]
-    build-for: [ arm64 ]
 parts:
   wrapper:
     plugin: dump
     source: snap/local
     source-type: local
+  alsa-config:
+    plugin: dump
+    source: snap/local/asound.conf
+    source-type: file
+    organize:
+      asound.conf: etc/asound.conf
+    prime:
+      - etc/asound.conf
   application:
     plugin: maven
     source: .
@@ -61,6 +63,11 @@ parts:
       - glib-networking
       - libgtk-3-0
       - xdg-utils
+      - libasound2
+      - libasound2-plugins
+      - alsa-utils
+    after:
+      - alsa-config
     override-prime: |
       snapcraftctl prime
       rm -vf usr/lib/jvm/java-*-openjdk-*64/lib/security/blacklisted.certs
