@@ -80,9 +80,7 @@ parts:
         --no-man-pages \
         --strip-debug
       
-      snapcraftctl set-version "$(git describe --tags | sed 's/v//' | sed "s/-g/%/"  | cut -d "%" -f1)"
-      # Gets the host and port from a proxy URL
-      #   $1 = the proxy URL, such as "http://10.10.10.1:8222/"
+
       getproxy () {
           host=$(echo "$1" | sed -E 's|https?://([^:/]*):?[0-9]*/?|\1|')
           port=$(echo "$1" | sed -E 's|https?://[^:/]*:?([0-9]*)/?|\1|')
