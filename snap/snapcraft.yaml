@@ -73,7 +73,6 @@ parts:
       port=$(echo "$1" | sed -E 's|https?://[^:/]*:?([0-9]*)/?|\1|')
       }
       
-      
       echo "Starting to build FromGtoG at $(date)"
       START_TIME=$(date +%s)
       echo "Start building FromGtoG at $(date)"
@@ -97,6 +96,7 @@ parts:
           getproxy "$http_proxy"
           http="-Dhttp.proxyHost=$host -Dhttp.proxyPort=$port"
       fi
+      
       if [ -n "${https_proxy:-}" ]; then
           getproxy "$https_proxy"
           https="-Dhttps.proxyHost=$host -Dhttps.proxyPort=$port"
