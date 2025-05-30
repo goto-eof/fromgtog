@@ -66,6 +66,9 @@ parts:
       - openjdk-21-jdk
       - maven
     override-build: |
+      echo "Starting to build FromGtoG at $(date)"
+      START_TIME=$(date +%s)
+      
       set -eux
       JLINK_JDK_PATH="/usr/lib/jvm/java-21-openjdk-$(dpkg-architecture -q DEB_BUILD_MULTIARCH)"
       REQUIRED_MODULES="java.base,java.desktop,java.net.http,java.naming,java.sql,java.management,java.security.jgss,java.xml,java.logging,jdk.crypto.ec,java.security.sasl"
@@ -80,12 +83,6 @@ parts:
         --no-man-pages \
         --strip-debug
       
-
-      getproxy () {
-          host=$(echo "$1" | sed -E 's|https?://([^:/]*):?[0-9]*/?|\1|')
-          port=$(echo "$1" | sed -E 's|https?://[^:/]*:?([0-9]*)/?|\1|')
-      }
-      # Sets Java networking properties when using a proxy server
       if [ -n "${http_proxy:-}" ]; then
           getproxy "$http_proxy"
           http="-Dhttp.proxyHost=$host -Dhttp.proxyPort=$port"
@@ -94,6 +91,7 @@ parts:
           getproxy "$https_proxy"
           https="-Dhttps.proxyHost=$host -Dhttps.proxyPort=$port"
       fi
+
       # Builds Maven
       export MAVEN_OPTS="$http $https"
       
@@ -116,6 +114,10 @@ parts:
       echo "custom JRE runtime created in $SNAPCRAFT_PART_INSTALL/usr/lib/jvm/custom-jre"
       rm -rf "$JLINK_JDK_PATH"
       echo "temporary JDK removed."
+      
+      echo "Finished building FromGtoG at $(date)"
+      END_TIME=$(date +%s)
+      echo "Total time: $((${END_TIME} - ${START_TIME})) seconds"
     stage-packages:
       - glib-networking
       - libgtk-3-0
