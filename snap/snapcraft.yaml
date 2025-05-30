@@ -91,6 +91,8 @@ parts:
         --no-man-pages \
         --strip-debug
       
+      http=""
+      https=""
       
       if [ -n "${http_proxy:-}" ]; then
           getproxy "$http_proxy"
