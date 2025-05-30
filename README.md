@@ -58,7 +58,7 @@ Further features
 - <h2 id="download-linux">Linux</h2>
 
   [Download Ubuntu .deb package](https://github.com/goto-eof/fromgtog/releases/download/7.0.0/fromgtog_7.0.0_amd64.deb) -
-  in order to install the .deb package execute `sudo dpkg -i romgtog_6.0.22_amd64.deb`
+  in order to install the .deb package execute `sudo dpkg -i romgtog_7.0.0_amd64.deb`
 
   [Install from Ubutnu Snapstore](https://snapcraft.io/fromgtog) - or execute `sudo snap install fromgtog` in order to
   install the application.
@@ -93,7 +93,7 @@ jdeps -s fromgtog.jar
 It is necessary to install Xcode Command Line Tools before.
 
 ```bash
-jpackage --type pkg --name "FromGtoG" --vendor "Andrei Dodu" --app-version "7.0.0" --input "target" --main-jar "fromgtog.jar" --icon "resources/icon.icns" --main-class "com.andreidodu.fromgtog.Main" --dest "executable" --add-modules java.base,java.desktop,java.net.http,jdk.crypto.ec,java.security.sasl,java.naming,java.sql,java.management,java.security.jgss,java.xml,java.logging --verbose --java-options "-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dsun.java2d.uiScale=true"
+jpackage --type pkg --name "FromGtoG" --vendor "Andrei Dodu" --app-version "7.0.2" --input "target" --main-jar "fromgtog.jar" --icon "resources/icon.icns" --main-class "com.andreidodu.fromgtog.Main" --dest "executable" --add-modules java.base,java.desktop,java.net.http,jdk.crypto.ec,java.security.sasl,java.naming,java.sql,java.management,java.security.jgss,java.xml,java.logging --verbose --java-options "-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dsun.java2d.uiScale=true"
 ```
 
 ## Generate a standalone for Windows
@@ -101,13 +101,13 @@ jpackage --type pkg --name "FromGtoG" --vendor "Andrei Dodu" --app-version "7.0.
 It is necessary to install Wix Toolset before.
 
 ```bash
-jpackage -t exe --name "FromGtoG" --vendor "Andrei Dodu" --app-version "7.0.0" --input "target" --dest "executable" --main-jar "fromgtog.jar" --icon "resources\icon.ico" --resource-dir resources --add-modules java.base,java.desktop,java.net.http,java.naming,java.sql,java.management,java.security.jgss,java.xml,java.logging,jdk.crypto.ec,java.security.sasl --win-shortcut --win-menu --main-class com.andreidodu.fromgtog.Main
+jpackage -t exe --name "FromGtoG" --vendor "Andrei Dodu" --app-version "7.0.2" --input "target" --dest "executable" --main-jar "fromgtog.jar" --icon "resources\icon.ico" --resource-dir resources --add-modules java.base,java.desktop,java.net.http,java.naming,java.sql,java.management,java.security.jgss,java.xml,java.logging,jdk.crypto.ec,java.security.sasl --win-shortcut --win-menu --main-class com.andreidodu.fromgtog.Main
 ```
 
 ## Generate a standalone for Linux
 
 ```bash
-jpackage --type deb --name "FromGtoG" --vendor "Andrei Dodu" --app-version "7.0.0" --input "target" --main-jar "fromgtog.jar" --icon "resources/icon.png" --main-class "com.andreidodu.fromgtog.Main" --dest "executable" --add-modules java.base,java.desktop,java.net.http,java.naming,java.sql,java.management,java.security.jgss,java.xml,java.logging,jdk.crypto.ec,java.security.sasl --linux-shortcut --verbose --linux-package-deps "libasound2, libpulse0"
+jpackage --type deb --name "FromGtoG" --vendor "Andrei Dodu" --app-version "7.0.2" --input "target" --main-jar "fromgtog.jar" --icon "resources/icon.png" --main-class "com.andreidodu.fromgtog.Main" --dest "executable" --add-modules java.base,java.desktop,java.net.http,java.naming,java.sql,java.management,java.security.jgss,java.xml,java.logging,jdk.crypto.ec,java.security.sasl --linux-shortcut --verbose --linux-package-deps "libasound2, libpulse0"
 ```
 
 ## Usefully commands
@@ -117,7 +117,7 @@ jar tvf fromgtog.jar
 ```
 
 ```bash
- sudo snap remove fromgtog && sudo snapcraft && sudo snap install fromgtog_7.0.0_amd64.snap --dangerous && fromgtog
+sudo snap remove fromgtog && snapcraft clean && snapcraft && sudo snap install fromgtog_7.0.2_amd64.snap --dangerous && fromgtog
 ```
 
 <h2 id="support-me">Support Me</h2>

@@ -1,6 +1,6 @@
 name: fromgtog
-version: '7.0.1'
-summary: Clone ALL GitHub/Gitea/Local to GitHub/Gitea.
+version: '7.0.2'
+summary: Clone ALL GitHub/Gitea/Gitlab/Local to GitHub/Gitea/Gitlab/Local.
 description: |
   Helps to clone all repositories from GitHub on Gitea/Local and vice versa.
 grade: stable
@@ -11,7 +11,7 @@ title: FromGtoG
 website: https://andre-i.eu
 issues: https://github.com/goto-eof
 license: MIT
-compression: xz
+compression: lzo
 slots:
   fromgtog-dbus:
     interface: dbus
@@ -65,8 +65,41 @@ parts:
     build-packages:
       - openjdk-21-jdk
       - maven
+    override-build: |
+      set -eux
+      JLINK_JDK_PATH="/usr/lib/jvm/java-21-openjdk-$(dpkg-architecture -q DEB_BUILD_MULTIARCH)"
+      REQUIRED_MODULES="java.base,java.desktop,java.net.http,java.naming,java.sql,java.management,java.security.jgss,java.xml,java.logging,jdk.crypto.ec,java.security.sasl"
+      
+      echo "Creating custom JRE runtime with the following modules: $REQUIRED_MODULES"
+      
+      /usr/bin/jlink \
+        --add-modules $REQUIRED_MODULES \
+        --output "$SNAPCRAFT_PART_INSTALL"/usr/lib/jvm/custom-jre \
+        --compress=2 \
+        --no-header-files \
+        --no-man-pages \
+        --strip-debug
+      
+      mvn clean install -DskipTests
+      
+      APP_JAR_NAME="fromgtog.jar" 
+      APP_JAR_PATH="$SNAPCRAFT_PART_BUILD/target/$APP_JAR_NAME"
+      
+      if [ ! -f "$APP_JAR_PATH" ]; then
+          echo "ERROR: jar not found in $APP_JAR_PATH"
+          exit 1
+      fi
+
+      mkdir -p "$SNAPCRAFT_PART_INSTALL"/jar
+      echo "Directory created: $SNAPCRAFT_PART_INSTALL/jar"
+
+      echo "Copying $APP_JAR_NAME in $SNAPCRAFT_PART_INSTALL/jar/fromgtog.jar"
+      cp "$APP_JAR_PATH" "$SNAPCRAFT_PART_INSTALL"/jar/fromgtog.jar
+      
+      echo "custom JRE runtime created in $SNAPCRAFT_PART_INSTALL/usr/lib/jvm/custom-jre"
+      rm -rf "$JLINK_JDK_PATH"
+      echo "temporary JDK removed."
     stage-packages:
-      - openjdk-21-jre
       - glib-networking
       - libgtk-3-0
       - xdg-utils
@@ -77,5 +110,4 @@ parts:
       - alsa-config
     override-prime: |
       snapcraftctl prime
-      rm -vf usr/lib/jvm/java-*-openjdk-*64/lib/security/blacklisted.certs
 
