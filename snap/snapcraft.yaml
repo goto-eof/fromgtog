@@ -80,7 +80,6 @@ parts:
         --no-man-pages \
         --strip-debug
       
-      git checkout "5.2.0" -b latest
       snapcraftctl set-version "$(git describe --tags | sed 's/v//' | sed "s/-g/%/"  | cut -d "%" -f1)"
       # Gets the host and port from a proxy URL
       #   $1 = the proxy URL, such as "http://10.10.10.1:8222/"
