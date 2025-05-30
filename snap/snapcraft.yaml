@@ -67,6 +67,13 @@ parts:
       - maven
       - sed
     override-build: |
+      
+      getproxy () {
+      host=$(echo "$1" | sed -E 's|https?://([^:/]*):?[0-9]*/?|\1|')
+      port=$(echo "$1" | sed -E 's|https?://[^:/]*:?([0-9]*)/?|\1|')
+      }
+      
+      
       echo "Starting to build FromGtoG at $(date)"
       START_TIME=$(date +%s)
       echo "Start building FromGtoG at $(date)"
@@ -85,10 +92,7 @@ parts:
         --no-man-pages \
         --strip-debug
       
-      getproxy () {
-          host=$(echo "$1" | sed -E 's|https?://([^:/]*):?[0-9]*/?|\1|')
-          port=$(echo "$1" | sed -E 's|https?://[^:/]*:?([0-9]*)/?|\1|')
-      }
+      
       if [ -n "${http_proxy:-}" ]; then
           getproxy "$http_proxy"
           http="-Dhttp.proxyHost=$host -Dhttp.proxyPort=$port"
