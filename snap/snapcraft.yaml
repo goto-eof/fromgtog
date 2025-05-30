@@ -65,9 +65,11 @@ parts:
     build-packages:
       - openjdk-21-jdk
       - maven
+      - sed
     override-build: |
       echo "Starting to build FromGtoG at $(date)"
       START_TIME=$(date +%s)
+      echo "Start building FromGtoG at $(date)"
       
       set -eux
       JLINK_JDK_PATH="/usr/lib/jvm/java-21-openjdk-$(dpkg-architecture -q DEB_BUILD_MULTIARCH)"
@@ -83,6 +85,10 @@ parts:
         --no-man-pages \
         --strip-debug
       
+      getproxy () {
+          host=$(echo "$1" | sed -E 's|https?://([^:/]*):?[0-9]*/?|\1|')
+          port=$(echo "$1" | sed -E 's|https?://[^:/]*:?([0-9]*)/?|\1|')
+      }
       if [ -n "${http_proxy:-}" ]; then
           getproxy "$http_proxy"
           http="-Dhttp.proxyHost=$host -Dhttp.proxyPort=$port"
@@ -92,7 +98,6 @@ parts:
           https="-Dhttps.proxyHost=$host -Dhttps.proxyPort=$port"
       fi
 
-      # Builds Maven
       export MAVEN_OPTS="$http $https"
       
       mvn clean install -DskipTests
