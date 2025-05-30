@@ -80,6 +80,26 @@ parts:
         --no-man-pages \
         --strip-debug
       
+      git checkout "5.2.0" -b latest
+      snapcraftctl set-version "$(git describe --tags | sed 's/v//' | sed "s/-g/%/"  | cut -d "%" -f1)"
+      # Gets the host and port from a proxy URL
+      #   $1 = the proxy URL, such as "http://10.10.10.1:8222/"
+      getproxy () {
+          host=$(echo "$1" | sed -E 's|https?://([^:/]*):?[0-9]*/?|\1|')
+          port=$(echo "$1" | sed -E 's|https?://[^:/]*:?([0-9]*)/?|\1|')
+      }
+      # Sets Java networking properties when using a proxy server
+      if [ -n "${http_proxy:-}" ]; then
+          getproxy "$http_proxy"
+          http="-Dhttp.proxyHost=$host -Dhttp.proxyPort=$port"
+      fi
+      if [ -n "${https_proxy:-}" ]; then
+          getproxy "$https_proxy"
+          https="-Dhttps.proxyHost=$host -Dhttps.proxyPort=$port"
+      fi
+      # Builds Maven
+      export MAVEN_OPTS="$http $https"
+      
       mvn clean install -DskipTests
       
       APP_JAR_NAME="fromgtog.jar" 
