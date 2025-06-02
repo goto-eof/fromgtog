@@ -10,7 +10,7 @@ icon: snap/gui/icon.png
 title: FromGtoG
 website: https://andre-i.eu
 issues: https://github.com/goto-eof
-license: MIT
+license:  Creative Commons Attribution-NonCommercial
 compression: lzo
 slots:
   fromgtog-dbus:
