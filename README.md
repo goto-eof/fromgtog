@@ -71,7 +71,7 @@ JDK 21, Intellij UI Designer (plugin for Intellij), Slf4J, Lombok, Apache Common
 
 ![screenshot](images/screenshot.png)
 
-<img src="https://andre-i.eu/api/v1/ipResource/custom.png?host=github.com/goto-eof/fromgtog" onerror="this.style.display='none'" />
+<img src="https://andre-i.eu/api/v1/ipResource/custom.png?host=https://github.com/goto-eof/fromgtog" onerror="this.style.display='none'" />
 
 
 <h2 id="news">News</h2>
