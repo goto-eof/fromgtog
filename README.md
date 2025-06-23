@@ -4,13 +4,13 @@
 <h2 id="index">Index</h2>
 
 - [Introduction](#introduction)
+- [News](#news)
 - [Features](#features)
 - [Download (Stable)](#download)
     - [MacOS](#download-macos)
     - [Windows](#download-windows)
     - [Linux](#download-linux)
 - [Screenshot](#screenshot)
-- [News](#news)
 - [For developers](#for-developers)
 - [Support me](#support-me)
 
@@ -23,6 +23,19 @@ application's features, I realized that it would be useful to **rewrite some fun
 which I make extensive use of several **design patterns**, like **Abstract Factory, Strategy, Singleton** and some
 others, that improve readability and **application modularity**, as well as adding new features, such as **local to
 remote cloning** and clone from/to Gitlab feature.
+
+<h2 id="news">News</h2>
+
+- 2025/06/23 - I discovered that FromGtoG `.deb` package was not working on Debian 10. I rebuilt the package on Debian
+    10. So, now it should work on both Ubuntu latest and Debian 10. I apologize for the inconvenience. Please ping me if
+        you find a bug (
+        open an issue on [GitHub](https://github.com/goto-eof/fromgtog/issues)
+        or [contact me](https://andre-i.eu/#contactme)). The v. 7.0.0 should work now also on Debian 10.
+        You can download it
+        from [here](https://github.com/goto-eof/fromgtog/releases/download/7.0.0/fromgtog_7.0.0_amd64.deb).
+- fixed the windows/linux and macOS packaging - now it is possible to clone from GitHub. The absence of the
+  `jdk.crypto.ec` and `java.security.sasl` imports in the `--add-modules` option, prevented the SSL connections, so the
+  clone process failed, in particular for GitHub (which uses SSL).
 
 <h2 id="features">Features</h2>
 
@@ -72,13 +85,6 @@ JDK 21, Intellij UI Designer (plugin for Intellij), Slf4J, Lombok, Apache Common
 ![screenshot](images/screenshot.png)
 
 <img src="https://andre-i.eu/api/v1/ipResource/github.png?a=6.0" onerror="this.style.display='none'" />
-
-
-<h2 id="news">News</h2>
-
-- fixed the windows/linux and macOS packaging - now it is possible to clone from GitHub. The absence of the
-  `jdk.crypto.ec` and `java.security.sasl` imports in the `--add-modules` option, prevented the SSL connections, so the
-  clone process failed, in particular for GitHub (which uses SSL).
 
 <h2 id="for-developers">For developers</h2>
 
