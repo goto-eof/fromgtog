@@ -12,6 +12,7 @@
     - [Linux](#download-linux)
 - [Screenshot](#screenshot)
 - [For developers](#for-developers)
+- [Tested on](#tested-on)
 - [Support me](#support-me)
 
 <h2 id="introduction">Introduction</h2>
@@ -126,8 +127,17 @@ jar tvf fromgtog.jar
 sudo snap remove fromgtog && snapcraft clean && snapcraft && sudo snap install fromgtog_7.0.2_amd64.snap --dangerous && fromgtog
 ```
 
+<h2 id="tested-on">Tested on</h2>
+
+- Ubuntu 25.04
+- Debian 10
+- Windows 11
+- MacOS
+
 <h2 id="support-me">Support Me</h2>
 
 If you find this project helpful, consider [sponsoring me](https://github.com/sponsors/goto-eof) 💚
 
 [![Sponsor](https://img.shields.io/badge/Sponsor-❤️-brightgreen)](https://github.com/sponsors/goto-eof)
+
+
