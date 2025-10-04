@@ -1,5 +1,5 @@
 <h1 align="center"><img src="images/fromgtog_header.png" alt="header" /></h1>
-<h1 align="right" id="title">FromGtoG v. 7.0</h1>
+<h1 align="right" id="title">FromGtoG v. 7.X</h1>
 
 <h2 id="index">Index</h2>
 
@@ -50,6 +50,8 @@ Currently, the application is able to clone:
 Further features
 
 - multi-threading
+  - platform threads - unlike the single-thread cloning, the platform multithreading increases the cloning process speed
+  - virtual threads (Java) - unlike platform multithreading, virtual multithreading increases a little bit the cloning process speed
 - logging (log file)
 - delete all repositories from:
     - from GitHub
