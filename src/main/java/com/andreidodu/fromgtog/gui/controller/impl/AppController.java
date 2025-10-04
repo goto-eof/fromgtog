@@ -23,8 +23,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -124,7 +122,7 @@ public class AppController implements GUIController {
         this.translatorApp = new JsonObjectToAppContextTranslator();
         this.translatorFrom = new JsonObjectToFromContextTranslator();
 
-        defineVirtualThreadsListener();
+        defineVirtualThreadsFlagListener();
         defineAppStartButtonListener(fromControllerList, toControllerList, fromTabbedPane, toTabbedPane);
         defineAppStopButtonListener();
         defineSaveSettingsButtonListener();
@@ -137,7 +135,7 @@ public class AppController implements GUIController {
 
     }
 
-    private void defineVirtualThreadsListener() {
+    private void defineVirtualThreadsFlagListener() {
         virtualThreadsCheckBox.addActionListener(e -> {
             if (virtualThreadsCheckBox.isSelected()) {
                 multithreadingEnabled.setSelected(true);
