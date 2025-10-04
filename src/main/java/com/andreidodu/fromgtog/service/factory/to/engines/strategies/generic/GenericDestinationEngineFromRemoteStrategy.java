@@ -3,7 +3,6 @@ package com.andreidodu.fromgtog.service.factory.to.engines.strategies.generic;
 import com.andreidodu.fromgtog.config.NoHomeGitConfigSystemReader;
 import com.andreidodu.fromgtog.dto.*;
 import com.andreidodu.fromgtog.service.LocalService;
-import com.andreidodu.fromgtog.service.factory.Engine;
 import com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.AbstractStrategyCommon;
 import com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.commands.ThreadSleepCommand;
 import com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.commands.UpdateStatusCommand;
@@ -51,7 +50,7 @@ public class GenericDestinationEngineFromRemoteStrategy<ServiceType extends Gene
 
 
         ThreadUtil threadUtil = ThreadUtil.getInstance();
-        final ExecutorService executorService = threadUtil.createExecutor(CLONER_THREAD_NAME_PREFIX, engineContext.settingsContext().multithreadingEnabled());
+        final ExecutorService executorService = threadUtil.createExecutor(CLONER_THREAD_NAME_PREFIX, engineContext.settingsContext().multithreadingFlag(), engineContext.settingsContext().virtualThreadsFlag());
         super.resetIndex();
         NoHomeGitConfigSystemReader.install();
 

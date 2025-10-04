@@ -23,6 +23,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -69,6 +71,7 @@ public class AppController implements GUIController {
     private JButton appStopButton;
     private JPanel statusContainerJPanel;
     private JCheckBox multithreadingEnabled;
+    private JCheckBox virtualThreadsCheckBox;
     @Getter
     @Setter
     private volatile boolean shouldStop = false;
@@ -95,7 +98,8 @@ public class AppController implements GUIController {
                          JPanel statusContainerJPanel,
                          JCheckBox multithreadingEnabled,
                          JButton clearLogFileButton,
-                         JLabel timeLabel) {
+                         JLabel timeLabel,
+                         JCheckBox virtualThreadsCheckBox) {
         this.fromControllerList = fromControllerList;
         this.toControllerList = toControllerList;
         this.appLogTextArea = appLogTextArea;
@@ -114,11 +118,13 @@ public class AppController implements GUIController {
         this.multithreadingEnabled = multithreadingEnabled;
         this.clearLogFileButton = clearLogFileButton;
         this.timeLabel = timeLabel;
+        this.virtualThreadsCheckBox = virtualThreadsCheckBox;
 
         this.translatorTo = new JsonObjectToToContextTranslator();
         this.translatorApp = new JsonObjectToAppContextTranslator();
         this.translatorFrom = new JsonObjectToFromContextTranslator();
 
+        defineVirtualThreadsListener();
         defineAppStartButtonListener(fromControllerList, toControllerList, fromTabbedPane, toTabbedPane);
         defineAppStopButtonListener();
         defineSaveSettingsButtonListener();
@@ -129,6 +135,17 @@ public class AppController implements GUIController {
 
         this.setShouldStop(true);
 
+    }
+
+    private void defineVirtualThreadsListener() {
+        virtualThreadsCheckBox.addActionListener(e -> {
+            if (virtualThreadsCheckBox.isSelected()) {
+                multithreadingEnabled.setSelected(true);
+                multithreadingEnabled.setEnabled(false);
+                return;
+            }
+            multithreadingEnabled.setEnabled(true);
+        });
     }
 
     private void defineClearLogFileButtonListener() {
@@ -207,7 +224,8 @@ public class AppController implements GUIController {
         appSleepTimeTextField.setText(settings.optString(APP_SLEEP_TIME, "1"));
         fromTabbedPane.setSelectedIndex(settings.optInt(FROM_TAB_INDEX, 0));
         toTabbedPane.setSelectedIndex(settings.optInt(TO_TAB_INDEX, 0));
-        multithreadingEnabled.setSelected(settings.optBoolean(APP_MULTITHREADING_ENABLED, false));
+        multithreadingEnabled.setSelected(settings.optBoolean(APP_MULTITHREADING_FLAG, true));
+        virtualThreadsCheckBox.setSelected(settings.optBoolean(APP_VIRTUAL_THREADS_FLAG, true));
     }
 
     private void defineSaveSettingsButtonListener() {
@@ -330,7 +348,8 @@ public class AppController implements GUIController {
         appSleepTimeTextField.setText(String.valueOf(sleepSeconds));
 
         jsonObject.put(APP_SLEEP_TIME, sleepSeconds);
-        jsonObject.put(APP_MULTITHREADING_ENABLED, multithreadingEnabled.isSelected());
+        jsonObject.put(APP_MULTITHREADING_FLAG, multithreadingEnabled.isSelected());
+        jsonObject.put(APP_VIRTUAL_THREADS_FLAG, virtualThreadsCheckBox.isSelected());
         jsonObject.put(FROM_TAB_INDEX, fromTabbedPane.getSelectedIndex());
         jsonObject.put(TO_TAB_INDEX, toTabbedPane.getSelectedIndex());
 

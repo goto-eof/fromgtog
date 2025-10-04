@@ -43,7 +43,7 @@ public class LocalDestinationEngineFromLocaleStrategy extends AbstractStrategyCo
                 .toList();
 
         ThreadUtil threadUtil = ThreadUtil.getInstance();
-        final ExecutorService executorService = threadUtil.createExecutor(CLONER_THREAD_NAME_PREFIX, engineContext.settingsContext().multithreadingEnabled());
+        final ExecutorService executorService = threadUtil.createExecutor(CLONER_THREAD_NAME_PREFIX, engineContext.settingsContext().multithreadingFlag(), engineContext.settingsContext().virtualThreadsFlag());
 
         super.resetIndex();
         for (String path : pathList) {

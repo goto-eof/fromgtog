@@ -3,7 +3,8 @@ package com.andreidodu.fromgtog.gui.controller.constants;
 public interface GuiKeys {
 
     String APP_SLEEP_TIME = "app.sleep-time";
-    String APP_MULTITHREADING_ENABLED = "app.multithreading-enabled";
+    String APP_MULTITHREADING_FLAG = "app.multithreading-enabled";
+    String APP_VIRTUAL_THREADS_FLAG = "app.virtual-threads-enabled";
 
     String FROM_GITEA_URL = "from.gitea.url";
     String FROM_GITEA_TOKEN = "from.gitea.token";

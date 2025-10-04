@@ -52,7 +52,7 @@ public class GithubDestinationEngineFromRemoteStrategy extends AbstractStrategyC
         new UpdateStatusCommand(buildUpdateStatusContext(engineContext.callbackContainer(), repositoryDTOList.size(), 0, "initializing the cloning process")).execute();
 
         ThreadUtil threadUtil = ThreadUtil.getInstance();
-        final ExecutorService executorService = threadUtil.createExecutor(CLONER_THREAD_NAME_PREFIX, engineContext.settingsContext().multithreadingEnabled());
+        final ExecutorService executorService = threadUtil.createExecutor(CLONER_THREAD_NAME_PREFIX, engineContext.settingsContext().multithreadingFlag(), engineContext.settingsContext().virtualThreadsFlag());
         super.resetIndex();
         NoHomeGitConfigSystemReader.install();
 

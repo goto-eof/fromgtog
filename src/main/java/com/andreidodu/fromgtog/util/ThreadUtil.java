@@ -28,7 +28,11 @@ public class ThreadUtil {
         return instance;
     }
 
-    public ExecutorService createExecutor(String threadNamePrefix, boolean isMultithread) {
+    public ExecutorService createExecutor(String threadNamePrefix, boolean isMultithread, boolean isVirtualThreadsEnabled) {
+
+        if (isVirtualThreadsEnabled) {
+            return Executors.newVirtualThreadPerTaskExecutor();
+        }
 
         int nThreads = calculateNumThreads(isMultithread);
 
@@ -44,9 +48,9 @@ public class ThreadUtil {
         if (!multithreadingEnabled) {
             return 1;
         }
+
         int numProcessors = Runtime.getRuntime().availableProcessors();
-        // return 1;
-        // return numProcessors;
+
         return Math.min(numProcessors, MAX_NUM_THREADS);
     }
 

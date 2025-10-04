@@ -63,7 +63,7 @@ public class GithubDestinationEngineFromLocaleStrategy extends AbstractStrategyC
 
 
         ThreadUtil threadUtil = ThreadUtil.getInstance();
-        final ExecutorService executorService = threadUtil.createExecutor(CLONER_THREAD_NAME_PREFIX, engineContext.settingsContext().multithreadingEnabled());
+        final ExecutorService executorService = threadUtil.createExecutor(CLONER_THREAD_NAME_PREFIX, engineContext.settingsContext().multithreadingFlag(), engineContext.settingsContext().virtualThreadsFlag());
         super.resetIndex();
 
 

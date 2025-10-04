@@ -13,6 +13,8 @@ import javax.swing.border.TitledBorder;
 import javax.swing.plaf.FontUIResource;
 import javax.swing.text.StyleContext;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Locale;
 
@@ -95,6 +97,7 @@ public class ApplicationGUI extends JFrame {
     private JCheckBox multithreadingEnabled;
     private JButton clearLogFileButton;
     private JLabel timeLable;
+    private JCheckBox virtualThreadsCheckBox;
 
     List<? extends JComponent> allComponentsList;
 
@@ -212,7 +215,8 @@ public class ApplicationGUI extends JFrame {
                 statusContainerJPanel,
                 multithreadingEnabled,
                 clearLogFileButton,
-                timeLable
+                timeLable,
+                virtualThreadsCheckBox
         );
     }
 
@@ -353,7 +357,8 @@ public class ApplicationGUI extends JFrame {
                 buyMeACoffeeButton,
                 projectWebsiteButton,
                 reportAnIssueButton,
-                multithreadingEnabled
+                multithreadingEnabled,
+                virtualThreadsCheckBox
         );
     }
 
@@ -796,11 +801,11 @@ public class ApplicationGUI extends JFrame {
         label27.setText("Log");
         panel51.add(label27, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel52 = new JPanel();
-        panel52.setLayout(new GridLayoutManager(2, 1, new Insets(0, 0, 0, 0), -1, -1));
+        panel52.setLayout(new GridLayoutManager(3, 1, new Insets(0, 0, 0, 0), -1, -1));
         panel51.add(panel52, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         final JPanel panel53 = new JPanel();
         panel53.setLayout(new GridLayoutManager(2, 2, new Insets(0, 0, 0, 0), -1, -1));
-        panel52.add(panel53, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        panel52.add(panel53, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         appSaveConfigurationButton = new JButton();
         appSaveConfigurationButton.setText("Save configuration");
         panel53.add(appSaveConfigurationButton, new GridConstraints(1, 0, 1, 2, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -810,8 +815,11 @@ public class ApplicationGUI extends JFrame {
         label28.setText("sleep time (s)");
         panel53.add(label28, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         multithreadingEnabled = new JCheckBox();
-        multithreadingEnabled.setText("Multi-threadead");
+        multithreadingEnabled.setText("Multithreaded - Platform Threads");
         panel52.add(multithreadingEnabled, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        virtualThreadsCheckBox = new JCheckBox();
+        virtualThreadsCheckBox.setText("Multithreaded - Virtual Threads");
+        panel52.add(virtualThreadsCheckBox, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel54 = new JPanel();
         panel54.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         panel2.add(panel54, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
@@ -947,7 +955,7 @@ public class ApplicationGUI extends JFrame {
         final Spacer spacer22 = new Spacer();
         panel67.add(spacer22, new GridConstraints(6, 0, 1, 4, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         final JLabel label36 = new JLabel();
-        label36.setText("Version: 7.0.2");
+        label36.setText("Version: 7.5.0");
         panel67.add(label36, new GridConstraints(2, 0, 1, 4, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label37 = new JLabel();
         label37.setText("Author: Andrei Dodu");
