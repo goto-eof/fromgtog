@@ -52,6 +52,7 @@ Further features
 - multi-threading
   - platform threads - unlike the single-thread cloning, the platform multithreading increases the cloning process speed
   - virtual threads (Java) - unlike platform multithreading, virtual multithreading increases a little bit the cloning process speed
+![screenshot](images/vt.png)
 - logging (log file)
 - delete all repositories from:
     - from GitHub
