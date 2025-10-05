@@ -15,7 +15,7 @@ import java.io.File;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 
-import static com.andreidodu.fromgtog.constants.ApplicationConstants.CLONER_THREAD_NAME_PREFIX;
+import static com.andreidodu.fromgtog.constants.ApplicationConstants.CLONER_PLATFORM_THREAD_NAME_PREFIX;
 
 public class LocalDestinationEngineFromRemoteStrategy extends AbstractStrategyCommon implements LocalDestinationEngineFromStrategy {
 
@@ -37,7 +37,9 @@ public class LocalDestinationEngineFromRemoteStrategy extends AbstractStrategyCo
         callbackContainer.updateApplicationStatusMessage().accept("initializing the cloning process");
 
         ThreadUtil threadUtil = ThreadUtil.getInstance();
-        final ExecutorService executorService = threadUtil.createExecutor(CLONER_THREAD_NAME_PREFIX, engineContext.settingsContext().multithreadingFlag(), engineContext.settingsContext().virtualThreadsFlag());
+        boolean isMultithreadingEnabledFlag = engineContext.settingsContext().multithreadingFlag();
+        boolean isVirtualThreadsEnabledFlag = engineContext.settingsContext().virtualThreadsFlag();
+        final ExecutorService executorService = threadUtil.createExecutor(isMultithreadingEnabledFlag, isVirtualThreadsEnabledFlag);
 
         this.resetIndex();
         NoHomeGitConfigSystemReader.install();

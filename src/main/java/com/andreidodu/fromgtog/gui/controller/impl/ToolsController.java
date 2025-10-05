@@ -16,7 +16,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
-import java.io.IOException;
 import java.util.function.Consumer;
 
 import static com.andreidodu.fromgtog.constants.ApplicationConstants.TERMINATOR_THREAD_NAME_PREFIX;

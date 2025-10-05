@@ -9,11 +9,13 @@ public interface ApplicationConstants {
     String CONF_DIR_NAME = "conf";
     String LOG_FILENAME = "application.log";
     String SETTINGS_FILENAME = "settings.properties";
-    int MAX_NUM_THREADS = 5;
+    int MAX_VIRTUAL_THREADS = 50;
 
-    String CLONER_THREAD_NAME_PREFIX = "Mr.Cloner";
-    String TERMINATOR_THREAD_NAME_PREFIX = "Mr.Terminator";
-    String TICKER_THREAD_NAME_PREFIX = "Mr.Timer";
-    String ORCHESTRATOR_THREAD_NAME_PREFIX = "Mr.Orchestrator";
+
+    String CLONER_PLATFORM_THREAD_NAME_PREFIX = "mr-p-cloner";
+    String CLONER_VIRTUAL_THREAD_NAME_PREFIX = "mr-v-cloner";
+    String TERMINATOR_THREAD_NAME_PREFIX = "mr-terminator";
+    String TICKER_THREAD_NAME_PREFIX = "mr-timer";
+    String ORCHESTRATOR_THREAD_NAME_PREFIX = "mr-orchestrator";
 
 }
