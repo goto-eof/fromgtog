@@ -49,11 +49,13 @@ Currently, the application is able to clone:
 
 Further features
 
-- multi-threading
+- multi-threading (server must allow multiple connections)
     - platform threads - unlike the single-thread cloning, the platform multithreading increases the cloning process
       speed
-    - virtual threads (Java) - unlike platform multithreading, virtual multithreading increases a little bit the cloning
-      process speed (server must allow a sufficient number of concurrent connections)
+      - _Please doublecheck the FromGtoG log file and ensure that all repositories were cloned successfully_ 
+    - virtual threads (Java) - unlike platform multithreading, virtual multithreading could increase a little bit the cloning
+      process speed
+      - _Please doublecheck the FromGtoG log file and ensure that all repositories were cloned successfully_
       ![screenshot](images/vt.png)
 - logging (log file)
 - delete all repositories from:
