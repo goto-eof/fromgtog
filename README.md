@@ -62,7 +62,9 @@ Further features
       cloning
       process speed
         - _Please doublecheck the FromGtoG log file and ensure that all repositories were cloned successfully_
-          ![screenshot](images/vt.png)
+      
+![screenshot](images/vt.png)
+
 - logging (log file)
 - delete all repositories from:
     - from GitHub
