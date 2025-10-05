@@ -27,6 +27,11 @@ remote cloning** and clone from/to Gitlab feature.
 
 <h2 id="news">News</h2>
 
+- 2025/10/05 - I introduced a new feature: _Multithreaded - Virtual Threads_. The number of threads is
+  increased twice the number of processors. Please note that enabling multithreading (platform threads or virtual
+  threads) may increase the number of cloning process errors. This may occur due to connection limits imposed by the
+  source. _So, please doublecheck carefully the FromGtoG log file and ensure that all repositories were
+  cloned successfully._
 - 2025/06/23 - I discovered that FromGtoG `.deb` package was not working on Debian 10. I rebuilt the package on Debian
     10. So, now it should work on both Ubuntu latest and Debian 10. I apologize for the inconvenience. Please ping me if
         you find a bug (
@@ -52,11 +57,12 @@ Further features
 - multi-threading (server must allow multiple connections)
     - platform threads - unlike the single-thread cloning, the platform multithreading increases the cloning process
       speed
-      - _Please doublecheck the FromGtoG log file and ensure that all repositories were cloned successfully_ 
-    - virtual threads (Java) - unlike platform multithreading, virtual multithreading could increase a little bit the cloning
+        - _Please doublecheck the FromGtoG log file and ensure that all repositories were cloned successfully_
+    - virtual threads (Java) - unlike platform multithreading, virtual multithreading could increase a little bit the
+      cloning
       process speed
-      - _Please doublecheck the FromGtoG log file and ensure that all repositories were cloned successfully_
-      ![screenshot](images/vt.png)
+        - _Please doublecheck the FromGtoG log file and ensure that all repositories were cloned successfully_
+          ![screenshot](images/vt.png)
 - logging (log file)
 - delete all repositories from:
     - from GitHub
