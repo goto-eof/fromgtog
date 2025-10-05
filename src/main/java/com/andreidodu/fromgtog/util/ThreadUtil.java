@@ -31,18 +31,20 @@ public class ThreadUtil {
 
     public ExecutorService createExecutor(boolean isMultithread, boolean isVirtualThreadsEnabled) {
         int nThreads = calculateNumThreads(isMultithread, isVirtualThreadsEnabled);
-        ThreadFactory threadFactory = createThreadFactory(isVirtualThreadsEnabled);
 
         log.info("Creating a new threadpool using thread count {}", nThreads);
 
-        return Executors.newFixedThreadPool(nThreads, threadFactory);
-    }
-
-    private ThreadFactory createThreadFactory(boolean isVirtualThreadsEnabled) {
         if (isVirtualThreadsEnabled) {
-            return Thread.ofVirtual().name(CLONER_VIRTUAL_THREAD_NAME_PREFIX + "-", 0).factory();
+            log.info("Virtual Threads Enabled");
+            return new LimitedVirtualThreadsExecutorService(nThreads, CLONER_VIRTUAL_THREAD_NAME_PREFIX);
         }
-        return new CustomThreadFactory(CLONER_PLATFORM_THREAD_NAME_PREFIX);
+
+        if (isMultithread) {
+            log.info("Platform Threads Enabled");
+        }
+
+        CustomPlatformThreadFactory platformThreadFactory = new CustomPlatformThreadFactory(CLONER_PLATFORM_THREAD_NAME_PREFIX);
+        return Executors.newFixedThreadPool(nThreads, platformThreadFactory);
     }
 
     private int calculateNumThreads(boolean multithreadingEnabled, boolean isVirtualThreadsEnabled) {
@@ -64,7 +66,7 @@ public class ThreadUtil {
     }
 
     public void executeOnSeparateThread(String threadName, Runnable runnable) {
-        final ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor(new CustomThreadFactory(threadName));
+        final ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor(new CustomPlatformThreadFactory(threadName));
 
         singleThreadExecutor.submit(() -> {
             log.debug("Thread task started");
