@@ -6,7 +6,9 @@ import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.SystemReader;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 public class NoHomeGitConfigSystemReader extends SystemReader {
 
@@ -18,12 +20,21 @@ public class NoHomeGitConfigSystemReader extends SystemReader {
 
     public NoHomeGitConfigSystemReader() {
         try {
+//            System.setProperty("http.maxConnections", "50");
+//            System.setProperty("http.maxTotalConnections", "50");
             dummyFile = File.createTempFile("jgit-dummy", ".config");
+//            String configContent = String.format(
+//                    "[http]\n\tmaxRequests = %d\n", 5
+//            );
+//            try (FileOutputStream fos = new FileOutputStream(dummyFile)) {
+//                fos.write(configContent.getBytes(StandardCharsets.UTF_8));
+//            }
             dummyFile.deleteOnExit();
         } catch (IOException e) {
             throw new RuntimeException("Failed to create dummy config file", e);
         }
     }
+
 
     @Override
     public String getHostname() {
