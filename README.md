@@ -50,9 +50,11 @@ Currently, the application is able to clone:
 Further features
 
 - multi-threading
-  - platform threads - unlike the single-thread cloning, the platform multithreading increases the cloning process speed
-  - virtual threads (Java) - unlike platform multithreading, virtual multithreading increases a little bit the cloning process speed
-![screenshot](images/vt.png)
+    - platform threads - unlike the single-thread cloning, the platform multithreading increases the cloning process
+      speed
+    - virtual threads (Java) - unlike platform multithreading, virtual multithreading increases a little bit the cloning
+      process speed (server must allow a sufficient number of concurrent connections)
+      ![screenshot](images/vt.png)
 - logging (log file)
 - delete all repositories from:
     - from GitHub
