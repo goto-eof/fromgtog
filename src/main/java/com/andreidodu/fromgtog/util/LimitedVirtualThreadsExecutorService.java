@@ -1,6 +1,5 @@
 package com.andreidodu.fromgtog.util;
 
-import org.glassfish.jersey.internal.guava.ThreadFactoryBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
