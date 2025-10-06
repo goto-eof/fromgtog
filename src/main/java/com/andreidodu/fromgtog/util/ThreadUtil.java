@@ -45,8 +45,11 @@ public class ThreadUtil {
             return 1;
         }
         int numProcessors = Runtime.getRuntime().availableProcessors();
-        // return 1;
-        // return numProcessors;
+
+        if (numProcessors > 1) {
+            numProcessors -= 1;
+        }
+
         return Math.min(numProcessors, MAX_NUM_THREADS);
     }
 
