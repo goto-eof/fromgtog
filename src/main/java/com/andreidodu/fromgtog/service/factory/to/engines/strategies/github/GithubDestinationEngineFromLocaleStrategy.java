@@ -63,20 +63,21 @@ public class GithubDestinationEngineFromLocaleStrategy extends AbstractStrategyC
 
 
         ThreadUtil threadUtil = ThreadUtil.getInstance();
-        final ExecutorService executorService = threadUtil.createExecutor(CLONER_THREAD_NAME_PREFIX, engineContext.settingsContext().multithreadingEnabled());
-        super.resetIndex();
+        try (final ExecutorService executorService = threadUtil.createExecutor(CLONER_THREAD_NAME_PREFIX, engineContext.settingsContext().multithreadingEnabled())) {
+            super.resetIndex();
 
 
-        for (String path : pathList) {
-            executorService.execute(() -> processItem(engineContext, path, githubClient, tokenOwnerLogin));
+            for (String path : pathList) {
+                executorService.execute(() -> processItem(engineContext, path, githubClient, tokenOwnerLogin));
+            }
+
+            threadUtil.waitUntilShutDownCompleted(executorService);
+
+            new UpdateStatusCommand(buildUpdateStatusContext(engineContext.callbackContainer(), 100, 0, "done")).execute();
+
+            callbackContainer.setShouldStop().accept(true);
+            return true;
         }
-
-        threadUtil.waitUntilShutDownCompleted(executorService);
-
-        new UpdateStatusCommand(buildUpdateStatusContext(engineContext.callbackContainer(), 100, 0, "done")).execute();
-
-        callbackContainer.setShouldStop().accept(true);
-        return true;
     }
 
 

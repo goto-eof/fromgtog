@@ -14,10 +14,8 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import static com.andreidodu.fromgtog.constants.ApplicationConstants.CLONER_THREAD_NAME_PREFIX;
-import static com.andreidodu.fromgtog.constants.ApplicationConstants.MAX_NUM_THREADS;
 
 public class LocalDestinationEngineFromRemoteStrategy extends AbstractStrategyCommon implements LocalDestinationEngineFromStrategy {
 
@@ -39,23 +37,23 @@ public class LocalDestinationEngineFromRemoteStrategy extends AbstractStrategyCo
         callbackContainer.updateApplicationStatusMessage().accept("initializing the cloning process");
 
         ThreadUtil threadUtil = ThreadUtil.getInstance();
-        final ExecutorService executorService = threadUtil.createExecutor(CLONER_THREAD_NAME_PREFIX, engineContext.settingsContext().multithreadingEnabled());
+        try (final ExecutorService executorService = threadUtil.createExecutor(CLONER_THREAD_NAME_PREFIX, engineContext.settingsContext().multithreadingEnabled())) {
+            this.resetIndex();
+            NoHomeGitConfigSystemReader.install();
 
-        this.resetIndex();
-        NoHomeGitConfigSystemReader.install();
+            for (RepositoryDTO repositoryDTO : repositoryDTOList) {
+                final RepositoryDTO finalRepositoryDTO = repositoryDTO;
+                executorService.execute(() -> processItem(engineContext, finalRepositoryDTO));
+            }
 
-        for (RepositoryDTO repositoryDTO : repositoryDTOList) {
-            final RepositoryDTO finalRepositoryDTO = repositoryDTO;
-            executorService.execute(() -> processItem(engineContext, finalRepositoryDTO));
+            threadUtil.waitUntilShutDownCompleted(executorService);
+
+            callbackContainer.updateApplicationStatusMessage().accept("done!");
+            callbackContainer.updateApplicationProgressBarMax().accept(100);
+            callbackContainer.updateApplicationProgressBarCurrent().accept(0);
+            callbackContainer.setShouldStop().accept(true);
+            return true;
         }
-
-        threadUtil.waitUntilShutDownCompleted(executorService);
-
-        callbackContainer.updateApplicationStatusMessage().accept("done!");
-        callbackContainer.updateApplicationProgressBarMax().accept(100);
-        callbackContainer.updateApplicationProgressBarCurrent().accept(0);
-        callbackContainer.setShouldStop().accept(true);
-        return true;
     }
 
 

@@ -43,21 +43,22 @@ public class LocalDestinationEngineFromLocaleStrategy extends AbstractStrategyCo
                 .toList();
 
         ThreadUtil threadUtil = ThreadUtil.getInstance();
-        final ExecutorService executorService = threadUtil.createExecutor(CLONER_THREAD_NAME_PREFIX, engineContext.settingsContext().multithreadingEnabled());
+        try (final ExecutorService executorService = threadUtil.createExecutor(CLONER_THREAD_NAME_PREFIX, engineContext.settingsContext().multithreadingEnabled())) {
 
-        super.resetIndex();
-        for (String path : pathList) {
-            executorService.execute(() -> processItem(engineContext, path));
+            super.resetIndex();
+            for (String path : pathList) {
+                executorService.execute(() -> processItem(engineContext, path));
+            }
+
+            threadUtil.waitUntilShutDownCompleted(executorService);
+
+
+            callbackContainer.updateApplicationStatusMessage().accept("done!");
+            callbackContainer.updateApplicationProgressBarMax().accept(100);
+            callbackContainer.updateApplicationProgressBarCurrent().accept(0);
+            callbackContainer.setShouldStop().accept(true);
+            return true;
         }
-
-        threadUtil.waitUntilShutDownCompleted(executorService);
-
-
-        callbackContainer.updateApplicationStatusMessage().accept("done!");
-        callbackContainer.updateApplicationProgressBarMax().accept(100);
-        callbackContainer.updateApplicationProgressBarCurrent().accept(0);
-        callbackContainer.setShouldStop().accept(true);
-        return true;
     }
 
     private void processItem(EngineContext engineContext, String path) {

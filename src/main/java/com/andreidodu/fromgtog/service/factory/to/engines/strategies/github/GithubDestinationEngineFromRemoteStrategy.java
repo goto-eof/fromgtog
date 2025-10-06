@@ -52,21 +52,22 @@ public class GithubDestinationEngineFromRemoteStrategy extends AbstractStrategyC
         new UpdateStatusCommand(buildUpdateStatusContext(engineContext.callbackContainer(), repositoryDTOList.size(), 0, "initializing the cloning process")).execute();
 
         ThreadUtil threadUtil = ThreadUtil.getInstance();
-        final ExecutorService executorService = threadUtil.createExecutor(CLONER_THREAD_NAME_PREFIX, engineContext.settingsContext().multithreadingEnabled());
-        super.resetIndex();
-        NoHomeGitConfigSystemReader.install();
+        try (final ExecutorService executorService = threadUtil.createExecutor(CLONER_THREAD_NAME_PREFIX, engineContext.settingsContext().multithreadingEnabled())) {
+            super.resetIndex();
+            NoHomeGitConfigSystemReader.install();
 
-        for (RepositoryDTO repositoryDTO : repositoryDTOList) {
-            executorService.execute(() -> processItem(engineContext, repositoryDTO, githubClient, tokenOwnerLogin));
+            for (RepositoryDTO repositoryDTO : repositoryDTOList) {
+                executorService.execute(() -> processItem(engineContext, repositoryDTO, githubClient, tokenOwnerLogin));
+            }
+
+            threadUtil.waitUntilShutDownCompleted(executorService);
+
+            new UpdateStatusCommand(buildUpdateStatusContext(engineContext.callbackContainer(), 100, 0, "done")).execute();
+
+            callbackContainer.setShouldStop().accept(true);
+
+            return true;
         }
-
-        threadUtil.waitUntilShutDownCompleted(executorService);
-
-        new UpdateStatusCommand(buildUpdateStatusContext(engineContext.callbackContainer(), 100, 0, "done")).execute();
-
-        callbackContainer.setShouldStop().accept(true);
-
-        return true;
     }
 
     private void processItem(EngineContext engineContext, RepositoryDTO repositoryDTO, GitHub githubClient, String tokenOwnerLogin) {
