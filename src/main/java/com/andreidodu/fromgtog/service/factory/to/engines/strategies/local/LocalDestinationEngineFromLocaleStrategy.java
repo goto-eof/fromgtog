@@ -43,21 +43,22 @@ public class LocalDestinationEngineFromLocaleStrategy extends AbstractStrategyCo
                 .toList();
 
         ThreadUtil threadUtil = ThreadUtil.getInstance();
-        final ExecutorService executorService = threadUtil.createExecutor(CLONER_THREAD_NAME_PREFIX, engineContext.settingsContext().multithreadingEnabled());
+        try (final ExecutorService executorService = threadUtil.createExecutor(CLONER_THREAD_NAME_PREFIX, engineContext.settingsContext().multithreadingEnabled())) {
 
-        super.resetIndex();
-        for (String path : pathList) {
-            executorService.execute(() -> processItem(engineContext, path));
+            super.resetIndex();
+            for (String path : pathList) {
+                executorService.execute(() -> processItem(engineContext, path));
+            }
+
+            threadUtil.waitUntilShutDownCompleted(executorService);
+
+
+            callbackContainer.updateApplicationStatusMessage().accept(String.format("done%s", calculateStatus(pathList.size())));
+            callbackContainer.updateApplicationProgressBarMax().accept(pathList.size());
+            callbackContainer.updateApplicationProgressBarCurrent().accept(super.getIndex());
+            callbackContainer.setShouldStop().accept(true);
+            return super.getIndex() == pathList.size();
         }
-
-        threadUtil.waitUntilShutDownCompleted(executorService);
-
-
-        callbackContainer.updateApplicationStatusMessage().accept("done!");
-        callbackContainer.updateApplicationProgressBarMax().accept(100);
-        callbackContainer.updateApplicationProgressBarCurrent().accept(0);
-        callbackContainer.setShouldStop().accept(true);
-        return true;
     }
 
     private void processItem(EngineContext engineContext, String path) {
@@ -67,7 +68,6 @@ public class LocalDestinationEngineFromLocaleStrategy extends AbstractStrategyCo
         if (callbackContainer.isShouldStop().get()) {
             log.debug("skipping because {} because user stop request", path);
             callbackContainer.updateApplicationStatusMessage().accept("Skipping repository because user stop request: " + path);
-            completeTask(callbackContainer);
             return;
         }
         String repositoryName = new File(path).getName();
@@ -76,7 +76,7 @@ public class LocalDestinationEngineFromLocaleStrategy extends AbstractStrategyCo
         if (new File(toDirectoryPath).exists()) {
             log.debug("skipping because {} already exists", repositoryName);
             callbackContainer.updateApplicationStatusMessage().accept("Skipping repository because it already exists: " + repositoryName);
-            completeTask(callbackContainer);
+            incrementIndexSuccess(callbackContainer);
             return;
         }
 
@@ -85,9 +85,10 @@ public class LocalDestinationEngineFromLocaleStrategy extends AbstractStrategyCo
             FileUtils.copyDirectory(new File(path), new File(toDirectoryPath));
         } catch (IOException e) {
             log.error("unable to copy from {} to {} because {}", path, toDirectoryPath, e.getMessage());
+            return;
         }
 
-        completeTask(callbackContainer);
+        incrementIndexSuccess(callbackContainer);
 
     }
 

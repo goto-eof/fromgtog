@@ -52,21 +52,22 @@ public class GithubDestinationEngineFromRemoteStrategy extends AbstractStrategyC
         new UpdateStatusCommand(buildUpdateStatusContext(engineContext.callbackContainer(), repositoryDTOList.size(), 0, "initializing the cloning process")).execute();
 
         ThreadUtil threadUtil = ThreadUtil.getInstance();
-        final ExecutorService executorService = threadUtil.createExecutor(CLONER_THREAD_NAME_PREFIX, engineContext.settingsContext().multithreadingEnabled());
-        super.resetIndex();
-        NoHomeGitConfigSystemReader.install();
+        try (final ExecutorService executorService = threadUtil.createExecutor(CLONER_THREAD_NAME_PREFIX, engineContext.settingsContext().multithreadingEnabled())) {
+            super.resetIndex();
+            NoHomeGitConfigSystemReader.install();
 
-        for (RepositoryDTO repositoryDTO : repositoryDTOList) {
-            executorService.execute(() -> processItem(engineContext, repositoryDTO, githubClient, tokenOwnerLogin));
+            for (RepositoryDTO repositoryDTO : repositoryDTOList) {
+                executorService.execute(() -> processItem(engineContext, repositoryDTO, githubClient, tokenOwnerLogin));
+            }
+
+            threadUtil.waitUntilShutDownCompleted(executorService);
+
+            new UpdateStatusCommand(buildUpdateStatusContext(engineContext.callbackContainer(), repositoryDTOList.size(), super.getIndex(), String.format("done%s", calculateStatus(repositoryDTOList.size())))).execute();
+
+            callbackContainer.setShouldStop().accept(true);
+
+            return super.getIndex() == repositoryDTOList.size();
         }
-
-        threadUtil.waitUntilShutDownCompleted(executorService);
-
-        new UpdateStatusCommand(buildUpdateStatusContext(engineContext.callbackContainer(), 100, 0, "done")).execute();
-
-        callbackContainer.setShouldStop().accept(true);
-
-        return true;
     }
 
     private void processItem(EngineContext engineContext, RepositoryDTO repositoryDTO, GitHub githubClient, String tokenOwnerLogin) {
@@ -78,14 +79,13 @@ public class GithubDestinationEngineFromRemoteStrategy extends AbstractStrategyC
         String fromContextToken = fromContext.token();
         final String TEMP_DIRECTORY = System.getProperty("java.io.tmpdir");
         if (isShouldStopTheProcess(repositoryName, callbackContainer)) {
-            completeTask(callbackContainer);
             return;
         }
 
         callbackContainer.updateApplicationStatusMessage().accept("cloning repository: " + repositoryName);
 
         if (isRemoteRepositoryAlreadyExists(GithubDestinationEngineCommon.buildRemoteExistsCheckInput(engineContext, tokenOwnerLogin, repositoryName))) {
-            completeTask(callbackContainer);
+            incrementIndexSuccess(callbackContainer);
             return;
         }
 
@@ -99,7 +99,6 @@ public class GithubDestinationEngineFromRemoteStrategy extends AbstractStrategyC
         } catch (Exception e) {
             callbackContainer.updateApplicationStatusMessage().accept("Unable to clone repository " + repositoryName);
             log.error("Unable to clone repository {}", repositoryName, e);
-            completeTask(callbackContainer);
             return;
         }
 
@@ -112,7 +111,6 @@ public class GithubDestinationEngineFromRemoteStrategy extends AbstractStrategyC
         } catch (IOException e) {
             callbackContainer.updateApplicationStatusMessage().accept("unable to create repository: " + repositoryName);
             log.debug("unable to create repository: {}", repositoryName, e);
-            completeTask(callbackContainer);
             return;
         }
 
@@ -122,7 +120,6 @@ public class GithubDestinationEngineFromRemoteStrategy extends AbstractStrategyC
         } catch (IOException | GitAPIException | URISyntaxException e) {
             callbackContainer.updateApplicationStatusMessage().accept("Unable to push repository " + repositoryName);
             log.error("Unable to push repository {}", repositoryName, e);
-            completeTask(callbackContainer);
             return;
         }
 
@@ -132,11 +129,10 @@ public class GithubDestinationEngineFromRemoteStrategy extends AbstractStrategyC
         } catch (IOException e) {
             callbackContainer.updateApplicationStatusMessage().accept("Unable to push repository " + repositoryName);
             log.error("Unable to push repository {}", repositoryName, e);
-            completeTask(callbackContainer);
             return;
         }
 
-        completeTask(callbackContainer);
+        incrementIndexSuccess(callbackContainer);
 
 
         if (!new ThreadSleepCommand(engineContext.settingsContext().sleepTimeSeconds()).execute()) {

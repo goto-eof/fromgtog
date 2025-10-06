@@ -1,5 +1,5 @@
 <h1 align="center"><img src="images/fromgtog_header.png" alt="header" /></h1>
-<h1 align="right" id="title">FromGtoG v. 7.0</h1>
+<h1 align="right" id="title">FromGtoG v. 7.1.0</h1>
 
 <h2 id="index">Index</h2>
 
@@ -27,6 +27,18 @@ remote cloning** and clone from/to Gitlab feature.
 
 <h2 id="news">News</h2>
 
+- 2025/10/06 - Today I applied few small improvements to the application. In particular:
+    - I fixed an issue related to the Executor Service
+    - I updated those parts of the code that allow to keep the total number of cloned repositories at the end of cloning
+      process.
+    - I fixed the "final status message". Now, if at least one git clone operation failed, FromGtoG will show a final
+      error message.
+
+      Because the improvements are not super important and because the release process on all platforms requires some
+      time, I will release the new version of FromGtoG only on the Ubuntu App Center.
+      About 2-3 days ago I played with Java Virtual Threads. I wanted to decrease the cloning process time. I succeeded
+      to get a few seconds less than Platform Threads. Because the improvement was not significant, I decided to avoid
+      to include this new feature into FromGtoG application.
 - 2025/06/23 - I discovered that FromGtoG `.deb` package was not working on Debian 10. I rebuilt the package on Debian
     10. So, now it should work on both Ubuntu latest and Debian 10. I apologize for the inconvenience. Please ping me if
         you find a bug (
@@ -100,7 +112,7 @@ jdeps -s fromgtog.jar
 It is necessary to install Xcode Command Line Tools before.
 
 ```bash
-jpackage --type pkg --name "FromGtoG" --vendor "Andrei Dodu" --app-version "7.0.2" --input "target" --main-jar "fromgtog.jar" --icon "resources/icon.icns" --main-class "com.andreidodu.fromgtog.Main" --dest "executable" --add-modules java.base,java.desktop,java.net.http,jdk.crypto.ec,java.security.sasl,java.naming,java.sql,java.management,java.security.jgss,java.xml,java.logging --verbose --java-options "-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dsun.java2d.uiScale=true"
+jpackage --type pkg --name "FromGtoG" --vendor "Andrei Dodu" --app-version "7.1.0" --input "target" --main-jar "fromgtog.jar" --icon "resources/icon.icns" --main-class "com.andreidodu.fromgtog.Main" --dest "executable" --add-modules java.base,java.desktop,java.net.http,jdk.crypto.ec,java.security.sasl,java.naming,java.sql,java.management,java.security.jgss,java.xml,java.logging --verbose --java-options "-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dsun.java2d.uiScale=true"
 ```
 
 ## Generate a standalone for Windows
@@ -108,13 +120,13 @@ jpackage --type pkg --name "FromGtoG" --vendor "Andrei Dodu" --app-version "7.0.
 It is necessary to install Wix Toolset before.
 
 ```bash
-jpackage -t exe --name "FromGtoG" --vendor "Andrei Dodu" --app-version "7.0.2" --input "target" --dest "executable" --main-jar "fromgtog.jar" --icon "resources\icon.ico" --resource-dir resources --add-modules java.base,java.desktop,java.net.http,java.naming,java.sql,java.management,java.security.jgss,java.xml,java.logging,jdk.crypto.ec,java.security.sasl --win-shortcut --win-menu --main-class com.andreidodu.fromgtog.Main
+jpackage -t exe --name "FromGtoG" --vendor "Andrei Dodu" --app-version "7.1.0" --input "target" --dest "executable" --main-jar "fromgtog.jar" --icon "resources\icon.ico" --resource-dir resources --add-modules java.base,java.desktop,java.net.http,java.naming,java.sql,java.management,java.security.jgss,java.xml,java.logging,jdk.crypto.ec,java.security.sasl --win-shortcut --win-menu --main-class com.andreidodu.fromgtog.Main
 ```
 
 ## Generate a standalone for Linux
 
 ```bash
-jpackage --type deb --name "FromGtoG" --vendor "Andrei Dodu" --app-version "7.0.2" --input "target" --main-jar "fromgtog.jar" --icon "resources/icon.png" --main-class "com.andreidodu.fromgtog.Main" --dest "executable" --add-modules java.base,java.desktop,java.net.http,java.naming,java.sql,java.management,java.security.jgss,java.xml,java.logging,jdk.crypto.ec,java.security.sasl --linux-shortcut --verbose --linux-package-deps "libasound2, libpulse0"
+jpackage --type deb --name "FromGtoG" --vendor "Andrei Dodu" --app-version "7.1.0" --input "target" --main-jar "fromgtog.jar" --icon "resources/icon.png" --main-class "com.andreidodu.fromgtog.Main" --dest "executable" --add-modules java.base,java.desktop,java.net.http,java.naming,java.sql,java.management,java.security.jgss,java.xml,java.logging,jdk.crypto.ec,java.security.sasl --linux-shortcut --verbose --linux-package-deps "libasound2, libpulse0"
 ```
 
 ## Usefully commands
@@ -124,7 +136,7 @@ jar tvf fromgtog.jar
 ```
 
 ```bash
-sudo snap remove fromgtog && snapcraft clean && snapcraft && sudo snap install fromgtog_7.0.2_amd64.snap --dangerous && fromgtog
+sudo snap remove fromgtog && snapcraft clean && snapcraft && sudo snap install fromgtog_7.1.0_amd64.snap --dangerous && fromgtog
 ```
 
 <h2 id="tested-on">Tested on</h2>

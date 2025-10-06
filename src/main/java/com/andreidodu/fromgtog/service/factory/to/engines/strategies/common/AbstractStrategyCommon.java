@@ -17,9 +17,13 @@ public class AbstractStrategyCommon {
         index++;
     }
 
-    protected void completeTask(CallbackContainer callbackContainer) {
+    protected void incrementIndexSuccess(CallbackContainer callbackContainer) {
         callbackContainer.updateApplicationProgressBarCurrent().accept(this.getIndex());
         this.incrementIndex();
+    }
+
+    protected String calculateStatus(final int total) {
+        return getIndex() < total ? " - with errors (check log file)" : "!";
     }
 
     protected String correctRepositoryName(String repositoryName) {

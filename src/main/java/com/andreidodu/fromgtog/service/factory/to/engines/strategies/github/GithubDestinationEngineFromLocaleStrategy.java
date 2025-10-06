@@ -63,20 +63,21 @@ public class GithubDestinationEngineFromLocaleStrategy extends AbstractStrategyC
 
 
         ThreadUtil threadUtil = ThreadUtil.getInstance();
-        final ExecutorService executorService = threadUtil.createExecutor(CLONER_THREAD_NAME_PREFIX, engineContext.settingsContext().multithreadingEnabled());
-        super.resetIndex();
+        try (final ExecutorService executorService = threadUtil.createExecutor(CLONER_THREAD_NAME_PREFIX, engineContext.settingsContext().multithreadingEnabled())) {
+            super.resetIndex();
 
 
-        for (String path : pathList) {
-            executorService.execute(() -> processItem(engineContext, path, githubClient, tokenOwnerLogin));
+            for (String path : pathList) {
+                executorService.execute(() -> processItem(engineContext, path, githubClient, tokenOwnerLogin));
+            }
+
+            threadUtil.waitUntilShutDownCompleted(executorService);
+
+            new UpdateStatusCommand(buildUpdateStatusContext(engineContext.callbackContainer(), pathList.size(), super.getIndex(), String.format("done%s", calculateStatus(pathList.size())))).execute();
+
+            callbackContainer.setShouldStop().accept(true);
+            return super.getIndex() == pathList.size();
         }
-
-        threadUtil.waitUntilShutDownCompleted(executorService);
-
-        new UpdateStatusCommand(buildUpdateStatusContext(engineContext.callbackContainer(), 100, 0, "done")).execute();
-
-        callbackContainer.setShouldStop().accept(true);
-        return true;
     }
 
 
@@ -88,14 +89,13 @@ public class GithubDestinationEngineFromLocaleStrategy extends AbstractStrategyC
         LocalService localService = LocalServiceImpl.getInstance();
 
         if (isShouldStopTheProcess(repositoryName, callbackContainer)) {
-            completeTask(callbackContainer);
             return;
         }
 
         repositoryName = correctRepositoryName(repositoryName);
 
         if (isRemoteRepositoryAlreadyExists(GithubDestinationEngineCommon.buildRemoteExistsCheckInput(engineContext, tokenOwnerLogin, repositoryName))) {
-            completeTask(callbackContainer);
+            incrementIndexSuccess(callbackContainer);
             return;
         }
 
@@ -107,7 +107,6 @@ public class GithubDestinationEngineFromLocaleStrategy extends AbstractStrategyC
         } catch (IOException e) {
             callbackContainer.updateApplicationStatusMessage().accept("unable to create repository: " + repositoryName);
             log.debug("unable to create repository: {}", repositoryName, e);
-            completeTask(callbackContainer);
             return;
         }
 
@@ -117,7 +116,6 @@ public class GithubDestinationEngineFromLocaleStrategy extends AbstractStrategyC
         } catch (IOException | GitAPIException | URISyntaxException e) {
             callbackContainer.updateApplicationStatusMessage().accept("Unable to push repository " + repositoryName);
             log.error("Unable to push repository {}", repositoryName, e);
-            completeTask(callbackContainer);
             return;
         }
 
@@ -128,12 +126,11 @@ public class GithubDestinationEngineFromLocaleStrategy extends AbstractStrategyC
         } catch (IOException e) {
             callbackContainer.updateApplicationStatusMessage().accept("Unable to push repository " + repositoryName);
             log.error("Unable to push repository {}", repositoryName, e);
-            completeTask(callbackContainer);
             return;
         }
 
 
-        completeTask(callbackContainer);
+        incrementIndexSuccess(callbackContainer);
 
 
         if (!new ThreadSleepCommand(engineContext.settingsContext().sleepTimeSeconds()).execute()) {

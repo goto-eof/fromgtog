@@ -45,21 +45,24 @@ public class ThreadUtil {
             return 1;
         }
         int numProcessors = Runtime.getRuntime().availableProcessors();
-        // return 1;
-        // return numProcessors;
+
+        if (numProcessors > 1) {
+            numProcessors -= 1;
+        }
+
         return Math.min(numProcessors, MAX_NUM_THREADS);
     }
 
     public void executeOnSeparateThread(String threadName, Runnable runnable) {
-        final ExecutorService SINGLE_THREAD_EXECUTOR = Executors.newSingleThreadExecutor(new CustomThreadFactory(threadName));
+        final ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor(new CustomThreadFactory(threadName));
 
-        SINGLE_THREAD_EXECUTOR.submit(() -> {
+        singleThreadExecutor.submit(() -> {
             log.debug("Thread task started");
             runnable.run();
             System.out.println("Thread task ended");
         });
 
-        SINGLE_THREAD_EXECUTOR.shutdown();
+        singleThreadExecutor.shutdown();
     }
 
 

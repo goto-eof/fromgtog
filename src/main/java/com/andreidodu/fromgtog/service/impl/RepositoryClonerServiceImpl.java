@@ -51,14 +51,18 @@ public class RepositoryClonerServiceImpl implements RepositoryCloner {
                         engineContext.callbackContainer().updateApplicationStatusMessage().accept("Start to clone from " + from + " to " + to);
 
                         engineContext.callbackContainer().setEnabledUI().accept(false);
-                        cloneFromAndTo(engineContext, sourceEngine, destinationEngine);
+                        boolean isSuccess = cloneFromAndTo(engineContext, sourceEngine, destinationEngine);
                         engineContext.callbackContainer().setEnabledUI().accept(true);
-                        engineContext.callbackContainer().showSuccessMessage().accept("Clone procedure completed successfully!");
                         timeCounterService.stopCounter();
+                        if (isSuccess) {
+                            engineContext.callbackContainer().showSuccessMessage().accept("Clone procedure completed successfully!");
+                            return;
+                        }
+                        engineContext.callbackContainer().showErrorMessage().accept("Something went wrong while cloning: not all repositories were cloned. Please check the log file for further details.");
                     } catch (Exception e) {
                         engineContext.callbackContainer().setEnabledUI().accept(true);
                         engineContext.callbackContainer().setShouldStop().accept(true);
-                        engineContext.callbackContainer().showErrorMessage().accept("Something went wrong while cloning: " + e.getMessage());
+                        engineContext.callbackContainer().showErrorMessage().accept("Something went wrong while cloning: " + e.getMessage() + ". Please check the log file for further details.");
                         timeCounterService.stopCounter();
                     }
                 }

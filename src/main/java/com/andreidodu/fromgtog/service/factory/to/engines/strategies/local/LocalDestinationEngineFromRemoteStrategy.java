@@ -14,10 +14,8 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import static com.andreidodu.fromgtog.constants.ApplicationConstants.CLONER_THREAD_NAME_PREFIX;
-import static com.andreidodu.fromgtog.constants.ApplicationConstants.MAX_NUM_THREADS;
 
 public class LocalDestinationEngineFromRemoteStrategy extends AbstractStrategyCommon implements LocalDestinationEngineFromStrategy {
 
@@ -39,23 +37,23 @@ public class LocalDestinationEngineFromRemoteStrategy extends AbstractStrategyCo
         callbackContainer.updateApplicationStatusMessage().accept("initializing the cloning process");
 
         ThreadUtil threadUtil = ThreadUtil.getInstance();
-        final ExecutorService executorService = threadUtil.createExecutor(CLONER_THREAD_NAME_PREFIX, engineContext.settingsContext().multithreadingEnabled());
+        try (final ExecutorService executorService = threadUtil.createExecutor(CLONER_THREAD_NAME_PREFIX, engineContext.settingsContext().multithreadingEnabled())) {
+            this.resetIndex();
+            NoHomeGitConfigSystemReader.install();
 
-        this.resetIndex();
-        NoHomeGitConfigSystemReader.install();
+            for (RepositoryDTO repositoryDTO : repositoryDTOList) {
+                final RepositoryDTO finalRepositoryDTO = repositoryDTO;
+                executorService.execute(() -> processItem(engineContext, finalRepositoryDTO));
+            }
 
-        for (RepositoryDTO repositoryDTO : repositoryDTOList) {
-            final RepositoryDTO finalRepositoryDTO = repositoryDTO;
-            executorService.execute(() -> processItem(engineContext, finalRepositoryDTO));
+            threadUtil.waitUntilShutDownCompleted(executorService);
+
+            callbackContainer.updateApplicationStatusMessage().accept(String.format("done%s", calculateStatus(repositoryDTOList.size())));
+            callbackContainer.updateApplicationProgressBarMax().accept(repositoryDTOList.size());
+            callbackContainer.updateApplicationProgressBarCurrent().accept(super.getIndex());
+            callbackContainer.setShouldStop().accept(true);
+            return super.getIndex() == repositoryDTOList.size();
         }
-
-        threadUtil.waitUntilShutDownCompleted(executorService);
-
-        callbackContainer.updateApplicationStatusMessage().accept("done!");
-        callbackContainer.updateApplicationProgressBarMax().accept(100);
-        callbackContainer.updateApplicationProgressBarCurrent().accept(0);
-        callbackContainer.setShouldStop().accept(true);
-        return true;
     }
 
 
@@ -66,7 +64,6 @@ public class LocalDestinationEngineFromRemoteStrategy extends AbstractStrategyCo
         if (callbackContainer.isShouldStop().get()) {
             log.debug("skipping because {} because user stop request", repositoryDTO.getName());
             callbackContainer.updateApplicationStatusMessage().accept("Skipping repository because user stop request: " + repositoryDTO.getName());
-            completeTask(callbackContainer);
             return;
         }
 
@@ -90,7 +87,7 @@ public class LocalDestinationEngineFromRemoteStrategy extends AbstractStrategyCo
         if (file.exists()) {
             log.debug("skipping because {} already exists", repositoryDTO.getName());
             callbackContainer.updateApplicationStatusMessage().accept("Skipping repository because it already exists: " + repositoryDTO.getName());
-            completeTask(callbackContainer);
+            incrementIndexSuccess(callbackContainer);
             return;
         }
 
@@ -105,9 +102,10 @@ public class LocalDestinationEngineFromRemoteStrategy extends AbstractStrategyCo
         } catch (GitAPIException e) {
             log.error("Unable to clone repository {} because {}", repositoryDTO.getName(), e.getMessage(), e);
             callbackContainer.updateApplicationStatusMessage().accept("Unable to clone repository " + repositoryDTO.getName());
+            return;
         }
 
-        completeTask(callbackContainer);
+        incrementIndexSuccess(callbackContainer);
 
         try {
             Thread.sleep(engineContext.settingsContext().sleepTimeSeconds() * 1000L);
