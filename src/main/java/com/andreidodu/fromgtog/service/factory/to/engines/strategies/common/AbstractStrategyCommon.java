@@ -23,7 +23,7 @@ public class AbstractStrategyCommon {
     }
 
     protected String calculateStatus(final int total) {
-        return getIndex() < total ? " - with errors" : "!";
+        return getIndex() < total ? " - with errors (check log file)" : "!";
     }
 
     protected String correctRepositoryName(String repositoryName) {
