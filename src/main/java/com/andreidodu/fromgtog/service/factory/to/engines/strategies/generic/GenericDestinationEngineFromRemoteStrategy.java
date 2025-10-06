@@ -63,7 +63,7 @@ public class GenericDestinationEngineFromRemoteStrategy<ServiceType extends Gene
             new UpdateStatusCommand(buildUpdateStatusContext(engineContext.callbackContainer(), repositoryDTOList.size(), super.getIndex(), String.format("done%s", calculateStatus(repositoryDTOList.size())))).execute();
 
             callbackContainer.setShouldStop().accept(true);
-            return true;
+            return super.getIndex() == repositoryDTOList.size();
         }
     }
 

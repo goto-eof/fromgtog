@@ -66,7 +66,7 @@ public class GithubDestinationEngineFromRemoteStrategy extends AbstractStrategyC
 
             callbackContainer.setShouldStop().accept(true);
 
-            return true;
+            return super.getIndex() == repositoryDTOList.size();
         }
     }
 

@@ -57,7 +57,7 @@ public class LocalDestinationEngineFromLocaleStrategy extends AbstractStrategyCo
             callbackContainer.updateApplicationProgressBarMax().accept(pathList.size());
             callbackContainer.updateApplicationProgressBarCurrent().accept(super.getIndex());
             callbackContainer.setShouldStop().accept(true);
-            return true;
+            return super.getIndex() == pathList.size();
         }
     }
 

@@ -52,7 +52,7 @@ public class LocalDestinationEngineFromRemoteStrategy extends AbstractStrategyCo
             callbackContainer.updateApplicationProgressBarMax().accept(repositoryDTOList.size());
             callbackContainer.updateApplicationProgressBarCurrent().accept(super.getIndex());
             callbackContainer.setShouldStop().accept(true);
-            return true;
+            return super.getIndex() == repositoryDTOList.size();
         }
     }
 
