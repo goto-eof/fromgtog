@@ -54,7 +54,7 @@ public class LocalDestinationEngineFromLocaleStrategy extends AbstractStrategyCo
 
 
             callbackContainer.updateApplicationStatusMessage().accept("done!");
-            callbackContainer.updateApplicationProgressBarMax().accept(100);
+            callbackContainer.updateApplicationProgressBarMax().accept(pathList.size());
             callbackContainer.updateApplicationProgressBarCurrent().accept(0);
             callbackContainer.setShouldStop().accept(true);
             return true;

@@ -49,7 +49,7 @@ public class LocalDestinationEngineFromRemoteStrategy extends AbstractStrategyCo
             threadUtil.waitUntilShutDownCompleted(executorService);
 
             callbackContainer.updateApplicationStatusMessage().accept("done!");
-            callbackContainer.updateApplicationProgressBarMax().accept(100);
+            callbackContainer.updateApplicationProgressBarMax().accept(repositoryDTOList.size());
             callbackContainer.updateApplicationProgressBarCurrent().accept(0);
             callbackContainer.setShouldStop().accept(true);
             return true;

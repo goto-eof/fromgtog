@@ -60,7 +60,7 @@ public class GenericDestinationEngineFromRemoteStrategy<ServiceType extends Gene
 
             threadUtil.waitUntilShutDownCompleted(executorService);
 
-            new UpdateStatusCommand(buildUpdateStatusContext(engineContext.callbackContainer(), 100, 0, "done")).execute();
+            new UpdateStatusCommand(buildUpdateStatusContext(engineContext.callbackContainer(), repositoryDTOList.size(), 0, "done")).execute();
 
             callbackContainer.setShouldStop().accept(true);
             return true;

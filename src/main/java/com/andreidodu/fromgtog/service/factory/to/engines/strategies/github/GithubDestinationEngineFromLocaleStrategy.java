@@ -73,7 +73,7 @@ public class GithubDestinationEngineFromLocaleStrategy extends AbstractStrategyC
 
             threadUtil.waitUntilShutDownCompleted(executorService);
 
-            new UpdateStatusCommand(buildUpdateStatusContext(engineContext.callbackContainer(), 100, 0, "done")).execute();
+            new UpdateStatusCommand(buildUpdateStatusContext(engineContext.callbackContainer(), pathList.size(), 0, "done")).execute();
 
             callbackContainer.setShouldStop().accept(true);
             return true;
