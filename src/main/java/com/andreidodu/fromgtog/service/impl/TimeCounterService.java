@@ -25,7 +25,6 @@ public class TimeCounterService {
     private ScheduledExecutorService timeExecutorService;
     private Long startTime = 0L;
     private static final AtomicBoolean timeEnabled = new AtomicBoolean(false);
-    ScheduledFuture<?> future = null;
 
     public TimeCounterService(Consumer<String> updateTimeLabel) {
         CustomThreadFactory customThreadFactory = new CustomThreadFactory(TICKER_THREAD_NAME_PREFIX);
