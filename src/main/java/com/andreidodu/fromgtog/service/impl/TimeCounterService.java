@@ -28,7 +28,9 @@ public class TimeCounterService {
     ScheduledFuture<?> future = null;
 
     public TimeCounterService(Consumer<String> updateTimeLabel) {
-        this.setTimeExecutorService(Executors.newSingleThreadScheduledExecutor(new CustomThreadFactory(TICKER_THREAD_NAME_PREFIX)));
+        CustomThreadFactory customThreadFactory = new CustomThreadFactory(TICKER_THREAD_NAME_PREFIX);
+        ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor(customThreadFactory);
+        this.setTimeExecutorService(scheduledExecutorService);
         runTimeCounter(updateTimeLabel);
         reset(updateTimeLabel);
     }
