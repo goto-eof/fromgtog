@@ -36,6 +36,7 @@ remote cloning** and clone from/to Gitlab feature.
 
       Because the improvements are not super important and because the release process on all platforms requires some
       time, I will release the new version of FromGtoG only on the Ubuntu App Center.
+
       About 2-3 days ago I played with Java Virtual Threads. I wanted to decrease the cloning process time. I succeeded
       to get a few seconds less than Platform Threads. Because the improvement was not significant, I decided to avoid
       to include this new feature into FromGtoG application.
