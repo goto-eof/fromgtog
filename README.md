@@ -1,5 +1,5 @@
 <h1 align="center"><img src="images/fromgtog_header.png" alt="header" /></h1>
-<h1 align="right" id="title">FromGtoG v. 7.0</h1>
+<h1 align="right" id="title">FromGtoG v. 7.1.0</h1>
 
 <h2 id="index">Index</h2>
 
@@ -27,6 +27,9 @@ remote cloning** and clone from/to Gitlab feature.
 
 <h2 id="news">News</h2>
 
+- 2025/10/06 - Today I applied few small improvements to the application. In particular, I fixed an issue related to the
+  Executor Service and updated those parts of the code that allow to keep the total number of cloned
+  repositories at the end of cloning process.
 - 2025/06/23 - I discovered that FromGtoG `.deb` package was not working on Debian 10. I rebuilt the package on Debian
     10. So, now it should work on both Ubuntu latest and Debian 10. I apologize for the inconvenience. Please ping me if
         you find a bug (
