@@ -4,8 +4,6 @@ import com.andreidodu.fromgtog.util.CustomThreadFactory;
 import com.andreidodu.fromgtog.util.TimeUtil;
 import lombok.Getter;
 import lombok.Setter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -17,8 +15,6 @@ import java.util.function.Consumer;
 import static com.andreidodu.fromgtog.constants.ApplicationConstants.TICKER_THREAD_NAME_PREFIX;
 
 public class TimeCounterService {
-
-    private Logger logger = LoggerFactory.getLogger(TimeCounterService.class);
 
     @Getter
     @Setter
