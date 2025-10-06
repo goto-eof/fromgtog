@@ -48,9 +48,9 @@ public class LocalDestinationEngineFromRemoteStrategy extends AbstractStrategyCo
 
             threadUtil.waitUntilShutDownCompleted(executorService);
 
-            callbackContainer.updateApplicationStatusMessage().accept("done!");
+            callbackContainer.updateApplicationStatusMessage().accept(String.format("done%s", calculateStatus(repositoryDTOList.size())));
             callbackContainer.updateApplicationProgressBarMax().accept(repositoryDTOList.size());
-            callbackContainer.updateApplicationProgressBarCurrent().accept(0);
+            callbackContainer.updateApplicationProgressBarCurrent().accept(super.getIndex());
             callbackContainer.setShouldStop().accept(true);
             return true;
         }
@@ -64,7 +64,6 @@ public class LocalDestinationEngineFromRemoteStrategy extends AbstractStrategyCo
         if (callbackContainer.isShouldStop().get()) {
             log.debug("skipping because {} because user stop request", repositoryDTO.getName());
             callbackContainer.updateApplicationStatusMessage().accept("Skipping repository because user stop request: " + repositoryDTO.getName());
-            completeTask(callbackContainer);
             return;
         }
 
@@ -88,7 +87,7 @@ public class LocalDestinationEngineFromRemoteStrategy extends AbstractStrategyCo
         if (file.exists()) {
             log.debug("skipping because {} already exists", repositoryDTO.getName());
             callbackContainer.updateApplicationStatusMessage().accept("Skipping repository because it already exists: " + repositoryDTO.getName());
-            completeTask(callbackContainer);
+            incrementIndexSuccess(callbackContainer);
             return;
         }
 
@@ -103,9 +102,10 @@ public class LocalDestinationEngineFromRemoteStrategy extends AbstractStrategyCo
         } catch (GitAPIException e) {
             log.error("Unable to clone repository {} because {}", repositoryDTO.getName(), e.getMessage(), e);
             callbackContainer.updateApplicationStatusMessage().accept("Unable to clone repository " + repositoryDTO.getName());
+            return;
         }
 
-        completeTask(callbackContainer);
+        incrementIndexSuccess(callbackContainer);
 
         try {
             Thread.sleep(engineContext.settingsContext().sleepTimeSeconds() * 1000L);

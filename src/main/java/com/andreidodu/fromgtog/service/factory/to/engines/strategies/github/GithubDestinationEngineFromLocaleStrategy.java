@@ -73,7 +73,7 @@ public class GithubDestinationEngineFromLocaleStrategy extends AbstractStrategyC
 
             threadUtil.waitUntilShutDownCompleted(executorService);
 
-            new UpdateStatusCommand(buildUpdateStatusContext(engineContext.callbackContainer(), pathList.size(), 0, "done")).execute();
+            new UpdateStatusCommand(buildUpdateStatusContext(engineContext.callbackContainer(), pathList.size(), super.getIndex(), String.format("done%s", calculateStatus(pathList.size())))).execute();
 
             callbackContainer.setShouldStop().accept(true);
             return true;
@@ -89,14 +89,13 @@ public class GithubDestinationEngineFromLocaleStrategy extends AbstractStrategyC
         LocalService localService = LocalServiceImpl.getInstance();
 
         if (isShouldStopTheProcess(repositoryName, callbackContainer)) {
-            completeTask(callbackContainer);
             return;
         }
 
         repositoryName = correctRepositoryName(repositoryName);
 
         if (isRemoteRepositoryAlreadyExists(GithubDestinationEngineCommon.buildRemoteExistsCheckInput(engineContext, tokenOwnerLogin, repositoryName))) {
-            completeTask(callbackContainer);
+            incrementIndexSuccess(callbackContainer);
             return;
         }
 
@@ -108,7 +107,6 @@ public class GithubDestinationEngineFromLocaleStrategy extends AbstractStrategyC
         } catch (IOException e) {
             callbackContainer.updateApplicationStatusMessage().accept("unable to create repository: " + repositoryName);
             log.debug("unable to create repository: {}", repositoryName, e);
-            completeTask(callbackContainer);
             return;
         }
 
@@ -118,7 +116,6 @@ public class GithubDestinationEngineFromLocaleStrategy extends AbstractStrategyC
         } catch (IOException | GitAPIException | URISyntaxException e) {
             callbackContainer.updateApplicationStatusMessage().accept("Unable to push repository " + repositoryName);
             log.error("Unable to push repository {}", repositoryName, e);
-            completeTask(callbackContainer);
             return;
         }
 
@@ -129,12 +126,11 @@ public class GithubDestinationEngineFromLocaleStrategy extends AbstractStrategyC
         } catch (IOException e) {
             callbackContainer.updateApplicationStatusMessage().accept("Unable to push repository " + repositoryName);
             log.error("Unable to push repository {}", repositoryName, e);
-            completeTask(callbackContainer);
             return;
         }
 
 
-        completeTask(callbackContainer);
+        incrementIndexSuccess(callbackContainer);
 
 
         if (!new ThreadSleepCommand(engineContext.settingsContext().sleepTimeSeconds()).execute()) {

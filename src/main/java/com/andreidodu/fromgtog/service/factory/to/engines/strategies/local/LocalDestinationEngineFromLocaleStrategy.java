@@ -53,9 +53,9 @@ public class LocalDestinationEngineFromLocaleStrategy extends AbstractStrategyCo
             threadUtil.waitUntilShutDownCompleted(executorService);
 
 
-            callbackContainer.updateApplicationStatusMessage().accept("done!");
+            callbackContainer.updateApplicationStatusMessage().accept(String.format("done%s", calculateStatus(pathList.size())));
             callbackContainer.updateApplicationProgressBarMax().accept(pathList.size());
-            callbackContainer.updateApplicationProgressBarCurrent().accept(0);
+            callbackContainer.updateApplicationProgressBarCurrent().accept(super.getIndex());
             callbackContainer.setShouldStop().accept(true);
             return true;
         }
@@ -68,7 +68,6 @@ public class LocalDestinationEngineFromLocaleStrategy extends AbstractStrategyCo
         if (callbackContainer.isShouldStop().get()) {
             log.debug("skipping because {} because user stop request", path);
             callbackContainer.updateApplicationStatusMessage().accept("Skipping repository because user stop request: " + path);
-            completeTask(callbackContainer);
             return;
         }
         String repositoryName = new File(path).getName();
@@ -77,7 +76,7 @@ public class LocalDestinationEngineFromLocaleStrategy extends AbstractStrategyCo
         if (new File(toDirectoryPath).exists()) {
             log.debug("skipping because {} already exists", repositoryName);
             callbackContainer.updateApplicationStatusMessage().accept("Skipping repository because it already exists: " + repositoryName);
-            completeTask(callbackContainer);
+            incrementIndexSuccess(callbackContainer);
             return;
         }
 
@@ -86,9 +85,10 @@ public class LocalDestinationEngineFromLocaleStrategy extends AbstractStrategyCo
             FileUtils.copyDirectory(new File(path), new File(toDirectoryPath));
         } catch (IOException e) {
             log.error("unable to copy from {} to {} because {}", path, toDirectoryPath, e.getMessage());
+            return;
         }
 
-        completeTask(callbackContainer);
+        incrementIndexSuccess(callbackContainer);
 
     }
 

@@ -70,7 +70,7 @@ public class GenericDestinationEngineFromLocalStrategy<ServiceType extends Gener
 
             threadUtil.waitUntilShutDownCompleted(executorService);
 
-            new UpdateStatusCommand(buildUpdateStatusContext(engineContext.callbackContainer(), pathList.size(), 0, "done")).execute();
+            new UpdateStatusCommand(buildUpdateStatusContext(engineContext.callbackContainer(), pathList.size(), super.getIndex(), String.format("done%s", calculateStatus(pathList.size())))).execute();
 
             callbackContainer.setShouldStop().accept(true);
             return true;
@@ -84,7 +84,6 @@ public class GenericDestinationEngineFromLocalStrategy<ServiceType extends Gener
         LocalService localService = LocalServiceImpl.getInstance();
 
         if (isShouldStopTheProcess(repositoryName, callbackContainer)) {
-            completeTask(callbackContainer);
             return;
         }
 
@@ -94,7 +93,7 @@ public class GenericDestinationEngineFromLocalStrategy<ServiceType extends Gener
 
         RemoteExistsCheckCommandContext remoteExistsCheckCommandContext = GenericDestinationEngineCommon.buildRemoteExistsCheckInput(engineContext, tokenOwnerLogin, repositoryName);
         if (isRemoteRepositoryAlreadyExists(remoteExistsCheckCommandContext)) {
-            completeTask(callbackContainer);
+            incrementIndexSuccess(callbackContainer);
             return;
         }
 
@@ -102,7 +101,7 @@ public class GenericDestinationEngineFromLocalStrategy<ServiceType extends Gener
         if (localService.isRemoteRepositoryExists(tokenOwnerLogin, toContext.token(), remoteRepositoryUrl)) {
             log.debug("skipping because {} already exists", repositoryName);
             callbackContainer.updateApplicationStatusMessage().accept("Skipping repository because it already exists: " + repositoryName);
-            completeTask(callbackContainer);
+            incrementIndexSuccess(callbackContainer);
             return;
         }
 
@@ -113,23 +112,20 @@ public class GenericDestinationEngineFromLocalStrategy<ServiceType extends Gener
             if (!service.createRepository(toContext.url(), toContext.token(), repositoryName, "", RepoPrivacyType.ALL_PRIVATE.equals(toContext.repositoryPrivacy()))) {
                 callbackContainer.updateApplicationStatusMessage().accept("unable to create repository: " + repositoryName);
                 log.debug("unable to create repository: {}", repositoryName);
-                completeTask(callbackContainer);
                 return;
             }
         } catch (Exception e) {
             callbackContainer.updateApplicationStatusMessage().accept("unable to create repository: " + repositoryName);
             log.debug("unable to create repository: {}", repositoryName, e);
-            completeTask(callbackContainer);
             return;
         }
 
         try {
             log.debug("pushing...");
-            boolean result = localService.pushOnRemote(tokenOwnerLogin, toContext.token(), toContext.url(), repositoryName, tokenOwnerLogin, new File(path));
+            boolean isPushOk = localService.pushOnRemote(tokenOwnerLogin, toContext.token(), toContext.url(), repositoryName, tokenOwnerLogin, new File(path));
         } catch (IOException | GitAPIException | URISyntaxException e) {
             callbackContainer.updateApplicationStatusMessage().accept("Unable to push repository " + repositoryName);
             log.error("Unable to push repository {}", repositoryName, e);
-            completeTask(callbackContainer);
             return;
         }
 
@@ -139,11 +135,10 @@ public class GenericDestinationEngineFromLocalStrategy<ServiceType extends Gener
         } catch (Exception e) {
             callbackContainer.updateApplicationStatusMessage().accept("Unable to push repository " + repositoryName);
             log.error("Unable to push repository {}", repositoryName, e);
-            completeTask(callbackContainer);
             return;
         }
 
-        completeTask(callbackContainer);
+        incrementIndexSuccess(callbackContainer);
 
         if (!new ThreadSleepCommand(engineContext.settingsContext().sleepTimeSeconds()).execute()) {
             throw new RuntimeException("Unable to put thread on sleep " + repositoryName);
