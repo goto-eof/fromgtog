@@ -10,7 +10,7 @@ icon: snap/gui/icon.png
 title: FromGtoG
 website: https://andre-i.eu
 issues: https://github.com/goto-eof
-license: CC-BY-NC-4.0
+license: CC-BY-4.0
 compression: lzo
 slots:
   fromgtog-dbus:
