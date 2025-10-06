@@ -135,8 +135,12 @@ jpackage --type deb --name "FromGtoG" --vendor "Andrei Dodu" --app-version "7.1.
 jar tvf fromgtog.jar 
 ```
 
+### Generate and upload snap file - useful especially for me (: 
+
 ```bash
 sudo snap remove fromgtog && snapcraft clean && snapcraft && sudo snap install fromgtog_7.1.0_amd64.snap --dangerous && fromgtog
+
+snapcraft upload --release=edge fromgtog_7.1.0_amd64.snap
 ```
 
 <h2 id="tested-on">Tested on</h2>
