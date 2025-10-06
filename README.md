@@ -29,7 +29,8 @@ remote cloning** and clone from/to Gitlab feature.
 
 - 2025/10/06 - Today I applied few small improvements to the application. In particular, I fixed an issue related to the
   Executor Service and updated those parts of the code that allow to keep the total number of cloned
-  repositories at the end of cloning process.
+  repositories at the end of cloning process. Because the improvements are not super important and because the release
+  process on all platforms requires some time, I will release the new version of FromGtoG only on the Ubuntu App Center.
 - 2025/06/23 - I discovered that FromGtoG `.deb` package was not working on Debian 10. I rebuilt the package on Debian
     10. So, now it should work on both Ubuntu latest and Debian 10. I apologize for the inconvenience. Please ping me if
         you find a bug (
