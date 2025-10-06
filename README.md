@@ -27,13 +27,18 @@ remote cloning** and clone from/to Gitlab feature.
 
 <h2 id="news">News</h2>
 
-- 2025/10/06 - Today I applied few small improvements to the application. In particular, I fixed an issue related to the
-  Executor Service and updated those parts of the code that allow to keep the total number of cloned
-  repositories at the end of cloning process. Because the improvements are not super important and because the release
-  process on all platforms requires some time, I will release the new version of FromGtoG only on the Ubuntu App Center.
-  About 2-3 days ago I played with Java Virtual Threads. I wanted to decrease the cloning process time. I succeeded to
-  get a few seconds less than Platform Threads. Because the improvement was not significant, I decided to avoid to
-  include this new feature into FromGtoG application.
+- 2025/10/06 - Today I applied few small improvements to the application. In particular:
+    - I fixed an issue related to the Executor Service
+    - I updated those parts of the code that allow to keep the total number of cloned repositories at the end of cloning
+      process.
+    - I fixed the "final status message". Now, if at least one git clone operation failed, FromGtoG will show a final
+      error message.
+
+      Because the improvements are not super important and because the release process on all platforms requires some
+      time, I will release the new version of FromGtoG only on the Ubuntu App Center.
+      About 2-3 days ago I played with Java Virtual Threads. I wanted to decrease the cloning process time. I succeeded
+      to get a few seconds less than Platform Threads. Because the improvement was not significant, I decided to avoid
+      to include this new feature into FromGtoG application.
 - 2025/06/23 - I discovered that FromGtoG `.deb` package was not working on Debian 10. I rebuilt the package on Debian
     10. So, now it should work on both Ubuntu latest and Debian 10. I apologize for the inconvenience. Please ping me if
         you find a bug (
