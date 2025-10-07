@@ -56,15 +56,18 @@ public class ThreadUtil {
     }
 
     public void executeOnSeparateThread(String threadName, Runnable runnable) {
-        final ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor(new CustomThreadFactory(threadName));
+        ExecutorService singleThreadExecutorService = Executors.newSingleThreadExecutor(new CustomThreadFactory(threadName));
 
-        singleThreadExecutor.submit(() -> {
+        singleThreadExecutorService.execute(() -> {
+
             log.debug("Thread task started");
             runnable.run();
-            System.out.println("Thread task ended");
+            log.debug("Thread task ended");
+
+            singleThreadExecutorService.shutdown();
+
         });
 
-        singleThreadExecutor.shutdown();
     }
 
 }
