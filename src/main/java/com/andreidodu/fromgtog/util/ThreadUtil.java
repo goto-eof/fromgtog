@@ -1,5 +1,6 @@
 package com.andreidodu.fromgtog.util;
 
+import com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.CustomExecutorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,10 +35,12 @@ public class ThreadUtil {
 
         if (nThreads > 1) {
             log.info("Creating a new threadpool using thread count {}", nThreads);
-            return Executors.newFixedThreadPool(nThreads, new CustomThreadFactory(threadNamePrefix));
+            ExecutorService fixedThreadExecutorService = Executors.newFixedThreadPool(nThreads, new CustomThreadFactory(threadNamePrefix));
+            return new CustomExecutorService(fixedThreadExecutorService);
         }
 
-        return Executors.newSingleThreadExecutor(new CustomThreadFactory(threadNamePrefix));
+        ExecutorService singleThreadExecutorService = Executors.newSingleThreadExecutor(new CustomThreadFactory(threadNamePrefix));
+        return new CustomExecutorService(singleThreadExecutorService);
     }
 
     private int calculateNumThreads(boolean multithreadingEnabled) {

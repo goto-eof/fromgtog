@@ -68,13 +68,12 @@ public class GenericDestinationEngineFromLocalStrategy<ServiceType extends Gener
                 executorService.execute(() -> processItem(engineContext, path, tokenOwnerLogin));
             }
 
-            threadUtil.waitUntilShutDownCompleted(executorService);
-
-            new UpdateStatusCommand(buildUpdateStatusContext(engineContext.callbackContainer(), pathList.size(), super.getIndex(), String.format("done%s", calculateStatus(pathList.size())))).execute();
-
-            callbackContainer.setShouldStop().accept(true);
-            return super.getIndex() == pathList.size();
         }
+
+        new UpdateStatusCommand(buildUpdateStatusContext(engineContext.callbackContainer(), pathList.size(), super.getIndex(), String.format("done%s", calculateStatus(pathList.size())))).execute();
+
+        callbackContainer.setShouldStop().accept(true);
+        return super.getIndex() == pathList.size();
     }
 
     private void processItem(EngineContext engineContext, String path, String tokenOwnerLogin) {

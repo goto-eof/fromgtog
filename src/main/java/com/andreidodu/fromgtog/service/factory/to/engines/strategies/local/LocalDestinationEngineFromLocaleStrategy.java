@@ -50,15 +50,13 @@ public class LocalDestinationEngineFromLocaleStrategy extends AbstractStrategyCo
                 executorService.execute(() -> processItem(engineContext, path));
             }
 
-            threadUtil.waitUntilShutDownCompleted(executorService);
-
-
-            callbackContainer.updateApplicationStatusMessage().accept(String.format("done%s", calculateStatus(pathList.size())));
-            callbackContainer.updateApplicationProgressBarMax().accept(pathList.size());
-            callbackContainer.updateApplicationProgressBarCurrent().accept(super.getIndex());
-            callbackContainer.setShouldStop().accept(true);
-            return super.getIndex() == pathList.size();
         }
+
+        callbackContainer.updateApplicationStatusMessage().accept(String.format("done%s", calculateStatus(pathList.size())));
+        callbackContainer.updateApplicationProgressBarMax().accept(pathList.size());
+        callbackContainer.updateApplicationProgressBarCurrent().accept(super.getIndex());
+        callbackContainer.setShouldStop().accept(true);
+        return super.getIndex() == pathList.size();
     }
 
     private void processItem(EngineContext engineContext, String path) {
