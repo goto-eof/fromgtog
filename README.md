@@ -27,8 +27,8 @@ remote cloning** and clone from/to Gitlab feature.
 
 <h2 id="news">News</h2>
 - 2025/10/07
-  - refactor: remove useless code - now we have auto-closable resource so it is not necessary to close them manually
-  - show version number on the title bar
+    - refactor: remove useless code - now we have auto-closable resource so it is not necessary to close them manually
+    - show version number on the title bar
 - 2025/10/06 - Today I applied few small improvements to the application. In particular:
     - I fixed an issue related to the Executor Service
     - I updated those parts of the code that allow to keep the total number of cloned repositories at the end of cloning
