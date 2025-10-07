@@ -100,7 +100,7 @@ public class ApplicationGUI extends JFrame {
     List<? extends JComponent> allComponentsList;
 
     public ApplicationGUI() {
-        setTitle("FromGtoG");
+        setTitle("FromGtoG 7.1.1");
         setResizable(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setContentPane(mainPanel);
@@ -949,7 +949,7 @@ public class ApplicationGUI extends JFrame {
         final Spacer spacer22 = new Spacer();
         panel67.add(spacer22, new GridConstraints(6, 0, 1, 4, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         final JLabel label36 = new JLabel();
-        label36.setText("Version: 7.1.0");
+        label36.setText("Version: 7.1.1");
         panel67.add(label36, new GridConstraints(2, 0, 1, 4, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label37 = new JLabel();
         label37.setText("Author: Andrei Dodu");
