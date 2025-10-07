@@ -60,14 +60,13 @@ public class GithubDestinationEngineFromRemoteStrategy extends AbstractStrategyC
                 executorService.execute(() -> processItem(engineContext, repositoryDTO, githubClient, tokenOwnerLogin));
             }
 
-            threadUtil.waitUntilShutDownCompleted(executorService);
-
-            new UpdateStatusCommand(buildUpdateStatusContext(engineContext.callbackContainer(), repositoryDTOList.size(), super.getIndex(), String.format("done%s", calculateStatus(repositoryDTOList.size())))).execute();
-
-            callbackContainer.setShouldStop().accept(true);
-
-            return super.getIndex() == repositoryDTOList.size();
         }
+
+        new UpdateStatusCommand(buildUpdateStatusContext(engineContext.callbackContainer(), repositoryDTOList.size(), super.getIndex(), String.format("done%s", calculateStatus(repositoryDTOList.size())))).execute();
+
+        callbackContainer.setShouldStop().accept(true);
+
+        return super.getIndex() == repositoryDTOList.size();
     }
 
     private void processItem(EngineContext engineContext, RepositoryDTO repositoryDTO, GitHub githubClient, String tokenOwnerLogin) {

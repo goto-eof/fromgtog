@@ -45,15 +45,14 @@ public class LocalDestinationEngineFromRemoteStrategy extends AbstractStrategyCo
                 final RepositoryDTO finalRepositoryDTO = repositoryDTO;
                 executorService.execute(() -> processItem(engineContext, finalRepositoryDTO));
             }
-
-            threadUtil.waitUntilShutDownCompleted(executorService);
-
-            callbackContainer.updateApplicationStatusMessage().accept(String.format("done%s", calculateStatus(repositoryDTOList.size())));
-            callbackContainer.updateApplicationProgressBarMax().accept(repositoryDTOList.size());
-            callbackContainer.updateApplicationProgressBarCurrent().accept(super.getIndex());
-            callbackContainer.setShouldStop().accept(true);
-            return super.getIndex() == repositoryDTOList.size();
         }
+
+        callbackContainer.updateApplicationStatusMessage().accept(String.format("done%s", calculateStatus(repositoryDTOList.size())));
+        callbackContainer.updateApplicationProgressBarMax().accept(repositoryDTOList.size());
+        callbackContainer.updateApplicationProgressBarCurrent().accept(super.getIndex());
+
+        callbackContainer.setShouldStop().accept(true);
+        return super.getIndex() == repositoryDTOList.size();
     }
 
 

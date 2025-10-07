@@ -58,13 +58,12 @@ public class GenericDestinationEngineFromRemoteStrategy<ServiceType extends Gene
                 executorService.execute(() -> processItem(engineContext, repositoryDTO, login));
             }
 
-            threadUtil.waitUntilShutDownCompleted(executorService);
-
-            new UpdateStatusCommand(buildUpdateStatusContext(engineContext.callbackContainer(), repositoryDTOList.size(), super.getIndex(), String.format("done%s", calculateStatus(repositoryDTOList.size())))).execute();
-
-            callbackContainer.setShouldStop().accept(true);
-            return super.getIndex() == repositoryDTOList.size();
         }
+
+        new UpdateStatusCommand(buildUpdateStatusContext(engineContext.callbackContainer(), repositoryDTOList.size(), super.getIndex(), String.format("done%s", calculateStatus(repositoryDTOList.size())))).execute();
+
+        callbackContainer.setShouldStop().accept(true);
+        return super.getIndex() == repositoryDTOList.size();
     }
 
     private void processItem(EngineContext engineContext, RepositoryDTO repositoryDTO, String login) {
