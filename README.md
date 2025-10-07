@@ -26,6 +26,7 @@ others, that improve readability and **application modularity**, as well as addi
 remote cloning** and clone from/to Gitlab feature.
 
 <h2 id="news">News</h2>
+
 - 2025/10/07
   - refactor: remove useless code - now we have auto-closable resource so it is not necessary to close them manually
   - show version number on the title bar
