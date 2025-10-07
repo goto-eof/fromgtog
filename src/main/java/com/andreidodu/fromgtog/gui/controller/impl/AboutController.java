@@ -16,20 +16,25 @@ public class AboutController {
     public static final String URL_BUY_ME_COFFEE = "https://github.com/sponsors/goto-eof";
     public static final String URL_PROJECT_WEBSITE = "https://github.com/goto-eof/fromgtog";
     public static final String URL_REPORT_ISSUE = "https://github.com/goto-eof/fromgtog/issues";
+    public static final String URL_CONTACT_ME = "https://andre-i.eu/#contactme";
 
     Logger log = LoggerFactory.getLogger(AboutController.class);
     private JButton projectWebsiteButton;
     private JButton reportAnIssueButton;
     private JButton buyMeACoffeeButton;
+    private JButton contactMe;
 
     public AboutController(JButton projectWebsiteButton,
                            JButton reportAnIssueButton,
-                           JButton buyMeACoffeeButton) {
+                           JButton buyMeACoffeeButton,
+                           JButton contactMe) {
         this.projectWebsiteButton = projectWebsiteButton;
         this.reportAnIssueButton = reportAnIssueButton;
         this.buyMeACoffeeButton = buyMeACoffeeButton;
+        this.contactMe = contactMe;
         addProjectWebsiteButtonListener();
         addReportAnIssueButtonListener();
+        addContactMeButtonListener();
         addBuyMeACoffeeButtonListener();
     }
 
@@ -65,6 +70,12 @@ public class AboutController {
     public void addReportAnIssueButtonListener() {
         this.reportAnIssueButton.addActionListener(e -> {
             tryToOpenUrlCrossPlatform(URL_REPORT_ISSUE);
+        });
+    }
+
+    public void addContactMeButtonListener() {
+        this.contactMe.addActionListener(e -> {
+            tryToOpenUrlCrossPlatform(URL_CONTACT_ME);
         });
     }
 

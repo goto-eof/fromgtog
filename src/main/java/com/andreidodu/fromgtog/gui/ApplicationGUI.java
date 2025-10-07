@@ -95,6 +95,7 @@ public class ApplicationGUI extends JFrame {
     private JCheckBox multithreadingEnabled;
     private JButton clearLogFileButton;
     private JLabel timeLable;
+    private JButton contactMe;
 
     List<? extends JComponent> allComponentsList;
 
@@ -188,7 +189,8 @@ public class ApplicationGUI extends JFrame {
         return new AboutController(
                 projectWebsiteButton,
                 reportAnIssueButton,
-                buyMeACoffeeButton
+                buyMeACoffeeButton,
+                contactMe
         );
     }
 
@@ -963,7 +965,7 @@ public class ApplicationGUI extends JFrame {
         panel69.setLayout(new GridLayoutManager(3, 2, new Insets(0, 0, 0, 0), -1, -1));
         panel67.add(panel69, new GridConstraints(5, 0, 1, 4, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         final JPanel panel70 = new JPanel();
-        panel70.setLayout(new GridLayoutManager(3, 2, new Insets(20, 0, 0, 0), -1, -1));
+        panel70.setLayout(new GridLayoutManager(4, 2, new Insets(20, 0, 0, 0), -1, -1));
         panel69.add(panel70, new GridConstraints(0, 0, 3, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         projectWebsiteButton = new JButton();
         projectWebsiteButton.setText("Project website");
@@ -975,7 +977,10 @@ public class ApplicationGUI extends JFrame {
         panel70.add(reportAnIssueButton, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         buyMeACoffeeButton = new JButton();
         buyMeACoffeeButton.setText("Support my work");
-        panel70.add(buyMeACoffeeButton, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        panel70.add(buyMeACoffeeButton, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        contactMe = new JButton();
+        contactMe.setText("Contact me");
+        panel70.add(contactMe, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer26 = new Spacer();
         panel67.add(spacer26, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         final Spacer spacer27 = new Spacer();
