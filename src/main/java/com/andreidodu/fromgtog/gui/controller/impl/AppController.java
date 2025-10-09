@@ -271,6 +271,8 @@ public class AppController implements GUIController {
                     return;
                 }
 
+                saveSettings(allSettingsArr);
+
                 EngineContext engineContext = EngineContext.builder()
                         .settingsContext(translatorApp.translate(jsonObjectApp))
                         .fromContext(translatorFrom.translate(jsonObjectFrom))
@@ -288,8 +290,6 @@ public class AppController implements GUIController {
                                 .updateTimeLabel(this::updateTimeLabel)
                                 .build())
                         .build();
-
-                saveSettings(allSettingsArr);
 
                 RepositoryCloner repositoryCloner = RepositoryClonerServiceImpl.getInstance();
                 repositoryCloner.cloneAllRepositories(engineContext);
