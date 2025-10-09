@@ -33,13 +33,11 @@ public abstract class AbstractRule {
 
         if (value instanceof List list) {
             List<String> stringList = (List<String>) value;
-            invalidValuesList.addAll(stringList.stream()
-                    .filter(
-                            val -> !getPattern()
-                                    .matcher(val)
-                                    .matches()
-                    )
-                    .toList());
+            invalidValuesList.addAll(
+                    stringList.stream()
+                            .filter(this::isInvalid)
+                            .toList()
+            );
             return invalidValuesList.isEmpty();
         }
 
@@ -55,9 +53,15 @@ public abstract class AbstractRule {
         throw new IllegalArgumentException("Internal problem: invalid value. Please ask the developer for a fix (:");
     }
 
+    private boolean isInvalid(String val) {
+        return val == null || val.trim().isEmpty() || !getPattern()
+                .matcher(val)
+                .matches();
+    }
+
     protected abstract <T> T getValue();
 
-    protected abstract String getKey();
+    protected abstract <T> T getKey();
 
     protected abstract Pattern getPattern();
 
