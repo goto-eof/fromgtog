@@ -1,6 +1,7 @@
 package com.andreidodu.fromgtog.gui.validator;
 
 import com.andreidodu.fromgtog.gui.util.RegexUtil;
+import org.json.JSONObject;
 
 import java.util.regex.Pattern;
 
@@ -11,6 +12,9 @@ public class ValidSleepTimeRule extends AbstractRule {
     private static final String INVALID_MESSAGE = "Invalid 'sleep time'. Valid pattern is: " + PATTERN;
     private static final String KEY = APP_SLEEP_TIME;
 
+    public ValidSleepTimeRule(JSONObject json) {
+        super(json);
+    }
 
     protected String getKey() {
         return KEY;

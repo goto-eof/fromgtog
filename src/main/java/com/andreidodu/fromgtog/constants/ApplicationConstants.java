@@ -16,4 +16,5 @@ public interface ApplicationConstants {
     String TICKER_THREAD_NAME_PREFIX = "Mr.Timer";
     String ORCHESTRATOR_THREAD_NAME_PREFIX = "Mr.Orchestrator";
 
+    String LIST_ITEM_SEPARATOR = ",";
 }

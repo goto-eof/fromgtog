@@ -1,14 +1,15 @@
 package com.andreidodu.fromgtog.service.factory.from.engines;
 
+import com.andreidodu.fromgtog.constants.ApplicationConstants;
 import com.andreidodu.fromgtog.dto.*;
 import com.andreidodu.fromgtog.mapper.GitlabRepositoryMapper;
 import com.andreidodu.fromgtog.service.GitlabService;
 import com.andreidodu.fromgtog.service.factory.from.AbstractSourceEngine;
 import com.andreidodu.fromgtog.service.impl.GitlabServiceImpl;
 import com.andreidodu.fromgtog.type.EngineType;
+import com.andreidodu.fromgtog.util.StringUtil;
 import org.gitlab4j.api.models.Project;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -60,14 +61,8 @@ public class GitlabSourceEngine extends AbstractSourceEngine {
     }
 
     private String[] getExcludedOrganizations(FromContext fromContext) {
-        return (String[]) Arrays
-                .stream(
-                        Optional.ofNullable(fromContext.excludeOrganizations())
-                                .orElseGet(() -> "")
-                                .split(",")
-                )
-                .map(String::trim)
-                .<String>toArray(String[]::new);
+        return StringUtil.stringSeparatedByCommaToArray(Optional.ofNullable(fromContext.excludeOrganizations())
+                .orElseGet(() -> ""), ApplicationConstants.LIST_ITEM_SEPARATOR);
     }
 
 }

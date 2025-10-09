@@ -12,6 +12,7 @@ import com.andreidodu.fromgtog.gui.controller.translator.impl.JsonObjectToFromCo
 import com.andreidodu.fromgtog.gui.controller.translator.impl.JsonObjectToToContextTranslator;
 import com.andreidodu.fromgtog.gui.validator.AbstractRule;
 import com.andreidodu.fromgtog.gui.validator.ValidSleepTimeRule;
+import com.andreidodu.fromgtog.gui.validator.ValidOrganizationRule;
 import com.andreidodu.fromgtog.service.RepositoryCloner;
 import com.andreidodu.fromgtog.service.impl.RepositoryClonerServiceImpl;
 import com.andreidodu.fromgtog.service.impl.SettingsServiceImpl;
@@ -28,7 +29,6 @@ import javax.swing.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.regex.Matcher;
@@ -306,7 +306,8 @@ public class AppController implements GUIController {
 
     private List<String> validateSettings(JSONObject allSettings) {
         List<AbstractRule> ruleList = List.of(
-                new ValidSleepTimeRule()
+                new ValidSleepTimeRule(allSettings),
+                new ValidOrganizationRule(allSettings)
         );
 
         return ruleList.stream()
