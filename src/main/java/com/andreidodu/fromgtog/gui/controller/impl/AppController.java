@@ -226,7 +226,9 @@ public class AppController implements GUIController {
 
             List<String> errorList = validateSettings(allSettings);
             if (!errorList.isEmpty()) {
-                this.showErrorMessage("Something went wrong. " + String.join(System.lineSeparator(), errorList));
+                this.showErrorMessage("Something went wrong." + System.lineSeparator() + String.join(System.lineSeparator(), errorList));
+                setEnabledUI.accept(true);
+                setShouldStop(true);
                 return;
             }
             saveSettings(allSettings);
@@ -285,7 +287,9 @@ public class AppController implements GUIController {
 
                 List<String> errorList = validateSettings(allSettings);
                 if (!errorList.isEmpty()) {
-                    this.showErrorMessage("Something went wrong. " + String.join(System.lineSeparator(), errorList));
+                    this.showErrorMessage("Something went wrong. " + System.lineSeparator() + String.join(System.lineSeparator(), errorList));
+                    setEnabledUI.accept(true);
+                    setShouldStop(true);
                     return;
                 }
                 saveSettings(allSettingsArr);
@@ -301,8 +305,9 @@ public class AppController implements GUIController {
     }
 
     private List<String> validateSettings(JSONObject allSettings) {
-        List<AbstractRule> ruleList = new ArrayList<>();
-        ruleList.add(new ValidSleepTimeRule());
+        List<AbstractRule> ruleList = List.of(
+                new ValidSleepTimeRule()
+        );
 
         return ruleList.stream()
                 .filter(rule -> !rule.pass(allSettings))

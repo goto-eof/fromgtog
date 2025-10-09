@@ -7,11 +7,10 @@ import java.util.regex.Pattern;
 import static com.andreidodu.fromgtog.gui.controller.constants.GuiKeys.APP_SLEEP_TIME;
 
 public class ValidSleepTimeRule extends AbstractRule {
-    public static final String REGEX = RegexUtil.REGEX_NUMBER_0_120;
-    public static final String INVALID_MESSAGE = "Invalid 'sleep time'. Valid pattern is: " + REGEX;
-    public static final String KEY = APP_SLEEP_TIME;
+    private static final Pattern PATTERN = RegexUtil.REGEX_PATTERN_NUMBER_0_120;
+    private static final String INVALID_MESSAGE = "Invalid 'sleep time'. Valid pattern is: " + PATTERN;
+    private static final String KEY = APP_SLEEP_TIME;
 
-    public final static Pattern PATTERN = Pattern.compile(REGEX);
 
     protected String getKey() {
         return KEY;
