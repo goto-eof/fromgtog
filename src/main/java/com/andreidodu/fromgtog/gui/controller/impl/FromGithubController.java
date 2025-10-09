@@ -1,6 +1,7 @@
 package com.andreidodu.fromgtog.gui.controller.impl;
 
 import com.andreidodu.fromgtog.gui.controller.GUIFromController;
+import com.andreidodu.fromgtog.gui.util.GuiUtil;
 import com.andreidodu.fromgtog.type.EngineType;
 import lombok.Getter;
 import lombok.Setter;
@@ -50,6 +51,7 @@ public class FromGithubController implements GUIFromController {
         this.FromGithubChooseRepoFileButton = fromGithubChooseRepoFileButton;
 
         applySettings(settings);
+        GuiUtil.addActionListenerToChooseReposListFileButton(fromGithubChooseRepoFileButton, fromGithubIncludeRepoNamesListFile);
     }
 
     @Override

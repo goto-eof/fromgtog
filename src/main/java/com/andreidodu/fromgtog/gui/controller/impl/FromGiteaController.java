@@ -1,6 +1,7 @@
 package com.andreidodu.fromgtog.gui.controller.impl;
 
 import com.andreidodu.fromgtog.gui.controller.GUIFromController;
+import com.andreidodu.fromgtog.gui.util.GuiUtil;
 import com.andreidodu.fromgtog.type.EngineType;
 import lombok.Getter;
 import lombok.Setter;
@@ -46,13 +47,18 @@ public class FromGiteaController implements GUIFromController {
         this.fromGiteaCloneOrganizationsRepositoriesCheckBox = fromGiteaCloneOrganizationsRepositoriesCheckBox;
         this.fromGiteaExcludeOrganizationTextField = fromGiteaExcludeOrganizationTextField;
 
-        this.fromGiteaOptionsTabbedPane=fromGiteaOptionsTabbedPane;
-        this.fromGiteaExcludeRepoNamesListTextField =  fromGiteaExcludeRepoNamesListTextField;
+        this.fromGiteaOptionsTabbedPane = fromGiteaOptionsTabbedPane;
+        this.fromGiteaExcludeRepoNamesListTextField = fromGiteaExcludeRepoNamesListTextField;
         this.fromGiteaIncludeRepoNamesListFile = fromGiteaIncludeRepoNamesListFile;
         this.fromGiteaChooseRepoFileButton = fromGiteaChooseRepoFileButton;
 
         applySettings(settings);
+        GuiUtil.addActionListenerToChooseReposListFileButton(fromGiteaChooseRepoFileButton, fromGiteaIncludeRepoNamesListFile);
     }
+
+
+
+
 
     @Override
     public void applySettings(JSONObject settings) {

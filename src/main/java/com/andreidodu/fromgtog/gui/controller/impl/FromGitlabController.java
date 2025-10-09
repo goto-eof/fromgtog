@@ -1,6 +1,7 @@
 package com.andreidodu.fromgtog.gui.controller.impl;
 
 import com.andreidodu.fromgtog.gui.controller.GUIFromController;
+import com.andreidodu.fromgtog.gui.util.GuiUtil;
 import com.andreidodu.fromgtog.type.EngineType;
 import lombok.Getter;
 import lombok.Setter;
@@ -53,6 +54,7 @@ public class FromGitlabController implements GUIFromController {
         this.fromGitlabChooseRepoFileButton = fromGitlabChooseRepoFileButton;
 
         applySettings(settings);
+        GuiUtil.addActionListenerToChooseReposListFileButton(fromGitlabChooseRepoFileButton, fromGitlabIncludeRepoNamesListFile);
     }
 
 
