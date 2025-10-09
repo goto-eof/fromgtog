@@ -4,11 +4,12 @@ import java.util.regex.Pattern;
 
 public class RegexUtil {
 
-    private final static String REGEX_REPO_NAME = "^[\\w\\.\\-]+$";
-    private final static String REGEX_USERNAME = "^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){3,18}[a-zA-Z0-9]$";
-    private final static String REGEX_NUMBER_0_120 = "^[0-9][0-9]?$|^100$";
-    private final static String REGEX_AT_LEAST_ONE_CHAR = "^([0-9a-zA-Z_-]+)$";
+    private final static String REGEX_REPO_NAME = "^[a-zA-Z0-9._-]+$";
+    private final static String REGEX_USERNAME = "^[a-zA-Z0-9]([a-zA-Z0-9]|[._-][a-zA-Z0-9]){3,18}[a-zA-Z0-9]$";
+    private final static String REGEX_NUMBER_0_120 = "^(?:[1-9][0-9]?|1[01][0-9]|120|0)$";
+    private final static String REGEX_AT_LEAST_ONE_CHAR = "^[0-9a-zA-Z_-]+$";
     private final static String REGEX_FILE_PATH = "^/([^/]+)(/[^/]+)*$";
+    private final static String REGEX_DIR_PATH = "^/([^/]+)(/[^/]+)*\\**/?**\\$";
 
     public final static Pattern REGEX_PATTERN_REPO_NAME = Pattern.compile(REGEX_REPO_NAME);
     public final static Pattern REGEX_PATTERN_USERNAME = Pattern.compile(REGEX_USERNAME);
