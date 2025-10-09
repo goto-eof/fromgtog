@@ -1,8 +1,6 @@
 package com.andreidodu.fromgtog.gui.validator;
 
-import com.andreidodu.fromgtog.constants.ApplicationConstants;
 import com.andreidodu.fromgtog.gui.util.RegexUtil;
-import com.andreidodu.fromgtog.util.StringUtil;
 import org.json.JSONObject;
 
 import java.util.List;
