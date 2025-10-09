@@ -40,7 +40,11 @@ public class ValidRepoNameRule extends AbstractRule {
 
         validateOptionsTabbedPaneKey(optionsTabbedPaneKey);
 
-        return !isFilterTab(optionsTabbedPaneKey);
+        if (!isFilterTab(optionsTabbedPaneKey)) {
+            return false;
+        }
+
+        return true;
     }
 
     private void validateOptionsTabbedPaneKey(String optionsTabbedPaneKey) {

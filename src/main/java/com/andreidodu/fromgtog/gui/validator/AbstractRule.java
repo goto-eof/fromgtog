@@ -27,7 +27,7 @@ public abstract class AbstractRule {
 
     public abstract String getInvalidMessage();
 
-    public boolean pass() {
+    public boolean isValid() {
 
         var value = this.getValue();
 
