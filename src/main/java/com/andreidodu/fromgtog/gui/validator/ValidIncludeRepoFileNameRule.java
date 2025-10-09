@@ -2,6 +2,7 @@ package com.andreidodu.fromgtog.gui.validator;
 
 import com.andreidodu.fromgtog.gui.util.RegexUtil;
 import com.andreidodu.fromgtog.type.EngineOptionsType;
+import com.andreidodu.fromgtog.type.EngineType;
 import org.json.JSONObject;
 
 import java.util.List;
@@ -29,6 +30,10 @@ public class ValidIncludeRepoFileNameRule extends AbstractRule {
 
     @Override
     public boolean pass() {
+        if (!List.of(EngineType.GITHUB, EngineType.GITEA, EngineType.GITLAB).contains(EngineType.fromValue(getJson().getInt(FROM_TAB_INDEX)))) {
+            return true;
+        }
+
         String optionsTabbedPaneKey = super.getKey(OPTIONS_KEY_LIST);
 
         validateOptionsTabbedPaneKey(optionsTabbedPaneKey);

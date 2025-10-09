@@ -1,6 +1,7 @@
 package com.andreidodu.fromgtog.gui.validator;
 
 import com.andreidodu.fromgtog.gui.util.RegexUtil;
+import com.andreidodu.fromgtog.type.EngineType;
 import org.json.JSONObject;
 
 import java.util.List;
@@ -27,6 +28,16 @@ public class ValidTokenRule extends AbstractRule {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Internal problem: invalid key. Please ask the developer for a fix (:"));
     }
+
+    @Override
+    public boolean pass() {
+        if (!List.of(EngineType.GITHUB, EngineType.GITEA, EngineType.GITLAB).contains(EngineType.fromValue(getJson().getInt(FROM_TAB_INDEX)))) {
+            return true;
+        }
+
+        return super.pass();
+    }
+
 
     protected Pattern getPattern() {
         return PATTERN;

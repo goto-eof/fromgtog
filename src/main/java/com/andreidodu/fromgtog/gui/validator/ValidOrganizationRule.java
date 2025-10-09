@@ -2,7 +2,9 @@ package com.andreidodu.fromgtog.gui.validator;
 
 import com.andreidodu.fromgtog.constants.ApplicationConstants;
 import com.andreidodu.fromgtog.gui.util.RegexUtil;
+import com.andreidodu.fromgtog.service.factory.Engine;
 import com.andreidodu.fromgtog.type.EngineOptionsType;
+import com.andreidodu.fromgtog.type.EngineType;
 import com.andreidodu.fromgtog.util.StringUtil;
 import org.json.JSONObject;
 
@@ -31,6 +33,10 @@ public class ValidOrganizationRule extends AbstractRule {
 
     @Override
     public boolean pass() {
+        if (!List.of(EngineType.GITHUB, EngineType.GITEA, EngineType.GITLAB).contains(EngineType.fromValue(getJson().getInt(FROM_TAB_INDEX)))) {
+            return true;
+        }
+
         String optionsTabbedPaneKey = super.getKey(OPTIONS_KEY_LIST);
 
         validateOptionsTabbedPaneKey(optionsTabbedPaneKey);

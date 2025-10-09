@@ -1,0 +1,39 @@
+package com.andreidodu.fromgtog.gui.validator;
+
+import com.andreidodu.fromgtog.gui.util.RegexUtil;
+import org.json.JSONObject;
+
+import java.util.regex.Pattern;
+
+import static com.andreidodu.fromgtog.gui.controller.constants.GuiKeys.APP_SLEEP_TIME;
+import static com.andreidodu.fromgtog.gui.controller.constants.GuiKeys.FROM_LOCAL_ROOT_PATH;
+
+public class ValidRootPathRule extends AbstractRule {
+    private static final Pattern PATTERN = RegexUtil.REGEX_PATTERN_DIR_PATH;
+    private static final String INVALID_MESSAGE = "Invalid 'path'. Valid pattern is: " + PATTERN;
+
+    private final String key;
+
+    public ValidRootPathRule(JSONObject json, String key) {
+        super(json);
+        this.key = key;
+    }
+
+    protected String getKey() {
+        return key;
+    }
+
+    protected Pattern getPattern() {
+        return PATTERN;
+    }
+
+    public String getInvalidMessage() {
+        return INVALID_MESSAGE;
+    }
+
+    @Override
+    protected String getValue() {
+        return super.getJson().get(getKey()).toString();
+    }
+
+}
