@@ -11,10 +11,7 @@ import com.andreidodu.fromgtog.gui.controller.StrategyGUIController;
 import com.andreidodu.fromgtog.gui.controller.translator.impl.JsonObjectToAppContextTranslator;
 import com.andreidodu.fromgtog.gui.controller.translator.impl.JsonObjectToFromContextTranslator;
 import com.andreidodu.fromgtog.gui.controller.translator.impl.JsonObjectToToContextTranslator;
-import com.andreidodu.fromgtog.gui.validator.AbstractRule;
-import com.andreidodu.fromgtog.gui.validator.ValidOrganizationRule;
-import com.andreidodu.fromgtog.gui.validator.ValidRepoNameRule;
-import com.andreidodu.fromgtog.gui.validator.ValidSleepTimeRule;
+import com.andreidodu.fromgtog.gui.validator.*;
 import com.andreidodu.fromgtog.service.RepositoryCloner;
 import com.andreidodu.fromgtog.service.impl.RepositoryClonerServiceImpl;
 import com.andreidodu.fromgtog.service.impl.SettingsServiceImpl;
@@ -263,6 +260,16 @@ public class AppController implements GUIController {
                 JSONObject jsonObjectTo = retrieveJsonData(toControllerList, toTabbedPane.getSelectedIndex());
                 JSONObject jsonObjectApp = getDataFromChildren();
 
+                var allSettingsArr = new JSONObject[]{jsonObjectFrom, jsonObjectTo, jsonObjectApp};
+                JSONObject allSettings = JsonObjectServiceImpl.getInstance().merge(allSettingsArr);
+
+                List<String> errorList = validateSettings(allSettings);
+                if (!errorList.isEmpty()) {
+                    this.showErrorMessage("Something went wrong. " + System.lineSeparator() + String.join(System.lineSeparator(), errorList));
+                    setEnabledUI.accept(true);
+                    setShouldStop(true);
+                    return;
+                }
 
                 EngineContext engineContext = EngineContext.builder()
                         .settingsContext(translatorApp.translate(jsonObjectApp))
@@ -282,16 +289,6 @@ public class AppController implements GUIController {
                                 .build())
                         .build();
 
-                var allSettingsArr = new JSONObject[]{jsonObjectFrom, jsonObjectTo, jsonObjectApp};
-                JSONObject allSettings = JsonObjectServiceImpl.getInstance().merge(allSettingsArr);
-
-                List<String> errorList = validateSettings(allSettings);
-                if (!errorList.isEmpty()) {
-                    this.showErrorMessage("Something went wrong. " + System.lineSeparator() + String.join(System.lineSeparator(), errorList));
-                    setEnabledUI.accept(true);
-                    setShouldStop(true);
-                    return;
-                }
                 saveSettings(allSettingsArr);
 
                 RepositoryCloner repositoryCloner = RepositoryClonerServiceImpl.getInstance();
@@ -308,7 +305,8 @@ public class AppController implements GUIController {
         List<AbstractRule> ruleList = List.of(
                 new ValidSleepTimeRule(allSettings),
                 new ValidOrganizationRule(allSettings),
-                new ValidRepoNameRule(allSettings)
+                new ValidRepoNameRule(allSettings),
+                new ValidTokenRule(allSettings)
         );
 
         return ruleList.stream()

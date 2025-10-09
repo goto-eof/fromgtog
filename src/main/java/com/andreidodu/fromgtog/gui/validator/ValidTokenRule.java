@@ -10,16 +10,16 @@ import java.util.regex.Pattern;
 
 import static com.andreidodu.fromgtog.gui.controller.constants.GuiKeys.*;
 
-public class ValidRepoNameRule extends AbstractRule {
-    private static final Pattern PATTERN = RegexUtil.REGEX_PATTERN_REPO_NAME;
-    private static final String INVALID_MESSAGE = "Invalid 'repo name'. Valid pattern is: " + PATTERN;
+public class ValidTokenRule extends AbstractRule {
+    private static final Pattern PATTERN = RegexUtil.REGEX_PATTERN_AT_LEAST_ONE_CHAR;
+    private static final String INVALID_MESSAGE = "Invalid 'token'. Valid pattern is: " + PATTERN;
     private static final List<String> KEY_LIST = List.of(
-            FROM_GITEA_EXCLUDE_REPO_NAME_LIST,
-            FROM_GITHUB_EXCLUDE_REPO_NAME_LIST,
-            FROM_GITLAB_EXCLUDE_REPO_NAME_LIST
+            FROM_GITEA_TOKEN,
+            FROM_GITHUB_TOKEN,
+            FROM_GITLAB_TOKEN
     );
 
-    public ValidRepoNameRule(JSONObject json) {
+    public ValidTokenRule(JSONObject json) {
         super(json);
     }
 
@@ -39,8 +39,8 @@ public class ValidRepoNameRule extends AbstractRule {
     }
 
     @Override
-    protected List<String> getValue() {
-        return StringUtil.stringsSeparatedByCommaToList(getJson().getString(getKey()), ApplicationConstants.LIST_ITEM_SEPARATOR);
+    protected String getValue() {
+        return getJson().get(getKey()).toString();
     }
 
 }
