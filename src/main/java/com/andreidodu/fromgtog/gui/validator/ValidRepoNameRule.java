@@ -32,7 +32,8 @@ public class ValidRepoNameRule extends AbstractRule {
 
     @Override
     public boolean isApplicable() {
-        if (!List.of(EngineType.GITHUB, EngineType.GITEA, EngineType.GITLAB).contains(EngineType.fromValue(getJson().getInt(FROM_TAB_INDEX)))) {
+        if (!List.of(EngineType.GITHUB, EngineType.GITEA, EngineType.GITLAB)
+                .contains(EngineType.fromValue(getJson().getInt(FROM_TAB_INDEX)))) {
             return false;
         }
 
