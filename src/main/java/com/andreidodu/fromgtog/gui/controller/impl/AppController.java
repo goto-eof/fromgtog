@@ -133,6 +133,29 @@ public class AppController implements GUIController {
 
     }
 
+    private static File getLogFile() {
+        File appDataDir = ApplicationUtil.getApplicationRootDirectory();
+        File logDir = new File(appDataDir, LOG_DIR_NAME);
+        File logFile = new File(logDir, LOG_FILENAME);
+        return logFile;
+    }
+
+    private static <T extends StrategyGUIController> JSONObject retrieveJsonData(List<T> fromControllerList,
+                                                                                 int selectedIndex) {
+        return fromControllerList.stream()
+                .filter(controller -> controller.accept(selectedIndex))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Invalid tab index"))
+                .getDataFromChildren();
+    }
+
+    private static String correctMessageLength(String message) {
+        if (message.length() > 60) {
+            return message.substring(0, 60) + "...";
+        }
+        return message;
+    }
+
     private void defineClearLogFileButtonListener() {
         clearLogFileButton.addActionListener(e -> {
             File logFile = getLogFile();
@@ -160,13 +183,6 @@ public class AppController implements GUIController {
                 }
             }
         });
-    }
-
-    private static File getLogFile() {
-        File appDataDir = ApplicationUtil.getApplicationRootDirectory();
-        File logDir = new File(appDataDir, LOG_DIR_NAME);
-        File logFile = new File(logDir, LOG_FILENAME);
-        return logFile;
     }
 
     private void openLogFileOnLinux(String logFilename) {
@@ -326,7 +342,6 @@ public class AppController implements GUIController {
         });
     }
 
-
     private void saveSettings(JSONObject... jsonObjectArr) {
         log.debug("Saving settings...");
         JSONObject allSettings = JsonObjectServiceImpl.getInstance().merge(jsonObjectArr);
@@ -356,15 +371,6 @@ public class AppController implements GUIController {
         JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
     }
 
-    private static <T extends StrategyGUIController> JSONObject retrieveJsonData(List<T> fromControllerList,
-                                                                                 int selectedIndex) {
-        return fromControllerList.stream()
-                .filter(controller -> controller.accept(selectedIndex))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Invalid tab index"))
-                .getDataFromChildren();
-    }
-
     @Override
     public JSONObject getDataFromChildren() {
         JSONObject jsonObject = new JSONObject();
@@ -383,13 +389,6 @@ public class AppController implements GUIController {
         SwingUtilities.invokeLater(() -> messageStatus.setText(correctMessageLength(message)));
         SwingUtilities.invokeLater(() -> appLogTextArea.setText(String.format("%s\n%s", appLogTextArea.getText(), correctMessageLength(message))));
         log.info("{}", message);
-    }
-
-    private static String correctMessageLength(String message) {
-        if (message.length() > 60) {
-            return message.substring(0, 60) + "...";
-        }
-        return message;
     }
 
     private void updateApplicationProgressBarCurrent(int i) {

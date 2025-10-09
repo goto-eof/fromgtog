@@ -10,10 +10,6 @@ import java.io.IOException;
 
 public class NoHomeGitConfigSystemReader extends SystemReader {
 
-    public static synchronized void install() {
-        SystemReader.setInstance(new NoHomeGitConfigSystemReader());
-    }
-
     private File dummyFile;
 
     public NoHomeGitConfigSystemReader() {
@@ -23,6 +19,10 @@ public class NoHomeGitConfigSystemReader extends SystemReader {
         } catch (IOException e) {
             throw new RuntimeException("Failed to create dummy config file", e);
         }
+    }
+
+    public static synchronized void install() {
+        SystemReader.setInstance(new NoHomeGitConfigSystemReader());
     }
 
     @Override

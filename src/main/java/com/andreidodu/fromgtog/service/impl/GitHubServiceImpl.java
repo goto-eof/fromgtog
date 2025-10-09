@@ -15,9 +15,8 @@ import java.util.Map;
 
 public class GitHubServiceImpl implements GitHubService {
 
-    private Logger log = LoggerFactory.getLogger(GitHubServiceImpl.class);
-
     private static GitHubService instance;
+    private Logger log = LoggerFactory.getLogger(GitHubServiceImpl.class);
 
     public static synchronized GitHubService getInstance() {
         if (instance == null) {

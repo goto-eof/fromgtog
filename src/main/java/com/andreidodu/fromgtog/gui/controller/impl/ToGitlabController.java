@@ -14,11 +14,10 @@ import static com.andreidodu.fromgtog.gui.controller.constants.GuiKeys.*;
 @Setter
 public class ToGitlabController implements GUIToController {
 
+    final static int TAB_INDEX = EngineType.GITLAB.getValue();
     private JTextField toGitlabUrlTextField;
     private JTextField toGitlabTokenTextField;
     private JComboBox toGitlabPrivacyComboBox;
-
-    final static int TAB_INDEX = EngineType.GITLAB.getValue();
 
     public ToGitlabController(JSONObject settings, JTextField toGitlabUrlTextField, JTextField toGitlabTokenTextField, JComboBox toGitlabPrivacyComboBox) {
         this.toGitlabUrlTextField = toGitlabUrlTextField;

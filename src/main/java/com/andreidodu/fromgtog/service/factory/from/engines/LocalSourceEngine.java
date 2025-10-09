@@ -17,8 +17,8 @@ import java.nio.file.Paths;
 import java.util.List;
 
 public class LocalSourceEngine extends AbstractSourceEngine {
-    Logger log = LoggerFactory.getLogger(LocalSourceEngine.class);
     private final static EngineType SOURCE_ENGINE_TYPE = EngineType.LOCAL;
+    Logger log = LoggerFactory.getLogger(LocalSourceEngine.class);
 
     @Override
     public EngineType getEngineType() {

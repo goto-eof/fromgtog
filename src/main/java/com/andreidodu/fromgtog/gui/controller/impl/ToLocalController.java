@@ -9,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
-
 import java.io.File;
 
 import static com.andreidodu.fromgtog.gui.controller.constants.GuiKeys.*;
@@ -18,12 +17,11 @@ import static com.andreidodu.fromgtog.gui.controller.constants.GuiKeys.*;
 @Setter
 public class ToLocalController implements GUIToController {
 
+    final static int TAB_INDEX = EngineType.LOCAL.getValue();
     private final static Logger log = LoggerFactory.getLogger(ToLocalController.class);
-
     private JTextField toLocalRootPathTextField;
     private JCheckBox toLocalGroupByRepositoryOwnerCheckBox;
     private JButton toLocalChooseButton;
-    final static int TAB_INDEX = EngineType.LOCAL.getValue();
 
     public ToLocalController(JSONObject settings, JTextField toLocalRootPathTextField, JCheckBox toLocalGroupByRepositoryOwnerCheckBox, JButton toLocalChooseButton) {
         this.toLocalRootPathTextField = toLocalRootPathTextField;

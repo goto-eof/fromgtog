@@ -39,7 +39,7 @@ public class ValidIncludeRepoFileNameRule extends AbstractRule {
 
         validateOptionsTabbedPaneKey(optionsTabbedPaneKey);
 
-        if (!isFileTab(optionsTabbedPaneKey)){
+        if (!isFileTab(optionsTabbedPaneKey)) {
             return false;
         }
 

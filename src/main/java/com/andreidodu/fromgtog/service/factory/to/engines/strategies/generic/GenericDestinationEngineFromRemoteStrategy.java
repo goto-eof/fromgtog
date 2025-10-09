@@ -27,8 +27,8 @@ import static com.andreidodu.fromgtog.constants.ApplicationConstants.CLONER_THRE
 import static com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.commands.CommandCommon.*;
 
 public class GenericDestinationEngineFromRemoteStrategy<ServiceType extends GenericDestinationEngineFromStrategyService> extends AbstractStrategyCommon implements GenericDestinationEngineFromStrategyCommon {
-    Logger log = LoggerFactory.getLogger(GenericDestinationEngineFromRemoteStrategy.class);
     private final ServiceType service;
+    Logger log = LoggerFactory.getLogger(GenericDestinationEngineFromRemoteStrategy.class);
 
     public GenericDestinationEngineFromRemoteStrategy(ServiceType service) {
         this.service = service;

@@ -1,7 +1,6 @@
 package com.andreidodu.fromgtog.mapper;
 
 import com.andreidodu.fromgtog.dto.RepositoryDTO;
-import com.andreidodu.fromgtog.dto.gitea.GiteaRepositoryDTO;
 import org.apache.commons.lang3.BooleanUtils;
 import org.gitlab4j.api.models.Project;
 

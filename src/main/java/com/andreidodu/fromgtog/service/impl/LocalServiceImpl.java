@@ -1,10 +1,12 @@
 package com.andreidodu.fromgtog.service.impl;
 
-import com.andreidodu.fromgtog.config.NoHomeGitConfigSystemReader;
 import com.andreidodu.fromgtog.service.LocalService;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.transport.*;
+import org.eclipse.jgit.transport.PushResult;
+import org.eclipse.jgit.transport.RemoteRefUpdate;
+import org.eclipse.jgit.transport.URIish;
+import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,15 +17,18 @@ import java.util.*;
 import java.util.stream.StreamSupport;
 
 public class LocalServiceImpl implements LocalService {
-    Logger log = LoggerFactory.getLogger(LocalServiceImpl.class);
-
     private static LocalService instance;
+    Logger log = LoggerFactory.getLogger(LocalServiceImpl.class);
 
     public static LocalService getInstance() {
         if (instance == null) {
             instance = new LocalServiceImpl();
         }
         return instance;
+    }
+
+    private static File getFile(String pathString) {
+        return new File(pathString);
     }
 
     @Override
@@ -63,10 +68,6 @@ public class LocalServiceImpl implements LocalService {
     private boolean isGitRepository(File path) {
         File gitDir = new File(path, ".git");
         return gitDir.exists() && gitDir.isDirectory();
-    }
-
-    private static File getFile(String pathString) {
-        return new File(pathString);
     }
 
     @Override

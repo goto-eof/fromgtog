@@ -28,6 +28,10 @@ public class RepositoryClonerServiceImpl implements RepositoryCloner {
         return instance;
     }
 
+    private static void validateInput(EngineContext engineContext) {
+        // TODO
+    }
+
     @Override
     public boolean cloneAllRepositories(EngineContext engineContext) {
         validateInput(engineContext);
@@ -68,11 +72,6 @@ public class RepositoryClonerServiceImpl implements RepositoryCloner {
                 }
         );
     }
-
-    private static void validateInput(EngineContext engineContext) {
-        // TODO
-    }
-
 
     private boolean cloneFromAndTo(EngineContext engineContext, SourceEngine sourceEngine, DestinationEngine destinationEngine) {
         List<RepositoryDTO> repositories = sourceEngine.retrieveRepositoryList(engineContext);

@@ -1,10 +1,10 @@
 package com.andreidodu.fromgtog.gui.controller.translator.impl;
 
 import com.andreidodu.fromgtog.dto.FromContext;
+import com.andreidodu.fromgtog.gui.controller.translator.JsonObjectToRecordTranslator;
 import com.andreidodu.fromgtog.service.GitHubService;
 import com.andreidodu.fromgtog.service.impl.GitHubServiceImpl;
 import com.andreidodu.fromgtog.service.impl.GiteaServiceImpl;
-import com.andreidodu.fromgtog.gui.controller.translator.JsonObjectToRecordTranslator;
 import com.andreidodu.fromgtog.service.impl.GitlabServiceImpl;
 import com.andreidodu.fromgtog.type.EngineType;
 import org.json.JSONException;
@@ -14,6 +14,12 @@ import org.kohsuke.github.GitHub;
 import static com.andreidodu.fromgtog.gui.controller.constants.GuiKeys.*;
 
 public class JsonObjectToFromContextTranslator implements JsonObjectToRecordTranslator<FromContext> {
+    private static String getGitHubLogin(JSONObject jsonObject) {
+        GitHubService gitHubService = GitHubServiceImpl.getInstance();
+        GitHub githubClient = gitHubService.retrieveGitHubClient(jsonObject.getString(FROM_GITHUB_TOKEN));
+        return gitHubService.retrieveGitHubMyself(githubClient).getLogin();
+    }
+
     @Override
     public FromContext translate(JSONObject jsonObject) throws JSONException {
         EngineType engineType = jsonObject.getEnum(EngineType.class, ENGINE_TYPE);
@@ -73,7 +79,6 @@ public class JsonObjectToFromContextTranslator implements JsonObjectToRecordTran
         );
     }
 
-
     private FromContext buildFromGitlabContext(EngineType engineType, JSONObject jsonObject) {
         String giteaLogin = getGitlabLogin(jsonObject);
         return new FromContext(
@@ -116,11 +121,5 @@ public class JsonObjectToFromContextTranslator implements JsonObjectToRecordTran
                 jsonObject.getString(FROM_GITHUB_EXCLUDE_ORGANIZATIONS),
                 null
         );
-    }
-
-    private static String getGitHubLogin(JSONObject jsonObject) {
-        GitHubService gitHubService = GitHubServiceImpl.getInstance();
-        GitHub githubClient = gitHubService.retrieveGitHubClient(jsonObject.getString(FROM_GITHUB_TOKEN));
-        return gitHubService.retrieveGitHubMyself(githubClient).getLogin();
     }
 }

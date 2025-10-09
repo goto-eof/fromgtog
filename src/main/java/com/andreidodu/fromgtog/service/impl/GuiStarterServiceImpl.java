@@ -16,59 +16,17 @@ import java.util.stream.Collectors;
 
 public class GuiStarterServiceImpl implements GuiStarterService {
 
-    private static final Logger log = LoggerFactory.getLogger(GuiStarterServiceImpl.class);
-
     public static final String THEME_METAL_JAVA_IMPROVED = "Metal";
     public static final String THEME_CDE_MOTIF_WINDOWS_95 = "CDE/Motif";
     public static final String THEME_GTK_PLUS = "GTK+";
     public static final String THEME_NIMBUS = "Nimbus";
-
     public static final List<String> knownThemesLowerCase = List.of(
             THEME_NIMBUS.toLowerCase(),
             THEME_GTK_PLUS.toLowerCase(),
             THEME_CDE_MOTIF_WINDOWS_95.toLowerCase(),
             THEME_METAL_JAVA_IMPROVED.toLowerCase()
     );
-
-    @Override
-    public void start() {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    applyPreferredTheme();
-                } catch (Exception e) {
-                    log.error("GUI error: {}", e.getMessage());
-                    tryToApplyDefaultTheme();
-                }
-                new ApplicationGUI();
-            }
-        });
-    }
-
-    private void tryToApplyDefaultTheme() {
-        try {
-            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-        } catch (Exception ex) {
-            log.error("GUI error: {}", ex.getMessage());
-        }
-    }
-
-
-    private List<String> getSystemThemeNamesLowerCase(UIManager.LookAndFeelInfo[] installedLookAndFeels) {
-        return Arrays.stream(installedLookAndFeels)
-                .map(UIManager.LookAndFeelInfo::getName)
-                .map(String::toLowerCase)
-                .collect(Collectors.toList());
-    }
-
-    private void applyPreferredTheme() {
-        UIManager.LookAndFeelInfo[] installedLookAndFeels = UIManager.getInstalledLookAndFeels();
-        JSONObject settings = SettingsServiceImpl.getInstance().load();
-        Optional.ofNullable(settings.optString("theme"))
-                .filter(themeName -> !themeName.isEmpty())
-                .filter(theme -> getSystemThemeNamesLowerCase(installedLookAndFeels).contains(theme.toLowerCase()))
-                .ifPresentOrElse(GuiStarterServiceImpl::applyTheme, () -> applyDefaultTheme(installedLookAndFeels, settings));
-    }
+    private static final Logger log = LoggerFactory.getLogger(GuiStarterServiceImpl.class);
 
     public static void applyTheme(String themeName) {
         UIManager.LookAndFeelInfo[] installedLookAndFeels = UIManager.getInstalledLookAndFeels();
@@ -145,9 +103,47 @@ public class GuiStarterServiceImpl implements GuiStarterService {
         SettingsServiceImpl.getInstance().save(jsonObject);
     }
 
-
     private static Optional<UIManager.LookAndFeelInfo> findTheme(UIManager.LookAndFeelInfo[] installedLookAndFeels, String themeName) {
         return Arrays.stream(installedLookAndFeels).filter(info -> themeName.equalsIgnoreCase(info.getName())).findFirst();
+    }
+
+    @Override
+    public void start() {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    applyPreferredTheme();
+                } catch (Exception e) {
+                    log.error("GUI error: {}", e.getMessage());
+                    tryToApplyDefaultTheme();
+                }
+                new ApplicationGUI();
+            }
+        });
+    }
+
+    private void tryToApplyDefaultTheme() {
+        try {
+            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+        } catch (Exception ex) {
+            log.error("GUI error: {}", ex.getMessage());
+        }
+    }
+
+    private List<String> getSystemThemeNamesLowerCase(UIManager.LookAndFeelInfo[] installedLookAndFeels) {
+        return Arrays.stream(installedLookAndFeels)
+                .map(UIManager.LookAndFeelInfo::getName)
+                .map(String::toLowerCase)
+                .collect(Collectors.toList());
+    }
+
+    private void applyPreferredTheme() {
+        UIManager.LookAndFeelInfo[] installedLookAndFeels = UIManager.getInstalledLookAndFeels();
+        JSONObject settings = SettingsServiceImpl.getInstance().load();
+        Optional.ofNullable(settings.optString("theme"))
+                .filter(themeName -> !themeName.isEmpty())
+                .filter(theme -> getSystemThemeNamesLowerCase(installedLookAndFeels).contains(theme.toLowerCase()))
+                .ifPresentOrElse(GuiStarterServiceImpl::applyTheme, () -> applyDefaultTheme(installedLookAndFeels, settings));
     }
 
 }

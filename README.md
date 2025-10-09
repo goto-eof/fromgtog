@@ -41,7 +41,8 @@ remote cloning** and clone from/to Gitlab feature.
       time, I will release the new version of FromGtoG only on the Ubuntu App Center.
 
       About 2-3 days ago I played with Java Virtual Threads. I wanted to decrease the cloning process time. I succeeded
-      to get a few seconds less than Platform Threads. Because the improvement was not significant (there is a bottleneck in an external library), I decided to avoid
+      to get a few seconds less than Platform Threads. Because the improvement was not significant (there is a
+      bottleneck in an external library), I decided to avoid
       to include this new feature into FromGtoG application.
 - 2025/06/23 - I discovered that FromGtoG `.deb` package was not working on Debian 10. I rebuilt the package on Debian
     10. So, now it should work on both Ubuntu latest and Debian 10. I apologize for the inconvenience. Please ping me if
@@ -139,7 +140,7 @@ jpackage --type deb --name "FromGtoG" --vendor "Andrei Dodu" --app-version "8.0.
 jar tvf fromgtog.jar 
 ```
 
-### Generate and upload snap file - useful especially for me (: 
+### Generate and upload snap file - useful especially for me (:
 
 ```bash
 sudo snap remove fromgtog && snapcraft clean && snapcraft && sudo snap install fromgtog_8.0.0_amd64.snap --dangerous && fromgtog

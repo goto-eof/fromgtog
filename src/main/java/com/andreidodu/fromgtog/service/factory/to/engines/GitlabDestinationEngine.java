@@ -14,8 +14,8 @@ import java.util.List;
 
 public class GitlabDestinationEngine extends AbstractDestinationEngine {
 
-    private final static EngineType DESTINATION_ENGINE_TYPE = EngineType.GITLAB;
     public static final List<DestinationEngineStrategy> STRATEGIES_LIST;
+    private final static EngineType DESTINATION_ENGINE_TYPE = EngineType.GITLAB;
 
     static {
         GenericDestinationEngineFromStrategyService gitlabService = GitlabServiceImpl.getInstance();

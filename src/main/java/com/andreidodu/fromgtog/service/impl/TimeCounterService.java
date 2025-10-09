@@ -16,11 +16,11 @@ import static com.andreidodu.fromgtog.constants.ApplicationConstants.TICKER_THRE
 
 public class TimeCounterService {
 
+    private static final AtomicBoolean timeEnabled = new AtomicBoolean(false);
     @Getter
     @Setter
     private ScheduledExecutorService timeExecutorService;
     private Long startTime = 0L;
-    private static final AtomicBoolean timeEnabled = new AtomicBoolean(false);
 
     public TimeCounterService(Consumer<String> updateTimeLabel) {
         CustomThreadFactory customThreadFactory = new CustomThreadFactory(TICKER_THREAD_NAME_PREFIX);

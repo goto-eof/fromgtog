@@ -7,9 +7,9 @@ import com.andreidodu.fromgtog.dto.RepositoryDTO;
 import com.andreidodu.fromgtog.exception.CloningSourceException;
 import com.andreidodu.fromgtog.mapper.GithubRepositoryMapper;
 import com.andreidodu.fromgtog.service.GitHubService;
+import com.andreidodu.fromgtog.service.factory.from.AbstractSourceEngine;
 import com.andreidodu.fromgtog.service.factory.from.engines.common.SourceEngineCommon;
 import com.andreidodu.fromgtog.service.impl.GitHubServiceImpl;
-import com.andreidodu.fromgtog.service.factory.from.AbstractSourceEngine;
 import com.andreidodu.fromgtog.type.EngineType;
 import org.apache.commons.lang3.tuple.Pair;
 import org.kohsuke.github.GHMyself;
@@ -26,6 +26,14 @@ public class GithubSourceEngine extends AbstractSourceEngine {
 
     private final static EngineType SOURCE_ENGINE_TYPE = EngineType.GITHUB;
     private final GitHubService gitHubService = GitHubServiceImpl.getInstance();
+
+    private static Pair<GHRepository, GHUser> buildPair(GHRepository ghRepository) {
+        try {
+            return Pair.of(ghRepository, ghRepository.getOwner());
+        } catch (IOException e) {
+            throw new CloningSourceException("Unable to retrieve GitHub repository owner(1).", e);
+        }
+    }
 
     @Override
     public EngineType getEngineType() {
@@ -85,14 +93,6 @@ public class GithubSourceEngine extends AbstractSourceEngine {
         callbackContainer.updateApplicationStatusMessage().accept("All repositories information were retrieved.");
 
         return repositoryDTOList;
-    }
-
-    private static Pair<GHRepository, GHUser> buildPair(GHRepository ghRepository) {
-        try {
-            return Pair.of(ghRepository, ghRepository.getOwner());
-        } catch (IOException e) {
-            throw new CloningSourceException("Unable to retrieve GitHub repository owner(1).", e);
-        }
     }
 
     private boolean isOrganizationInBlacklist(GHUser repositoryUser, List<String> blackListOrganizationsList) {

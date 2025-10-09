@@ -34,6 +34,51 @@ public class GitlabServiceImpl implements GitlabService {
         return getInstance();
     }
 
+    private static Set<Long> retrieveForkedProjects(GitLabApi gitLabApi) throws GitLabApiException {
+        Set<Long> forkedProjects = gitLabApi.getProjectApi()
+                .getMemberProjects()
+                .stream()
+                .filter(p -> p.getForkedFromProject() != null)
+                .map(Project::getId)
+                .collect(Collectors.toSet());
+        return forkedProjects;
+    }
+
+    private static Set<Long> retrieveProjectsByVisibility(GitLabApi gitLabApi, Visibility visibility, boolean isOwned, boolean isForked, boolean isArchived, boolean isStarred, boolean isOrganization, String[] excluded) throws GitLabApiException {
+        Stream<Project> stream = gitLabApi.getProjectApi()
+                .getProjects(
+                        isArchived,
+                        visibility,
+                        "ID",
+                        "DESC",
+                        null,
+                        true,
+                        isOwned,
+                        isOwned,
+                        isStarred,
+                        false
+                )
+                .stream();
+
+        if (isOrganization) {
+            stream = filterByOrganization(excluded, stream);
+        }
+
+        if (!isForked) {
+            stream = stream.filter(project -> project.getForkedFromProject() == null);
+        }
+
+        return stream
+                .map(Project::getId)
+                .collect(Collectors.toSet());
+    }
+
+    private static Stream<Project> filterByOrganization(String[] excluded, Stream<Project> stream) {
+        stream = stream
+                .filter(project -> Arrays.stream(excluded).noneMatch(ex -> ex.equalsIgnoreCase(project.getNamespace().getFullPath().toLowerCase())));
+        return stream;
+    }
+
     @Override
     public User getMyself(String token, String urlString) {
         try {
@@ -131,51 +176,6 @@ public class GitlabServiceImpl implements GitlabService {
                 throw new CloningSourceException("Error while trying to retrieve repositories", e);
             }
         }).toList();
-    }
-
-    private static Set<Long> retrieveForkedProjects(GitLabApi gitLabApi) throws GitLabApiException {
-        Set<Long> forkedProjects = gitLabApi.getProjectApi()
-                .getMemberProjects()
-                .stream()
-                .filter(p -> p.getForkedFromProject() != null)
-                .map(Project::getId)
-                .collect(Collectors.toSet());
-        return forkedProjects;
-    }
-
-    private static Set<Long> retrieveProjectsByVisibility(GitLabApi gitLabApi, Visibility visibility, boolean isOwned, boolean isForked, boolean isArchived, boolean isStarred, boolean isOrganization, String[] excluded) throws GitLabApiException {
-        Stream<Project> stream = gitLabApi.getProjectApi()
-                .getProjects(
-                        isArchived,
-                        visibility,
-                        "ID",
-                        "DESC",
-                        null,
-                        true,
-                        isOwned,
-                        isOwned,
-                        isStarred,
-                        false
-                )
-                .stream();
-
-        if (isOrganization) {
-            stream = filterByOrganization(excluded, stream);
-        }
-
-        if (!isForked) {
-            stream = stream.filter(project -> project.getForkedFromProject() == null);
-        }
-
-        return stream
-                .map(Project::getId)
-                .collect(Collectors.toSet());
-    }
-
-    private static Stream<Project> filterByOrganization(String[] excluded, Stream<Project> stream) {
-        stream = stream
-                .filter(project -> Arrays.stream(excluded).noneMatch(ex -> ex.equalsIgnoreCase(project.getNamespace().getFullPath().toLowerCase())));
-        return stream;
     }
 
     private List<Project> addStarredProjects(GitLabApi gitLabApi) throws GitLabApiException {
