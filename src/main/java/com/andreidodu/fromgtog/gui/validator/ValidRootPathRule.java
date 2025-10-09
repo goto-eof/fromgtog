@@ -4,11 +4,10 @@ import com.andreidodu.fromgtog.gui.util.RegexUtil;
 import com.andreidodu.fromgtog.type.EngineType;
 import org.json.JSONObject;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-import static com.andreidodu.fromgtog.gui.controller.constants.GuiKeys.*;
+import static com.andreidodu.fromgtog.gui.controller.constants.GuiKeys.FROM_TAB_INDEX;
 
 public class ValidRootPathRule extends AbstractRule {
     private static final Pattern PATTERN = RegexUtil.REGEX_PATTERN_DIR_PATH;
