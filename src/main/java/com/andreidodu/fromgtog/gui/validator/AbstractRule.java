@@ -58,4 +58,11 @@ public abstract class AbstractRule {
     protected abstract Pattern getPattern();
 
 
+    protected String getKey(List<String> keyList) {
+        return keyList.stream()
+                .filter(key -> getJson().keySet().contains(key))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Internal problem: invalid key. Please ask the developer for a fix (:"));
+    }
+
 }

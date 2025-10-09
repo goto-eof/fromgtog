@@ -2,8 +2,8 @@ package com.andreidodu.fromgtog.gui.validator;
 
 import com.andreidodu.fromgtog.constants.ApplicationConstants;
 import com.andreidodu.fromgtog.gui.util.RegexUtil;
+import com.andreidodu.fromgtog.type.EngineOptionsType;
 import com.andreidodu.fromgtog.util.StringUtil;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.List;
@@ -14,21 +14,47 @@ import static com.andreidodu.fromgtog.gui.controller.constants.GuiKeys.*;
 public class ValidOrganizationRule extends AbstractRule {
     private static final Pattern PATTERN = RegexUtil.REGEX_PATTERN_USERNAME;
     private static final String INVALID_MESSAGE = "Invalid 'username'. Valid pattern is: " + PATTERN;
-    private static final List<String> KEY_LIST = List.of(
+    private static final List<String> ORGANIZATION_KEY_LIST = List.of(
             FROM_GITEA_EXCLUDE_ORGANIZATIONS,
             FROM_GITHUB_EXCLUDE_ORGANIZATIONS,
             FROM_GITLAB_EXCLUDE_ORGANIZATIONS
+    );
+    private static final List<String> OPTIONS_KEY_LIST = List.of(
+            FROM_GITEA_OPTIONS_TABBED_PANE_INDEX,
+            FROM_GITLAB_OPTIONS_TABBED_PANE_INDEX,
+            FROM_GITHUB_OPTIONS_TABBED_PANE_INDEX
     );
 
     public ValidOrganizationRule(JSONObject json) {
         super(json);
     }
 
+    @Override
+    public boolean pass() {
+        String optionsTabbedPaneKey = super.getKey(OPTIONS_KEY_LIST);
+
+        validateOptionsTabbedPaneKey(optionsTabbedPaneKey);
+
+        if (isNotFilterTab(optionsTabbedPaneKey)) {
+            return true;
+        }
+
+        return super.pass();
+    }
+
+    private void validateOptionsTabbedPaneKey(String optionsTabbedPaneKey) {
+        if (getJson().isNull(optionsTabbedPaneKey)) {
+            throw new IllegalArgumentException("Invalid selected option, please contact the developer (:");
+        }
+    }
+
+    private boolean isNotFilterTab(final String optionsKey) {
+        return EngineOptionsType.FILTER != EngineOptionsType.fromValue(getJson().getInt(optionsKey));
+    }
+
+    @Override
     protected String getKey() {
-        return KEY_LIST.stream()
-                .filter(key -> super.getJson().keySet().contains(key))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Internal problem: invalid key. Please ask the developer for a fix (:"));
+        return super.getKey(ORGANIZATION_KEY_LIST);
     }
 
     protected Pattern getPattern() {
