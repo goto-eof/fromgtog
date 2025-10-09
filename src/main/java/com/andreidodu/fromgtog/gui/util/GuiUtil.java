@@ -1,6 +1,5 @@
 package com.andreidodu.fromgtog.gui.util;
 
-import com.andreidodu.fromgtog.gui.controller.impl.FromGiteaController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
