@@ -44,9 +44,10 @@ public class FromGithubController implements GUIFromController {
         this.fromGithubClonePublicRepositoriesCheckBox = fromGithubClonePublicRepositoriesCheckBox;
         this.fromGithubCloneArchivedRepositoriesCheckBox = fromGithubCloneArchivedRepositoriesCheckBox;
         this.fromGithubCloneOrganizationSRepositoriesCheckBox = fromGithubCloneOrganizationSRepositoriesCheckBox;
+        this.fromGithubExcludeOrganizationTextField = fromGithubExcludeOrganizationTextField;
 
         this.fromGithubOptionsTabbedPane = fromGithubOptionsTabbedPane;
-        this.fromGithubExcludeOrganizationTextField = fromGithubExcludeRepoNamesListTextField;
+        this.fromGithubExcludeRepoNamesListTextField = fromGithubExcludeRepoNamesListTextField;
         this.fromGithubIncludeRepoNamesListFile = fromGithubIncludeRepoNamesListFile;
         this.FromGithubChooseRepoFileButton = fromGithubChooseRepoFileButton;
 
@@ -64,6 +65,10 @@ public class FromGithubController implements GUIFromController {
         fromGithubCloneArchivedRepositoriesCheckBox.setSelected(settings.optBooleanObject(FROM_GITHUB_CLONE_ARCHIVED_REPO_FLAG));
         fromGithubCloneOrganizationSRepositoriesCheckBox.setSelected(settings.optBooleanObject(FROM_GITHUB_CLONE_ORGANIZATIONS_REPO_FLAG));
         fromGithubExcludeOrganizationTextField.setText(settings.optString(FROM_GITHUB_EXCLUDE_ORGANIZATIONS));
+
+        fromGithubOptionsTabbedPane.setSelectedIndex(settings.optInt(FROM_GITHUB_OPTIONS_TABBED_PANE_INDEX));
+        fromGithubExcludeRepoNamesListTextField.setText(settings.optString(FROM_GITHUB_EXCLUDE_REPO_NAME_LIST));
+        fromGithubIncludeRepoNamesListFile.setText(settings.optString(FROM_GITHUB_INCLUDE_REPO_NAMES_LIST_FILE));
     }
 
     @Override
@@ -84,6 +89,10 @@ public class FromGithubController implements GUIFromController {
         jsonObject.put(FROM_GITHUB_CLONE_ORGANIZATIONS_REPO_FLAG, fromGithubCloneOrganizationSRepositoriesCheckBox.isSelected());
         jsonObject.put(FROM_GITHUB_EXCLUDE_ORGANIZATIONS, fromGithubExcludeOrganizationTextField.getText());
         jsonObject.put(ENGINE_TYPE, EngineType.fromValue(TAB_INDEX));
+
+        jsonObject.put(FROM_GITHUB_OPTIONS_TABBED_PANE_INDEX, fromGithubOptionsTabbedPane.getSelectedIndex());
+        jsonObject.put(FROM_GITHUB_EXCLUDE_REPO_NAME_LIST, fromGithubExcludeRepoNamesListTextField.getText());
+        jsonObject.put(FROM_GITHUB_INCLUDE_REPO_NAMES_LIST_FILE, fromGithubIncludeRepoNamesListFile.getText());
 
         return jsonObject;
     }

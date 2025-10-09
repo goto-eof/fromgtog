@@ -14,6 +14,9 @@ public interface GuiKeys {
     String FROM_GITEA_CLONE_ARCHIVED_REPO_FLAG = "from.gitea.clone-archived-repo-flag";
     String FROM_GITEA_CLONE_ORGANIZATIONS_REPO_FLAG = "from.gitea.clone-organizations-repo-flag";
     String FROM_GITEA_EXCLUDE_ORGANIZATIONS = "from.gitea.exclude-organizations";
+    String FROM_GITEA_OPTIONS_TABBED_PANE_INDEX = "from.gitea.options-tabbed-pane-index";
+    String FROM_GITEA_EXCLUDE_REPO_NAME_LIST = "from.gitea.exclude-repo-name-list";
+    String FROM_GITEA_INCLUDE_REPO_NAMES_LIST_FILE = "from.gitea.include-repo-names-list-file";
 
     String FROM_GITLAB_URL = "from.gitlab.url";
     String FROM_GITLAB_TOKEN = "from.gitlab.token";
@@ -24,6 +27,9 @@ public interface GuiKeys {
     String FROM_GITLAB_CLONE_ARCHIVED_REPO_FLAG = "from.gitlab.clone-archived-repo-flag";
     String FROM_GITLAB_CLONE_ORGANIZATIONS_REPO_FLAG = "from.gitlab.clone-organizations-repo-flag";
     String FROM_GITLAB_EXCLUDE_ORGANIZATIONS = "from.gitlab.exclude-organizations";
+    String FROM_GITLAB_OPTIONS_TABBED_PANE_INDEX = "from.gitlab.options-tabbed-pane-index";
+    String FROM_GITLAB_EXCLUDE_REPO_NAME_LIST = "from.gitlab.exclude-repo-name-list";
+    String FROM_GITLAB_INCLUDE_REPO_NAMES_LIST_FILE = "from.gitlab.include-repo-names-list-file";
 
     String FROM_GITHUB_TOKEN = "from.github.token";
     String FROM_GITHUB_CLONE_STARRED_REPO_FLAG = "from.github.clone-starred-repo-flag";
@@ -33,6 +39,9 @@ public interface GuiKeys {
     String FROM_GITHUB_CLONE_ARCHIVED_REPO_FLAG = "from.github.clone-archived-repo-flag";
     String FROM_GITHUB_CLONE_ORGANIZATIONS_REPO_FLAG = "from.github.clone-organizations-repo-flag";
     String FROM_GITHUB_EXCLUDE_ORGANIZATIONS = "from.github.exclude-organizations";
+    String FROM_GITHUB_OPTIONS_TABBED_PANE_INDEX = "from.github.options-tabbed-pane-index";
+    String FROM_GITHUB_EXCLUDE_REPO_NAME_LIST = "from.github.exclude-repo-name-list";
+    String FROM_GITHUB_INCLUDE_REPO_NAMES_LIST_FILE = "from.github.include-repo-names-list-file";
 
     String FROM_LOCAL_ROOT_PATH = "from.local.root-path";
 

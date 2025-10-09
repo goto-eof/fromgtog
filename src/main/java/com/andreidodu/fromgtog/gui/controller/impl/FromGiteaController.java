@@ -57,9 +57,6 @@ public class FromGiteaController implements GUIFromController {
     }
 
 
-
-
-
     @Override
     public void applySettings(JSONObject settings) {
         fromGiteaUrlTextField.setText(settings.optString(FROM_GITEA_URL));
@@ -71,6 +68,10 @@ public class FromGiteaController implements GUIFromController {
         fromGiteaCloneArchivedRepositoriesCheckBox.setSelected(settings.optBooleanObject(FROM_GITEA_CLONE_ARCHIVED_REPO_FLAG));
         fromGiteaCloneOrganizationsRepositoriesCheckBox.setSelected(settings.optBooleanObject(FROM_GITEA_CLONE_ORGANIZATIONS_REPO_FLAG));
         fromGiteaExcludeOrganizationTextField.setText(settings.optString(FROM_GITEA_EXCLUDE_ORGANIZATIONS));
+
+        fromGiteaOptionsTabbedPane.setSelectedIndex(settings.optInt(FROM_GITEA_OPTIONS_TABBED_PANE_INDEX));
+        fromGiteaExcludeRepoNamesListTextField.setText(settings.optString(FROM_GITEA_EXCLUDE_REPO_NAME_LIST));
+        fromGiteaIncludeRepoNamesListFile.setText(settings.optString(FROM_GITEA_INCLUDE_REPO_NAMES_LIST_FILE));
 
     }
 
@@ -93,6 +94,11 @@ public class FromGiteaController implements GUIFromController {
         jsonObject.put(FROM_GITEA_CLONE_ORGANIZATIONS_REPO_FLAG, fromGiteaCloneOrganizationsRepositoriesCheckBox.isSelected());
         jsonObject.put(FROM_GITEA_EXCLUDE_ORGANIZATIONS, fromGiteaExcludeOrganizationTextField.getText());
         jsonObject.put(ENGINE_TYPE, EngineType.fromValue(TAB_INDEX));
+
+
+        jsonObject.put(FROM_GITEA_OPTIONS_TABBED_PANE_INDEX, fromGiteaOptionsTabbedPane.getSelectedIndex());
+        jsonObject.put(FROM_GITEA_EXCLUDE_REPO_NAME_LIST, fromGiteaExcludeRepoNamesListTextField.getText());
+        jsonObject.put(FROM_GITEA_INCLUDE_REPO_NAMES_LIST_FILE, fromGiteaIncludeRepoNamesListFile.getText());
 
         return jsonObject;
     }

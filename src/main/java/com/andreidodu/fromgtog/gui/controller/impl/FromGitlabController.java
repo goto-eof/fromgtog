@@ -69,6 +69,10 @@ public class FromGitlabController implements GUIFromController {
         fromGitlabCloneArchivedRepositoriesCheckBox.setSelected(settings.optBooleanObject(FROM_GITLAB_CLONE_ARCHIVED_REPO_FLAG));
         fromGitlabCloneOrganizationsRepositoriesCheckBox.setSelected(settings.optBooleanObject(FROM_GITLAB_CLONE_ORGANIZATIONS_REPO_FLAG));
         fromGitlabExcludeOrganizationTextField.setText(settings.optString(FROM_GITLAB_EXCLUDE_ORGANIZATIONS));
+
+        fromGitlabOptionsTabbedPane.setSelectedIndex(settings.optInt(FROM_GITLAB_OPTIONS_TABBED_PANE_INDEX));
+        fromGitlabExcludeRepoNamesListTextField.setText(settings.optString(FROM_GITLAB_EXCLUDE_REPO_NAME_LIST));
+        fromGitlabIncludeRepoNamesListFile.setText(settings.optString(FROM_GITLAB_INCLUDE_REPO_NAMES_LIST_FILE));
     }
 
     @Override
@@ -90,6 +94,10 @@ public class FromGitlabController implements GUIFromController {
         jsonObject.put(FROM_GITLAB_CLONE_ORGANIZATIONS_REPO_FLAG, fromGitlabCloneOrganizationsRepositoriesCheckBox.isSelected());
         jsonObject.put(FROM_GITLAB_EXCLUDE_ORGANIZATIONS, fromGitlabExcludeOrganizationTextField.getText());
         jsonObject.put(ENGINE_TYPE, EngineType.fromValue(TAB_INDEX));
+
+        jsonObject.put(FROM_GITLAB_OPTIONS_TABBED_PANE_INDEX, fromGitlabOptionsTabbedPane.getSelectedIndex());
+        jsonObject.put(FROM_GITLAB_EXCLUDE_REPO_NAME_LIST, fromGitlabExcludeRepoNamesListTextField.getText());
+        jsonObject.put(FROM_GITLAB_INCLUDE_REPO_NAMES_LIST_FILE, fromGitlabIncludeRepoNamesListFile.getText());
 
         return jsonObject;
     }
