@@ -12,9 +12,9 @@ import com.andreidodu.fromgtog.gui.controller.translator.impl.JsonObjectToAppCon
 import com.andreidodu.fromgtog.gui.controller.translator.impl.JsonObjectToFromContextTranslator;
 import com.andreidodu.fromgtog.gui.controller.translator.impl.JsonObjectToToContextTranslator;
 import com.andreidodu.fromgtog.gui.validator.AbstractRule;
+import com.andreidodu.fromgtog.gui.validator.ValidOrganizationRule;
 import com.andreidodu.fromgtog.gui.validator.ValidRepoNameRule;
 import com.andreidodu.fromgtog.gui.validator.ValidSleepTimeRule;
-import com.andreidodu.fromgtog.gui.validator.ValidOrganizationRule;
 import com.andreidodu.fromgtog.service.RepositoryCloner;
 import com.andreidodu.fromgtog.service.impl.RepositoryClonerServiceImpl;
 import com.andreidodu.fromgtog.service.impl.SettingsServiceImpl;
@@ -33,8 +33,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 import java.util.function.Consumer;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static com.andreidodu.fromgtog.constants.ApplicationConstants.LOG_DIR_NAME;
 import static com.andreidodu.fromgtog.constants.ApplicationConstants.LOG_FILENAME;
@@ -318,13 +316,6 @@ public class AppController implements GUIController {
                 .map(rule -> String.format("%s  -> invalid value(s): %s", rule.getInvalidMessage(), String.join(ApplicationConstants.LIST_ITEM_SEPARATOR, rule.getInvalidValuesList())))
                 .toList();
     }
-
-    private boolean validate(String value, String regex, String errorMessage) {
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(value);
-        return matcher.matches();
-    }
-
 
     private void updateTimeLabel(String message) {
         SwingUtilities.invokeLater(() -> {
