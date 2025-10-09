@@ -26,7 +26,16 @@ public class FromGitlabController implements GUIFromController {
     private JCheckBox fromGitlabCloneOrganizationsRepositoriesCheckBox;
     private JTextField fromGitlabExcludeOrganizationTextField;
 
-    public FromGitlabController(JSONObject settings, JPanel fromGitlabPanel, JTextField fromGitlabUrlTextfield, JTextField fromGitlabUrlTokenTextfield, JCheckBox fromGitlabCloneStarredRepositoriesCheckBox, JCheckBox fromGitlabCloneForkedRepositoriesCheckBox, JCheckBox fromGitlabClonePrivateRepositoriesCheckBox, JCheckBox fromGitlabCloneArchivedRepositoriesCheckBox, JCheckBox fromGitlabClonePublicRepositoriesCheckBox, JCheckBox fromGitlabCloneOrganizationsRepositoriesCheckBox, JTextField fromGitlabExcludeOrganizationTextField) {
+    private JTabbedPane fromGitlabOptionsTabbedPane;
+    private JTextField fromGitlabExcludeRepoNamesListTextField;
+    private JTextField fromGitlabIncludeRepoNamesListFile;
+    private JButton fromGitlabChooseRepoFileButton;
+
+    public FromGitlabController(JSONObject settings, JPanel fromGitlabPanel, JTextField fromGitlabUrlTextfield, JTextField fromGitlabUrlTokenTextfield, JCheckBox fromGitlabCloneStarredRepositoriesCheckBox, JCheckBox fromGitlabCloneForkedRepositoriesCheckBox, JCheckBox fromGitlabClonePrivateRepositoriesCheckBox, JCheckBox fromGitlabCloneArchivedRepositoriesCheckBox, JCheckBox fromGitlabClonePublicRepositoriesCheckBox, JCheckBox fromGitlabCloneOrganizationsRepositoriesCheckBox, JTextField fromGitlabExcludeOrganizationTextField,
+                                JTabbedPane fromGitlabOptionsTabbedPane,
+                                JTextField fromGitlabExcludeRepoNamesListTextField,
+                                JTextField fromGitlabIncludeRepoNamesListFile,
+                                JButton fromGitlabChooseRepoFileButton) {
         this.fromGitlabPanel = fromGitlabPanel;
         this.fromGitlabUrlTextfield = fromGitlabUrlTextfield;
         this.fromGitlabUrlTokenTextfield = fromGitlabUrlTokenTextfield;
@@ -37,6 +46,12 @@ public class FromGitlabController implements GUIFromController {
         this.fromGitlabClonePublicRepositoriesCheckBox = fromGitlabClonePublicRepositoriesCheckBox;
         this.fromGitlabCloneOrganizationsRepositoriesCheckBox = fromGitlabCloneOrganizationsRepositoriesCheckBox;
         this.fromGitlabExcludeOrganizationTextField = fromGitlabExcludeOrganizationTextField;
+
+        this.fromGitlabOptionsTabbedPane = fromGitlabOptionsTabbedPane;
+        this.fromGitlabExcludeRepoNamesListTextField = fromGitlabExcludeRepoNamesListTextField;
+        this.fromGitlabIncludeRepoNamesListFile = fromGitlabIncludeRepoNamesListFile;
+        this.fromGitlabChooseRepoFileButton = fromGitlabChooseRepoFileButton;
+
         applySettings(settings);
     }
 

@@ -26,7 +26,16 @@ public class FromGiteaController implements GUIFromController {
     private JCheckBox fromGiteaCloneOrganizationsRepositoriesCheckBox;
     private JTextField fromGiteaExcludeOrganizationTextField;
 
-    public FromGiteaController(JSONObject settings, JTextField fromGiteaUrlTextField, JTextField fromGiteaTokenTextField, JCheckBox fromGiteaCloneStarredRepositoriesCheckBox, JCheckBox fromGiteaCloneForkedRepositoriesCheckBox, JCheckBox fromGiteaClonePrivateRepositoriesCheckBox, JCheckBox fromGiteaClonePublicRepositoriesCheckBox, JCheckBox fromGiteaCloneArchivedRepositoriesCheckBox, JCheckBox fromGiteaCloneOrganizationsRepositoriesCheckBox, JTextField fromGiteaExcludeOrganizationTextField) {
+    private JTabbedPane fromGiteaOptionsTabbedPane;
+    private JTextField fromGiteaExcludeRepoNamesListTextField;
+    private JTextField fromGiteaIncludeRepoNamesListFile;
+    private JButton fromGiteaChooseRepoFileButton;
+
+    public FromGiteaController(JSONObject settings, JTextField fromGiteaUrlTextField, JTextField fromGiteaTokenTextField, JCheckBox fromGiteaCloneStarredRepositoriesCheckBox, JCheckBox fromGiteaCloneForkedRepositoriesCheckBox, JCheckBox fromGiteaClonePrivateRepositoriesCheckBox, JCheckBox fromGiteaClonePublicRepositoriesCheckBox, JCheckBox fromGiteaCloneArchivedRepositoriesCheckBox, JCheckBox fromGiteaCloneOrganizationsRepositoriesCheckBox, JTextField fromGiteaExcludeOrganizationTextField,
+                               JTabbedPane fromGiteaOptionsTabbedPane,
+                               JTextField fromGiteaExcludeRepoNamesListTextField,
+                               JTextField fromGiteaIncludeRepoNamesListFile,
+                               JButton fromGiteaChooseRepoFileButton) {
         this.fromGiteaUrlTextField = fromGiteaUrlTextField;
         this.fromGiteaTokenTextField = fromGiteaTokenTextField;
         this.fromGiteaCloneStarredRepositoriesCheckBox = fromGiteaCloneStarredRepositoriesCheckBox;
@@ -36,6 +45,11 @@ public class FromGiteaController implements GUIFromController {
         this.fromGiteaCloneArchivedRepositoriesCheckBox = fromGiteaCloneArchivedRepositoriesCheckBox;
         this.fromGiteaCloneOrganizationsRepositoriesCheckBox = fromGiteaCloneOrganizationsRepositoriesCheckBox;
         this.fromGiteaExcludeOrganizationTextField = fromGiteaExcludeOrganizationTextField;
+
+        this.fromGiteaOptionsTabbedPane=fromGiteaOptionsTabbedPane;
+        this.fromGiteaExcludeRepoNamesListTextField =  fromGiteaExcludeRepoNamesListTextField;
+        this.fromGiteaIncludeRepoNamesListFile = fromGiteaIncludeRepoNamesListFile;
+        this.fromGiteaChooseRepoFileButton = fromGiteaChooseRepoFileButton;
 
         applySettings(settings);
     }

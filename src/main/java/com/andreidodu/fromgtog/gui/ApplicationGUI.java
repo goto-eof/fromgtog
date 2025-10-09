@@ -96,19 +96,22 @@ public class ApplicationGUI extends JFrame {
     private JButton clearLogFileButton;
     private JLabel timeLable;
     private JButton contactMe;
-    private JTabbedPane fromGithubOptionsTabbedPane;
     private JPanel githubFilterAndClone;
-    private JTextField fromGithubIncludeRepoNamesListFile;
-    private JButton FromGithubChooseRepoFileButton;
+
+    private JTabbedPane fromGithubOptionsTabbedPane;
     private JTextField fromGithubExcludeRepoNamesListTextField;
+    private JTextField fromGithubIncludeRepoNamesListFile;
+    private JButton fromGithubChooseRepoFileButton;
+
     private JTabbedPane fromGiteaOptionsTabbedPane;
     private JTextField fromGiteaExcludeRepoNamesListTextField;
     private JTextField fromGiteaIncludeRepoNamesListFile;
-    private JButton FromGiteaChooseRepoFileButton;
-    private JTextField fromGitlabExcludeRepoNamesListTextField;
+    private JButton fromGiteaChooseRepoFileButton;
+
     private JTabbedPane fromGitlabOptionsTabbedPane;
+    private JTextField fromGitlabExcludeRepoNamesListTextField;
     private JTextField fromGitlabIncludeRepoNamesListFile;
-    private JButton FromGitlabChooseRepoFileButton;
+    private JButton fromGitlabChooseRepoFileButton;
 
     List<? extends JComponent> allComponentsList;
 
@@ -168,7 +171,11 @@ public class ApplicationGUI extends JFrame {
                 this.fromGitlabCloneArchivedRepositoriesCheckBox,
                 this.fromGitlabClonePublicRepositoriesCheckBox,
                 this.fromGitlabCloneOrganizationsRepositoriesCheckBox,
-                this.fromGitlabExcludeOrganizationTextField
+                this.fromGitlabExcludeOrganizationTextField,
+                fromGitlabOptionsTabbedPane,
+                fromGitlabExcludeRepoNamesListTextField,
+                fromGitlabIncludeRepoNamesListFile,
+                fromGitlabChooseRepoFileButton
         );
     }
 
@@ -276,7 +283,11 @@ public class ApplicationGUI extends JFrame {
                 fromGiteaClonePublicRepositoriesCheckBox,
                 fromGiteaCloneArchivedRepositoriesCheckBox,
                 fromGiteaCloneOrganizationsRepositoriesCheckBox,
-                fromGiteaExcludeOrganizationTextField
+                fromGiteaExcludeOrganizationTextField,
+                fromGiteaOptionsTabbedPane,
+                fromGiteaExcludeRepoNamesListTextField,
+                fromGiteaIncludeRepoNamesListFile,
+                fromGiteaChooseRepoFileButton
         );
     }
 
@@ -290,7 +301,11 @@ public class ApplicationGUI extends JFrame {
                 fromGithubClonePublicRepositoriesCheckBox,
                 fromGithubCloneArchivedRepositoriesCheckBox,
                 fromGithubCloneOrganizationSRepositoriesCheckBox,
-                fromGithubExcludeOrganizationTextField
+                fromGithubExcludeOrganizationTextField,
+                fromGithubOptionsTabbedPane,
+                fromGithubExcludeRepoNamesListTextField,
+                fromGithubIncludeRepoNamesListFile,
+                fromGithubChooseRepoFileButton
         );
     }
 
@@ -500,9 +515,9 @@ public class ApplicationGUI extends JFrame {
         final JPanel panel13 = new JPanel();
         panel13.setLayout(new GridLayoutManager(1, 2, new Insets(0, 0, 0, 0), -1, -1));
         panel12.add(panel13, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        FromGithubChooseRepoFileButton = new JButton();
-        FromGithubChooseRepoFileButton.setText("Choose file");
-        panel13.add(FromGithubChooseRepoFileButton, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        fromGithubChooseRepoFileButton = new JButton();
+        fromGithubChooseRepoFileButton.setText("Choose file");
+        panel13.add(fromGithubChooseRepoFileButton, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer3 = new Spacer();
         panel13.add(spacer3, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         fromGithubIncludeRepoNamesListFile = new JTextField();
@@ -624,9 +639,9 @@ public class ApplicationGUI extends JFrame {
         panel27.add(label16, new GridConstraints(0, 0, 1, 3, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         fromGiteaIncludeRepoNamesListFile = new JTextField();
         panel27.add(fromGiteaIncludeRepoNamesListFile, new GridConstraints(2, 0, 1, 3, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
-        FromGiteaChooseRepoFileButton = new JButton();
-        FromGiteaChooseRepoFileButton.setText("Choose file");
-        panel27.add(FromGiteaChooseRepoFileButton, new GridConstraints(3, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        fromGiteaChooseRepoFileButton = new JButton();
+        fromGiteaChooseRepoFileButton.setText("Choose file");
+        panel27.add(fromGiteaChooseRepoFileButton, new GridConstraints(3, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer7 = new Spacer();
         panel27.add(spacer7, new GridConstraints(3, 0, 2, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         final Spacer spacer8 = new Spacer();
@@ -741,9 +756,9 @@ public class ApplicationGUI extends JFrame {
         panel39.add(label25, new GridConstraints(0, 0, 1, 2, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         fromGitlabIncludeRepoNamesListFile = new JTextField();
         panel39.add(fromGitlabIncludeRepoNamesListFile, new GridConstraints(2, 0, 1, 2, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
-        FromGitlabChooseRepoFileButton = new JButton();
-        FromGitlabChooseRepoFileButton.setText("Choose file");
-        panel39.add(FromGitlabChooseRepoFileButton, new GridConstraints(3, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        fromGitlabChooseRepoFileButton = new JButton();
+        fromGitlabChooseRepoFileButton.setText("Choose file");
+        panel39.add(fromGitlabChooseRepoFileButton, new GridConstraints(3, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer12 = new Spacer();
         panel39.add(spacer12, new GridConstraints(4, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         final Spacer spacer13 = new Spacer();

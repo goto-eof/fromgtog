@@ -25,7 +25,17 @@ public class FromGithubController implements GUIFromController {
     private JCheckBox fromGithubCloneOrganizationSRepositoriesCheckBox;
     private JTextField fromGithubExcludeOrganizationTextField;
 
-    public FromGithubController(JSONObject settings, JTextField fromGithubTokenTextField, JCheckBox fromGithubCloneStarredRepositoriesCheckBox, JCheckBox fromGithubCloneForkedRepositoriesCheckBox, JCheckBox fromGithubClonePrivateRepositoriesCheckBox, JCheckBox fromGithubClonePublicRepositoriesCheckBox, JCheckBox fromGithubCloneArchivedRepositoriesCheckBox, JCheckBox fromGithubCloneOrganizationSRepositoriesCheckBox, JTextField fromGithubExcludeOrganizationTextField) {
+    private JTabbedPane fromGithubOptionsTabbedPane;
+    private JTextField fromGithubIncludeRepoNamesListFile;
+    private JTextField fromGithubExcludeRepoNamesListTextField;
+    private JButton FromGithubChooseRepoFileButton;
+
+    public FromGithubController(JSONObject settings, JTextField fromGithubTokenTextField, JCheckBox fromGithubCloneStarredRepositoriesCheckBox, JCheckBox fromGithubCloneForkedRepositoriesCheckBox, JCheckBox fromGithubClonePrivateRepositoriesCheckBox, JCheckBox fromGithubClonePublicRepositoriesCheckBox, JCheckBox fromGithubCloneArchivedRepositoriesCheckBox, JCheckBox fromGithubCloneOrganizationSRepositoriesCheckBox, JTextField fromGithubExcludeOrganizationTextField,
+                                JTabbedPane fromGithubOptionsTabbedPane,
+                                JTextField fromGithubExcludeRepoNamesListTextField,
+                                JTextField fromGithubIncludeRepoNamesListFile,
+                                JButton fromGithubChooseRepoFileButton
+    ) {
         this.fromGithubTokenTextField = fromGithubTokenTextField;
         this.fromGithubCloneStarredRepositoriesCheckBox = fromGithubCloneStarredRepositoriesCheckBox;
         this.fromGithubCloneForkedRepositoriesCheckBox = fromGithubCloneForkedRepositoriesCheckBox;
@@ -33,7 +43,11 @@ public class FromGithubController implements GUIFromController {
         this.fromGithubClonePublicRepositoriesCheckBox = fromGithubClonePublicRepositoriesCheckBox;
         this.fromGithubCloneArchivedRepositoriesCheckBox = fromGithubCloneArchivedRepositoriesCheckBox;
         this.fromGithubCloneOrganizationSRepositoriesCheckBox = fromGithubCloneOrganizationSRepositoriesCheckBox;
-        this.fromGithubExcludeOrganizationTextField = fromGithubExcludeOrganizationTextField;
+
+        this.fromGithubOptionsTabbedPane = fromGithubOptionsTabbedPane;
+        this.fromGithubExcludeOrganizationTextField = fromGithubExcludeRepoNamesListTextField;
+        this.fromGithubIncludeRepoNamesListFile = fromGithubIncludeRepoNamesListFile;
+        this.FromGithubChooseRepoFileButton = fromGithubChooseRepoFileButton;
 
         applySettings(settings);
     }
