@@ -489,7 +489,7 @@ public class ApplicationGUI extends JFrame {
         panel8.add(spacer2, new GridConstraints(6, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         final JPanel panel11 = new JPanel();
         panel11.setLayout(new GridLayoutManager(2, 1, new Insets(5, 5, 5, 5), -1, -1));
-        fromGithubOptionsTabbedPane.addTab("Custom List", new ImageIcon(getClass().getResource("/images/sm/list.png")), panel11, "Custom List");
+        fromGithubOptionsTabbedPane.addTab("File", new ImageIcon(getClass().getResource("/images/sm/list.png")), panel11, "Custom List");
         fromGithubOptionsTabbedPane.setDisabledIconAt(1, new ImageIcon(getClass().getResource("/images/sm/list-gray.png")));
         final JPanel panel12 = new JPanel();
         panel12.setLayout(new GridLayoutManager(4, 1, new Insets(0, 0, 0, 0), -1, -1));
@@ -614,7 +614,7 @@ public class ApplicationGUI extends JFrame {
         panel22.add(spacer6, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         final JPanel panel26 = new JPanel();
         panel26.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
-        fromGiteaOptionsTabbedPane.addTab("Custom List", new ImageIcon(getClass().getResource("/images/sm/list.png")), panel26, "Custom List");
+        fromGiteaOptionsTabbedPane.addTab("File", new ImageIcon(getClass().getResource("/images/sm/list.png")), panel26, "Custom List");
         fromGiteaOptionsTabbedPane.setDisabledIconAt(1, new ImageIcon(getClass().getResource("/images/sm/list-gray.png")));
         final JPanel panel27 = new JPanel();
         panel27.setLayout(new GridLayoutManager(5, 3, new Insets(0, 0, 0, 0), -1, -1));
@@ -731,7 +731,7 @@ public class ApplicationGUI extends JFrame {
         panel37.add(label24, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel38 = new JPanel();
         panel38.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
-        fromGitlabOptionsTabbedPane.addTab("Custom List", new ImageIcon(getClass().getResource("/images/sm/list.png")), panel38, "Custom List");
+        fromGitlabOptionsTabbedPane.addTab("File", new ImageIcon(getClass().getResource("/images/sm/list.png")), panel38, "Custom List");
         fromGitlabOptionsTabbedPane.setDisabledIconAt(1, new ImageIcon(getClass().getResource("/images/sm/list-gray.png")));
         final JPanel panel39 = new JPanel();
         panel39.setLayout(new GridLayoutManager(5, 2, new Insets(0, 0, 0, 0), -1, -1));
