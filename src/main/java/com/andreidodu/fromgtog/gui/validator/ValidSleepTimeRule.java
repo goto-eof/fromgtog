@@ -28,4 +28,9 @@ public class ValidSleepTimeRule extends AbstractRule {
         return INVALID_MESSAGE;
     }
 
+    @Override
+    protected String getValue() {
+        return super.getJson().get(getKey()).toString();
+    }
+
 }

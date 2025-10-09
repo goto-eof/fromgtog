@@ -1,8 +1,12 @@
 package com.andreidodu.fromgtog.gui.validator;
 
+import lombok.Getter;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.IntStream;
@@ -10,6 +14,9 @@ import java.util.stream.IntStream;
 public abstract class AbstractRule {
 
     private final JSONObject json;
+
+    @Getter
+    private final List<String> invalidValuesList = new ArrayList<>();
 
     public AbstractRule(JSONObject json) {
         this.json = json;
@@ -21,23 +28,34 @@ public abstract class AbstractRule {
 
     public abstract String getInvalidMessage();
 
-    public boolean pass(JSONObject json) {
+    public boolean pass() {
 
-        if (json.optJSONArray(getKey()) != null) {
-            JSONArray array = json.getJSONArray(getKey());
-            return IntStream.range(0, array.length())
-                    .mapToObj(array::getString)
-                    .anyMatch(value -> !getPattern().matcher(value).matches());
+        var value = this.getValue();
+
+        if (value instanceof List list) {
+            List<String> stringList = (List<String>) value;
+            invalidValuesList.addAll(stringList.stream()
+                    .filter(val -> !getPattern().matcher(val).matches()).toList());
+            return invalidValuesList.isEmpty();
         }
 
+        if (value instanceof String valueString) {
+            Matcher matcher = getPattern().matcher(valueString);
+            final boolean pass = matcher.matches();
+            if (!pass) {
+                invalidValuesList.add(valueString);
+            }
+            return pass;
+        }
 
-        String value = json.get(getKey()).toString();
-        Matcher matcher = getPattern().matcher(value);
-        return matcher.matches();
+        throw new IllegalArgumentException("Internal problem: invalid value. Please ask the developer for a fix (:");
     }
+
+    protected abstract <T> T getValue();
 
     protected abstract String getKey();
 
     protected abstract Pattern getPattern();
+
 
 }

@@ -1,5 +1,6 @@
 package com.andreidodu.fromgtog.gui.controller.impl;
 
+import com.andreidodu.fromgtog.constants.ApplicationConstants;
 import com.andreidodu.fromgtog.constants.SoundConstants;
 import com.andreidodu.fromgtog.dto.CallbackContainer;
 import com.andreidodu.fromgtog.dto.EngineContext;
@@ -11,6 +12,7 @@ import com.andreidodu.fromgtog.gui.controller.translator.impl.JsonObjectToAppCon
 import com.andreidodu.fromgtog.gui.controller.translator.impl.JsonObjectToFromContextTranslator;
 import com.andreidodu.fromgtog.gui.controller.translator.impl.JsonObjectToToContextTranslator;
 import com.andreidodu.fromgtog.gui.validator.AbstractRule;
+import com.andreidodu.fromgtog.gui.validator.ValidRepoNameRule;
 import com.andreidodu.fromgtog.gui.validator.ValidSleepTimeRule;
 import com.andreidodu.fromgtog.gui.validator.ValidOrganizationRule;
 import com.andreidodu.fromgtog.service.RepositoryCloner;
@@ -307,12 +309,13 @@ public class AppController implements GUIController {
     private List<String> validateSettings(JSONObject allSettings) {
         List<AbstractRule> ruleList = List.of(
                 new ValidSleepTimeRule(allSettings),
-                new ValidOrganizationRule(allSettings)
+                new ValidOrganizationRule(allSettings),
+                new ValidRepoNameRule(allSettings)
         );
 
         return ruleList.stream()
-                .filter(rule -> !rule.pass(allSettings))
-                .map(AbstractRule::getInvalidMessage)
+                .filter(rule -> !rule.pass())
+                .map(rule -> String.format("%s  -> invalid value(s): %s", rule.getInvalidMessage(), String.join(ApplicationConstants.LIST_ITEM_SEPARATOR, rule.getInvalidValuesList())))
                 .toList();
     }
 

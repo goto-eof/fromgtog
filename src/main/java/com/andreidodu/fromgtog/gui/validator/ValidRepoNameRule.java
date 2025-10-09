@@ -11,16 +11,16 @@ import java.util.regex.Pattern;
 
 import static com.andreidodu.fromgtog.gui.controller.constants.GuiKeys.*;
 
-public class ValidOrganizationRule extends AbstractRule {
-    private static final Pattern PATTERN = RegexUtil.REGEX_PATTERN_USERNAME;
-    private static final String INVALID_MESSAGE = "Invalid 'username'. Valid pattern is: " + PATTERN;
+public class ValidRepoNameRule extends AbstractRule {
+    private static final Pattern PATTERN = RegexUtil.REGEX_PATTERN_REPO_NAME;
+    private static final String INVALID_MESSAGE = "Invalid 'repo name'. Valid pattern is: " + PATTERN;
     private static final List<String> KEY_LIST = List.of(
-            FROM_GITEA_EXCLUDE_ORGANIZATIONS,
-            FROM_GITHUB_EXCLUDE_ORGANIZATIONS,
-            FROM_GITLAB_EXCLUDE_ORGANIZATIONS
+            FROM_GITEA_EXCLUDE_REPO_NAME_LIST,
+            FROM_GITHUB_EXCLUDE_REPO_NAME_LIST,
+            FROM_GITLAB_EXCLUDE_REPO_NAME_LIST
     );
 
-    public ValidOrganizationRule(JSONObject json) {
+    public ValidRepoNameRule(JSONObject json) {
         super(json);
     }
 
