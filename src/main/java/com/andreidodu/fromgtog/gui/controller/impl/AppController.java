@@ -309,7 +309,8 @@ public class AppController implements GUIController {
                 new ValidTokenRule(allSettings),
                 new ValidIncludeRepoFileNameRule(allSettings),
                 new ValidRootPathRule(allSettings, FROM_LOCAL_ROOT_PATH),
-                new ValidRootPathRule(allSettings, TO_LOCAL_ROOT_PATH)
+                new ValidRootPathRule(allSettings, TO_LOCAL_ROOT_PATH),
+                new ValidUrlRule(allSettings)
         );
 
         return ruleList.stream()
