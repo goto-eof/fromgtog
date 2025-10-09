@@ -10,6 +10,8 @@ import com.andreidodu.fromgtog.gui.controller.StrategyGUIController;
 import com.andreidodu.fromgtog.gui.controller.translator.impl.JsonObjectToAppContextTranslator;
 import com.andreidodu.fromgtog.gui.controller.translator.impl.JsonObjectToFromContextTranslator;
 import com.andreidodu.fromgtog.gui.controller.translator.impl.JsonObjectToToContextTranslator;
+import com.andreidodu.fromgtog.gui.validator.AbstractRule;
+import com.andreidodu.fromgtog.gui.validator.ValidSleepTimeRule;
 import com.andreidodu.fromgtog.service.RepositoryCloner;
 import com.andreidodu.fromgtog.service.impl.RepositoryClonerServiceImpl;
 import com.andreidodu.fromgtog.service.impl.SettingsServiceImpl;
@@ -26,8 +28,11 @@ import javax.swing.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static com.andreidodu.fromgtog.constants.ApplicationConstants.LOG_DIR_NAME;
 import static com.andreidodu.fromgtog.constants.ApplicationConstants.LOG_FILENAME;
@@ -215,7 +220,16 @@ public class AppController implements GUIController {
             JSONObject jsonObjectFrom = retrieveJsonData(fromControllerList, fromTabbedPane.getSelectedIndex());
             JSONObject jsonObjectTo = retrieveJsonData(toControllerList, toTabbedPane.getSelectedIndex());
             JSONObject jsonObjectApp = getDataFromChildren();
-            saveSettings(jsonObjectFrom, jsonObjectTo, jsonObjectApp);
+
+            var allSettingsArr = new JSONObject[]{jsonObjectFrom, jsonObjectTo, jsonObjectApp};
+            JSONObject allSettings = JsonObjectServiceImpl.getInstance().merge(allSettingsArr);
+
+            List<String> errorList = validateSettings(allSettings);
+            if (!errorList.isEmpty()) {
+                this.showErrorMessage("Something went wrong. " + String.join(System.lineSeparator(), errorList));
+                return;
+            }
+            saveSettings(allSettings);
         });
     }
 
@@ -266,7 +280,16 @@ public class AppController implements GUIController {
                                 .build())
                         .build();
 
-                saveSettings(jsonObjectFrom, jsonObjectTo, jsonObjectApp);
+                var allSettingsArr = new JSONObject[]{jsonObjectFrom, jsonObjectTo, jsonObjectApp};
+                JSONObject allSettings = JsonObjectServiceImpl.getInstance().merge(allSettingsArr);
+
+                List<String> errorList = validateSettings(allSettings);
+                if (!errorList.isEmpty()) {
+                    this.showErrorMessage("Something went wrong. " + String.join(System.lineSeparator(), errorList));
+                    return;
+                }
+                saveSettings(allSettingsArr);
+
                 RepositoryCloner repositoryCloner = RepositoryClonerServiceImpl.getInstance();
                 repositoryCloner.cloneAllRepositories(engineContext);
             } catch (Exception ee) {
@@ -277,6 +300,22 @@ public class AppController implements GUIController {
         });
     }
 
+    private List<String> validateSettings(JSONObject allSettings) {
+        List<AbstractRule> ruleList = new ArrayList<>();
+        ruleList.add(new ValidSleepTimeRule());
+
+        return ruleList.stream()
+                .filter(rule -> !rule.pass(allSettings))
+                .map(AbstractRule::getInvalidMessage)
+                .toList();
+    }
+
+    private boolean validate(String value, String regex, String errorMessage) {
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(value);
+        return matcher.matches();
+    }
+
 
     private void updateTimeLabel(String message) {
         SwingUtilities.invokeLater(() -> {
@@ -285,9 +324,9 @@ public class AppController implements GUIController {
     }
 
 
-    private void saveSettings(JSONObject... jsonObjectFrom) {
+    private void saveSettings(JSONObject... jsonObjectArr) {
         log.debug("Saving settings...");
-        JSONObject allSettings = JsonObjectServiceImpl.getInstance().merge(jsonObjectFrom);
+        JSONObject allSettings = JsonObjectServiceImpl.getInstance().merge(jsonObjectArr);
         SettingsServiceImpl.getInstance().save(allSettings);
         log.debug("Done.");
     }
