@@ -23,6 +23,8 @@ public abstract class AbstractRule {
         return json;
     }
 
+    public abstract boolean isApplicable();
+
     public abstract String getInvalidMessage();
 
     public boolean pass() {

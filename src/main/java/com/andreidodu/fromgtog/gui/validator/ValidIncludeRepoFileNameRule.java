@@ -29,20 +29,17 @@ public class ValidIncludeRepoFileNameRule extends AbstractRule {
     }
 
     @Override
-    public boolean pass() {
-        if (!List.of(EngineType.GITHUB, EngineType.GITEA, EngineType.GITLAB).contains(EngineType.fromValue(getJson().getInt(FROM_TAB_INDEX)))) {
-            return true;
+    public boolean isApplicable() {
+        List<EngineType> validTabList = List.of(EngineType.GITHUB, EngineType.GITEA, EngineType.GITLAB);
+        if (!validTabList.contains(EngineType.fromValue(getJson().getInt(FROM_TAB_INDEX)))) {
+            return false;
         }
 
         String optionsTabbedPaneKey = super.getKey(OPTIONS_KEY_LIST);
 
         validateOptionsTabbedPaneKey(optionsTabbedPaneKey);
 
-        if (isNotFileTab(optionsTabbedPaneKey)) {
-            return true;
-        }
-
-        return super.pass();
+        return !isFileTab(optionsTabbedPaneKey);
     }
 
     private void validateOptionsTabbedPaneKey(String optionsTabbedPaneKey) {
@@ -51,8 +48,8 @@ public class ValidIncludeRepoFileNameRule extends AbstractRule {
         }
     }
 
-    private boolean isNotFileTab(final String optionsKey) {
-        return EngineOptionsType.FILE != EngineOptionsType.fromValue(getJson().getInt(optionsKey));
+    private boolean isFileTab(final String optionsKey) {
+        return EngineOptionsType.FILE == EngineOptionsType.fromValue(getJson().getInt(optionsKey));
     }
 
     @Override

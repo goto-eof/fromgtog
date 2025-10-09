@@ -2,7 +2,6 @@ package com.andreidodu.fromgtog.gui.validator;
 
 import com.andreidodu.fromgtog.constants.ApplicationConstants;
 import com.andreidodu.fromgtog.gui.util.RegexUtil;
-import com.andreidodu.fromgtog.service.factory.Engine;
 import com.andreidodu.fromgtog.type.EngineOptionsType;
 import com.andreidodu.fromgtog.type.EngineType;
 import com.andreidodu.fromgtog.util.StringUtil;
@@ -32,20 +31,17 @@ public class ValidOrganizationRule extends AbstractRule {
     }
 
     @Override
-    public boolean pass() {
-        if (!List.of(EngineType.GITHUB, EngineType.GITEA, EngineType.GITLAB).contains(EngineType.fromValue(getJson().getInt(FROM_TAB_INDEX)))) {
-            return true;
+    public boolean isApplicable() {
+        List<EngineType> validTabList = List.of(EngineType.GITHUB, EngineType.GITEA, EngineType.GITLAB);
+        if (!validTabList.contains(EngineType.fromValue(getJson().getInt(FROM_TAB_INDEX)))) {
+            return false;
         }
 
         String optionsTabbedPaneKey = super.getKey(OPTIONS_KEY_LIST);
 
         validateOptionsTabbedPaneKey(optionsTabbedPaneKey);
 
-        if (isNotFilterTab(optionsTabbedPaneKey)) {
-            return true;
-        }
-
-        return super.pass();
+        return !isFilterTab(optionsTabbedPaneKey);
     }
 
     private void validateOptionsTabbedPaneKey(String optionsTabbedPaneKey) {
@@ -54,8 +50,8 @@ public class ValidOrganizationRule extends AbstractRule {
         }
     }
 
-    private boolean isNotFilterTab(final String optionsKey) {
-        return EngineOptionsType.FILTER != EngineOptionsType.fromValue(getJson().getInt(optionsKey));
+    private boolean isFilterTab(final String optionsKey) {
+        return EngineOptionsType.FILTER == EngineOptionsType.fromValue(getJson().getInt(optionsKey));
     }
 
     @Override

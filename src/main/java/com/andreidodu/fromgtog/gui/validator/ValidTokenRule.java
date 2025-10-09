@@ -22,22 +22,18 @@ public class ValidTokenRule extends AbstractRule {
         super(json);
     }
 
+    @Override
+    public boolean isApplicable() {
+        return List.of(EngineType.GITHUB, EngineType.GITEA, EngineType.GITLAB)
+                .contains(EngineType.fromValue(getJson().getInt(FROM_TAB_INDEX)));
+    }
+
     protected String getKey() {
         return KEY_LIST.stream()
                 .filter(key -> super.getJson().keySet().contains(key))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Internal problem: invalid key. Please ask the developer for a fix (:"));
     }
-
-    @Override
-    public boolean pass() {
-        if (!List.of(EngineType.GITHUB, EngineType.GITEA, EngineType.GITLAB).contains(EngineType.fromValue(getJson().getInt(FROM_TAB_INDEX)))) {
-            return true;
-        }
-
-        return super.pass();
-    }
-
 
     protected Pattern getPattern() {
         return PATTERN;

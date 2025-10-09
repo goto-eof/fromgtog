@@ -31,20 +31,16 @@ public class ValidRepoNameRule extends AbstractRule {
     }
 
     @Override
-    public boolean pass() {
+    public boolean isApplicable() {
         if (!List.of(EngineType.GITHUB, EngineType.GITEA, EngineType.GITLAB).contains(EngineType.fromValue(getJson().getInt(FROM_TAB_INDEX)))) {
-            return true;
+            return false;
         }
 
         String optionsTabbedPaneKey = super.getKey(OPTIONS_KEY_LIST);
 
         validateOptionsTabbedPaneKey(optionsTabbedPaneKey);
 
-        if (isNotFilterTab(optionsTabbedPaneKey)) {
-            return true;
-        }
-
-        return super.pass();
+        return !isFilterTab(optionsTabbedPaneKey);
     }
 
     private void validateOptionsTabbedPaneKey(String optionsTabbedPaneKey) {
@@ -53,8 +49,8 @@ public class ValidRepoNameRule extends AbstractRule {
         }
     }
 
-    private boolean isNotFilterTab(final String optionsKey) {
-        return EngineOptionsType.FILTER != EngineOptionsType.fromValue(getJson().getInt(optionsKey));
+    private boolean isFilterTab(final String optionsKey) {
+        return EngineOptionsType.FILTER == EngineOptionsType.fromValue(getJson().getInt(optionsKey));
     }
 
     protected String getKey() {

@@ -313,6 +313,7 @@ public class AppController implements GUIController {
         );
 
         return ruleList.stream()
+                .filter(AbstractRule::isApplicable)
                 .filter(rule -> !rule.pass())
                 .map(rule -> String.format("%s  -> invalid value(s): %s", rule.getInvalidMessage(), String.join(ApplicationConstants.LIST_ITEM_SEPARATOR, rule.getInvalidValuesList())))
                 .toList();

@@ -1,12 +1,14 @@
 package com.andreidodu.fromgtog.gui.validator;
 
 import com.andreidodu.fromgtog.gui.util.RegexUtil;
+import com.andreidodu.fromgtog.type.EngineType;
 import org.json.JSONObject;
 
+import java.util.List;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
-import static com.andreidodu.fromgtog.gui.controller.constants.GuiKeys.APP_SLEEP_TIME;
-import static com.andreidodu.fromgtog.gui.controller.constants.GuiKeys.FROM_LOCAL_ROOT_PATH;
+import static com.andreidodu.fromgtog.gui.controller.constants.GuiKeys.*;
 
 public class ValidRootPathRule extends AbstractRule {
     private static final Pattern PATTERN = RegexUtil.REGEX_PATTERN_DIR_PATH;
@@ -25,6 +27,11 @@ public class ValidRootPathRule extends AbstractRule {
 
     protected Pattern getPattern() {
         return PATTERN;
+    }
+
+    @Override
+    public boolean isApplicable() {
+        return Objects.equals(EngineType.LOCAL, EngineType.fromValue(getJson().getInt(FROM_TAB_INDEX)));
     }
 
     public String getInvalidMessage() {

@@ -16,6 +16,11 @@ public class ValidSleepTimeRule extends AbstractRule {
         super(json);
     }
 
+    @Override
+    public boolean isApplicable() {
+        return true;
+    }
+
     protected String getKey() {
         return KEY;
     }
