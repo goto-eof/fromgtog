@@ -32,7 +32,12 @@ public abstract class AbstractRule {
         if (value instanceof List list) {
             List<String> stringList = (List<String>) value;
             invalidValuesList.addAll(stringList.stream()
-                    .filter(val -> !getPattern().matcher(val).matches()).toList());
+                    .filter(
+                            val -> !getPattern()
+                                    .matcher(val)
+                                    .matches()
+                    )
+                    .toList());
             return invalidValuesList.isEmpty();
         }
 

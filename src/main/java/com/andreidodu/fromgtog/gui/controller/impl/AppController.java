@@ -306,7 +306,8 @@ public class AppController implements GUIController {
                 new ValidSleepTimeRule(allSettings),
                 new ValidOrganizationRule(allSettings),
                 new ValidRepoNameRule(allSettings),
-                new ValidTokenRule(allSettings)
+                new ValidTokenRule(allSettings),
+                new ValidIncludeRepoFileNameRule(allSettings)
         );
 
         return ruleList.stream()
