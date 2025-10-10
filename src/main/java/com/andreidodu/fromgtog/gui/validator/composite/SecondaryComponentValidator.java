@@ -31,7 +31,7 @@ public class SecondaryComponentValidator implements ComponentValidator {
 
     @Override
     public List<String> getErrorMessageIfNotValid(JSONObject jsonObject) {
-        return this.getIsValidPredicate().test(jsonObject) ? Collections.emptyList() : List.of(String.format("Error: %s", getFieldName()));
+        return this.getIsValidPredicate().test(jsonObject) ? Collections.emptyList() : List.of(String.format("Invalid input: %s", getFieldName()));
     }
 
 }
