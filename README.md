@@ -32,6 +32,8 @@ remote cloning** and clone from/to Gitlab feature.
     - currently validation feature is compatible only with Linux paths (not tested on other Operative Systems) -> I still need to complete it in order to make it cross platform
     - view tokens as password (****)
     - update log level to info -> "Fianlly!" (:
+    - exclude repo names feature
+    - clone only repo names stored in a file feature
 - 2025/10/07
     - refactor: remove useless code - now we have auto-closable resource so it is not necessary to close them manually
     - show version number on the title bar
