@@ -1,5 +1,6 @@
 package com.andreidodu.fromgtog.service.factory.from.engines;
 
+import com.andreidodu.fromgtog.constants.ApplicationConstants;
 import com.andreidodu.fromgtog.dto.CallbackContainer;
 import com.andreidodu.fromgtog.dto.EngineContext;
 import com.andreidodu.fromgtog.dto.FromContext;
@@ -10,7 +11,9 @@ import com.andreidodu.fromgtog.service.GitHubService;
 import com.andreidodu.fromgtog.service.factory.from.AbstractSourceEngine;
 import com.andreidodu.fromgtog.service.factory.from.engines.common.SourceEngineCommon;
 import com.andreidodu.fromgtog.service.impl.GitHubServiceImpl;
+import com.andreidodu.fromgtog.type.EngineOptionsType;
 import com.andreidodu.fromgtog.type.EngineType;
+import com.andreidodu.fromgtog.util.StringUtil;
 import org.apache.commons.lang3.tuple.Pair;
 import org.kohsuke.github.GHMyself;
 import org.kohsuke.github.GHRepository;
@@ -54,8 +57,38 @@ public class GithubSourceEngine extends AbstractSourceEngine {
 
         addStarredRepositoriesIfNecessary(context, githubClient, allUserRepositories);
 
+        if (EngineOptionsType.FILTER.equals(context.engineOptionsType())) {
+            List<RepositoryDTO> repositoryDTOList = retrieveFilteredRepositoryList(context, allUserRepositories, myself, callbackContainer);
+            callbackContainer.updateApplicationStatusMessage().accept("Repositories retrieved and filtered by filters with success");
+            return repositoryDTOList;
+        }
+
+        if (EngineOptionsType.FILE.equals(context.engineOptionsType())) {
+            List<RepositoryDTO> repostoryDTOList = retrieveRepositoryListFromCustomList(context, allUserRepositories);
+            callbackContainer.updateApplicationStatusMessage().accept("Repositories retrieved and filtered by file with success");
+            return repostoryDTOList;
+        }
+
+        throw new RuntimeException("Engine options type not valid. Please contact the developer for a fix (:");
+    }
+
+    protected List<RepositoryDTO> retrieveRepositoryListFromCustomList(FromContext context, Map<String, GHRepository> allUserRepositories) {
+        String filename = context.includeRepoNameFileNameList();
+        List<String> fileContentList = fileContentToList(filename);
+        GithubRepositoryMapper mapper = new GithubRepositoryMapper();
+        return allUserRepositories.values().stream()
+                .map(GithubSourceEngine::buildPair)
+                .filter(repo -> fileContentList.contains(repo.getLeft().getName().toLowerCase()))
+                .map(sourceDto -> mapper.toDTO(sourceDto.getLeft(), sourceDto.getRight()))
+                .toList();
+    }
+
+    private List<RepositoryDTO> retrieveFilteredRepositoryList(FromContext context, Map<String, GHRepository> allUserRepositories, GHMyself myself, CallbackContainer callbackContainer) {
         SourceEngineCommon sourceEngineCommon = new SourceEngineCommon();
         List<String> blacklistOrganizationsList = sourceEngineCommon.buildOrganizationBlacklist(context.excludeOrganizations());
+
+        List<String> excludeRepoNameList = StringUtil.stringsSeparatedByCommaToList(context.excludeRepoNameList(), ApplicationConstants.LIST_ITEM_SEPARATOR);
+
 
         GithubRepositoryMapper mapper = new GithubRepositoryMapper();
 
@@ -66,6 +99,11 @@ public class GithubSourceEngine extends AbstractSourceEngine {
                 .filter(pair -> {
                     GHRepository ghRepository = pair.getLeft();
                     GHUser repositoryUser = pair.getRight();
+
+                    if (excludeRepoNameList.contains(ghRepository.getName().toLowerCase())) {
+                        return false;
+                    }
+
                     if (!context.cloneArchivedReposFlag() && ghRepository.isArchived()) {
                         return false;
                     }

@@ -60,11 +60,11 @@ public class GiteaSourceEngine extends AbstractSourceEngine {
         throw new RuntimeException("Engine options type not valid. Please contact the developer for a fix (:");
     }
 
-    protected List<RepositoryDTO> retrieveRepositoryListFromCustomList(FromContext context, List<GiteaRepositoryDTO> giteaRepositoryDTOList) {
+    protected List<RepositoryDTO> retrieveRepositoryListFromCustomList(FromContext context, List<GiteaRepositoryDTO> sourceRepositoryDTOList) {
         String filename = context.includeRepoNameFileNameList();
         List<String> fileContentList = fileContentToList(filename);
         GiteaRepositoryMapper mapper = new GiteaRepositoryMapper();
-        return giteaRepositoryDTOList.stream()
+        return sourceRepositoryDTOList.stream()
                 .filter(repo -> fileContentList.contains(repo.getName().toLowerCase()))
                 .map(mapper::toDTO)
                 .toList();
