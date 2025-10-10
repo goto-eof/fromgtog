@@ -1,5 +1,6 @@
 package com.andreidodu.fromgtog.dto;
 
+import com.andreidodu.fromgtog.type.EngineOptionsType;
 import com.andreidodu.fromgtog.type.EngineType;
 import lombok.Builder;
 
@@ -19,6 +20,9 @@ public record FromContext(
         boolean cloneBelongingToOrganizationsReposFlag,
         String excludeOrganizations,
 
-        String rootPath
+        String rootPath,
+        EngineOptionsType engineOptionsType,
+        String excludeRepoNameList,
+        String includeRepoNameFileNameList
 ) {
 }

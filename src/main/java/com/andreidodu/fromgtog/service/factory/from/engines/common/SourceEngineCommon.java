@@ -10,4 +10,5 @@ public class SourceEngineCommon {
     public List<String> buildOrganizationBlacklist(String excludedOrganizations) {
         return StringUtil.stringsSeparatedByCommaToList(excludedOrganizations, ApplicationConstants.LIST_ITEM_SEPARATOR);
     }
+
 }
