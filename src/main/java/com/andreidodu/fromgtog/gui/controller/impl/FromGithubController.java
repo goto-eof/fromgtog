@@ -2,6 +2,7 @@ package com.andreidodu.fromgtog.gui.controller.impl;
 
 import com.andreidodu.fromgtog.gui.controller.GUIFromController;
 import com.andreidodu.fromgtog.gui.util.GuiUtil;
+import com.andreidodu.fromgtog.type.EngineOptionsType;
 import com.andreidodu.fromgtog.type.EngineType;
 import lombok.Getter;
 import lombok.Setter;
@@ -90,7 +91,7 @@ public class FromGithubController implements GUIFromController {
         jsonObject.put(FROM_GITHUB_EXCLUDE_ORGANIZATIONS, fromGithubExcludeOrganizationTextField.getText());
         jsonObject.put(ENGINE_TYPE, EngineType.fromValue(TAB_INDEX));
 
-        jsonObject.put(FROM_GITHUB_OPTIONS_TABBED_PANE_INDEX, fromGithubOptionsTabbedPane.getSelectedIndex());
+        jsonObject.put(FROM_GITHUB_OPTIONS_TABBED_PANE_INDEX, EngineOptionsType.fromValue(fromGithubOptionsTabbedPane.getSelectedIndex()));
         jsonObject.put(FROM_GITHUB_EXCLUDE_REPO_NAME_LIST, fromGithubExcludeRepoNamesListTextField.getText());
         jsonObject.put(FROM_GITHUB_INCLUDE_REPO_NAMES_LIST_FILE, fromGithubIncludeRepoNamesListFile.getText());
 

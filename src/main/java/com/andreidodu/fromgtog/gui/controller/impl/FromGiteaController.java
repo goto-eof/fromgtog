@@ -2,6 +2,7 @@ package com.andreidodu.fromgtog.gui.controller.impl;
 
 import com.andreidodu.fromgtog.gui.controller.GUIFromController;
 import com.andreidodu.fromgtog.gui.util.GuiUtil;
+import com.andreidodu.fromgtog.type.EngineOptionsType;
 import com.andreidodu.fromgtog.type.EngineType;
 import lombok.Getter;
 import lombok.Setter;
@@ -95,8 +96,7 @@ public class FromGiteaController implements GUIFromController {
         jsonObject.put(FROM_GITEA_EXCLUDE_ORGANIZATIONS, fromGiteaExcludeOrganizationTextField.getText());
         jsonObject.put(ENGINE_TYPE, EngineType.fromValue(TAB_INDEX));
 
-
-        jsonObject.put(FROM_GITEA_OPTIONS_TABBED_PANE_INDEX, fromGiteaOptionsTabbedPane.getSelectedIndex());
+        jsonObject.put(FROM_GITEA_OPTIONS_TABBED_PANE_INDEX, EngineOptionsType.fromValue(fromGiteaOptionsTabbedPane.getSelectedIndex()));
         jsonObject.put(FROM_GITEA_EXCLUDE_REPO_NAME_LIST, fromGiteaExcludeRepoNamesListTextField.getText());
         jsonObject.put(FROM_GITEA_INCLUDE_REPO_NAMES_LIST_FILE, fromGiteaIncludeRepoNamesListFile.getText());
 
