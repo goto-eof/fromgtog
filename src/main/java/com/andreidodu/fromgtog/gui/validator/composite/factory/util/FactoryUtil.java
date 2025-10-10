@@ -116,4 +116,11 @@ public class FactoryUtil {
             return !isEmpty(valueToValidate) && validate(valueToValidate, RegexUtil.REGEX_PATTERN_FILE_PATH);
         };
     }
+
+    public static Predicate<JSONObject> isMandatorySleepTimeValid(String appSleepTime) {
+        return jsonObject -> {
+            String valueToValidate = jsonObject.get(appSleepTime).toString();
+            return !isEmpty(valueToValidate) && validate(valueToValidate, RegexUtil.REGEX_PATTERN_NUMBER_0_120);
+        };
+    }
 }

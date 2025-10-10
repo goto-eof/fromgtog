@@ -19,7 +19,8 @@ public class SetupFactory {
                         new ToGitHubTabFactory(),
                         new ToGiteaTabFactory(),
                         new ToGitlabTabFactory(),
-                        new ToLocalTabFactory()
+                        new ToLocalTabFactory(),
+                        new AppFactory()
                 )
                 .map(ComponentValidatorFactory::createValidator)
                 .toList();
