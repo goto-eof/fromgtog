@@ -21,7 +21,7 @@ public class RegexUtil {
     private final static String REGEX_AT_LEAST_ONE_CHAR = "^[0-9a-zA-Z_-]+$";
     public final static Pattern REGEX_PATTERN_AT_LEAST_ONE_CHAR = Pattern.compile(REGEX_AT_LEAST_ONE_CHAR);
 
-    private final static String REGEX_LINUX_MAC_DIR_PATH = "([a-zA-Z]:)?(\\\\[a-zA-Z0-9_.-]+)+\\\\?";
+    private final static String REGEX_LINUX_MAC_DIR_PATH = "^/|(/[a-zA-Z0-9_-]+)+$";
     public final static Pattern REGEX_PATTERN_LINUX_DIR_PATH = Pattern.compile(REGEX_LINUX_MAC_DIR_PATH);
     public final static Pattern REGEX_PATTERN_MAC_DIR_PATH = Pattern.compile(REGEX_LINUX_MAC_DIR_PATH);
     public final static Pattern REGEX_PATTERN_WINDOWS_DIR_PATH = Pattern.compile("^[a-zA-Z]:[\\\\\\/](?:[^\\\\\\/:\\*\\?\"<>|]+[\\\\\\/])*$");

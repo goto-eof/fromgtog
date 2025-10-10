@@ -2,6 +2,7 @@ package com.andreidodu.fromgtog.gui.controller.impl;
 
 import com.andreidodu.fromgtog.gui.controller.GUIFromController;
 import com.andreidodu.fromgtog.gui.util.GuiUtil;
+import com.andreidodu.fromgtog.type.EngineOptionsType;
 import com.andreidodu.fromgtog.type.EngineType;
 import lombok.Getter;
 import lombok.Setter;
@@ -70,7 +71,7 @@ public class FromGitlabController implements GUIFromController {
         fromGitlabCloneOrganizationsRepositoriesCheckBox.setSelected(settings.optBooleanObject(FROM_GITLAB_CLONE_ORGANIZATIONS_REPO_FLAG));
         fromGitlabExcludeOrganizationTextField.setText(settings.optString(FROM_GITLAB_EXCLUDE_ORGANIZATIONS));
 
-        fromGitlabOptionsTabbedPane.setSelectedIndex(settings.optInt(FROM_GITLAB_OPTIONS_TABBED_PANE_INDEX));
+        fromGitlabOptionsTabbedPane.setSelectedIndex(settings.optEnum(EngineOptionsType.class, FROM_GITLAB_OPTIONS_TABBED_PANE_INDEX, EngineOptionsType.FILTER).getValue());
         fromGitlabExcludeRepoNamesListTextField.setText(settings.optString(FROM_GITLAB_EXCLUDE_REPO_NAME_LIST));
         fromGitlabIncludeRepoNamesListFile.setText(settings.optString(FROM_GITLAB_INCLUDE_REPO_NAMES_LIST_FILE));
     }
@@ -95,7 +96,7 @@ public class FromGitlabController implements GUIFromController {
         jsonObject.put(FROM_GITLAB_EXCLUDE_ORGANIZATIONS, fromGitlabExcludeOrganizationTextField.getText());
         jsonObject.put(ENGINE_TYPE, EngineType.fromValue(TAB_INDEX));
 
-        jsonObject.put(FROM_GITLAB_OPTIONS_TABBED_PANE_INDEX, fromGitlabOptionsTabbedPane.getSelectedIndex());
+        jsonObject.put(FROM_GITLAB_OPTIONS_TABBED_PANE_INDEX, EngineOptionsType.fromValue(fromGitlabOptionsTabbedPane.getSelectedIndex()));
         jsonObject.put(FROM_GITLAB_EXCLUDE_REPO_NAME_LIST, fromGitlabExcludeRepoNamesListTextField.getText());
         jsonObject.put(FROM_GITLAB_INCLUDE_REPO_NAMES_LIST_FILE, fromGitlabIncludeRepoNamesListFile.getText());
 

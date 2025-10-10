@@ -86,7 +86,7 @@ public class FactoryUtil {
     }
 
     public static Predicate<JSONObject> isSecondaryTabIndexEqualTo(EngineOptionsType engineOptionsType, String key) {
-        return jsonObject -> engineOptionsType.equals(EngineOptionsType.fromValue(jsonObject.getInt(key)));
+        return jsonObject -> engineOptionsType.equals(jsonObject.getEnum(EngineOptionsType.class, key));
     }
 
     public static Predicate<JSONObject> isMandatoryTokenValid(String tokenKey) {

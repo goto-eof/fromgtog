@@ -64,6 +64,7 @@ public class RepositoryClonerServiceImpl implements RepositoryCloner {
                         }
                         engineContext.callbackContainer().showErrorMessage().accept("Something went wrong while cloning: not all repositories were cloned. Please check the log file for further details.");
                     } catch (Exception e) {
+                        log.error(e.getMessage(), e);
                         engineContext.callbackContainer().setEnabledUI().accept(true);
                         engineContext.callbackContainer().setShouldStop().accept(true);
                         engineContext.callbackContainer().showErrorMessage().accept("Something went wrong while cloning: " + e.getMessage() + ". Please check the log file for further details.");

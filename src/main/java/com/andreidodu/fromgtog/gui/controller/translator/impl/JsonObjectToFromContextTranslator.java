@@ -67,7 +67,7 @@ public class JsonObjectToFromContextTranslator implements JsonObjectToRecordTran
 
     private FromContext buildFromGiteaContext(EngineType engineType, JSONObject jsonObject) {
         String giteaLogin = getGiteaLogin(jsonObject);
-        EngineOptionsType optionsEngineType = jsonObject.getEnum(EngineOptionsType.class, FROM_GITEA_OPTIONS_TABBED_PANE_INDEX);
+        EngineOptionsType optionsEngineType = jsonObject.optEnum(EngineOptionsType.class, FROM_GITEA_OPTIONS_TABBED_PANE_INDEX, EngineOptionsType.FILTER);
 
         return new FromContext(
                 engineType,
@@ -90,7 +90,7 @@ public class JsonObjectToFromContextTranslator implements JsonObjectToRecordTran
 
     private FromContext buildFromGitlabContext(EngineType engineType, JSONObject jsonObject) {
         String giteaLogin = getGitlabLogin(jsonObject);
-        EngineOptionsType optionsEngineType = jsonObject.getEnum(EngineOptionsType.class, FROM_GITLAB_OPTIONS_TABBED_PANE_INDEX);
+        EngineOptionsType optionsEngineType = jsonObject.optEnum(EngineOptionsType.class, FROM_GITLAB_OPTIONS_TABBED_PANE_INDEX, EngineOptionsType.FILTER);
         return new FromContext(
                 engineType,
                 jsonObject.getString(FROM_GITLAB_URL),
@@ -120,7 +120,7 @@ public class JsonObjectToFromContextTranslator implements JsonObjectToRecordTran
 
     private FromContext buildFromGithubContext(EngineType engineType, JSONObject jsonObject) {
         String githubLogin = getGitHubLogin(jsonObject);
-        EngineOptionsType optionsEngineType = jsonObject.getEnum(EngineOptionsType.class, FROM_GITHUB_OPTIONS_TABBED_PANE_INDEX);
+        EngineOptionsType optionsEngineType = jsonObject.optEnum(EngineOptionsType.class, FROM_GITHUB_OPTIONS_TABBED_PANE_INDEX, EngineOptionsType.FILTER);
         return new FromContext(
                 engineType,
                 null,

@@ -310,6 +310,7 @@ public class AppController implements GUIController {
                 RepositoryCloner repositoryCloner = RepositoryClonerServiceImpl.getInstance();
                 repositoryCloner.cloneAllRepositories(engineContext);
             } catch (Exception ee) {
+                log.error(ee.getMessage(), e);
                 this.showErrorMessage("Something went wrong. " + ee.getMessage());
                 setEnabledUI.accept(true);
                 setShouldStop(true);
