@@ -39,7 +39,7 @@ public class GenericDestinationEngineFromLocalStrategy<ServiceType extends Gener
     }
 
     @Override
-    public boolean accept(EngineType engineType) {
+    public boolean isApplicable(EngineType engineType) {
         return EngineType.LOCAL.equals(engineType);
     }
 

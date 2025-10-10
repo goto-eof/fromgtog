@@ -35,7 +35,7 @@ public class GenericDestinationEngineFromRemoteStrategy<ServiceType extends Gene
     }
 
     @Override
-    public boolean accept(EngineType engineType) {
+    public boolean isApplicable(EngineType engineType) {
         return List.of(EngineType.GITHUB, EngineType.GITEA, EngineType.GITLAB).contains(engineType);
     }
 

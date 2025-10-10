@@ -33,7 +33,7 @@ public class GithubDestinationEngineFromLocaleStrategy extends AbstractStrategyC
     Logger log = LoggerFactory.getLogger(GithubDestinationEngineFromLocaleStrategy.class);
 
     @Override
-    public boolean accept(EngineType engineType) {
+    public boolean isApplicable(EngineType engineType) {
         return EngineType.LOCAL.equals(engineType);
     }
 

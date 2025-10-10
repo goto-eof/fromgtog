@@ -16,11 +16,11 @@ import java.util.concurrent.ExecutorService;
 
 import static com.andreidodu.fromgtog.constants.ApplicationConstants.CLONER_THREAD_NAME_PREFIX;
 
-public class LocalDestinationEngineFromLocaleStrategy extends AbstractStrategyCommon implements LocalDestinationEngineFromStrategy {
-    Logger log = LoggerFactory.getLogger(LocalDestinationEngineFromLocaleStrategy.class);
+public class LocalDestinationEngineFromLocalStrategy extends AbstractStrategyCommon implements LocalDestinationEngineFromStrategy {
+    Logger log = LoggerFactory.getLogger(LocalDestinationEngineFromLocalStrategy.class);
 
     @Override
-    public boolean accept(EngineType engineType) {
+    public boolean isApplicable(EngineType engineType) {
         return EngineType.LOCAL.equals(engineType);
     }
 
