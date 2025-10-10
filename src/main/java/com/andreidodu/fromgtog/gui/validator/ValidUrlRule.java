@@ -14,7 +14,9 @@ public class ValidUrlRule extends AbstractRule {
     private static final String FIELD_NAME = "URL";
     private static final List<String> KEY_LIST = List.of(
             FROM_GITEA_URL,
-            FROM_GITLAB_URL
+            FROM_GITLAB_URL,
+            TO_GITEA_URL,
+            TO_GITLAB_URL
     );
 
     public ValidUrlRule(JSONObject json) {
@@ -23,12 +25,13 @@ public class ValidUrlRule extends AbstractRule {
 
     @Override
     public boolean isApplicable() {
-        return List.of(EngineType.GITEA, EngineType.GITLAB)
-                .contains(EngineType.fromValue(getJson().getInt(FROM_TAB_INDEX)));
+        List<EngineType> validEngineTypeList = List.of(EngineType.GITEA, EngineType.GITLAB);
+        return validEngineTypeList.contains(EngineType.fromValue(getJson().getInt(FROM_TAB_INDEX))) ||
+                validEngineTypeList.contains(EngineType.fromValue(getJson().getInt(TO_TAB_INDEX)));
     }
 
     protected List<String> getKeyList() {
-        return List.of(super.getFirstExistingKeyInList(KEY_LIST));
+        return KEY_LIST;
     }
 
     protected Pattern getPattern() {
@@ -42,6 +45,7 @@ public class ValidUrlRule extends AbstractRule {
     @Override
     protected List<String> getValueList() {
         return getKeyList().stream()
+                .filter(key -> getJson().has(key))
                 .map(key -> getJson().get(key).toString())
                 .toList();
     }

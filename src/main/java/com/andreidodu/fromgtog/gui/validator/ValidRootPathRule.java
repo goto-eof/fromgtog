@@ -14,20 +14,14 @@ import static com.andreidodu.fromgtog.gui.controller.constants.GuiKeys.*;
 public class ValidRootPathRule extends AbstractRule {
     private static final Pattern PATTERN = RegexUtil.REGEX_PATTERN_DIR_PATH;
     private static final String FIELD_NAME = "path";
-    private final List<String> FROM_KEY_LIST = List.of(FROM_LOCAL_ROOT_PATH);
-    private final List<String> TO_KEY_LIST = List.of(TO_LOCAL_ROOT_PATH);
+    private final List<String> KEY_LIST = List.of(FROM_LOCAL_ROOT_PATH, TO_LOCAL_ROOT_PATH);
 
     public ValidRootPathRule(JSONObject json) {
         super(json);
     }
 
     protected List<String> getKeyList() {
-        return Stream
-                .concat(
-                        TO_KEY_LIST.stream().filter(key -> super.getJson().keySet().contains(key)),
-                        FROM_KEY_LIST.stream().filter(key -> super.getJson().keySet().contains(key))
-                )
-                .toList();
+        return KEY_LIST;
     }
 
     protected Pattern getPattern() {
@@ -54,7 +48,10 @@ public class ValidRootPathRule extends AbstractRule {
 
     @Override
     protected List<String> getValueList() {
-        return getKeyList().stream().map(key -> super.getJson().get(key).toString()).toList();
+        return getKeyList().stream()
+                .filter(key -> getJson().has(key))
+                .map(key -> getJson().get(key).toString())
+                .toList();
     }
 
 }

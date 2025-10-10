@@ -15,7 +15,10 @@ public class ValidTokenRule extends AbstractRule {
     private static final List<String> KEY_LIST = List.of(
             FROM_GITEA_TOKEN,
             FROM_GITHUB_TOKEN,
-            FROM_GITLAB_TOKEN
+            FROM_GITLAB_TOKEN,
+            TO_GITEA_TOKEN,
+            TO_GITHUB_TOKEN,
+            TO_GITLAB_TOKEN
     );
 
     public ValidTokenRule(JSONObject json) {
@@ -29,7 +32,7 @@ public class ValidTokenRule extends AbstractRule {
     }
 
     protected List<String> getKeyList() {
-        return List.of(super.getFirstExistingKeyInList(KEY_LIST));
+        return KEY_LIST;
     }
 
     protected Pattern getPattern() {
@@ -43,6 +46,7 @@ public class ValidTokenRule extends AbstractRule {
     @Override
     protected List<String> getValueList() {
         return getKeyList().stream()
+                .filter(key -> getJson().has(key))
                 .map(key -> getJson().get(key).toString())
                 .toList();
     }
