@@ -76,7 +76,7 @@ public class GiteaServiceImpl implements GiteaService {
 
             ObjectMapper mapper = new ObjectMapper();
             mapper.registerModule(new JavaTimeModule());
-            log.info("User Info: {}", response.toString());
+            log.debug("User Info: {}", response.toString());
             return mapper.readValue(response.toString(), GiteaUserDTO.class);
         } catch (Exception e) {
             log.error("Error getting user info", e);
@@ -144,7 +144,7 @@ public class GiteaServiceImpl implements GiteaService {
             mapper.registerModule(new JavaTimeModule());
             mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
             String stringResponse = response.toString();
-            log.info("GiteaRepositoryDTO: {}", stringResponse);
+            log.debug("GiteaRepositoryDTO: {}", stringResponse);
             List<GiteaRepositoryDTO> giteaRepositoryDTOS = mapper.readValue(stringResponse, new TypeReference<List<GiteaRepositoryDTO>>() {
             });
             return new ArrayList<>(giteaRepositoryDTOS.stream().toList());
