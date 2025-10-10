@@ -33,7 +33,7 @@ public class ApplicationGUI extends JFrame {
     private JLabel appProgressStatusLabel;
     private JLabel appProgressMessageStatusLabel;
     private JButton appStartButton;
-    private JTextField fromGithubTokenTextField;
+    private JPasswordField fromGithubTokenTextField;
     private JCheckBox fromGithubCloneStarredRepositoriesCheckBox;
     private JCheckBox fromGithubCloneForkedRepositoriesCheckBox;
     private JCheckBox fromGithubClonePrivateRepositoriesCheckBox;
@@ -41,7 +41,7 @@ public class ApplicationGUI extends JFrame {
     private JCheckBox fromGithubCloneOrganizationSRepositoriesCheckBox;
     private JTextField fromGithubExcludeOrganizationTextField;
     private JTextField fromGiteaUrlTextField;
-    private JTextField fromGiteaTokenTextField;
+    private JPasswordField fromGiteaTokenTextField;
     private JCheckBox fromGiteaCloneStarredRepositoriesCheckBox;
     private JCheckBox fromGiteaCloneForkedRepositoriesCheckBox;
     private JCheckBox fromGiteaClonePrivateRepositoriesCheckBox;
@@ -52,9 +52,9 @@ public class ApplicationGUI extends JFrame {
     private JTextField toLocalRootPathTextField;
     private JCheckBox toLocalGroupByRepositoryOwnerCheckBox;
     private JTextField toGiteaUrlTextField;
-    private JTextField toGiteaTokenTextField;
+    private JPasswordField toGiteaTokenTextField;
     private JComboBox toGiteaPrivacyComboBox;
-    private JTextField toGithubTokenTextField;
+    private JPasswordField toGithubTokenTextField;
     private JComboBox toGithubPrivacyComboBox;
     private JCheckBox fromGithubClonePublicRepositoriesCheckBox;
     private JButton toLocalChooseButton;
@@ -67,7 +67,7 @@ public class ApplicationGUI extends JFrame {
     private JButton toolsDeleteALLGitlabRepositoriesButton;
     private JPanel fromGitlabPanel;
     private JTextField fromGitlabUrlTextfield;
-    private JTextField fromGitlabUrlTokenTextfield;
+    private JPasswordField fromGitlabUrlTokenTextfield;
     private JCheckBox fromGitlabCloneStarredRepositoriesCheckBox;
     private JCheckBox fromGitlabCloneForkedRepositoriesCheckBox;
     private JCheckBox fromGitlabClonePrivateRepositoriesCheckBox;
@@ -77,7 +77,7 @@ public class ApplicationGUI extends JFrame {
     private JTextField fromGitlabExcludeOrganizationTextField;
     private JPanel toGitlabPanel;
     private JTextField toGitlabUrlTextField;
-    private JTextField toGitlabTokenTextField;
+    private JPasswordField toGitlabTokenTextField;
     private JComboBox toGitlabPrivacyComboBox;
     private JTabbedPane mainTabbedPane;
     private JButton buyMeACoffeeButton;
@@ -432,7 +432,7 @@ public class ApplicationGUI extends JFrame {
         final JLabel label2 = new JLabel();
         label2.setText("GitHub Token");
         panel7.add(label2, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        fromGithubTokenTextField = new JTextField();
+        fromGithubTokenTextField = new JPasswordField();
         panel7.add(fromGithubTokenTextField, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         fromGithubOptionsTabbedPane = new JTabbedPane();
         fromGithubOptionsTabbedPane.setTabPlacement(4);
@@ -554,7 +554,7 @@ public class ApplicationGUI extends JFrame {
         final JLabel label11 = new JLabel();
         label11.setText("Gitea Token");
         panel20.add(label11, new GridConstraints(0, 0, 1, 2, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        fromGiteaTokenTextField = new JTextField();
+        fromGiteaTokenTextField = new JPasswordField();
         panel20.add(fromGiteaTokenTextField, new GridConstraints(1, 0, 1, 2, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         fromGiteaOptionsTabbedPane = new JTabbedPane();
         fromGiteaOptionsTabbedPane.setTabPlacement(4);
@@ -677,7 +677,7 @@ public class ApplicationGUI extends JFrame {
         final JLabel label20 = new JLabel();
         label20.setText("Gitlab Token");
         panel34.add(label20, new GridConstraints(0, 0, 1, 2, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        fromGitlabUrlTokenTextfield = new JTextField();
+        fromGitlabUrlTokenTextfield = new JPasswordField();
         panel34.add(fromGitlabUrlTokenTextfield, new GridConstraints(1, 0, 1, 2, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final Spacer spacer11 = new Spacer();
         panel31.add(spacer11, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
@@ -815,7 +815,7 @@ public class ApplicationGUI extends JFrame {
         panel47.add(label30, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer17 = new Spacer();
         panel47.add(spacer17, new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
-        toGithubTokenTextField = new JTextField();
+        toGithubTokenTextField = new JPasswordField();
         panel47.add(toGithubTokenTextField, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final JLabel label31 = new JLabel();
         label31.setText("repository privacy");
@@ -862,7 +862,7 @@ public class ApplicationGUI extends JFrame {
         final JLabel label34 = new JLabel();
         label34.setText("Gitea Token");
         panel54.add(label34, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        toGiteaTokenTextField = new JTextField();
+        toGiteaTokenTextField = new JPasswordField();
         panel54.add(toGiteaTokenTextField, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final JPanel panel55 = new JPanel();
         panel55.setLayout(new GridLayoutManager(2, 1, new Insets(0, 0, 0, 0), -1, -1));
@@ -911,7 +911,7 @@ public class ApplicationGUI extends JFrame {
         final JLabel label38 = new JLabel();
         label38.setText("Gitlab Token");
         panel61.add(label38, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        toGitlabTokenTextField = new JTextField();
+        toGitlabTokenTextField = new JPasswordField();
         panel61.add(toGitlabTokenTextField, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final JPanel panel62 = new JPanel();
         panel62.setLayout(new GridLayoutManager(2, 1, new Insets(0, 0, 0, 0), -1, -1));
