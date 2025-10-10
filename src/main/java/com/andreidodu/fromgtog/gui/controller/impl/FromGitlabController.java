@@ -71,7 +71,7 @@ public class FromGitlabController implements GUIFromController {
         fromGitlabCloneOrganizationsRepositoriesCheckBox.setSelected(settings.optBooleanObject(FROM_GITLAB_CLONE_ORGANIZATIONS_REPO_FLAG));
         fromGitlabExcludeOrganizationTextField.setText(settings.optString(FROM_GITLAB_EXCLUDE_ORGANIZATIONS));
 
-        fromGitlabOptionsTabbedPane.setSelectedIndex(settings.optEnum(EngineOptionsType.class, FROM_GITLAB_OPTIONS_TABBED_PANE_INDEX, EngineOptionsType.FILTER).getValue());
+        fromGitlabOptionsTabbedPane.setSelectedIndex(settings.optInt(FROM_GITLAB_OPTIONS_TABBED_PANE_INDEX));
         fromGitlabExcludeRepoNamesListTextField.setText(settings.optString(FROM_GITLAB_EXCLUDE_REPO_NAME_LIST));
         fromGitlabIncludeRepoNamesListFile.setText(settings.optString(FROM_GITLAB_INCLUDE_REPO_NAMES_LIST_FILE));
     }
