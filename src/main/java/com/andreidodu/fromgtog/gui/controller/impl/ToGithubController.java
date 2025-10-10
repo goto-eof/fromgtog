@@ -14,9 +14,9 @@ import static com.andreidodu.fromgtog.gui.controller.constants.GuiKeys.*;
 @Setter
 public class ToGithubController implements GUIToController {
 
+    final static int TAB_INDEX = EngineType.GITHUB.getValue();
     private JTextField toGithubTokenTextField;
     private JComboBox toGithubPrivacyComboBox;
-    final static int TAB_INDEX = EngineType.GITHUB.getValue();
 
     public ToGithubController(JSONObject settings, JTextField toGithubTokenTextField, JComboBox toGithubPrivacyComboBox) {
         this.toGithubTokenTextField = toGithubTokenTextField;

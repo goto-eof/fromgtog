@@ -25,16 +25,21 @@ import static com.andreidodu.fromgtog.constants.ApplicationConstants.CLONER_THRE
 import static com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.commands.CommandCommon.*;
 
 public class GenericDestinationEngineFromLocalStrategy<ServiceType extends GenericDestinationEngineFromStrategyService> extends AbstractStrategyCommon implements GenericDestinationEngineFromStrategyCommon {
-    private Logger log = LoggerFactory.getLogger(GenericDestinationEngineFromLocalStrategy.class);
-
     private final ServiceType service;
+    private Logger log = LoggerFactory.getLogger(GenericDestinationEngineFromLocalStrategy.class);
 
     public GenericDestinationEngineFromLocalStrategy(ServiceType service) {
         this.service = service;
     }
 
+    private static void validateInput(FromContext fromContext, ToContext toContext) {
+        if (StringUtils.equals(fromContext.rootPath(), toContext.rootPath())) {
+            throw new IllegalArgumentException("Root paths cannot be the same");
+        }
+    }
+
     @Override
-    public boolean accept(EngineType engineType) {
+    public boolean isApplicable(EngineType engineType) {
         return EngineType.LOCAL.equals(engineType);
     }
 
@@ -141,13 +146,6 @@ public class GenericDestinationEngineFromLocalStrategy<ServiceType extends Gener
 
         if (!new ThreadSleepCommand(engineContext.settingsContext().sleepTimeSeconds()).execute()) {
             throw new RuntimeException("Unable to put thread on sleep " + repositoryName);
-        }
-    }
-
-
-    private static void validateInput(FromContext fromContext, ToContext toContext) {
-        if (StringUtils.equals(fromContext.rootPath(), toContext.rootPath())) {
-            throw new IllegalArgumentException("Root paths cannot be the same");
         }
     }
 

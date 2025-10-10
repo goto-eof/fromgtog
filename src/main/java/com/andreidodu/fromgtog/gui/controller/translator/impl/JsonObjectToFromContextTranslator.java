@@ -1,11 +1,12 @@
 package com.andreidodu.fromgtog.gui.controller.translator.impl;
 
 import com.andreidodu.fromgtog.dto.FromContext;
+import com.andreidodu.fromgtog.gui.controller.translator.JsonObjectToRecordTranslator;
 import com.andreidodu.fromgtog.service.GitHubService;
 import com.andreidodu.fromgtog.service.impl.GitHubServiceImpl;
 import com.andreidodu.fromgtog.service.impl.GiteaServiceImpl;
-import com.andreidodu.fromgtog.gui.controller.translator.JsonObjectToRecordTranslator;
 import com.andreidodu.fromgtog.service.impl.GitlabServiceImpl;
+import com.andreidodu.fromgtog.type.EngineOptionsType;
 import com.andreidodu.fromgtog.type.EngineType;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14,6 +15,12 @@ import org.kohsuke.github.GitHub;
 import static com.andreidodu.fromgtog.gui.controller.constants.GuiKeys.*;
 
 public class JsonObjectToFromContextTranslator implements JsonObjectToRecordTranslator<FromContext> {
+    private static String getGitHubLogin(JSONObject jsonObject) {
+        GitHubService gitHubService = GitHubServiceImpl.getInstance();
+        GitHub githubClient = gitHubService.retrieveGitHubClient(jsonObject.getString(FROM_GITHUB_TOKEN));
+        return gitHubService.retrieveGitHubMyself(githubClient).getLogin();
+    }
+
     @Override
     public FromContext translate(JSONObject jsonObject) throws JSONException {
         EngineType engineType = jsonObject.getEnum(EngineType.class, ENGINE_TYPE);
@@ -51,12 +58,17 @@ public class JsonObjectToFromContextTranslator implements JsonObjectToRecordTran
                 false,
                 false,
                 null,
-                jsonObject.getString(FROM_LOCAL_ROOT_PATH)
+                jsonObject.getString(FROM_LOCAL_ROOT_PATH),
+                null,
+                null,
+                null
         );
     }
 
     private FromContext buildFromGiteaContext(EngineType engineType, JSONObject jsonObject) {
         String giteaLogin = getGiteaLogin(jsonObject);
+        EngineOptionsType optionsEngineType = jsonObject.optEnum(EngineOptionsType.class, FROM_GITEA_OPTIONS_TABBED_PANE_INDEX, EngineOptionsType.FILTER);
+
         return new FromContext(
                 engineType,
                 jsonObject.getString(FROM_GITEA_URL),
@@ -69,13 +81,16 @@ public class JsonObjectToFromContextTranslator implements JsonObjectToRecordTran
                 jsonObject.getBoolean(FROM_GITEA_CLONE_ARCHIVED_REPO_FLAG),
                 jsonObject.getBoolean(FROM_GITEA_CLONE_ORGANIZATIONS_REPO_FLAG),
                 jsonObject.getString(FROM_GITEA_EXCLUDE_ORGANIZATIONS),
-                null
+                null,
+                optionsEngineType,
+                jsonObject.getString(FROM_GITEA_EXCLUDE_REPO_NAME_LIST),
+                jsonObject.getString(FROM_GITEA_INCLUDE_REPO_NAMES_LIST_FILE)
         );
     }
 
-
     private FromContext buildFromGitlabContext(EngineType engineType, JSONObject jsonObject) {
         String giteaLogin = getGitlabLogin(jsonObject);
+        EngineOptionsType optionsEngineType = jsonObject.optEnum(EngineOptionsType.class, FROM_GITLAB_OPTIONS_TABBED_PANE_INDEX, EngineOptionsType.FILTER);
         return new FromContext(
                 engineType,
                 jsonObject.getString(FROM_GITLAB_URL),
@@ -88,7 +103,10 @@ public class JsonObjectToFromContextTranslator implements JsonObjectToRecordTran
                 jsonObject.getBoolean(FROM_GITLAB_CLONE_ARCHIVED_REPO_FLAG),
                 jsonObject.getBoolean(FROM_GITLAB_CLONE_ORGANIZATIONS_REPO_FLAG),
                 jsonObject.getString(FROM_GITLAB_EXCLUDE_ORGANIZATIONS),
-                null
+                null,
+                optionsEngineType,
+                jsonObject.getString(FROM_GITLAB_EXCLUDE_REPO_NAME_LIST),
+                jsonObject.getString(FROM_GITLAB_INCLUDE_REPO_NAMES_LIST_FILE)
         );
     }
 
@@ -102,6 +120,7 @@ public class JsonObjectToFromContextTranslator implements JsonObjectToRecordTran
 
     private FromContext buildFromGithubContext(EngineType engineType, JSONObject jsonObject) {
         String githubLogin = getGitHubLogin(jsonObject);
+        EngineOptionsType optionsEngineType = jsonObject.optEnum(EngineOptionsType.class, FROM_GITHUB_OPTIONS_TABBED_PANE_INDEX, EngineOptionsType.FILTER);
         return new FromContext(
                 engineType,
                 null,
@@ -114,13 +133,10 @@ public class JsonObjectToFromContextTranslator implements JsonObjectToRecordTran
                 jsonObject.getBoolean(FROM_GITHUB_CLONE_ARCHIVED_REPO_FLAG),
                 jsonObject.getBoolean(FROM_GITHUB_CLONE_ORGANIZATIONS_REPO_FLAG),
                 jsonObject.getString(FROM_GITHUB_EXCLUDE_ORGANIZATIONS),
-                null
+                null,
+                optionsEngineType,
+                jsonObject.getString(FROM_GITHUB_EXCLUDE_REPO_NAME_LIST),
+                jsonObject.getString(FROM_GITHUB_INCLUDE_REPO_NAMES_LIST_FILE)
         );
-    }
-
-    private static String getGitHubLogin(JSONObject jsonObject) {
-        GitHubService gitHubService = GitHubServiceImpl.getInstance();
-        GitHub githubClient = gitHubService.retrieveGitHubClient(jsonObject.getString(FROM_GITHUB_TOKEN));
-        return gitHubService.retrieveGitHubMyself(githubClient).getLogin();
     }
 }

@@ -16,7 +16,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
-import java.io.IOException;
 import java.util.function.Consumer;
 
 import static com.andreidodu.fromgtog.constants.ApplicationConstants.TERMINATOR_THREAD_NAME_PREFIX;
@@ -44,6 +43,23 @@ public class ToolsController {
         addDeleteGitlabRepositoriesButtonListener();
     }
 
+    private static void showFailedDeleteRepositoriesMessage(EngineType engineType) {
+        SoundPlayer.getInstance().play(SoundConstants.KEY_ERROR);
+        SwingUtilities.invokeLater(() -> {
+            JOptionPane.showMessageDialog(null, "Something wen wrong. Unable to delete " + engineType + " repositories.", "Error", JOptionPane.ERROR_MESSAGE);
+        });
+    }
+
+    private static void showRepositoriesDeletedSuccessfullyMessage(EngineType engineType) {
+        SoundPlayer.getInstance().play(SoundConstants.KEY_SUCCESS);
+        showInfoMessage("All " + engineType + " repositories were deleted!", "Info");
+    }
+
+    private static void showInfoMessage(String message, String title) {
+        SwingUtilities.invokeLater(() -> {
+            JOptionPane.showMessageDialog(null, message, title, JOptionPane.INFORMATION_MESSAGE);
+        });
+    }
 
     public void addDeleteGiteaRepositoriesButtonListener() {
         this.toolsDeleteALLGiteaRepositoriesButton.addActionListener(e -> {
@@ -56,7 +72,6 @@ public class ToolsController {
             startDeletionProcedure(GitlabServiceImpl.getInstance(), EngineType.GITLAB);
         });
     }
-
 
     public <ServiceType extends DeletableDestinationContentService> void startDeletionProcedure(ServiceType service, EngineType engineType) {
         String giteaUrl = JOptionPane.showInputDialog(null, "Enter " + engineType + " URL:", engineType + " URL", JOptionPane.QUESTION_MESSAGE);
@@ -87,25 +102,6 @@ public class ToolsController {
             }
         });
 
-    }
-
-    private static void showFailedDeleteRepositoriesMessage(EngineType engineType) {
-        SoundPlayer.getInstance().play(SoundConstants.KEY_ERROR);
-        SwingUtilities.invokeLater(() -> {
-            JOptionPane.showMessageDialog(null, "Something wen wrong. Unable to delete " + engineType + " repositories.", "Error", JOptionPane.ERROR_MESSAGE);
-        });
-    }
-
-    private static void showRepositoriesDeletedSuccessfullyMessage(EngineType engineType) {
-        SoundPlayer.getInstance().play(SoundConstants.KEY_SUCCESS);
-        showInfoMessage("All " + engineType + " repositories were deleted!", "Info");
-    }
-
-
-    private static void showInfoMessage(String message, String title) {
-        SwingUtilities.invokeLater(() -> {
-            JOptionPane.showMessageDialog(null, message, title, JOptionPane.INFORMATION_MESSAGE);
-        });
     }
 
     public void addDeleteGithubRepositoriesButtonListener() {

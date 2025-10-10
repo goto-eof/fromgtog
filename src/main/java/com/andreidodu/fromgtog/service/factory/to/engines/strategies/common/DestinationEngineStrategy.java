@@ -7,7 +7,7 @@ import com.andreidodu.fromgtog.type.EngineType;
 import java.util.List;
 
 public interface DestinationEngineStrategy {
-    boolean accept(EngineType engineType);
+    boolean isApplicable(EngineType engineType);
 
     boolean cloneAll(EngineContext engineContext, List<RepositoryDTO> repositoryDTOList);
 

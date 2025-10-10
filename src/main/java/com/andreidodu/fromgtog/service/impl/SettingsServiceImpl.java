@@ -1,6 +1,7 @@
 package com.andreidodu.fromgtog.service.impl;
 
 import com.andreidodu.fromgtog.service.SettingsService;
+import com.andreidodu.fromgtog.type.EngineOptionsType;
 import com.andreidodu.fromgtog.util.ApplicationUtil;
 import org.apache.commons.configuration2.Configuration;
 import org.apache.commons.configuration2.PropertiesConfiguration;
@@ -20,9 +21,8 @@ import static com.andreidodu.fromgtog.constants.ApplicationConstants.*;
 
 public class SettingsServiceImpl implements SettingsService {
 
-    private Logger log = LoggerFactory.getLogger(SettingsServiceImpl.class);
     private static SettingsServiceImpl instance;
-
+    private Logger log = LoggerFactory.getLogger(SettingsServiceImpl.class);
 
     public static SettingsServiceImpl getInstance() {
         if (instance == null) {
@@ -38,7 +38,15 @@ public class SettingsServiceImpl implements SettingsService {
             new File(retrieveFileName()).createNewFile();
             FileBasedConfigurationBuilder<PropertiesConfiguration> builder = configs.propertiesBuilder(retrieveFileName());
             PropertiesConfiguration config = builder.getConfiguration();
-            json.keySet().forEach(key -> config.setProperty(key, json.optString(key)));
+            json.keySet().forEach(key -> {
+                if (json.optEnum(EngineOptionsType.class, key) != null) {
+                    int value = json.optEnum(EngineOptionsType.class, key).getValue();
+                    config.setProperty(key, value);
+                    return;
+                }
+
+                config.setProperty(key, json.optString(key));
+            });
             builder.save();
         } catch (ConfigurationException | IOException cex) {
             log.error("unable to save settings: {}", cex.getMessage());

@@ -14,11 +14,10 @@ import static com.andreidodu.fromgtog.gui.controller.constants.GuiKeys.*;
 @Setter
 public class ToGiteaController implements GUIToController {
 
+    final static int TAB_INDEX = EngineType.GITEA.getValue();
     private JTextField toGiteaUrlTextField;
     private JTextField toGiteaTokenTextField;
     private JComboBox toGiteaPrivacyComboBox;
-
-    final static int TAB_INDEX = EngineType.GITEA.getValue();
 
     public ToGiteaController(JSONObject settings, JTextField toGiteaUrlTextField, JTextField toGiteaTokenTextField, JComboBox toGiteaPrivacyComboBox) {
         this.toGiteaUrlTextField = toGiteaUrlTextField;

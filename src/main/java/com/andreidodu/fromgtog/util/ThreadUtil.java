@@ -11,9 +11,8 @@ import static com.andreidodu.fromgtog.constants.ApplicationConstants.MAX_NUM_THR
 
 public class ThreadUtil {
 
-    private static ThreadUtil instance;
-
     private static final Logger log = LoggerFactory.getLogger(ThreadUtil.class);
+    private static ThreadUtil instance;
 
     public ThreadUtil() {
         if (instance != null) {

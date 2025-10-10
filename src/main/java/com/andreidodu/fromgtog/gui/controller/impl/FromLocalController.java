@@ -9,20 +9,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
-
 import java.io.File;
 
-import static com.andreidodu.fromgtog.gui.controller.constants.GuiKeys.*;
+import static com.andreidodu.fromgtog.gui.controller.constants.GuiKeys.ENGINE_TYPE;
+import static com.andreidodu.fromgtog.gui.controller.constants.GuiKeys.FROM_LOCAL_ROOT_PATH;
 
 @Getter
 @Setter
 public class FromLocalController implements GUIFromController {
     private final static Logger log = LoggerFactory.getLogger(FromLocalController.class);
-
+    private final static int TAB_INDEX = EngineType.LOCAL.getValue();
     private JTextField fromLocalRootPathTextField;
     private JButton fromLocalChooseButton;
-
-    private final static int TAB_INDEX = EngineType.LOCAL.getValue();
 
     public FromLocalController(JSONObject settings, JTextField fromLocalRootPathTextField, JButton fromLocalChooseButton) {
         this.fromLocalRootPathTextField = fromLocalRootPathTextField;

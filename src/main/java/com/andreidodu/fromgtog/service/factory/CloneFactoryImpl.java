@@ -1,14 +1,14 @@
 package com.andreidodu.fromgtog.service.factory;
 
-import com.andreidodu.fromgtog.service.factory.from.engines.GitlabSourceEngine;
-import com.andreidodu.fromgtog.service.factory.to.engines.*;
-import com.andreidodu.fromgtog.type.EngineType;
 import com.andreidodu.fromgtog.exception.DestinationEngineNotFoundException;
 import com.andreidodu.fromgtog.exception.SourceEngineNotFoundException;
 import com.andreidodu.fromgtog.service.factory.from.SourceEngine;
 import com.andreidodu.fromgtog.service.factory.from.engines.GiteaSourceEngine;
 import com.andreidodu.fromgtog.service.factory.from.engines.GithubSourceEngine;
+import com.andreidodu.fromgtog.service.factory.from.engines.GitlabSourceEngine;
 import com.andreidodu.fromgtog.service.factory.from.engines.LocalSourceEngine;
+import com.andreidodu.fromgtog.service.factory.to.engines.*;
+import com.andreidodu.fromgtog.type.EngineType;
 
 import java.util.Arrays;
 

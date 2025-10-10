@@ -10,6 +10,8 @@ import com.andreidodu.fromgtog.gui.controller.StrategyGUIController;
 import com.andreidodu.fromgtog.gui.controller.translator.impl.JsonObjectToAppContextTranslator;
 import com.andreidodu.fromgtog.gui.controller.translator.impl.JsonObjectToFromContextTranslator;
 import com.andreidodu.fromgtog.gui.controller.translator.impl.JsonObjectToToContextTranslator;
+import com.andreidodu.fromgtog.gui.validator.composite.ValidationComposite;
+import com.andreidodu.fromgtog.gui.validator.composite.factory.SetupFactory;
 import com.andreidodu.fromgtog.service.RepositoryCloner;
 import com.andreidodu.fromgtog.service.impl.RepositoryClonerServiceImpl;
 import com.andreidodu.fromgtog.service.impl.SettingsServiceImpl;
@@ -131,6 +133,29 @@ public class AppController implements GUIController {
 
     }
 
+    private static File getLogFile() {
+        File appDataDir = ApplicationUtil.getApplicationRootDirectory();
+        File logDir = new File(appDataDir, LOG_DIR_NAME);
+        File logFile = new File(logDir, LOG_FILENAME);
+        return logFile;
+    }
+
+    private static <T extends StrategyGUIController> JSONObject retrieveJsonData(List<T> fromControllerList,
+                                                                                 int selectedIndex) {
+        return fromControllerList.stream()
+                .filter(controller -> controller.accept(selectedIndex))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Invalid tab index"))
+                .getDataFromChildren();
+    }
+
+    private static String correctMessageLength(String message) {
+        if (message.length() > 60) {
+            return message.substring(0, 60) + "...";
+        }
+        return message;
+    }
+
     private void defineClearLogFileButtonListener() {
         clearLogFileButton.addActionListener(e -> {
             File logFile = getLogFile();
@@ -158,13 +183,6 @@ public class AppController implements GUIController {
                 }
             }
         });
-    }
-
-    private static File getLogFile() {
-        File appDataDir = ApplicationUtil.getApplicationRootDirectory();
-        File logDir = new File(appDataDir, LOG_DIR_NAME);
-        File logFile = new File(logDir, LOG_FILENAME);
-        return logFile;
     }
 
     private void openLogFileOnLinux(String logFilename) {
@@ -215,7 +233,18 @@ public class AppController implements GUIController {
             JSONObject jsonObjectFrom = retrieveJsonData(fromControllerList, fromTabbedPane.getSelectedIndex());
             JSONObject jsonObjectTo = retrieveJsonData(toControllerList, toTabbedPane.getSelectedIndex());
             JSONObject jsonObjectApp = getDataFromChildren();
-            saveSettings(jsonObjectFrom, jsonObjectTo, jsonObjectApp);
+
+            var allSettingsArr = new JSONObject[]{jsonObjectFrom, jsonObjectTo, jsonObjectApp};
+            JSONObject allSettings = JsonObjectServiceImpl.getInstance().merge(allSettingsArr);
+
+            List<String> errorList = validateSettings(allSettings);
+            if (!errorList.isEmpty()) {
+                this.showErrorMessage("Something went wrong." + System.lineSeparator() + String.join(System.lineSeparator(), errorList));
+                setEnabledUI.accept(true);
+                setShouldStop(true);
+                return;
+            }
+            saveSettings(allSettings);
         });
     }
 
@@ -247,6 +276,18 @@ public class AppController implements GUIController {
                 JSONObject jsonObjectTo = retrieveJsonData(toControllerList, toTabbedPane.getSelectedIndex());
                 JSONObject jsonObjectApp = getDataFromChildren();
 
+                var allSettingsArr = new JSONObject[]{jsonObjectFrom, jsonObjectTo, jsonObjectApp};
+                JSONObject allSettings = JsonObjectServiceImpl.getInstance().merge(allSettingsArr);
+
+                List<String> errorList = validateSettings(allSettings);
+                if (!errorList.isEmpty()) {
+                    this.showErrorMessage("Something went wrong. " + System.lineSeparator() + String.join(System.lineSeparator(), errorList));
+                    setEnabledUI.accept(true);
+                    setShouldStop(true);
+                    return;
+                }
+
+                saveSettings(allSettingsArr);
 
                 EngineContext engineContext = EngineContext.builder()
                         .settingsContext(translatorApp.translate(jsonObjectApp))
@@ -266,10 +307,10 @@ public class AppController implements GUIController {
                                 .build())
                         .build();
 
-                saveSettings(jsonObjectFrom, jsonObjectTo, jsonObjectApp);
                 RepositoryCloner repositoryCloner = RepositoryClonerServiceImpl.getInstance();
                 repositoryCloner.cloneAllRepositories(engineContext);
             } catch (Exception ee) {
+                log.error(ee.getMessage(), e);
                 this.showErrorMessage("Something went wrong. " + ee.getMessage());
                 setEnabledUI.accept(true);
                 setShouldStop(true);
@@ -277,6 +318,9 @@ public class AppController implements GUIController {
         });
     }
 
+    private List<String> validateSettings(JSONObject allSettings) {
+        return ValidationComposite.getErrorMessageList(allSettings, new SetupFactory().build());
+    }
 
     private void updateTimeLabel(String message) {
         SwingUtilities.invokeLater(() -> {
@@ -284,10 +328,9 @@ public class AppController implements GUIController {
         });
     }
 
-
-    private void saveSettings(JSONObject... jsonObjectFrom) {
+    private void saveSettings(JSONObject... jsonObjectArr) {
         log.debug("Saving settings...");
-        JSONObject allSettings = JsonObjectServiceImpl.getInstance().merge(jsonObjectFrom);
+        JSONObject allSettings = JsonObjectServiceImpl.getInstance().merge(jsonObjectArr);
         SettingsServiceImpl.getInstance().save(allSettings);
         log.debug("Done.");
     }
@@ -314,15 +357,6 @@ public class AppController implements GUIController {
         JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
     }
 
-    private static <T extends StrategyGUIController> JSONObject retrieveJsonData(List<T> fromControllerList,
-                                                                                 int selectedIndex) {
-        return fromControllerList.stream()
-                .filter(controller -> controller.accept(selectedIndex))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Invalid tab index"))
-                .getDataFromChildren();
-    }
-
     @Override
     public JSONObject getDataFromChildren() {
         JSONObject jsonObject = new JSONObject();
@@ -341,13 +375,6 @@ public class AppController implements GUIController {
         SwingUtilities.invokeLater(() -> messageStatus.setText(correctMessageLength(message)));
         SwingUtilities.invokeLater(() -> appLogTextArea.setText(String.format("%s\n%s", appLogTextArea.getText(), correctMessageLength(message))));
         log.info("{}", message);
-    }
-
-    private static String correctMessageLength(String message) {
-        if (message.length() > 60) {
-            return message.substring(0, 60) + "...";
-        }
-        return message;
     }
 
     private void updateApplicationProgressBarCurrent(int i) {

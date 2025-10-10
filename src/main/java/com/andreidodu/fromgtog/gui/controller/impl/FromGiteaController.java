@@ -1,6 +1,8 @@
 package com.andreidodu.fromgtog.gui.controller.impl;
 
 import com.andreidodu.fromgtog.gui.controller.GUIFromController;
+import com.andreidodu.fromgtog.gui.util.GuiUtil;
+import com.andreidodu.fromgtog.type.EngineOptionsType;
 import com.andreidodu.fromgtog.type.EngineType;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,7 +28,16 @@ public class FromGiteaController implements GUIFromController {
     private JCheckBox fromGiteaCloneOrganizationsRepositoriesCheckBox;
     private JTextField fromGiteaExcludeOrganizationTextField;
 
-    public FromGiteaController(JSONObject settings, JTextField fromGiteaUrlTextField, JTextField fromGiteaTokenTextField, JCheckBox fromGiteaCloneStarredRepositoriesCheckBox, JCheckBox fromGiteaCloneForkedRepositoriesCheckBox, JCheckBox fromGiteaClonePrivateRepositoriesCheckBox, JCheckBox fromGiteaClonePublicRepositoriesCheckBox, JCheckBox fromGiteaCloneArchivedRepositoriesCheckBox, JCheckBox fromGiteaCloneOrganizationsRepositoriesCheckBox, JTextField fromGiteaExcludeOrganizationTextField) {
+    private JTabbedPane fromGiteaOptionsTabbedPane;
+    private JTextField fromGiteaExcludeRepoNamesListTextField;
+    private JTextField fromGiteaIncludeRepoNamesListFile;
+    private JButton fromGiteaChooseRepoFileButton;
+
+    public FromGiteaController(JSONObject settings, JTextField fromGiteaUrlTextField, JTextField fromGiteaTokenTextField, JCheckBox fromGiteaCloneStarredRepositoriesCheckBox, JCheckBox fromGiteaCloneForkedRepositoriesCheckBox, JCheckBox fromGiteaClonePrivateRepositoriesCheckBox, JCheckBox fromGiteaClonePublicRepositoriesCheckBox, JCheckBox fromGiteaCloneArchivedRepositoriesCheckBox, JCheckBox fromGiteaCloneOrganizationsRepositoriesCheckBox, JTextField fromGiteaExcludeOrganizationTextField,
+                               JTabbedPane fromGiteaOptionsTabbedPane,
+                               JTextField fromGiteaExcludeRepoNamesListTextField,
+                               JTextField fromGiteaIncludeRepoNamesListFile,
+                               JButton fromGiteaChooseRepoFileButton) {
         this.fromGiteaUrlTextField = fromGiteaUrlTextField;
         this.fromGiteaTokenTextField = fromGiteaTokenTextField;
         this.fromGiteaCloneStarredRepositoriesCheckBox = fromGiteaCloneStarredRepositoriesCheckBox;
@@ -37,8 +48,15 @@ public class FromGiteaController implements GUIFromController {
         this.fromGiteaCloneOrganizationsRepositoriesCheckBox = fromGiteaCloneOrganizationsRepositoriesCheckBox;
         this.fromGiteaExcludeOrganizationTextField = fromGiteaExcludeOrganizationTextField;
 
+        this.fromGiteaOptionsTabbedPane = fromGiteaOptionsTabbedPane;
+        this.fromGiteaExcludeRepoNamesListTextField = fromGiteaExcludeRepoNamesListTextField;
+        this.fromGiteaIncludeRepoNamesListFile = fromGiteaIncludeRepoNamesListFile;
+        this.fromGiteaChooseRepoFileButton = fromGiteaChooseRepoFileButton;
+
         applySettings(settings);
+        GuiUtil.addActionListenerToChooseReposListFileButton(fromGiteaChooseRepoFileButton, fromGiteaIncludeRepoNamesListFile);
     }
+
 
     @Override
     public void applySettings(JSONObject settings) {
@@ -51,6 +69,10 @@ public class FromGiteaController implements GUIFromController {
         fromGiteaCloneArchivedRepositoriesCheckBox.setSelected(settings.optBooleanObject(FROM_GITEA_CLONE_ARCHIVED_REPO_FLAG));
         fromGiteaCloneOrganizationsRepositoriesCheckBox.setSelected(settings.optBooleanObject(FROM_GITEA_CLONE_ORGANIZATIONS_REPO_FLAG));
         fromGiteaExcludeOrganizationTextField.setText(settings.optString(FROM_GITEA_EXCLUDE_ORGANIZATIONS));
+
+        fromGiteaOptionsTabbedPane.setSelectedIndex(settings.optInt(FROM_GITEA_OPTIONS_TABBED_PANE_INDEX));
+        fromGiteaExcludeRepoNamesListTextField.setText(settings.optString(FROM_GITEA_EXCLUDE_REPO_NAME_LIST));
+        fromGiteaIncludeRepoNamesListFile.setText(settings.optString(FROM_GITEA_INCLUDE_REPO_NAMES_LIST_FILE));
 
     }
 
@@ -73,6 +95,10 @@ public class FromGiteaController implements GUIFromController {
         jsonObject.put(FROM_GITEA_CLONE_ORGANIZATIONS_REPO_FLAG, fromGiteaCloneOrganizationsRepositoriesCheckBox.isSelected());
         jsonObject.put(FROM_GITEA_EXCLUDE_ORGANIZATIONS, fromGiteaExcludeOrganizationTextField.getText());
         jsonObject.put(ENGINE_TYPE, EngineType.fromValue(TAB_INDEX));
+
+        jsonObject.put(FROM_GITEA_OPTIONS_TABBED_PANE_INDEX, EngineOptionsType.fromValue(fromGiteaOptionsTabbedPane.getSelectedIndex()));
+        jsonObject.put(FROM_GITEA_EXCLUDE_REPO_NAME_LIST, fromGiteaExcludeRepoNamesListTextField.getText());
+        jsonObject.put(FROM_GITEA_INCLUDE_REPO_NAMES_LIST_FILE, fromGiteaIncludeRepoNamesListFile.getText());
 
         return jsonObject;
     }

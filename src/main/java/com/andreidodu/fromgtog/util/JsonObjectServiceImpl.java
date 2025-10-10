@@ -15,6 +15,10 @@ public class JsonObjectServiceImpl {
         return instance;
     }
 
+    private static void copyFromTo(JSONObject jsonFrom, JSONObject jsonTo) {
+        jsonFrom.keySet().forEach(keyFrom -> jsonTo.put(keyFrom, jsonFrom.get(keyFrom)));
+    }
+
     public JSONObject merge(JSONObject json1, JSONObject json2) {
         JSONObject jsonObject = new JSONObject();
         copyFromTo(json1, jsonObject);
@@ -27,9 +31,5 @@ public class JsonObjectServiceImpl {
         Arrays.stream(json)
                 .forEach(source -> copyFromTo(source, jsonObject));
         return jsonObject;
-    }
-
-    private static void copyFromTo(JSONObject jsonFrom, JSONObject jsonTo) {
-        jsonFrom.keySet().forEach(keyFrom -> jsonTo.put(keyFrom, jsonFrom.get(keyFrom)));
     }
 }

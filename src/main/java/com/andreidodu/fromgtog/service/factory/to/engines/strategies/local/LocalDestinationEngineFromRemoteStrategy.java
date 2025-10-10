@@ -24,7 +24,7 @@ public class LocalDestinationEngineFromRemoteStrategy extends AbstractStrategyCo
     private Logger log = LoggerFactory.getLogger(LocalDestinationEngineFromRemoteStrategy.class);
 
     @Override
-    public boolean accept(EngineType engineType) {
+    public boolean isApplicable(EngineType engineType) {
         return List.of(EngineType.GITHUB, EngineType.GITEA, EngineType.GITLAB).contains(engineType);
     }
 
