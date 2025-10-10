@@ -11,7 +11,7 @@ import static com.andreidodu.fromgtog.gui.controller.constants.GuiKeys.*;
 
 public class ValidTokenRule extends AbstractRule {
     private static final Pattern PATTERN = RegexUtil.REGEX_PATTERN_AT_LEAST_ONE_CHAR;
-    private static final String INVALID_MESSAGE = "Invalid 'token' value. Valid pattern is: " + PATTERN + ". Current value: '%s'";
+    private static final String FIELD_NAME = "token";
     private static final List<String> KEY_LIST = List.of(
             FROM_GITEA_TOKEN,
             FROM_GITHUB_TOKEN,
@@ -36,8 +36,8 @@ public class ValidTokenRule extends AbstractRule {
         return PATTERN;
     }
 
-    public String getInvalidMessage() {
-        return INVALID_MESSAGE;
+    public String getFieldName() {
+        return FIELD_NAME;
     }
 
     @Override

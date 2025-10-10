@@ -9,6 +9,8 @@ import java.util.regex.Pattern;
 
 public abstract class AbstractRule {
 
+    private static final String INVALID_MESSAGE = "Invalid '%s' field value. Current value: '%s'. Valid pattern is: '%s'.";
+
     private final JSONObject json;
 
     @Getter
@@ -27,14 +29,14 @@ public abstract class AbstractRule {
 
     public abstract boolean isApplicable();
 
-    public abstract String getInvalidMessage();
+    public abstract String getFieldName();
 
     public boolean isValid() {
         List<String> invalidValues = getValueList().stream()
                 .filter(this::isInvalid)
                 .toList();
         invalidValuesList.addAll(invalidValues);
-        invalidValues.forEach(invalidValue -> getErrorMessageList().add(String.format(getInvalidMessage(), invalidValue)));
+        invalidValues.forEach(invalidValue -> getErrorMessageList().add(String.format(INVALID_MESSAGE, getFieldName(), invalidValue, getPattern())));
         return invalidValuesList.isEmpty();
     }
 

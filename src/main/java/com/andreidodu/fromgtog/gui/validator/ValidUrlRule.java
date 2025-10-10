@@ -11,7 +11,7 @@ import static com.andreidodu.fromgtog.gui.controller.constants.GuiKeys.*;
 
 public class ValidUrlRule extends AbstractRule {
     private static final Pattern PATTERN = RegexUtil.REGEX_PATTERN_URL;
-    private static final String INVALID_MESSAGE = "Invalid 'url' value. Valid pattern is: " + PATTERN + ". Current value: '%s'";
+    private static final String FIELD_NAME = "URL";
     private static final List<String> KEY_LIST = List.of(
             FROM_GITEA_URL,
             FROM_GITLAB_URL
@@ -35,8 +35,8 @@ public class ValidUrlRule extends AbstractRule {
         return PATTERN;
     }
 
-    public String getInvalidMessage() {
-        return INVALID_MESSAGE;
+    public String getFieldName() {
+        return FIELD_NAME;
     }
 
     @Override

@@ -13,7 +13,7 @@ import static com.andreidodu.fromgtog.gui.controller.constants.GuiKeys.*;
 
 public class ValidRootPathRule extends AbstractRule {
     private static final Pattern PATTERN = RegexUtil.REGEX_PATTERN_DIR_PATH;
-    private static final String INVALID_MESSAGE = "Invalid 'path' value. Valid pattern is: " + PATTERN + ". Current value: '%s'";
+    private static final String FIELD_NAME = "path";
     private final List<String> FROM_KEY_LIST = List.of(FROM_LOCAL_ROOT_PATH);
     private final List<String> TO_KEY_LIST = List.of(TO_LOCAL_ROOT_PATH);
 
@@ -48,8 +48,8 @@ public class ValidRootPathRule extends AbstractRule {
         return super.isValid();
     }
 
-    public String getInvalidMessage() {
-        return INVALID_MESSAGE;
+    public String getFieldName() {
+        return FIELD_NAME;
     }
 
     @Override

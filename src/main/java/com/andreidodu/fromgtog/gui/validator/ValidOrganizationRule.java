@@ -15,7 +15,7 @@ import static com.andreidodu.fromgtog.gui.controller.constants.GuiKeys.*;
 
 public class ValidOrganizationRule extends AbstractRule {
     private static final Pattern PATTERN = RegexUtil.REGEX_PATTERN_USERNAME;
-    private static final String INVALID_MESSAGE = "Invalid 'organization name' value. Valid pattern is: " + PATTERN + ". Current value: '%s'";
+    private static final String FIELD_NAME = "organization name";
     private static final List<String> ORGANIZATION_KEY_LIST = List.of(
             FROM_GITEA_EXCLUDE_ORGANIZATIONS,
             FROM_GITHUB_EXCLUDE_ORGANIZATIONS,
@@ -68,8 +68,8 @@ public class ValidOrganizationRule extends AbstractRule {
         return PATTERN;
     }
 
-    public String getInvalidMessage() {
-        return INVALID_MESSAGE;
+    public String getFieldName() {
+        return FIELD_NAME;
     }
 
     @Override

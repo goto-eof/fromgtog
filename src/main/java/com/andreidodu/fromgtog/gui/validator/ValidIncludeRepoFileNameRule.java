@@ -12,7 +12,7 @@ import static com.andreidodu.fromgtog.gui.controller.constants.GuiKeys.*;
 
 public class ValidIncludeRepoFileNameRule extends AbstractRule {
     private static final Pattern PATTERN = RegexUtil.REGEX_PATTERN_FILE_PATH;
-    private static final String INVALID_MESSAGE = "Invalid 'filename' value. Valid pattern is: " + PATTERN + ". Current value: '%s'";
+    private static final String FIELD_NAME = "filename";
     private static final List<String> ORGANIZATION_KEY_LIST = List.of(
             FROM_GITEA_INCLUDE_REPO_NAMES_LIST_FILE,
             FROM_GITHUB_INCLUDE_REPO_NAMES_LIST_FILE,
@@ -65,8 +65,8 @@ public class ValidIncludeRepoFileNameRule extends AbstractRule {
         return PATTERN;
     }
 
-    public String getInvalidMessage() {
-        return INVALID_MESSAGE;
+    public String getFieldName() {
+        return FIELD_NAME;
     }
 
     @Override

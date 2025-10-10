@@ -10,7 +10,7 @@ import static com.andreidodu.fromgtog.gui.controller.constants.GuiKeys.APP_SLEEP
 
 public class ValidSleepTimeRule extends AbstractRule {
     private static final Pattern PATTERN = RegexUtil.REGEX_PATTERN_NUMBER_0_120;
-    private static final String INVALID_MESSAGE = "Invalid 'sleep time' value. Valid pattern is: " + PATTERN + ". Current value: '%s'";
+    private static final String FIELD_NAME = "sleep time";
     private static final String KEY = APP_SLEEP_TIME;
 
     public ValidSleepTimeRule(JSONObject json) {
@@ -30,8 +30,8 @@ public class ValidSleepTimeRule extends AbstractRule {
         return PATTERN;
     }
 
-    public String getInvalidMessage() {
-        return INVALID_MESSAGE;
+    public String getFieldName() {
+        return FIELD_NAME;
     }
 
     @Override

@@ -14,7 +14,7 @@ import static com.andreidodu.fromgtog.gui.controller.constants.GuiKeys.*;
 
 public class ValidRepoNameRule extends AbstractRule {
     private static final Pattern PATTERN = RegexUtil.REGEX_PATTERN_REPO_NAME;
-    private static final String INVALID_MESSAGE = "Invalid 'repo name' value. Valid pattern is: " + PATTERN + ". Current value: '%s'";
+    private static final String FIELD_NAME = "repo name";
     private static final List<String> REPO_NAME_KEY_LIST = List.of(
             FROM_GITEA_EXCLUDE_REPO_NAME_LIST,
             FROM_GITHUB_EXCLUDE_REPO_NAME_LIST,
@@ -66,8 +66,8 @@ public class ValidRepoNameRule extends AbstractRule {
         return PATTERN;
     }
 
-    public String getInvalidMessage() {
-        return INVALID_MESSAGE;
+    public String getFieldName() {
+        return FIELD_NAME;
     }
 
     @Override
