@@ -65,14 +65,16 @@ public class FactoryUtil {
     public static Predicate<JSONObject> isRepoNameValid(String repoName) {
         return jsonObject -> {
             String valueToValidate = jsonObject.getString(repoName);
-            return isEmpty(valueToValidate) || validate(valueToValidate, RegexUtil.REGEX_PATTERN_REPO_NAME);
+            return isEmpty(valueToValidate) || Arrays.stream(valueToValidate.split(","))
+                    .allMatch(str -> validate(str, RegexUtil.REGEX_PATTERN_REPO_NAME));
         };
     }
 
     public static Predicate<JSONObject> isOrganizationValid(String excludeOrganizations) {
         return jsonObject -> {
             String valueToValidate = jsonObject.getString(excludeOrganizations);
-            return isEmpty(valueToValidate) || Arrays.stream(valueToValidate.split(",")).allMatch(str -> validate(str, RegexUtil.REGEX_PATTERN_USERNAME));
+            return isEmpty(valueToValidate) || Arrays.stream(valueToValidate.split(","))
+                    .allMatch(str -> validate(str, RegexUtil.REGEX_PATTERN_USERNAME));
         };
     }
 
