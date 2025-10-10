@@ -11,6 +11,7 @@ import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
 import static com.andreidodu.fromgtog.gui.controller.constants.GuiKeys.*;
+import static com.andreidodu.fromgtog.util.OsUtil.*;
 
 public class FactoryUtil {
 
@@ -113,8 +114,25 @@ public class FactoryUtil {
     private static Predicate<JSONObject> isMandatoryFilePathValid(String key) {
         return jsonObject -> {
             String valueToValidate = jsonObject.getString(key);
-            return !isEmpty(valueToValidate) && validate(valueToValidate, RegexUtil.REGEX_PATTERN_FILE_PATH);
+            return !isEmpty(valueToValidate) && isCrossPlatformValid(valueToValidate);
         };
+    }
+
+    private static boolean isCrossPlatformValid(String valueToValidate) {
+
+        if (isWindows()) {
+            return validate(valueToValidate, RegexUtil.REGEX_PATTERN_WINDOWS_FILE_PATH);
+        }
+
+        if (isLinux()) {
+            return validate(valueToValidate, RegexUtil.REGEX_PATTERN_LINUX_FILE_PATH);
+        }
+
+        if (isMac()) {
+            return validate(valueToValidate, RegexUtil.REGEX_PATTERN_MAC_FILE_PATH);
+        }
+
+        throw new IllegalArgumentException("Unsupported OS");
     }
 
     public static Predicate<JSONObject> isMandatorySleepTimeValid(String appSleepTime) {

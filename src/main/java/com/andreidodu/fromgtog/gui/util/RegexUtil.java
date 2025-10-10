@@ -4,6 +4,8 @@ import java.util.regex.Pattern;
 
 public class RegexUtil {
 
+    public static final Pattern REGEX_PATTERN_WINDOWS_FILE_PATH = Pattern.compile("^[a-zA-Z]:[\\\\\\/](?:[^\\\\\\/:\\*\\?\"<>|]+[\\\\\\/])*[^\\\\\\/:\\*\\?\"<>|]*$");
+    public static final Pattern REGEX_PATTERN_MAC_FILE_PATH = Pattern.compile("^\\/(?:[^\\/\\0]+(?:\\/|$))*$");
     private final static String REGEX_REPO_NAME = "^[a-zA-Z0-9._-]+$";
     public final static Pattern REGEX_PATTERN_REPO_NAME = Pattern.compile(REGEX_REPO_NAME);
     private final static String REGEX_USERNAME = "^[a-zA-Z0-9]([a-zA-Z0-9]|[._-][a-zA-Z0-9]){3,18}[a-zA-Z0-9]$";
@@ -13,7 +15,7 @@ public class RegexUtil {
     private final static String REGEX_AT_LEAST_ONE_CHAR = "^[0-9a-zA-Z_-]+$";
     public final static Pattern REGEX_PATTERN_AT_LEAST_ONE_CHAR = Pattern.compile(REGEX_AT_LEAST_ONE_CHAR);
     private final static String REGEX_FILE_PATH = "^/([^/]+)(/[^/]+)*$";
-    public final static Pattern REGEX_PATTERN_FILE_PATH = Pattern.compile(REGEX_FILE_PATH);
+    public final static Pattern REGEX_PATTERN_LINUX_FILE_PATH = Pattern.compile(REGEX_FILE_PATH);
     private final static String REGEX_DIR_PATH = "^/(?:[^/]+/)*(?:[^/]+)?/?$";
     public final static Pattern REGEX_PATTERN_DIR_PATH = Pattern.compile(REGEX_DIR_PATH);
     private final static String REGEX_URL = "https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)";
