@@ -168,14 +168,22 @@ public class GitlabServiceImpl implements GitlabService {
             idList.addAll(retrieveProjectsByVisibility(gitLabApi, Visibility.PUBLIC, false, false, false, true, true, excluded));
         }
 
-        return idList.stream().map(id -> {
-            try {
-                return gitLabApi.getProjectApi().getProject(id);
-            } catch (GitLabApiException e) {
-                log.error("Error while trying to retrieve repositories: {}", e.toString());
-                throw new CloningSourceException("Error while trying to retrieve repositories", e);
-            }
-        }).toList();
+        return idList.stream()
+                .map(id -> {
+                    try {
+                        return gitLabApi.getProjectApi().getProject(id);
+                    } catch (GitLabApiException e) {
+                        log.error("Error while trying to retrieve repositories: {}", e.toString());
+                        throw new CloningSourceException("Error while trying to retrieve repositories", e);
+                    }
+                })
+                .filter(project ->
+                        Arrays.stream(Optional.ofNullable(privacy)
+                                        .map(Filter::excludeRepoNameList)
+                                        .orElseGet(() -> new String[]{}))
+                                .noneMatch(repoName -> repoName.equals(project.getName().trim().toLowerCase()))
+                )
+                .toList();
     }
 
     private List<Project> addStarredProjects(GitLabApi gitLabApi) throws GitLabApiException {

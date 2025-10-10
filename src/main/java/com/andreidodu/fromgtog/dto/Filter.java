@@ -10,5 +10,6 @@ public record Filter(boolean privateFlag,
                      boolean archivedFlag,
                      boolean forkedFlag,
                      boolean organizationFlag,
-                     String[] excludedOrganizations) {
+                     String[] excludedOrganizations,
+                     String[] excludeRepoNameList) {
 }
