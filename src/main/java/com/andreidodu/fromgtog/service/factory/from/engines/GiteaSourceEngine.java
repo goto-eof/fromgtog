@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 public class GiteaSourceEngine extends AbstractSourceEngine {
-    private static final Logger log = LoggerFactory.getLogger(LocalDestinationEngineFromLocalStrategy.class);
+    private static final Logger log = LoggerFactory.getLogger(GiteaSourceEngine.class);
 
     private final static EngineType SOURCE_ENGINE_TYPE = EngineType.GITEA;
 
@@ -83,25 +83,32 @@ public class GiteaSourceEngine extends AbstractSourceEngine {
                 .stream()
                 .filter(repository -> {
                     if (excludeRepoNameList.contains(repository.getName().toLowerCase())) {
+                        log.info("excluding '{}' because present in the 'to exclude' list", repository.getName());
                         return false;
                     }
 
                     if (!context.cloneArchivedReposFlag() && repository.isArchived()) {
+                        log.info("excluding '{}' because repo should not be archived", repository.getName());
                         return false;
                     }
                     if (!context.cloneForkedReposFlag() && repository.isFork()) {
+                        log.info("excluding '{}' because repo should not be forked", repository.getName());
                         return false;
                     }
                     if (!context.clonePrivateReposFlag() && repository.isPrivate()) {
+                        log.info("excluding '{}' because repo is private", repository.getName());
                         return false;
                     }
                     if (!context.clonePublicReposFlag() && !repository.isPrivate()) {
+                        log.info("excluding '{}' because repo is not private", repository.getName());
                         return false;
                     }
                     if (!context.cloneBelongingToOrganizationsReposFlag() && !repository.getOwner().getLogin().equals(myself.getLogin())) {
+                        log.info("excluding '{}' because repo belong to an organization", repository.getName());
                         return false;
                     }
                     if (context.cloneBelongingToOrganizationsReposFlag() && isOrganizationInBlacklist(repository.getOwner(), blackListOrganizationsList)) {
+                        log.info("excluding '{}' because repo belong to an organization and the organization is in the black list", repository.getName());
                         return false;
                     }
                     return true;

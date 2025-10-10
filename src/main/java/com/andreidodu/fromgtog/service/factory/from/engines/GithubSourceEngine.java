@@ -19,6 +19,8 @@ import org.kohsuke.github.GHMyself;
 import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GHUser;
 import org.kohsuke.github.GitHub;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -26,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 
 public class GithubSourceEngine extends AbstractSourceEngine {
+    private static final Logger log = LoggerFactory.getLogger(GithubSourceEngine.class);
 
     private final static EngineType SOURCE_ENGINE_TYPE = EngineType.GITHUB;
     private final GitHubService gitHubService = GitHubServiceImpl.getInstance();
@@ -101,25 +104,32 @@ public class GithubSourceEngine extends AbstractSourceEngine {
                     GHUser repositoryUser = pair.getRight();
 
                     if (excludeRepoNameList.contains(ghRepository.getName().toLowerCase())) {
+                        log.info("excluding '{}' because present in the 'to exclude' list", ghRepository.getName());
                         return false;
                     }
 
                     if (!context.cloneArchivedReposFlag() && ghRepository.isArchived()) {
+                        log.info("excluding '{}' because repo should not be archived", ghRepository.getName());
                         return false;
                     }
                     if (!context.cloneForkedReposFlag() && ghRepository.isFork()) {
+                        log.info("excluding '{}' because repo should not be forked", ghRepository.getName());
                         return false;
                     }
                     if (!context.clonePrivateReposFlag() && ghRepository.isPrivate()) {
+                        log.info("excluding '{}' because repo is private", ghRepository.getName());
                         return false;
                     }
                     if (!context.clonePublicReposFlag() && !ghRepository.isPrivate()) {
+                        log.info("excluding '{}' because repo is not private", ghRepository.getName());
                         return false;
                     }
                     if (!context.cloneBelongingToOrganizationsReposFlag() && !repositoryUser.getLogin().equals(myself.getLogin())) {
+                        log.info("excluding '{}' because repo belong to an organization", ghRepository.getName());
                         return false;
                     }
                     if (context.cloneBelongingToOrganizationsReposFlag() && isOrganizationInBlacklist(repositoryUser, blacklistOrganizationsList)) {
+                        log.info("excluding '{}' because repo belong to an organization and the organization is in the black list", ghRepository.getName());
                         return false;
                     }
                     return true;
