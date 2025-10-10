@@ -1,6 +1,5 @@
 package com.andreidodu.fromgtog.service.factory.from;
 
-import com.andreidodu.fromgtog.service.factory.to.engines.strategies.local.LocalDestinationEngineFromLocalStrategy;
 import com.andreidodu.fromgtog.type.EngineType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

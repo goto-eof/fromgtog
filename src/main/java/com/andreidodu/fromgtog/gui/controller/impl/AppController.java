@@ -10,7 +10,8 @@ import com.andreidodu.fromgtog.gui.controller.StrategyGUIController;
 import com.andreidodu.fromgtog.gui.controller.translator.impl.JsonObjectToAppContextTranslator;
 import com.andreidodu.fromgtog.gui.controller.translator.impl.JsonObjectToFromContextTranslator;
 import com.andreidodu.fromgtog.gui.controller.translator.impl.JsonObjectToToContextTranslator;
-import com.andreidodu.fromgtog.gui.validator.*;
+import com.andreidodu.fromgtog.gui.validator.composite.ValidationComposite;
+import com.andreidodu.fromgtog.gui.validator.composite.factory.SetupFactory;
 import com.andreidodu.fromgtog.service.RepositoryCloner;
 import com.andreidodu.fromgtog.service.impl.RepositoryClonerServiceImpl;
 import com.andreidodu.fromgtog.service.impl.SettingsServiceImpl;
@@ -317,22 +318,7 @@ public class AppController implements GUIController {
     }
 
     private List<String> validateSettings(JSONObject allSettings) {
-        List<AbstractRule> ruleList = List.of(
-                new ValidSleepTimeRule(allSettings),
-                new ValidOrganizationRule(allSettings),
-                new ValidRepoNameRule(allSettings),
-                new ValidTokenRule(allSettings),
-                new ValidIncludeRepoFileNameRule(allSettings),
-                new ValidRootPathRule(allSettings),
-                new ValidUrlRule(allSettings)
-        );
-
-        return ruleList.stream()
-                .filter(AbstractRule::isApplicable)
-                .filter(rule -> !rule.isValid())
-                .map(AbstractRule::getErrorMessageList)
-                .flatMap(List::stream)
-                .toList();
+        return ValidationComposite.getErrorMessageList(allSettings, new SetupFactory().build());
     }
 
     private void updateTimeLabel(String message) {

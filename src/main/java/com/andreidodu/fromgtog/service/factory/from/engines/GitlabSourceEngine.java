@@ -18,6 +18,19 @@ public class GitlabSourceEngine extends AbstractSourceEngine {
 
     private final static EngineType SOURCE_ENGINE_TYPE = EngineType.GITLAB;
 
+    private static List<RepositoryDTO> mapToResultDTO(CallbackContainer callbackContainer, List<Project> giteaRepositoryDTOList) {
+        GitlabRepositoryMapper mapper = new GitlabRepositoryMapper();
+
+        List<RepositoryDTO> repositoryDTOList = giteaRepositoryDTOList
+                .stream()
+                .map(mapper::toDTO)
+                .toList();
+
+        callbackContainer.updateApplicationStatusMessage().accept("All repositories information were retrieved.");
+
+        return repositoryDTOList;
+    }
+
     @Override
     public EngineType getEngineType() {
         return SOURCE_ENGINE_TYPE;
@@ -69,19 +82,6 @@ public class GitlabSourceEngine extends AbstractSourceEngine {
         );
 
         return mapToResultDTO(callbackContainer, giteaRepositoryDTOList);
-    }
-
-    private static List<RepositoryDTO> mapToResultDTO(CallbackContainer callbackContainer, List<Project> giteaRepositoryDTOList) {
-        GitlabRepositoryMapper mapper = new GitlabRepositoryMapper();
-
-        List<RepositoryDTO> repositoryDTOList = giteaRepositoryDTOList
-                .stream()
-                .map(mapper::toDTO)
-                .toList();
-
-        callbackContainer.updateApplicationStatusMessage().accept("All repositories information were retrieved.");
-
-        return repositoryDTOList;
     }
 
     private Filter buildUserRepoFilterInput(FromContext fromContext) {
