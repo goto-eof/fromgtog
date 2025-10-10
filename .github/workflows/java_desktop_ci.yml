@@ -1,0 +1,35 @@
+name: Java CI su Pull Request
+
+on:
+  pull_request:
+    branches: [ main, master ]
+  push:
+    branches: [ main, master ]
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: code checkout
+        uses: actions/checkout@v4
+
+      - name: JDK setup
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: compile and test
+        run: mvn -B verify --file pom.xml
+
+      - name: create jar
+        run: mvn -B package --file pom.xml
+
+      - name: upload jar
+        uses: actions/upload-artifact@v4
+        with:
+          name: FromGtoG
+          path: target/*.jar
+          retention-days: 5
