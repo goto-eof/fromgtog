@@ -12,7 +12,7 @@ import static com.andreidodu.fromgtog.gui.controller.constants.GuiKeys.*;
 
 public class ValidIncludeRepoFileNameRule extends AbstractRule {
     private static final Pattern PATTERN = RegexUtil.REGEX_PATTERN_FILE_PATH;
-    private static final String INVALID_MESSAGE = "Invalid 'filename'. Valid pattern is: " + PATTERN;
+    private static final String INVALID_MESSAGE = "Invalid 'filename' value. Valid pattern is: " + PATTERN + ". Current value: '%s'";
     private static final List<String> ORGANIZATION_KEY_LIST = List.of(
             FROM_GITEA_INCLUDE_REPO_NAMES_LIST_FILE,
             FROM_GITHUB_INCLUDE_REPO_NAMES_LIST_FILE,
@@ -35,7 +35,7 @@ public class ValidIncludeRepoFileNameRule extends AbstractRule {
             return false;
         }
 
-        String optionsTabbedPaneKey = super.getKey(OPTIONS_KEY_LIST);
+        String optionsTabbedPaneKey = super.getFirstExistingKeyInList(OPTIONS_KEY_LIST);
 
         validateOptionsTabbedPaneKey(optionsTabbedPaneKey);
 
@@ -57,8 +57,8 @@ public class ValidIncludeRepoFileNameRule extends AbstractRule {
     }
 
     @Override
-    protected String getKey() {
-        return super.getKey(ORGANIZATION_KEY_LIST);
+    protected List<String> getKeyList() {
+        return List.of(super.getFirstExistingKeyInList(ORGANIZATION_KEY_LIST));
     }
 
     protected Pattern getPattern() {
@@ -70,8 +70,10 @@ public class ValidIncludeRepoFileNameRule extends AbstractRule {
     }
 
     @Override
-    protected String getValue() {
-        return getJson().get(getKey()).toString();
+    protected List<String> getValueList() {
+        return getKeyList().stream()
+                .map(key -> getJson().get(key).toString())
+                .toList();
     }
 
 }

@@ -11,7 +11,7 @@ import static com.andreidodu.fromgtog.gui.controller.constants.GuiKeys.*;
 
 public class ValidTokenRule extends AbstractRule {
     private static final Pattern PATTERN = RegexUtil.REGEX_PATTERN_AT_LEAST_ONE_CHAR;
-    private static final String INVALID_MESSAGE = "Invalid 'token'. Valid pattern is: " + PATTERN;
+    private static final String INVALID_MESSAGE = "Invalid 'token' value. Valid pattern is: " + PATTERN + ". Current value: '%s'";
     private static final List<String> KEY_LIST = List.of(
             FROM_GITEA_TOKEN,
             FROM_GITHUB_TOKEN,
@@ -28,11 +28,8 @@ public class ValidTokenRule extends AbstractRule {
                 .contains(EngineType.fromValue(getJson().getInt(FROM_TAB_INDEX)));
     }
 
-    protected String getKey() {
-        return KEY_LIST.stream()
-                .filter(key -> super.getJson().keySet().contains(key))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Internal problem: invalid key. Please ask the developer for a fix (:"));
+    protected List<String> getKeyList() {
+        return List.of(super.getFirstExistingKeyInList(KEY_LIST));
     }
 
     protected Pattern getPattern() {
@@ -44,8 +41,10 @@ public class ValidTokenRule extends AbstractRule {
     }
 
     @Override
-    protected String getValue() {
-        return getJson().get(getKey()).toString();
+    protected List<String> getValueList() {
+        return getKeyList().stream()
+                .map(key -> getJson().get(key).toString())
+                .toList();
     }
 
 }

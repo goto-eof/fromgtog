@@ -14,7 +14,7 @@ import static com.andreidodu.fromgtog.gui.controller.constants.GuiKeys.*;
 
 public class ValidRepoNameRule extends AbstractRule {
     private static final Pattern PATTERN = RegexUtil.REGEX_PATTERN_REPO_NAME;
-    private static final String INVALID_MESSAGE = "Invalid 'repo name'. Valid pattern is: " + PATTERN;
+    private static final String INVALID_MESSAGE = "Invalid 'repo name' value. Valid pattern is: " + PATTERN + ". Current value: '%s'";
     private static final List<String> REPO_NAME_KEY_LIST = List.of(
             FROM_GITEA_EXCLUDE_REPO_NAME_LIST,
             FROM_GITHUB_EXCLUDE_REPO_NAME_LIST,
@@ -37,7 +37,7 @@ public class ValidRepoNameRule extends AbstractRule {
             return false;
         }
 
-        String optionsTabbedPaneKey = super.getKey(OPTIONS_KEY_LIST);
+        String optionsTabbedPaneKey = super.getFirstExistingKeyInList(OPTIONS_KEY_LIST);
 
         validateOptionsTabbedPaneKey(optionsTabbedPaneKey);
 
@@ -58,11 +58,8 @@ public class ValidRepoNameRule extends AbstractRule {
         return EngineOptionsType.FILTER == EngineOptionsType.fromValue(getJson().getInt(optionsKey));
     }
 
-    protected String getKey() {
-        return REPO_NAME_KEY_LIST.stream()
-                .filter(key -> super.getJson().keySet().contains(key))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Internal problem: invalid key. Please ask the developer for a fix (:"));
+    protected List<String> getKeyList() {
+        return List.of(super.getFirstExistingKeyInList(REPO_NAME_KEY_LIST));
     }
 
     protected Pattern getPattern() {
@@ -74,8 +71,11 @@ public class ValidRepoNameRule extends AbstractRule {
     }
 
     @Override
-    protected List<String> getValue() {
-        return StringUtil.stringsSeparatedByCommaToList(getJson().getString(getKey()), ApplicationConstants.LIST_ITEM_SEPARATOR);
+    protected List<String> getValueList() {
+        return getKeyList().stream()
+                .map(key -> StringUtil.stringsSeparatedByCommaToList(getJson().getString(key), ApplicationConstants.LIST_ITEM_SEPARATOR))
+                .flatMap(List::stream)
+                .toList();
     }
 
 }

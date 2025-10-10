@@ -13,7 +13,7 @@ import static com.andreidodu.fromgtog.gui.controller.constants.GuiKeys.*;
 
 public class ValidRootPathRule extends AbstractRule {
     private static final Pattern PATTERN = RegexUtil.REGEX_PATTERN_DIR_PATH;
-    private static final String INVALID_MESSAGE = "Invalid 'path'. Valid pattern is: " + PATTERN;
+    private static final String INVALID_MESSAGE = "Invalid 'path' value. Valid pattern is: " + PATTERN + ". Current value: '%s'";
     private final List<String> FROM_KEY_LIST = List.of(FROM_LOCAL_ROOT_PATH);
     private final List<String> TO_KEY_LIST = List.of(TO_LOCAL_ROOT_PATH);
 
@@ -21,7 +21,7 @@ public class ValidRootPathRule extends AbstractRule {
         super(json);
     }
 
-    protected List<String> getKey() {
+    protected List<String> getKeyList() {
         return Stream
                 .concat(
                         TO_KEY_LIST.stream().filter(key -> super.getJson().keySet().contains(key)),
@@ -36,12 +36,13 @@ public class ValidRootPathRule extends AbstractRule {
 
     @Override
     public boolean isApplicable() {
-        return Objects.equals(EngineType.LOCAL, EngineType.fromValue(getJson().getInt(FROM_TAB_INDEX)));
+        return Objects.equals(EngineType.LOCAL, EngineType.fromValue(getJson().getInt(FROM_TAB_INDEX))) ||
+                Objects.equals(EngineType.LOCAL, EngineType.fromValue(getJson().getInt(TO_TAB_INDEX)));
     }
 
     @Override
     public boolean isValid() {
-        if (getValue() == null || getValue().isEmpty()) {
+        if (getValueList() == null || getValueList().isEmpty()) {
             return false;
         }
         return super.isValid();
@@ -52,8 +53,8 @@ public class ValidRootPathRule extends AbstractRule {
     }
 
     @Override
-    protected List<String> getValue() {
-        return getKey().stream().map(key -> super.getJson().get(key).toString()).toList();
+    protected List<String> getValueList() {
+        return getKeyList().stream().map(key -> super.getJson().get(key).toString()).toList();
     }
 
 }

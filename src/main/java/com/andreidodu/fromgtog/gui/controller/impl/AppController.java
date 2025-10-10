@@ -1,6 +1,5 @@
 package com.andreidodu.fromgtog.gui.controller.impl;
 
-import com.andreidodu.fromgtog.constants.ApplicationConstants;
 import com.andreidodu.fromgtog.constants.SoundConstants;
 import com.andreidodu.fromgtog.dto.CallbackContainer;
 import com.andreidodu.fromgtog.dto.EngineContext;
@@ -331,7 +330,8 @@ public class AppController implements GUIController {
         return ruleList.stream()
                 .filter(AbstractRule::isApplicable)
                 .filter(rule -> !rule.isValid())
-                .map(rule -> String.format("%s  -> invalid value(s): %s", rule.getInvalidMessage(), String.join(ApplicationConstants.LIST_ITEM_SEPARATOR, rule.getInvalidValuesList())))
+                .map(AbstractRule::getErrorMessageList)
+                .flatMap(List::stream)
                 .toList();
     }
 

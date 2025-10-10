@@ -7,6 +7,7 @@ import com.andreidodu.fromgtog.type.EngineType;
 import com.andreidodu.fromgtog.util.StringUtil;
 import org.json.JSONObject;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -14,7 +15,7 @@ import static com.andreidodu.fromgtog.gui.controller.constants.GuiKeys.*;
 
 public class ValidOrganizationRule extends AbstractRule {
     private static final Pattern PATTERN = RegexUtil.REGEX_PATTERN_USERNAME;
-    private static final String INVALID_MESSAGE = "Invalid 'username'. Valid pattern is: " + PATTERN;
+    private static final String INVALID_MESSAGE = "Invalid 'organization name' value. Valid pattern is: " + PATTERN + ". Current value: '%s'";
     private static final List<String> ORGANIZATION_KEY_LIST = List.of(
             FROM_GITEA_EXCLUDE_ORGANIZATIONS,
             FROM_GITHUB_EXCLUDE_ORGANIZATIONS,
@@ -37,7 +38,7 @@ public class ValidOrganizationRule extends AbstractRule {
             return false;
         }
 
-        String optionsTabbedPaneKey = super.getKey(OPTIONS_KEY_LIST);
+        String optionsTabbedPaneKey = super.getFirstExistingKeyInList(OPTIONS_KEY_LIST);
 
         validateOptionsTabbedPaneKey(optionsTabbedPaneKey);
 
@@ -59,8 +60,8 @@ public class ValidOrganizationRule extends AbstractRule {
     }
 
     @Override
-    protected String getKey() {
-        return super.getKey(ORGANIZATION_KEY_LIST);
+    protected List<String> getKeyList() {
+        return List.of(super.getFirstExistingKeyInList(ORGANIZATION_KEY_LIST));
     }
 
     protected Pattern getPattern() {
@@ -72,8 +73,10 @@ public class ValidOrganizationRule extends AbstractRule {
     }
 
     @Override
-    protected List<String> getValue() {
-        return StringUtil.stringsSeparatedByCommaToList(getJson().getString(getKey()), ApplicationConstants.LIST_ITEM_SEPARATOR);
+    protected List<String> getValueList() {
+        return getKeyList().stream()
+                .map(key -> StringUtil.stringsSeparatedByCommaToList(getJson().getString(key), ApplicationConstants.LIST_ITEM_SEPARATOR))
+                .flatMap(Collection::stream).toList();
     }
 
 }
