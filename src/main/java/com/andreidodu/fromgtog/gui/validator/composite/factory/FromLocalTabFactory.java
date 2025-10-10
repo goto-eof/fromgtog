@@ -9,8 +9,7 @@ import org.json.JSONObject;
 import java.util.function.Predicate;
 
 import static com.andreidodu.fromgtog.gui.controller.constants.GuiKeys.FROM_LOCAL_ROOT_PATH;
-import static com.andreidodu.fromgtog.gui.validator.composite.factory.util.FactoryUtil.isFromMainTabIndexEqualTo;
-import static com.andreidodu.fromgtog.gui.validator.composite.factory.util.FactoryUtil.isMandatoryTokenValid;
+import static com.andreidodu.fromgtog.gui.validator.composite.factory.util.FactoryUtil.*;
 
 public class FromLocalTabFactory implements ComponentValidatorFactory {
     @Override
@@ -19,7 +18,7 @@ public class FromLocalTabFactory implements ComponentValidatorFactory {
 
         PrimaryComponentValidator primaryTab = new PrimaryComponentValidator(mainIsApplicableCondition);
 
-        primaryTab.addComponentValidator(new SecondaryComponentValidator(mainIsApplicableCondition, isMandatoryTokenValid(FROM_LOCAL_ROOT_PATH), "directory path"));
+        primaryTab.addComponentValidator(new SecondaryComponentValidator(mainIsApplicableCondition, isMandatoryDirPathValid(FROM_LOCAL_ROOT_PATH), "directory path"));
 
         return primaryTab;
     }

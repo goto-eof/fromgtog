@@ -95,6 +95,13 @@ public class FactoryUtil {
         };
     }
 
+    public static Predicate<JSONObject> isMandatoryDirPathValid(String tokenKey) {
+        return jsonObject -> {
+            String valueToValidate = jsonObject.getString(tokenKey);
+            return !isEmpty(valueToValidate) && validate(valueToValidate, RegexUtil.REGEX_PATTERN_DIR_PATH);
+        };
+    }
+
     public static Predicate<JSONObject> isFromMainTabIndexEqualTo(EngineType engineType) {
         return (jsonObject) -> engineType.equals(EngineType.fromValue(jsonObject.getInt(FROM_TAB_INDEX)));
     }
