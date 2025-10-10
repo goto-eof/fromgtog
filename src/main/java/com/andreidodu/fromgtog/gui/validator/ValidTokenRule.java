@@ -27,8 +27,9 @@ public class ValidTokenRule extends AbstractRule {
 
     @Override
     public boolean isApplicable() {
-        return List.of(EngineType.GITHUB, EngineType.GITEA, EngineType.GITLAB)
-                .contains(EngineType.fromValue(getJson().getInt(FROM_TAB_INDEX)));
+        List<EngineType> validEngineTypeList = List.of(EngineType.GITHUB, EngineType.GITEA, EngineType.GITLAB);
+        return validEngineTypeList.contains(EngineType.fromValue(getJson().getInt(FROM_TAB_INDEX))) ||
+                validEngineTypeList.contains(EngineType.fromValue(getJson().getInt(TO_TAB_INDEX)));
     }
 
     protected List<String> getKeyList() {
