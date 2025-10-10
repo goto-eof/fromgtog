@@ -7,6 +7,7 @@ import com.andreidodu.fromgtog.type.EngineOptionsType;
 import com.andreidodu.fromgtog.type.EngineType;
 import org.json.JSONObject;
 
+import java.util.Arrays;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
@@ -71,7 +72,7 @@ public class FactoryUtil {
     public static Predicate<JSONObject> isOrganizationValid(String excludeOrganizations) {
         return jsonObject -> {
             String valueToValidate = jsonObject.getString(excludeOrganizations);
-            return isEmpty(valueToValidate) || validate(valueToValidate, RegexUtil.REGEX_PATTERN_USERNAME);
+            return isEmpty(valueToValidate) || Arrays.stream(valueToValidate.split(",")).allMatch(str -> validate(str, RegexUtil.REGEX_PATTERN_USERNAME));
         };
     }
 
