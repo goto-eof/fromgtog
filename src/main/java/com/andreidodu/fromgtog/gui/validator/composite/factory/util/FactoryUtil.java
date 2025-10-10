@@ -99,8 +99,25 @@ public class FactoryUtil {
     public static Predicate<JSONObject> isMandatoryDirPathValid(String tokenKey) {
         return jsonObject -> {
             String valueToValidate = jsonObject.getString(tokenKey);
-            return !isEmpty(valueToValidate) && validate(valueToValidate, RegexUtil.REGEX_PATTERN_DIR_PATH);
+            return !isEmpty(valueToValidate) && isDirPathCrossPlatformValid(valueToValidate);
         };
+    }
+
+    private static boolean isDirPathCrossPlatformValid(String valueToValidate) {
+
+        if (isWindows()) {
+            return validate(valueToValidate, RegexUtil.REGEX_PATTERN_WINDOWS_DIR_PATH);
+        }
+
+        if (isLinux()) {
+            return validate(valueToValidate, RegexUtil.REGEX_PATTERN_LINUX_DIR_PATH);
+        }
+
+        if (isMac()) {
+            return validate(valueToValidate, RegexUtil.REGEX_PATTERN_MAC_DIR_PATH);
+        }
+
+        throw new IllegalArgumentException("Unsupported OS");
     }
 
     public static Predicate<JSONObject> isFromMainTabIndexEqualTo(EngineType engineType) {
@@ -114,11 +131,11 @@ public class FactoryUtil {
     private static Predicate<JSONObject> isMandatoryFilePathValid(String key) {
         return jsonObject -> {
             String valueToValidate = jsonObject.getString(key);
-            return !isEmpty(valueToValidate) && isCrossPlatformValid(valueToValidate);
+            return !isEmpty(valueToValidate) && isFilenameCrossPlatformValid(valueToValidate);
         };
     }
 
-    private static boolean isCrossPlatformValid(String valueToValidate) {
+    private static boolean isFilenameCrossPlatformValid(String valueToValidate) {
 
         if (isWindows()) {
             return validate(valueToValidate, RegexUtil.REGEX_PATTERN_WINDOWS_FILE_PATH);

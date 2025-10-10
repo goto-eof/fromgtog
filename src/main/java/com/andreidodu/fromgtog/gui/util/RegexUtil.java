@@ -16,8 +16,12 @@ public class RegexUtil {
     public final static Pattern REGEX_PATTERN_AT_LEAST_ONE_CHAR = Pattern.compile(REGEX_AT_LEAST_ONE_CHAR);
     private final static String REGEX_FILE_PATH = "^/([^/]+)(/[^/]+)*$";
     public final static Pattern REGEX_PATTERN_LINUX_FILE_PATH = Pattern.compile(REGEX_FILE_PATH);
-    private final static String REGEX_DIR_PATH = "^/(?:[^/]+/)*(?:[^/]+)?/?$";
-    public final static Pattern REGEX_PATTERN_DIR_PATH = Pattern.compile(REGEX_DIR_PATH);
+
+    private final static String REGEX_LINUX_MAC_DIR_PATH = "^\\/(?:[^\\/\\0]+(?:\\/))*$";
+    public final static Pattern REGEX_PATTERN_LINUX_DIR_PATH = Pattern.compile(REGEX_LINUX_MAC_DIR_PATH);
+    public final static Pattern REGEX_PATTERN_MAC_DIR_PATH = Pattern.compile(REGEX_LINUX_MAC_DIR_PATH);
+    public final static Pattern REGEX_PATTERN_WINDOWS_DIR_PATH = Pattern.compile("^[a-zA-Z]:[\\\\\\/](?:[^\\\\\\/:\\*\\?\"<>|]+[\\\\\\/])*$");
+
     private final static String REGEX_URL = "https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)";
     public final static Pattern REGEX_PATTERN_URL = Pattern.compile(REGEX_URL);
 }
