@@ -24,10 +24,6 @@ public class PrimaryComponentValidator implements ComponentValidator {
         this.getComponentValidatorList().add(componentValidator);
     }
 
-    public boolean removeComponentValidator(ComponentValidator componentValidator) {
-        return this.getComponentValidatorList().remove(componentValidator);
-    }
-
     @Override
     public boolean isApplicable(JSONObject jsonObject) {
         return this.getIsApplicablePredicate().test(jsonObject);

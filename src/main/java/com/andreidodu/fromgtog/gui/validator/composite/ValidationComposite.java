@@ -16,25 +16,4 @@ public class ValidationComposite {
                 .toList();
     }
 
-//    public ComponentValidator buildFromGiteaFilterScenario() {
-//
-//    }
-//
-//    public ComponentValidator buildFromGiteaFileScenario() {
-//
-//    }
-//
-//    public ComponentValidator buildFromGitlabFilterScenario() {
-//
-//    }
-//
-//    public ComponentValidator buildFromGitlabFileScenario() {
-//
-//    }
-//
-//    public ComponentValidator buildFromLocalFileScenario() {
-//
-//    }
-
-
 }
