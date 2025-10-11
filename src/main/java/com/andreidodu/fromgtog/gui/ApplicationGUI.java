@@ -369,7 +369,21 @@ public class ApplicationGUI extends JFrame {
                 buyMeACoffeeButton,
                 projectWebsiteButton,
                 reportAnIssueButton,
-                multithreadingEnabled
+                multithreadingEnabled,
+                
+                githubFilterAndClone,
+                fromGithubOptionsTabbedPane,
+                fromGithubExcludeRepoNamesListTextField,
+                fromGithubIncludeRepoNamesListFile,
+                fromGithubChooseRepoFileButton,
+                fromGiteaOptionsTabbedPane,
+                fromGiteaExcludeRepoNamesListTextField,
+                fromGiteaIncludeRepoNamesListFile,
+                fromGiteaChooseRepoFileButton,
+                fromGitlabOptionsTabbedPane,
+                fromGitlabExcludeRepoNamesListTextField,
+                fromGitlabIncludeRepoNamesListFile,
+                fromGitlabChooseRepoFileButton
         );
     }
 
