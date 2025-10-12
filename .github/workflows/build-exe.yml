@@ -38,10 +38,8 @@ jobs:
         run: |
           Write-Host "Files:"
           Get-ChildItem -Recurse
-               
           echo "RELEASE_TAG=${{ github.ref_name }}" >> $env:GITHUB_ENV
           Write-Host "Release Tag set on: ${{ github.ref_name }}"
-
           $Destination = "downloaded-files\fromgtog.jar"
           if ($JarFile.FullName -ne $Destination) {
               Write-Host "JAR found $($JarFile.FullName). Copy it to root..."
