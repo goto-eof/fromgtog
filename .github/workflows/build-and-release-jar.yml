@@ -21,27 +21,11 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
 
-      - name: compile and test
-        run: mvn -B verify --file pom.xml
-
       - name: create jar
-        run: mvn -B package --file pom.xml
-
-      - name: upload jar
-        uses: actions/upload-artifact@v4
-        with:
-          name: application-files
-          path: target/fromgtog.jar
-          retention-days: 5
-
-      - name: Download Artifact (JAR and resources)
-        uses: actions/download-artifact@v4
-        with:
-          name: application-files
-          path: downloaded-files
+        run: mvn clean package
 
       - name: Release on GitHub
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: application-files/fromgtog.jar#${{ github.event.repository.name }}-${{ github.ref_name }}.jar
+          files: target/${{ github.event.repository.name }}.jar#${{ github.event.repository.name }}-${{ github.ref_name }}.jar
