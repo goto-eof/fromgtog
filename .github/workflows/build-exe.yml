@@ -1,4 +1,4 @@
-name: CI/CD - Crea Eseguibile Windows
+name: CI/CD - Create Windows MSI file
 
 on:
   push:
