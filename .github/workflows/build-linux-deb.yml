@@ -85,12 +85,12 @@ jobs:
 
       - name: Zip DEB file
         run: |
-          DEB_FILE="executable/fromgtog_${RELEASE_TAG}-1_amd64.deb"
-          ZIP_NAME="${{ github.event.repository.name }}-Linux-${{ github.ref_name }}-x64-Installer.zip"
+          DEB_FILE="executable/fromgtog_${RELEASE_TAG}_amd64.deb"
+          ZIP_NAME="${{ github.event.repository.name }}-Linux-${{ github.ref_name }}-amd64-Installer.zip"
           zip -j "$ZIP_NAME" "$DEB_FILE"
 
       - name: Release on GitHub
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: ${{ github.event.repository.name }}-Linux-${{ github.ref_name }}-x64-Installer.zip
+          files: ${{ github.event.repository.name }}-Linux-${{ github.ref_name }}-amd64-Installer.zip
