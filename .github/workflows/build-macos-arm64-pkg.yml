@@ -1,4 +1,5 @@
-name: CI/CD - Create MacOS PKG file
+name: CI/CD - Create macOS ARM PKG file
+
 on:
   push:
     tags:
@@ -27,8 +28,8 @@ jobs:
             target/fromgtog.jar
             resources/
 
-  create_pkg:
-    runs-on: macos-latest
+  create_pkg_arm:
+    runs-on: macos-14
     permissions:
       contents: write
     needs: build_jar
@@ -47,13 +48,14 @@ jobs:
           name: application-files
           path: downloaded-files
 
-      - name: Configure JDK for macOS
+      - name: Configure JDK for macOS ARM
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '21'
+          architecture: arm64
 
-      - name: Create PKG file with jpackage
+      - name: Create PKG file with jpackage (ARM)
         run: |
           INPUT_PATH="downloaded-files/target"
           OUTPUT_PATH="executable"
@@ -76,14 +78,14 @@ jobs:
             --add-modules java.base,java.desktop,java.net.http,java.naming,java.sql,java.management,java.security.jgss,java.xml,java.logging,jdk.crypto.ec,java.security.sasl \
             --verbose
 
-      - name: Zip PKG file
+      - name: Zip PKG file (ARM)
         run: |
-          PKG_FILE="executable/FromGtoG-${RELEASE_TAG}.pkg"
-          ZIP_NAME="${{ github.event.repository.name }}-macOS-${{ github.ref_name }}-Intel-Installer.zip"
+          PKG_FILE=$(ls executable/*.pkg | head -n 1)
+          ZIP_NAME="${{ github.event.repository.name }}-MacOS-${{ github.ref_name }}-arm64-Installer.zip"
           zip -j "$ZIP_NAME" "$PKG_FILE"
 
       - name: Release on GitHub
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: ${{ github.event.repository.name }}-macOS-${{ github.ref_name }}-Intel-Installer.zip
+          files: ${{ github.event.repository.name }}-MacOS-${{ github.ref_name }}-arm64-Installer.zip
