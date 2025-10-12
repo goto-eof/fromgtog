@@ -19,7 +19,7 @@ jobs:
       - name: Build JAR with Maven
         run: mvn clean package
 
-      - name: Caricate Artifact (JAR and resources)
+      - name: Load Artifact (JAR and resources)
         uses: actions/upload-artifact@v4
         with:
           name: application-files
@@ -43,7 +43,7 @@ jobs:
           $Destination = "downloaded-files\fromgtog.jar"
           if ($JarFile.FullName -ne $Destination) {
               Write-Host "JAR found $($JarFile.FullName). Copy it to root..."
-              Copy-Item -Path $JarFile.FullName -Destination $Destination -Force
+              Copy-Item -Path application-files\$JarFile.FullName -Destination $Destination -Force
           } else {
               Write-Host "JAR in the right place ($Destination)."
           }
@@ -63,7 +63,7 @@ jobs:
         run: |
           $InputPath = "downloaded-files"
           $OutputPath = "executable"
-          $MainJar = "fromgtog.jar"
+          $MainJar = "target/fromgtog.jar"
           $IconPath = "downloaded-files\resources\icon-windows.ico"
           jpackage.exe `
             --input $InputPath `
