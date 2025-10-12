@@ -24,7 +24,7 @@ jobs:
         with:
           name: application-files
           path: |
-            fromgtog.jar
+            target/fromgtog.jar
             resources/
 
   create_msi:
@@ -32,6 +32,12 @@ jobs:
     needs: build_jar
     steps:
       - uses: actions/checkout@v4
+      - name: Define release version
+        id: set_version
+        shell: pwsh
+        run: |
+          echo "RELEASE_TAG=${{ github.ref_name }}" >> $env:GITHUB_ENV
+          Write-Host "Tag di rilascio impostato su: ${{ github.ref_name }}"
       - name: Download Artifact (JAR and resources)
         uses: actions/download-artifact@v4
         with:
@@ -48,7 +54,7 @@ jobs:
         run: |
           $InputPath = "downloaded-files"
           $OutputPath = "executable"
-          $MainJar = "fromgtog.jar"
+          $MainJar = "target\fromgtog.jar"
           $IconPath = "downloaded-files\resources\icon-windows.ico"
           
           jpackage.exe `
