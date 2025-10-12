@@ -61,9 +61,9 @@ jobs:
 
       - name: Create MSI file with jpackage
         run: |
-          $InputPath = "downloaded-files"
+          $InputPath = ""
           $OutputPath = "executable"
-          $MainJar = "downloaded-files\resources\fromgtog.jar"
+          $MainJar = "fromgtog.jar"
           $IconPath = "downloaded-files\resources\icon-windows.ico"
           jpackage.exe `
             --input $InputPath `
