@@ -24,7 +24,7 @@ public class RegexUtil {
     private final static String REGEX_LINUX_MAC_DIR_PATH = "^/|(/[a-zA-Z0-9_-]+)+$";
     public final static Pattern REGEX_PATTERN_LINUX_DIR_PATH = Pattern.compile(REGEX_LINUX_MAC_DIR_PATH);
     public final static Pattern REGEX_PATTERN_MAC_DIR_PATH = Pattern.compile(REGEX_LINUX_MAC_DIR_PATH);
-    public final static Pattern REGEX_PATTERN_WINDOWS_DIR_PATH = Pattern.compile("^[a-zA-Z]:[\\\\\\/](?:[^\\\\\\/:\\*\\?\"<>|]+[\\\\\\/])*$");
+    public final static Pattern REGEX_PATTERN_WINDOWS_DIR_PATH = Pattern.compile("^[a-zA-Z]:\\\\(((?![<>:\"/\\\\|?*]).)+((?<![ .])\\\\)?)*$");
 
     private final static String REGEX_URL = "https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)";
     public final static Pattern REGEX_PATTERN_URL = Pattern.compile(REGEX_URL);
