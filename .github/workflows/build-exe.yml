@@ -27,7 +27,7 @@ jobs:
             target/fromgtog.jar
             resources/
 
-  create_exe:
+  create_msi:
     runs-on: windows-latest
     needs: build_jar
     steps:
