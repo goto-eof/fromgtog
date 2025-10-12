@@ -41,12 +41,6 @@ jobs:
                
           echo "RELEASE_TAG=${{ github.ref_name }}" >> $env:GITHUB_ENV
           Write-Host "Release Tag set on: ${{ github.ref_name }}"
-          
-#          $JarFile = Get-ChildItem -Path downloaded-files -Filter fromgtog.jar -Recurse | Select-Object -First 1
-#
-#          if (-not $JarFile) {
-#              throw "ERROR: fromgtog.jar not found."
-#          }
 
           $Destination = "downloaded-files\fromgtog.jar"
           if ($JarFile.FullName -ne $Destination) {
@@ -73,7 +67,6 @@ jobs:
           $OutputPath = "executable"
           $MainJar = "fromgtog.jar"
           $IconPath = "downloaded-files\resources\icon-windows.ico"
-          
           jpackage.exe `
             --input $InputPath `
             --dest $OutputPath `
