@@ -4,13 +4,13 @@
 <h2 id="index">Index</h2>
 
 - [Introduction](#introduction)
-- [News](#news)
 - [Features](#features)
 - [Download (Stable)](#download)
     - [MacOS](#download-macos)
     - [Windows](#download-windows)
     - [Linux](#download-linux)
 - [Screenshot](#screenshot)
+- [Logs from the developer](#news)
 - [For developers](#for-developers)
 - [Tested on](#tested-on)
 - [Support me](#support-me)
@@ -65,56 +65,6 @@ To achieve the best possible structural integrity and to allow for future featur
 * **Strategy:** Enables dynamic switching of the cloning and migration logic (e.g., handling Local-to-Remote operations).
 * **Singleton:** Ensures efficient, centralized resource management.
 
-<h2 id="news">News</h2>
-
-- 2025/10/12
-    - added the following GitHub Workflows in order to build executables of FromGtoG for each platform:
-        - Linux (.deb)
-            - amd64
-            - arm64
-        - MacOS (.pkg)
-            - amd64
-            - arm64
-        - Windows (.msi)
-            - amd64
-            - arm64
-- 2025/10/10
-    - user input validation feature (composite pattern + factory pattern in order to make the code more readable) -> "
-      Fianlly!" (:
-    - currently validation feature is compatible only with Linux paths (not tested on other Operative Systems) -> I
-      still need to complete it in order to make it cross platform
-    - view tokens as password (****)
-    - update log level to info -> "Fianlly!" (:
-    - exclude repo names feature
-    - clone only repo names stored in a file feature
-- 2025/10/07
-    - refactor: remove useless code - now we have auto-closable resource so it is not necessary to close them manually
-    - show version number on the title bar
-- 2025/10/06 - Today I applied few small improvements to the application. In particular:
-    - I fixed an issue related to the Executor Service
-    - I updated those parts of the code that allow to keep the total number of cloned repositories at the end of cloning
-      process.
-    - I fixed the "final status message". Now, if at least one git clone operation failed, FromGtoG will show a final
-      error message.
-
-      Because the improvements are not super important and because the release process on all platforms requires some
-      time, I will release the new version of FromGtoG only on the Ubuntu App Center.
-
-      About 2-3 days ago I played with Java Virtual Threads. I wanted to decrease the cloning process time. I succeeded
-      to get a few seconds less than Platform Threads. Because the improvement was not significant (there is a
-      bottleneck in an external library), I decided to avoid
-      to include this new feature into FromGtoG application.
-- 2025/06/23 - I discovered that FromGtoG `.deb` package was not working on Debian 10. I rebuilt the package on Debian
-    10. So, now it should work on both Ubuntu latest and Debian 10. I apologize for the inconvenience. Please ping me if
-        you find a bug (
-        open an issue on [GitHub](https://github.com/goto-eof/fromgtog/issues)
-        or [contact me](https://andre-i.eu/#contactme)). The v. 7.0.0 should work now also on Debian 10.
-        You can download it
-        from [here](https://github.com/goto-eof/fromgtog/releases/download/7.0.0/fromgtog_7.0.0_amd64.deb).
-- fixed the windows/linux and macOS packaging - now it is possible to clone from GitHub. The absence of the
-  `jdk.crypto.ec` and `java.security.sasl` imports in the `--add-modules` option, prevented the SSL connections, so the
-  clone process failed, in particular for GitHub (which uses SSL).
-
 <h2 id="features">Features</h2>
 
 Currently, the application is able to clone:
@@ -167,6 +117,58 @@ JDK 21, Intellij UI Designer (plugin for Intellij), Slf4J, Lombok, Apache Common
 ![screenshot](images/FromGtoG.png)
 
 <img src="https://andre-i.eu/api/v1/ipResource/custom.png?host=https://github.com/goto-eof/fromgtog" onerror="this.style.display='none'" />
+
+
+<h2 id="news">News</h2>
+
+- 2025/10/12
+    - added the following GitHub Workflows in order to build executables of FromGtoG for each platform:
+        - Linux (.deb)
+            - amd64
+            - arm64
+        - MacOS (.pkg)
+            - amd64
+            - arm64
+        - Windows (.msi)
+            - amd64
+            - arm64
+- 2025/10/10
+    - user input validation feature (composite pattern + factory pattern in order to make the code more readable) -> "
+      Fianlly!" (:
+    - currently validation feature is compatible only with Linux paths (not tested on other Operative Systems) -> I
+      still need to complete it in order to make it cross platform
+    - view tokens as password (****)
+    - update log level to info -> "Fianlly!" (:
+    - exclude repo names feature
+    - clone only repo names stored in a file feature
+- 2025/10/07
+    - refactor: remove useless code - now we have auto-closable resource so it is not necessary to close them manually
+    - show version number on the title bar
+- 2025/10/06 - Today I applied few small improvements to the application. In particular:
+    - I fixed an issue related to the Executor Service
+    - I updated those parts of the code that allow to keep the total number of cloned repositories at the end of cloning
+      process.
+    - I fixed the "final status message". Now, if at least one git clone operation failed, FromGtoG will show a final
+      error message.
+
+      Because the improvements are not super important and because the release process on all platforms requires some
+      time, I will release the new version of FromGtoG only on the Ubuntu App Center.
+
+      About 2-3 days ago I played with Java Virtual Threads. I wanted to decrease the cloning process time. I succeeded
+      to get a few seconds less than Platform Threads. Because the improvement was not significant (there is a
+      bottleneck in an external library), I decided to avoid
+      to include this new feature into FromGtoG application.
+- 2025/06/23 - I discovered that FromGtoG `.deb` package was not working on Debian 10. I rebuilt the package on Debian
+    10. So, now it should work on both Ubuntu latest and Debian 10. I apologize for the inconvenience. Please ping me if
+        you find a bug (
+        open an issue on [GitHub](https://github.com/goto-eof/fromgtog/issues)
+        or [contact me](https://andre-i.eu/#contactme)). The v. 7.0.0 should work now also on Debian 10.
+        You can download it
+        from [here](https://github.com/goto-eof/fromgtog/releases/download/7.0.0/fromgtog_7.0.0_amd64.deb).
+- fixed the windows/linux and macOS packaging - now it is possible to clone from GitHub. The absence of the
+  `jdk.crypto.ec` and `java.security.sasl` imports in the `--add-modules` option, prevented the SSL connections, so the
+  clone process failed, in particular for GitHub (which uses SSL).
+
 
 <h2 id="for-developers">For developers</h2>
 
