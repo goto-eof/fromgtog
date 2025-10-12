@@ -10,7 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Configura JDK (Linux)
+
+      - name: Configure JDK (Linux)
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
@@ -19,7 +20,7 @@ jobs:
       - name: Build JAR with Maven
         run: mvn clean package
 
-      - name: Load Artifact (JAR and resources)
+      - name: Upload Artifact (JAR and resources)
         uses: actions/upload-artifact@v4
         with:
           name: application-files
@@ -28,7 +29,7 @@ jobs:
             resources/
 
   create_deb:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     permissions:
       contents: write
     needs: build_jar
@@ -36,6 +37,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Define release version
+        id: set_version
         run: |
           echo "RELEASE_TAG=${GITHUB_REF_NAME}" >> $GITHUB_ENV
           echo "Release Tag set on: ${GITHUB_REF_NAME}"
@@ -46,16 +48,16 @@ jobs:
           name: application-files
           path: downloaded-files
 
-      - name: Configure JDK for Debian
+      - name: Configure JDK for Linux
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '21'
 
-      - name: Install jpackage dependencies (Debian)
+      - name: Install required dependencies for jpackage
         run: |
           sudo apt-get update
-          sudo apt-get install -y fakeroot dpkg-dev libfuse2
+          sudo apt-get install -y fakeroot dpkg-dev
 
       - name: Create DEB package with jpackage
         run: |
@@ -63,7 +65,9 @@ jobs:
           OUTPUT_PATH="executable"
           MAIN_JAR="fromgtog.jar"
           ICON_PATH="downloaded-files/resources/icon-linux.png"
+
           mkdir -p "$OUTPUT_PATH"
+
           jpackage \
             --input "$INPUT_PATH" \
             --dest "$OUTPUT_PATH" \
@@ -75,19 +79,18 @@ jobs:
             --icon "$ICON_PATH" \
             --type deb \
             --linux-shortcut \
-            --linux-menu-group "FromGtoG" \
             --java-options "-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true" \
             --add-modules java.base,java.desktop,java.net.http,java.naming,java.sql,java.management,java.security.jgss,java.xml,java.logging,jdk.crypto.ec,java.security.sasl \
             --verbose
 
-      - name: Zip DEB package
+      - name: Zip DEB file
         run: |
-          SOURCE_PATH=$(find executable -name "*.deb" | head -n 1)
-          DEST_NAME="${{ github.event.repository.name }}-linux-${{ github.ref_name }}-x64-20.04.zip"
-          zip -j "$DEST_NAME" "$SOURCE_PATH"
+          DEB_FILE="executable/fromgtog_${RELEASE_TAG}-1_amd64.deb"
+          ZIP_NAME="${{ github.event.repository.name }}-Linux-${{ github.ref_name }}-x64-Installer.zip"
+          zip -j "$ZIP_NAME" "$DEB_FILE"
 
       - name: Release on GitHub
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: ${{ github.event.repository.name }}-linux-${{ github.ref_name }}-20.04.zip
+          files: ${{ github.event.repository.name }}-Linux-${{ github.ref_name }}-x64-Installer.zip
