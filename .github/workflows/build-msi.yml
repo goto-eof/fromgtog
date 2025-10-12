@@ -29,6 +29,8 @@ jobs:
 
   create_msi:
     runs-on: windows-latest
+    permissions:
+      contents: write
     needs: build_jar
     steps:
       - uses: actions/checkout@v4
@@ -85,7 +87,7 @@ jobs:
         shell: pwsh
         run: |
           $SourcePath = "executable\FromGtoG-$env:RELEASE_TAG.msi" 
-          $DestinationName = "${{ github.event.repository.name }}-$env:RELEASE_TAG-Windows-Installer.zip"
+          $DestinationName = "${{ github.event.repository.name }}-${{ github.ref_name }}-Windows-Installer.zip"
           Compress-Archive -Path $SourcePath -DestinationPath $DestinationName
       - name: Release on Github
         uses: softprops/action-gh-release@v1
