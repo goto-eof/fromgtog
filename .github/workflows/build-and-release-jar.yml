@@ -38,4 +38,4 @@ jobs:
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: target/*.jar
+          files: target/*.jar#${{ github.event.repository.name }}-${{ github.ref_name }}.jar
