@@ -43,7 +43,7 @@ FromGtoG goes beyond simple batch operations, offering advanced filtering and pe
     * **Organization Repos**
     * **Starred Repos**
     * **Forked Repos**
-    * **Archived Repos** (Crucial for complete backups and long-term storage.)
+    * **Archived Repos** (Clones repositories archived on platforms like GitHub or Gitea, crucial for complete backups and long-term storage.)
 * **Granular Control:**
     * Easily **filter out** specific repositories you do not wish to clone from the batch operation.
     * Clone **only** the repositories listed in a file, allowing developers to manage migration pipelines using external lists.
@@ -60,7 +60,7 @@ Since publishing version 3.0 just a few months ago, I realized a significant **c
 ## Architectural Improvements (The Evolution from 3.0)
 
 To achieve the best possible structural integrity and to allow for future feature expansion, I implemented extensive use of several **Software Design Patterns**. These patterns ensure better **modularity** and long-term stability:
-
+* **Composite Pattern:** Used for robust and flexible **user input validation**, ensuring data integrity across all platforms.
 * **Abstract Factory:** Manages flexible connections with different Git platform APIs (GitHub, Gitea, GitLab).
 * **Strategy:** Enables dynamic switching of the cloning and migration logic (e.g., handling Local-to-Remote operations).
 * **Singleton:** Ensures efficient, centralized resource management.
