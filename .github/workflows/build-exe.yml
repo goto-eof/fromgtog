@@ -44,7 +44,7 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
-      - name: Create EXE file with jpackage
+      - name: Create MSI file with jpackage
         run: |
           $InputPath = "downloaded-files"
           $OutputPath = "executable"
@@ -67,10 +67,11 @@ jobs:
             --add-modules java.base,java.desktop,java.net.http,java.naming,java.sql,java.management,java.security.jgss,java.xml,java.logging,jdk.crypto.ec,java.security.sasl `
             --verbose
 
-      - name: Zip exe file
-        run: $MsiFile = Get-ChildItem -Path executable -Filter *.msi -Recurse | Select-Object -First 1
-          if (-not $MsiFile) { throw "MSI file not found in the executable directory." }
+      - name: Zip MSI file
+        run: $MsiFile = Get-ChildItem -Path executable -Filter *.msi | Select-Object -First 1
+          if (-not $MsiFile) { throw "MSI not found" }
           Copy-Item -Path $MsiFile.FullName -Destination ${{ github.event.repository.name }}-$env:RELEASE_TAG-Windows-Installer.msi
+
 
       - name: Release on Github
         uses: softprops/action-gh-release@v1
