@@ -30,7 +30,7 @@ jobs:
       - name: upload jar
         uses: actions/upload-artifact@v4
         with:
-          name: FromGtoG
+          name: application-files
           path: target/fromgtog.jar
           retention-days: 5
 
