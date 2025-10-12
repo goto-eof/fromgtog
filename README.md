@@ -95,24 +95,26 @@ Further features
 
 <h2 id="download">Download (Stable)</h2>
 
-- <h2 id="download-macos">MacOS</h2>
-  [Download MacOS AMD64 installer](https://github.com/goto-eof/fromgtog/releases/download/8.1.0/fromgtog-MacOS-8.1.0-amd64-Installer.zip) -
+<h2 id="download-macos">MacOS</h2>
+  
+- [Download MacOS AMD64 installer](https://github.com/goto-eof/fromgtog/releases/download/8.1.0/fromgtog-MacOS-8.1.0-amd64-Installer.zip) -
       just install the .pkg file (allow third party execution before). Note: for copy/paste actions, please use
       `Control + C` and `Control + V` (I will enable `Command + C` and `Command + V` in the future.)
-  [Download MacOS ARM64 Installer](https://github.com/goto-eof/fromgtog/releases/download/8.1.0/fromgtog-MacOS-8.1.0-arm64-Installer.zip))
+- [Download MacOS ARM64 Installer](https://github.com/goto-eof/fromgtog/releases/download/8.1.0/fromgtog-MacOS-8.1.0-arm64-Installer.zip))
 
-- <h2 id="download-windows">Windows</h2>
-  [Download Windows AMD64 installer](https://github.com/goto-eof/fromgtog/releases/download/8.1.0/fromgtog-Windows-8.1.0-amd64-Installer.zip) -
+<h2 id="download-windows">Windows</h2>
+  
+- [Download Windows AMD64 installer](https://github.com/goto-eof/fromgtog/releases/download/8.1.0/fromgtog-Windows-8.1.0-amd64-Installer.zip) -
       just install the .exe file and start cloning.
-  [Download Windows ARM64 installer](https://github.com/goto-eof/fromgtog/releases/download/8.1.0/fromgtog-Windows-8.1.0-arm64-Installer.zip) -
+- [Download Windows ARM64 installer](https://github.com/goto-eof/fromgtog/releases/download/8.1.0/fromgtog-Windows-8.1.0-arm64-Installer.zip) -
       just install the .exe file and start cloning.
 
-- <h2 id="download-linux">Linux</h2>
-  [Install from Ubutnu AMD64/ARM64 Snapstore](https://snapcraft.io/fromgtog) - or execute `sudo snap install fromgtog` in order
+<h2 id="download-linux">Linux</h2>
+- [Install from Ubutnu AMD64/ARM64 Snapstore](https://snapcraft.io/fromgtog) - or execute `sudo snap install fromgtog` in order
       to install the application.
-  [Download Ubuntu AMD64 package](https://github.com/goto-eof/fromgtog/releases/download/8.1.0/fromgtog-Linux-8.1.0-amd64-Installer.zip) -
+- [Download Ubuntu AMD64 package](https://github.com/goto-eof/fromgtog/releases/download/8.1.0/fromgtog-Linux-8.1.0-amd64-Installer.zip) -
       in order to install the .deb package execute `sudo dpkg -i fromgtog_8.1.0_amd64.deb`
-  [Download Ubuntu ARM64 package](https://github.com/goto-eof/fromgtog/releases/download/8.1.0/fromgtog-Linux-8.1.0-arm64-Installer.zip) -
+- [Download Ubuntu ARM64 package](https://github.com/goto-eof/fromgtog/releases/download/8.1.0/fromgtog-Linux-8.1.0-arm64-Installer.zip) -
       in order to install the .deb package execute `sudo dpkg -i fromgtog_8.1.0_arm64.deb`
 
 <h2 id="technologies">Technologies/Tools</h2>
