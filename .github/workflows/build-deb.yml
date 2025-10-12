@@ -1,4 +1,4 @@
-name: CI/CD - Create Windows MSI file
+name: CI/CD - Create Windows DEB file
 
 on:
   push:
