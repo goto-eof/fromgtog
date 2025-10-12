@@ -1,5 +1,19 @@
 # disabled because currently GitHub does not allow ARM builds for Windows
 
+name: Do Nothing
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  noop:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Do nothing
+        run: echo "Nothing to do here!"
+
 #name: CI/CD - Create Windows ARM64 MSI file
 #
 #on:
