@@ -68,10 +68,13 @@ jobs:
             --verbose
 
       - name: Zip MSI file
-        run: $MsiFile = Get-ChildItem -Path executable -Filter *.msi | Select-Object -First 1
-          if (-not $MsiFile) { throw "MSI not found" }
+        shell: pwsh
+        run: |
+          $MsiFile = Get-ChildItem -Path executable -Filter *.msi | Select-Object -First 1
+          if (-not $MsiFile) { throw "MSI file non trovato nella directory 'executable'." }
           Copy-Item -Path $MsiFile.FullName -Destination ${{ github.event.repository.name }}-$env:RELEASE_TAG-Windows-Installer.msi
-
+      
+      
 
       - name: Release on Github
         uses: softprops/action-gh-release@v1
