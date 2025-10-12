@@ -72,12 +72,14 @@ Currently, the application is able to clone:
 - from GitHub to GitHub\Gitea\Local\Gitlab
 - from Gitea to GitHub\Gitea\Local\Gitlab
 - from Gitlab to GitHub\Gitea\Local\Gitlab
-- from Local to GitHub\Gitea\Local (copies only git repositories, other directories are skipped)\Gitlab
+- from Local to GitHub\Gitea\Local\Gitlab (copies only git repositories, other directories are skipped)
 
 Further features
 
+- granular cloning filter
 - multi-threading
 - logging (log file)
+- customizable waiting time between 2 cloning processes
 - delete all repositories from:
     - from GitHub
     - from Gitea
