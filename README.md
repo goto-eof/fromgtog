@@ -17,13 +17,53 @@
 
 <h2 id="introduction">Introduction</h2>
 
-A few days ago, I published FromGtoG 3.0 on the [Ubuntu Snap Store](https://snapcraft.io/fromgtog).
-Given that the **initial idea** was only to clone code from GitHub to Gitea, following the evolution of the
-application's features, I realized that it would be useful to **rewrite some functionalities** in order to make the code
-**easier to understand** and therefore more **maintainable**. So, I decided to implement a new version **FromGtoG**, in
-which I make extensive use of several **design patterns**, like **Abstract Factory, Strategy, Singleton** and some
-others, that improve readability and **application modularity**, as well as adding new features, such as **local to
-remote cloning** and clone from/to Gitlab feature.
+# FromGtoG 8.1.1: Advanced Git Repository Backup and Migration Utility
+
+I'm excited to announce the release of **FromGtoG 8.1.1**! This application is an essential **cross-platform desktop utility** for developers.
+
+The **initial idea** focused only on cloning from GitHub to Gitea. Following a rapid evolution of features, FromGtoG is now a powerful, full-fledged tool for **batch cloning** and **secure migration** between multiple platforms.
+
+The application currently supports robust two-way cloning and backup across:
+
+* **GitHub**
+* **Gitea**
+* **GitLab**
+* **Local** file systems (supporting Local ↔ Remote cloning).
+
+## Intelligent Cloning, Granular Control & Performance
+
+FromGtoG goes beyond simple batch operations, offering advanced filtering and performance capabilities:
+
+* **Detailed Logging:** Produces a comprehensive **log file** that allows you to analyze the application's work in detail, ensuring that every necessary repository was successfully cloned and verified.
+* **Rate Limit Prevention:** Features an optional setting to define a **time interval between cloning calls** to prevent being banned or rate-limited by the remote server. This is especially useful for sequential (non-multi-threaded) operations.
+* **Multi-Threading:** Utilizes **multi-threading** to **parallelize** the cloning process across multiple CPU cores, maximizing **speed** and **efficiency** on modern hardware.
+* **Precise Repository Filtering:** Select exactly which repositories to clone based on their status or type:
+    * **Private Repos**
+    * **Public Repos**
+    * **Organization Repos**
+    * **Starred Repos**
+    * **Forked Repos**
+    * **Archived Repos** (Crucial for complete backups and long-term storage.)
+* **Granular Control:**
+    * Easily **filter out** specific repositories you do not wish to clone from the batch operation.
+    * Clone **only** the repositories listed in a file, allowing developers to manage migration pipelines using external lists.
+
+## Universal Compatibility
+
+FromGtoG is built for maximum accessibility and stability, with dedicated support for major operating systems and architectures:
+
+* **Operating Systems:** **Windows**, **macOS**, and **Linux** (available as Snap and .deb package).
+* **Architectures:** **amd64** (standard x86/Intel/AMD) and **arm64** (Apple Silicon/ARM Linux).
+
+Since publishing version 3.0 just a few months ago, I realized a significant **code rewrite** was necessary to ensure the application remains **maintainable** and **easy to understand** as it grows. This rewrite led us to the current, stable version, **8.1.1**.
+
+## Architectural Improvements (The Evolution from 3.0)
+
+To achieve the best possible structural integrity and to allow for future feature expansion, I implemented extensive use of several **Software Design Patterns**. These patterns ensure better **modularity** and long-term stability:
+
+* **Abstract Factory:** Manages flexible connections with different Git platform APIs (GitHub, Gitea, GitLab).
+* **Strategy:** Enables dynamic switching of the cloning and migration logic (e.g., handling Local-to-Remote operations).
+* **Singleton:** Ensures efficient, centralized resource management.
 
 <h2 id="news">News</h2>
 
