@@ -70,7 +70,7 @@ jobs:
             --dest $OutputPath `
             --name "FromGtoG" `
             --vendor "Andrei Dodu" `
-            --app-version "$env:RELEASE_TAG" ` 
+            --app-version "$env:RELEASE_TAG" `
             --main-jar "fromgtog.jar" `
             --main-class "com.andreidodu.fromgtog.Main" `
             --icon $IconPath `
