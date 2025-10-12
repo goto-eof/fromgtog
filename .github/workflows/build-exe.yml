@@ -24,7 +24,7 @@ jobs:
         with:
           name: application-files
           path: |
-            target/fromgtog.jar
+            fromgtog.jar
             resources/
 
   create_msi:
