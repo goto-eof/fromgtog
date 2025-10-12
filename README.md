@@ -19,9 +19,11 @@
 
 # FromGtoG 8.1.16: Advanced Git Repository Backup and Migration Utility
 
-I'm excited to announce the release of **FromGtoG 8.1.16**! This application is an essential **cross-platform desktop utility** for developers.
+I'm excited to announce the release of **FromGtoG 8.1.16**! This application is an essential **cross-platform desktop
+utility** for developers.
 
-The **initial idea** focused only on cloning from GitHub to Gitea. Following a rapid evolution of features, FromGtoG is now a powerful, full-fledged tool for **batch cloning** and **secure migration** between multiple platforms.
+The **initial idea** focused only on cloning from GitHub to Gitea. Following a rapid evolution of features, FromGtoG is
+now a powerful, full-fledged tool for **batch cloning** and **secure migration** between multiple platforms.
 
 The application currently supports robust two-way cloning and backup across:
 
@@ -34,35 +36,48 @@ The application currently supports robust two-way cloning and backup across:
 
 FromGtoG goes beyond simple batch operations, offering advanced filtering and performance capabilities:
 
-* **Detailed Logging:** Produces a comprehensive **log file** that allows you to analyze the application's work in detail, ensuring that every necessary repository was successfully cloned and verified.
-* **Rate Limit Prevention:** Features an optional setting to define a **time interval between cloning calls** to prevent being banned or rate-limited by the remote server. This is especially useful for sequential (non-multi-threaded) operations.
-* **Multi-Threading:** Utilizes **multi-threading** to **parallelize** the cloning process across multiple CPU cores, maximizing **speed** and **efficiency** on modern hardware.
+* **Detailed Logging:** Produces a comprehensive **log file** that allows you to analyze the application's work in
+  detail, ensuring that every necessary repository was successfully cloned and verified.
+* **Rate Limit Prevention:** Features an optional setting to define a **time interval between cloning calls** to prevent
+  being banned or rate-limited by the remote server. This is especially useful for sequential (non-multi-threaded)
+  operations.
+* **Multi-Threading:** Utilizes **multi-threading** to **parallelize** the cloning process across multiple CPU cores,
+  maximizing **speed** and **efficiency** on modern hardware.
 * **Precise Repository Filtering:** Select exactly which repositories to clone based on their status or type:
     * **Private Repos**
     * **Public Repos**
     * **Organization Repos**
     * **Starred Repos**
     * **Forked Repos**
-    * **Archived Repos** (Clones repositories archived on platforms like GitHub or Gitea, crucial for complete backups and long-term storage.)
+    * **Archived Repos** (Clones repositories archived on platforms like GitHub or Gitea, crucial for complete backups
+      and long-term storage.)
 * **Granular Control:**
     * Easily **filter out** specific repositories you do not wish to clone from the batch operation.
-    * Clone **only** the repositories listed in a file, allowing developers to manage migration pipelines using external lists.
+    * Clone **only** the repositories listed in a file, allowing developers to manage migration pipelines using external
+      lists.
 
 ## Universal Compatibility
 
-FromGtoG is built for maximum accessibility and stability, with dedicated support for major operating systems and architectures:
+FromGtoG is built for maximum accessibility and stability, with dedicated support for major operating systems and
+architectures:
 
 * **Operating Systems:** **Windows**, **macOS**, and **Linux** (available as Snap and .deb package).
 * **Architectures:** **amd64** (standard x86/Intel/AMD) and **arm64** (Apple Silicon/ARM Linux).
 
-Since publishing version 3.0 just a few months ago, I realized a significant **code rewrite** was necessary to ensure the application remains **maintainable** and **easy to understand** as it grows. This rewrite led us to the current, stable version, **8.1.16**.
+Since publishing version 3.0 just a few months ago, I realized a significant **code rewrite** was necessary to ensure
+the application remains **maintainable** and **easy to understand** as it grows. This rewrite led us to the current,
+stable version, **8.1.16**.
 
 ## Architectural Improvements: the evolution
 
-To achieve the best possible structural integrity and to allow for future feature expansion, I implemented extensive use of several **Software Design Patterns**. These patterns ensure better **modularity** and long-term stability:
-* **Composite Pattern:** Used for robust and flexible **user input validation**, ensuring data integrity across all platforms.
+To achieve the best possible structural integrity and to allow for future feature expansion, I implemented extensive use
+of several **Software Design Patterns**. These patterns ensure better **modularity** and long-term stability:
+
+* **Composite Pattern:** Used for robust and flexible **user input validation**, ensuring data integrity across all
+  platforms.
 * **Abstract Factory:** Manages flexible connections with different Git platform APIs (GitHub, Gitea, GitLab).
-* **Strategy:** Enables dynamic switching of the cloning and migration logic (e.g., handling Local-to-Remote operations).
+* **Strategy:** Enables dynamic switching of the cloning and migration logic (e.g., handling Local-to-Remote
+  operations).
 * **Singleton:** Ensures efficient, centralized resource management.
 
 <h2 id="features">Features</h2>
@@ -88,27 +103,33 @@ Further features
 <h2 id="download">Download (Stable)</h2>
 
 <h2 id="download-macos">MacOS</h2>
-  
+
 - [Download MacOS AMD64 installer](https://github.com/goto-eof/fromgtog/releases/download/8.1.16/fromgtog-MacOS-8.1.16-amd64-Installer.zip) -
-      just install the .pkg file (allow third party execution before). Note: for copy/paste actions, please use
-      `Control + C` and `Control + V` (I will enable `Command + C` and `Command + V` in the future.)
+  just install the .pkg file (allow third party execution before). Note: for copy/paste actions, please use
+  `Control + C` and `Control + V` (I will enable `Command + C` and `Command + V` in the future.)
 - [Download MacOS ARM64 Installer](https://github.com/goto-eof/fromgtog/releases/download/8.1.16/fromgtog-MacOS-8.1.16-arm64-Installer.zip)
 
 <h2 id="download-windows">Windows</h2>
-  
+
 - [Download Windows AMD64 installer](https://github.com/goto-eof/fromgtog/releases/download/8.1.16/fromgtog-Windows-8.1.16-amd64-Installer.zip) -
-      just install the .exe file and start cloning.
-~~- [Download Windows ARM64 installer](https://github.com/goto-eof/fromgtog/releases/download/8.1.16/fromgtog-Windows-8.1.16-arm64-Installer.zip) -
-      just install the .exe file and start cloning.~~
+  just install the .exe file and start cloning.
+  ~~- [Download Windows ARM64 installer](https://github.com/goto-eof/fromgtog/releases/download/8.1.16/fromgtog-Windows-8.1.16-arm64-Installer.zip) -
+  just install the .exe file and start cloning.~~
 
 <h2 id="download-linux">Linux</h2>
 
-- [Install from Ubutnu AMD64/ARM64 Snapstore](https://snapcraft.io/fromgtog) - or execute `sudo snap install fromgtog` in order
-      to install the application.
+- [Install from Ubutnu AMD64/ARM64 Snapstore](https://snapcraft.io/fromgtog) - or execute `sudo snap install fromgtog`
+  in order
+  to install the application.
 - [Download Ubuntu AMD64 package](https://github.com/goto-eof/fromgtog/releases/download/8.1.16/fromgtog-Linux-8.1.16-amd64-Installer.zip) -
-      in order to install the .deb package execute `sudo dpkg -i fromgtog_8.1.16_amd64.deb`
-~~- [Download Ubuntu ARM64 package](https://github.com/goto-eof/fromgtog/releases/download/8.1.16/fromgtog-Linux-8.1.16-arm64-Installer.zip) -
-      in order to install the .deb package execute `sudo dpkg -i fromgtog_8.1.16_arm64.deb`~~
+  in order to install the .deb package execute `sudo dpkg -i fromgtog_8.1.16_amd64.deb`
+  ~~- [Download Ubuntu ARM64 package](https://github.com/goto-eof/fromgtog/releases/download/8.1.16/fromgtog-Linux-8.1.16-arm64-Installer.zip) -
+  in order to install the .deb package execute `sudo dpkg -i fromgtog_8.1.16_arm64.deb`~~
+
+<h2 id="download-jar">Jar file</h2>
+
+- [Jar file](https://github.com/goto-eof/fromgtog/releases/download/8.1.16/fromgtog.jar) - run it by executing
+  `java -jar fromgtog.jar`.
 
 <h2 id="technologies">Technologies/Tools</h2>
 
@@ -170,7 +191,6 @@ JDK 21, Intellij UI Designer (plugin for Intellij), Slf4J, Lombok, Apache Common
 - fixed the windows/linux and macOS packaging - now it is possible to clone from GitHub. The absence of the
   `jdk.crypto.ec` and `java.security.sasl` imports in the `--add-modules` option, prevented the SSL connections, so the
   clone process failed, in particular for GitHub (which uses SSL).
-
 
 <h2 id="for-developers">For developers</h2>
 
