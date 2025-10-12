@@ -69,7 +69,9 @@ jobs:
             --verbose
 
       - name: Zip exe file
-        run: Copy-Item -Path executable\FromGtoG-$(${{ github.ref_name }})\*.msi -DestinationPath ${{ github.event.repository.name }}-${{ github.ref_name }}-Windows-Installer.msi
+        run: $MsiFile = Get-ChildItem -Path executable -Filter *.msi -Recurse | Select-Object -First 1
+          if (-not $MsiFile) { throw "MSI file not found in the executable directory." }
+          Copy-Item -Path $MsiFile.FullName -Destination ${{ github.event.repository.name }}-$env:RELEASE_TAG-Windows-Installer.msi
 
       - name: Release on Github
         uses: softprops/action-gh-release@v1
