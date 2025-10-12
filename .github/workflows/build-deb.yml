@@ -1,4 +1,4 @@
-name: CI/CD - Create Windows DEB file
+name: CI/CD - Create Linux DEB file
 
 on:
   push:
