@@ -1,5 +1,5 @@
 <h1 align="center"><img src="images/fromgtog_header.png" alt="header" /></h1>
-<h1 align="right" id="title">FromGtoG v. 8.1.0</h1>
+<h1 align="right" id="title">FromGtoG v. 8.1.1</h1>
 
 <h2 id="index">Index</h2>
 
@@ -97,26 +97,26 @@ Further features
 
 <h2 id="download-macos">MacOS</h2>
   
-- [Download MacOS AMD64 installer](https://github.com/goto-eof/fromgtog/releases/download/8.1.0/fromgtog-MacOS-8.1.0-amd64-Installer.zip) -
+- [Download MacOS AMD64 installer](https://github.com/goto-eof/fromgtog/releases/download/8.1.1/fromgtog-MacOS-8.1.1-amd64-Installer.zip) -
       just install the .pkg file (allow third party execution before). Note: for copy/paste actions, please use
       `Control + C` and `Control + V` (I will enable `Command + C` and `Command + V` in the future.)
-- [Download MacOS ARM64 Installer](https://github.com/goto-eof/fromgtog/releases/download/8.1.0/fromgtog-MacOS-8.1.0-arm64-Installer.zip)
+- [Download MacOS ARM64 Installer](https://github.com/goto-eof/fromgtog/releases/download/8.1.1/fromgtog-MacOS-8.1.1-arm64-Installer.zip)
 
 <h2 id="download-windows">Windows</h2>
   
-- [Download Windows AMD64 installer](https://github.com/goto-eof/fromgtog/releases/download/8.1.0/fromgtog-Windows-8.1.0-amd64-Installer.zip) -
+- [Download Windows AMD64 installer](https://github.com/goto-eof/fromgtog/releases/download/8.1.1/fromgtog-Windows-8.1.1-amd64-Installer.zip) -
       just install the .exe file and start cloning.
-- [Download Windows ARM64 installer](https://github.com/goto-eof/fromgtog/releases/download/8.1.0/fromgtog-Windows-8.1.0-arm64-Installer.zip) -
+- [Download Windows ARM64 installer](https://github.com/goto-eof/fromgtog/releases/download/8.1.1/fromgtog-Windows-8.1.1-arm64-Installer.zip) -
       just install the .exe file and start cloning.
 
 <h2 id="download-linux">Linux</h2>
 
 - [Install from Ubutnu AMD64/ARM64 Snapstore](https://snapcraft.io/fromgtog) - or execute `sudo snap install fromgtog` in order
       to install the application.
-- [Download Ubuntu AMD64 package](https://github.com/goto-eof/fromgtog/releases/download/8.1.0/fromgtog-Linux-8.1.0-amd64-Installer.zip) -
-      in order to install the .deb package execute `sudo dpkg -i fromgtog_8.1.0_amd64.deb`
-- [Download Ubuntu ARM64 package](https://github.com/goto-eof/fromgtog/releases/download/8.1.0/fromgtog-Linux-8.1.0-arm64-Installer.zip) -
-      in order to install the .deb package execute `sudo dpkg -i fromgtog_8.1.0_arm64.deb`
+- [Download Ubuntu AMD64 package](https://github.com/goto-eof/fromgtog/releases/download/8.1.1/fromgtog-Linux-8.1.1-amd64-Installer.zip) -
+      in order to install the .deb package execute `sudo dpkg -i fromgtog_8.1.1_amd64.deb`
+- [Download Ubuntu ARM64 package](https://github.com/goto-eof/fromgtog/releases/download/8.1.1/fromgtog-Linux-8.1.1-arm64-Installer.zip) -
+      in order to install the .deb package execute `sudo dpkg -i fromgtog_8.1.1_arm64.deb`
 
 <h2 id="technologies">Technologies/Tools</h2>
 
@@ -141,7 +141,7 @@ jdeps -s fromgtog.jar
 It is necessary to install Xcode Command Line Tools before.
 
 ```bash
-jpackage --type pkg --name "FromGtoG" --vendor "Andrei Dodu" --app-version "8.1.0" --input "target" --main-jar "fromgtog.jar" --icon "resources/icon.icns" --main-class "com.andreidodu.fromgtog.Main" --dest "executable" --add-modules java.base,java.desktop,java.net.http,jdk.crypto.ec,java.security.sasl,java.naming,java.sql,java.management,java.security.jgss,java.xml,java.logging --verbose --java-options "-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dsun.java2d.uiScale=true"
+jpackage --type pkg --name "FromGtoG" --vendor "Andrei Dodu" --app-version "8.1.1" --input "target" --main-jar "fromgtog.jar" --icon "resources/icon.icns" --main-class "com.andreidodu.fromgtog.Main" --dest "executable" --add-modules java.base,java.desktop,java.net.http,jdk.crypto.ec,java.security.sasl,java.naming,java.sql,java.management,java.security.jgss,java.xml,java.logging --verbose --java-options "-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dsun.java2d.uiScale=true"
 ```
 
 ## Generate a standalone for Windows
@@ -149,13 +149,13 @@ jpackage --type pkg --name "FromGtoG" --vendor "Andrei Dodu" --app-version "8.1.
 It is necessary to install Wix Toolset before.
 
 ```bash
-jpackage -t exe --name "FromGtoG" --vendor "Andrei Dodu" --app-version "8.1.0" --input "target" --dest "executable" --main-jar "fromgtog.jar" --icon "resources\icon.ico" --resource-dir resources --add-modules java.base,java.desktop,java.net.http,java.naming,java.sql,java.management,java.security.jgss,java.xml,java.logging,jdk.crypto.ec,java.security.sasl --win-shortcut --win-menu --main-class com.andreidodu.fromgtog.Main
+jpackage -t exe --name "FromGtoG" --vendor "Andrei Dodu" --app-version "8.1.1" --input "target" --dest "executable" --main-jar "fromgtog.jar" --icon "resources\icon.ico" --resource-dir resources --add-modules java.base,java.desktop,java.net.http,java.naming,java.sql,java.management,java.security.jgss,java.xml,java.logging,jdk.crypto.ec,java.security.sasl --win-shortcut --win-menu --main-class com.andreidodu.fromgtog.Main
 ```
 
 ## Generate a standalone for Linux
 
 ```bash
-jpackage --type deb --name "FromGtoG" --vendor "Andrei Dodu" --app-version "8.1.0" --input "target" --main-jar "fromgtog.jar" --icon "resources/icon.png" --main-class "com.andreidodu.fromgtog.Main" --dest "executable" --add-modules java.base,java.desktop,java.net.http,java.naming,java.sql,java.management,java.security.jgss,java.xml,java.logging,jdk.crypto.ec,java.security.sasl --linux-shortcut --verbose --linux-package-deps "libasound2, libpulse0"
+jpackage --type deb --name "FromGtoG" --vendor "Andrei Dodu" --app-version "8.1.1" --input "target" --main-jar "fromgtog.jar" --icon "resources/icon.png" --main-class "com.andreidodu.fromgtog.Main" --dest "executable" --add-modules java.base,java.desktop,java.net.http,java.naming,java.sql,java.management,java.security.jgss,java.xml,java.logging,jdk.crypto.ec,java.security.sasl --linux-shortcut --verbose --linux-package-deps "libasound2, libpulse0"
 ```
 
 ## Usefully commands
@@ -167,9 +167,9 @@ jar tvf fromgtog.jar
 ### Generate and upload snap file - useful especially for me (:
 
 ```bash
-sudo snap remove fromgtog && snapcraft clean && snapcraft && sudo snap install fromgtog_8.1.0_amd64.snap --dangerous && fromgtog
+sudo snap remove fromgtog && snapcraft clean && snapcraft && sudo snap install fromgtog_8.1.1_amd64.snap --dangerous && fromgtog
 
-snapcraft upload --release=edge fromgtog_8.1.0_amd64.snap
+snapcraft upload --release=edge fromgtog_8.1.1_amd64.snap
 ```
 
 <h2 id="tested-on">Tested on</h2>
