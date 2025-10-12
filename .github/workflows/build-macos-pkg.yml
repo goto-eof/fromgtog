@@ -79,11 +79,11 @@ jobs:
       - name: Zip PKG file
         run: |
           PKG_FILE="executable/FromGtoG-${RELEASE_TAG}.pkg"
-          ZIP_NAME="${{ github.event.repository.name }}-macOS-${{ github.ref_name }}-Installer.zip"
+          ZIP_NAME="${{ github.event.repository.name }}-macOS-${{ github.ref_name }}-Intel-Installer.zip"
           zip -j "$ZIP_NAME" "$PKG_FILE"
 
       - name: Release on GitHub
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: ${{ github.event.repository.name }}-macOS-${{ github.ref_name }}-Installer.zip
+          files: ${{ github.event.repository.name }}-macOS-${{ github.ref_name }}-Intel-Installer.zip
