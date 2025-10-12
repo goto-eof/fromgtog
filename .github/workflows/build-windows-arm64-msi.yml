@@ -1,4 +1,4 @@
-name: CI/CD - Create Windows ARM MSI file
+name: CI/CD - Create Windows ARM64 MSI file
 
 on:
   push:

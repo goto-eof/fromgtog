@@ -1,4 +1,4 @@
-name: CI/CD - Create Linux DEB file
+name: CI/CD - Create Linux AMD64 DEB file
 
 on:
   push:

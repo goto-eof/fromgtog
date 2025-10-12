@@ -1,4 +1,4 @@
-name: CI/CD - Create macOS ARM PKG file
+name: CI/CD - Create macOS ARM64 PKG file
 
 on:
   push:

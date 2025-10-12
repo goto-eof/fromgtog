@@ -1,4 +1,4 @@
-name: CI/CD - Create Linux ARM DEB file
+name: CI/CD - Create Linux ARM64 DEB file
 
 on:
   push:
