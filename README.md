@@ -98,8 +98,8 @@ Further features
   
 - [Download Windows AMD64 installer](https://github.com/goto-eof/fromgtog/releases/download/8.1.1/fromgtog-Windows-8.1.1-amd64-Installer.zip) -
       just install the .exe file and start cloning.
-- [Download Windows ARM64 installer](https://github.com/goto-eof/fromgtog/releases/download/8.1.1/fromgtog-Windows-8.1.1-arm64-Installer.zip) -
-      just install the .exe file and start cloning.
+~~- [Download Windows ARM64 installer](https://github.com/goto-eof/fromgtog/releases/download/8.1.1/fromgtog-Windows-8.1.1-arm64-Installer.zip) -
+      just install the .exe file and start cloning.~~
 
 <h2 id="download-linux">Linux</h2>
 
@@ -107,8 +107,8 @@ Further features
       to install the application.
 - [Download Ubuntu AMD64 package](https://github.com/goto-eof/fromgtog/releases/download/8.1.1/fromgtog-Linux-8.1.1-amd64-Installer.zip) -
       in order to install the .deb package execute `sudo dpkg -i fromgtog_8.1.1_amd64.deb`
-- [Download Ubuntu ARM64 package](https://github.com/goto-eof/fromgtog/releases/download/8.1.1/fromgtog-Linux-8.1.1-arm64-Installer.zip) -
-      in order to install the .deb package execute `sudo dpkg -i fromgtog_8.1.1_arm64.deb`
+~~- [Download Ubuntu ARM64 package](https://github.com/goto-eof/fromgtog/releases/download/8.1.1/fromgtog-Linux-8.1.1-arm64-Installer.zip) -
+      in order to install the .deb package execute `sudo dpkg -i fromgtog_8.1.1_arm64.deb`~~
 
 <h2 id="technologies">Technologies/Tools</h2>
 

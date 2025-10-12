@@ -1,4 +1,4 @@
-name: CI/CD - Create MacOS AMD64 PKG file
+name: Create MacOS AMD64 PKG file
 on:
   push:
     tags:

@@ -1,4 +1,4 @@
-# disabled because currently GitHub does not allow ARM builds for Linux
+# disabled because currently GitHub does not allow ARM builds for Linux -> will be enabled when we will have the ARM feature
 
 name: Do Nothing
 

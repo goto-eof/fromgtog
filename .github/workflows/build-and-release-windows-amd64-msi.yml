@@ -1,4 +1,4 @@
-name: CI/CD - Create Windows AMD64 MSI file
+name: Create Windows AMD64 MSI file
 
 on:
   push:

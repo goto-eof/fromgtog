@@ -1,4 +1,4 @@
-name: CI/CD - Create Linux AMD64 DEB file
+name: Create MacOS ARM64 PKG file
 
 on:
   push:
@@ -28,8 +28,8 @@ jobs:
             target/fromgtog.jar
             resources/
 
-  create_deb:
-    runs-on: ubuntu-latest
+  create_pkg_arm:
+    runs-on: macos-14
     permissions:
       contents: write
     needs: build_jar
@@ -48,23 +48,19 @@ jobs:
           name: application-files
           path: downloaded-files
 
-      - name: Configure JDK for Linux
+      - name: Configure JDK for macOS ARM
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '21'
+          architecture: arm64
 
-      - name: Install required dependencies for jpackage
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y fakeroot dpkg-dev
-
-      - name: Create DEB package with jpackage
+      - name: Create PKG file with jpackage (ARM)
         run: |
           INPUT_PATH="downloaded-files/target"
           OUTPUT_PATH="executable"
           MAIN_JAR="fromgtog.jar"
-          ICON_PATH="downloaded-files/resources/icon-linux.png"
+          ICON_PATH="downloaded-files/resources/icon-macos.icns"
 
           mkdir -p "$OUTPUT_PATH"
 
@@ -77,20 +73,19 @@ jobs:
             --main-jar "$MAIN_JAR" \
             --main-class com.andreidodu.fromgtog.Main \
             --icon "$ICON_PATH" \
-            --type deb \
-            --linux-shortcut \
+            --type pkg \
             --java-options "-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true" \
             --add-modules java.base,java.desktop,java.net.http,java.naming,java.sql,java.management,java.security.jgss,java.xml,java.logging,jdk.crypto.ec,java.security.sasl \
             --verbose
 
-      - name: Zip DEB file
+      - name: Zip PKG file (ARM)
         run: |
-          DEB_FILE="executable/fromgtog_${RELEASE_TAG}_amd64.deb"
-          ZIP_NAME="${{ github.event.repository.name }}-Linux-${{ github.ref_name }}-amd64-Installer.zip"
-          zip -j "$ZIP_NAME" "$DEB_FILE"
+          PKG_FILE=$(ls executable/*.pkg | head -n 1)
+          ZIP_NAME="${{ github.event.repository.name }}-MacOS-${{ github.ref_name }}-arm64-Installer.zip"
+          zip -j "$ZIP_NAME" "$PKG_FILE"
 
       - name: Release on GitHub
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: ${{ github.event.repository.name }}-Linux-${{ github.ref_name }}-amd64-Installer.zip
+          files: ${{ github.event.repository.name }}-MacOS-${{ github.ref_name }}-arm64-Installer.zip
