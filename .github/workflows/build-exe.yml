@@ -24,7 +24,7 @@ jobs:
         with:
           name: application-files
           path: |
-            target/fromgtog.jar
+            fromgtog.jar
             resources/
 
   create_msi:
@@ -54,7 +54,7 @@ jobs:
         run: |
           $InputPath = "downloaded-files"
           $OutputPath = "executable"
-          $MainJar = "target\fromgtog.jar"
+          $MainJar = "fromgtog.jar"
           $IconPath = "downloaded-files\resources\icon-windows.ico"
           
           jpackage.exe `
