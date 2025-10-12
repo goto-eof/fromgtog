@@ -83,11 +83,11 @@ jobs:
       - name: Zip DEB package
         run: |
           SOURCE_PATH=$(find executable -name "*.deb" | head -n 1)
-          DEST_NAME="${{ github.event.repository.name }}-${{ github.ref_name }}-Debian-Installer.zip"
+          DEST_NAME="${{ github.event.repository.name }}-linux-${{ github.ref_name }}-x64-20.04.zip"
           zip -j "$DEST_NAME" "$SOURCE_PATH"
 
       - name: Release on GitHub
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: ${{ github.event.repository.name }}-${{ github.ref_name }}-Debian-Installer.zip
+          files: ${{ github.event.repository.name }}-linux-${{ github.ref_name }}-20.04.zip

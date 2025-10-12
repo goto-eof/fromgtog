@@ -66,10 +66,10 @@ jobs:
         shell: pwsh
         run: |
           $SourcePath = "executable\FromGtoG-$env:RELEASE_TAG.msi" 
-          $DestinationName = "${{ github.event.repository.name }}-${{ github.ref_name }}-Windows-Installer.zip"
+          $DestinationName = "${{ github.event.repository.name }}-Windows-${{ github.ref_name }}-x64-Installer.zip"
           Compress-Archive -Path $SourcePath -DestinationPath $DestinationName
       - name: Release on Github
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: ${{github.event.repository.name}}-${{ github.ref_name }}-Windows-Installer.zip
+          files: ${{github.event.repository.name}}-Windows-${{ github.ref_name }}-x64-Installer.zip
