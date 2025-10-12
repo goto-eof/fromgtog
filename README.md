@@ -19,8 +19,9 @@
 
 # FromGtoG 8.1.16: Advanced Git Repository Backup and Migration Utility
 
-I'm excited to announce the release of **FromGtoG 8.1.16**! This application is an essential **cross-platform desktop
-utility** for developers.
+I'm excited to announce the release of **FromGtoG 8.1.16**! 
+
+FromGtoG is an essential **cross-platform desktop utility** for developers.
 
 The **initial idea** focused only on cloning from GitHub to Gitea. Following a rapid evolution of features, FromGtoG is
 now a powerful, full-fledged tool for **batch cloning** and **secure migration** between multiple platforms.
@@ -53,8 +54,7 @@ FromGtoG goes beyond simple batch operations, offering advanced filtering and pe
       and long-term storage.)
 * **Granular Control:**
     * Easily **filter out** specific repositories you do not wish to clone from the batch operation.
-    * Clone **only** the repositories listed in a file, allowing developers to manage migration pipelines using external
-      lists.
+    * Clone **only** the repositories listed in a file, allowing developers to manage migration using an external lists.
 
 ## Universal Compatibility
 
@@ -64,11 +64,11 @@ architectures:
 * **Operating Systems:** **Windows**, **macOS**, and **Linux** (available as Snap and .deb package).
 * **Architectures:** **amd64** (standard x86/Intel/AMD) and **arm64** (Apple Silicon/ARM Linux).
 
-Since publishing version 3.0 just a few months ago, I realized a significant **code rewrite** was necessary to ensure
-the application remains **maintainable** and **easy to understand** as it grows. This rewrite led us to the current,
-stable version, **8.1.16**.
-
 ## Architectural Improvements: the evolution
+
+Since publishing version 3.0 just a few months ago, I realized a significant **code rewrite** was necessary to ensure
+the application remains **maintainable** and **easy to understand** as it grows. This rewrite led me to the current,
+stable version, **8.1.16**.
 
 To achieve the best possible structural integrity and to allow for future feature expansion, I implemented extensive use
 of several **Software Design Patterns**. These patterns ensure better **modularity** and long-term stability:
