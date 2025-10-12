@@ -1,97 +1,99 @@
-name: CI/CD - Create Windows ARM64 MSI file
+# disabled because currently GitHub does not allow ARM builds for Windows
 
-on:
-  push:
-    tags:
-      - '*'
-
-jobs:
-  build_jar:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Configure JDK (Linux)
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: '21'
-
-      - name: Build JAR with Maven
-        run: mvn clean package
-
-      - name: Upload Artifact (JAR and resources)
-        uses: actions/upload-artifact@v4
-        with:
-          name: application-files
-          path: |
-            target/fromgtog.jar
-            resources/
-
-  create_msi_arm:
-    runs-on: windows-2025-arm64
-    permissions:
-      contents: write
-    needs: build_jar
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Define release version
-        id: set_version
-        shell: pwsh
-        run: |
-          Write-Host "Files:"
-          Get-ChildItem -Recurse
-          echo "RELEASE_TAG=${{ github.ref_name }}" >> $env:GITHUB_ENV
-          Write-Host "Release Tag set on: ${{ github.ref_name }}"
-
-      - name: Download Artifact (JAR and resources)
-        uses: actions/download-artifact@v4
-        with:
-          name: application-files
-          path: downloaded-files
-
-      - name: Configure JDK for Windows ARM
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: '21'
-          architecture: arm64
-
-      - name: Create MSI file with jpackage (ARM64)
-        shell: pwsh
-        run: |
-          $InputPath = "downloaded-files\target"
-          $OutputPath = "executable"
-          $MainJar = "fromgtog.jar"
-          $IconPath = "downloaded-files\resources\icon-windows.ico"
-          New-Item -ItemType Directory -Force -Path $OutputPath | Out-Null
-
-          & "jpackage.exe" `
-            --input $InputPath `
-            --dest $OutputPath `
-            --name "FromGtoG" `
-            --vendor "Andrei Dodu" `
-            --app-version "$env:RELEASE_TAG" `
-            --main-jar $MainJar `
-            --main-class com.andreidodu.fromgtog.Main `
-            --icon $IconPath `
-            --type msi `
-            --win-shortcut `
-            --win-menu `
-            --java-options "-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true" `
-            --add-modules java.base,java.desktop,java.net.http,java.naming,java.sql,java.management,java.security.jgss,java.xml,java.logging,jdk.crypto.ec,java.security.sasl `
-            --verbose
-
-      - name: Zip MSI file (ARM)
-        shell: pwsh
-        run: |
-          $MSIFile = Get-ChildItem "executable\*.msi" | Select-Object -First 1
-          $ZipName = "${{ github.event.repository.name }}-Windows-${{ github.ref_name }}-arm64-Installer.zip"
-          Compress-Archive -Path $MSIFile.FullName -DestinationPath $ZipName
-
-      - name: Release on GitHub
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
-        with:
-          files: ${{ github.event.repository.name }}-Windows-${{ github.ref_name }}-arm64-Installer.zip
+#name: CI/CD - Create Windows ARM64 MSI file
+#
+#on:
+#  push:
+#    tags:
+#      - '*'
+#
+#jobs:
+#  build_jar:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v4
+#
+#      - name: Configure JDK (Linux)
+#        uses: actions/setup-java@v4
+#        with:
+#          distribution: 'temurin'
+#          java-version: '21'
+#
+#      - name: Build JAR with Maven
+#        run: mvn clean package
+#
+#      - name: Upload Artifact (JAR and resources)
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: application-files
+#          path: |
+#            target/fromgtog.jar
+#            resources/
+#
+#  create_msi_arm:
+#    runs-on: windows-2025-arm64
+#    permissions:
+#      contents: write
+#    needs: build_jar
+#    steps:
+#      - uses: actions/checkout@v4
+#
+#      - name: Define release version
+#        id: set_version
+#        shell: pwsh
+#        run: |
+#          Write-Host "Files:"
+#          Get-ChildItem -Recurse
+#          echo "RELEASE_TAG=${{ github.ref_name }}" >> $env:GITHUB_ENV
+#          Write-Host "Release Tag set on: ${{ github.ref_name }}"
+#
+#      - name: Download Artifact (JAR and resources)
+#        uses: actions/download-artifact@v4
+#        with:
+#          name: application-files
+#          path: downloaded-files
+#
+#      - name: Configure JDK for Windows ARM
+#        uses: actions/setup-java@v4
+#        with:
+#          distribution: 'temurin'
+#          java-version: '21'
+#          architecture: arm64
+#
+#      - name: Create MSI file with jpackage (ARM64)
+#        shell: pwsh
+#        run: |
+#          $InputPath = "downloaded-files\target"
+#          $OutputPath = "executable"
+#          $MainJar = "fromgtog.jar"
+#          $IconPath = "downloaded-files\resources\icon-windows.ico"
+#          New-Item -ItemType Directory -Force -Path $OutputPath | Out-Null
+#
+#          & "jpackage.exe" `
+#            --input $InputPath `
+#            --dest $OutputPath `
+#            --name "FromGtoG" `
+#            --vendor "Andrei Dodu" `
+#            --app-version "$env:RELEASE_TAG" `
+#            --main-jar $MainJar `
+#            --main-class com.andreidodu.fromgtog.Main `
+#            --icon $IconPath `
+#            --type msi `
+#            --win-shortcut `
+#            --win-menu `
+#            --java-options "-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true" `
+#            --add-modules java.base,java.desktop,java.net.http,java.naming,java.sql,java.management,java.security.jgss,java.xml,java.logging,jdk.crypto.ec,java.security.sasl `
+#            --verbose
+#
+#      - name: Zip MSI file (ARM)
+#        shell: pwsh
+#        run: |
+#          $MSIFile = Get-ChildItem "executable\*.msi" | Select-Object -First 1
+#          $ZipName = "${{ github.event.repository.name }}-Windows-${{ github.ref_name }}-arm64-Installer.zip"
+#          Compress-Archive -Path $MSIFile.FullName -DestinationPath $ZipName
+#
+#      - name: Release on GitHub
+#        uses: softprops/action-gh-release@v1
+#        if: startsWith(github.ref, 'refs/tags/')
+#        with:
+#          files: ${{ github.event.repository.name }}-Windows-${{ github.ref_name }}-arm64-Installer.zip
