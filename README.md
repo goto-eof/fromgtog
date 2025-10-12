@@ -100,7 +100,7 @@ Further features
 - [Download MacOS AMD64 installer](https://github.com/goto-eof/fromgtog/releases/download/8.1.0/fromgtog-MacOS-8.1.0-amd64-Installer.zip) -
       just install the .pkg file (allow third party execution before). Note: for copy/paste actions, please use
       `Control + C` and `Control + V` (I will enable `Command + C` and `Command + V` in the future.)
-- [Download MacOS ARM64 Installer](https://github.com/goto-eof/fromgtog/releases/download/8.1.0/fromgtog-MacOS-8.1.0-arm64-Installer.zip))
+- [Download MacOS ARM64 Installer](https://github.com/goto-eof/fromgtog/releases/download/8.1.0/fromgtog-MacOS-8.1.0-arm64-Installer.zip)
 
 <h2 id="download-windows">Windows</h2>
   
