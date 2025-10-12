@@ -28,4 +28,4 @@ jobs:
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: target/${{ github.event.repository.name }}.jar#${{ github.event.repository.name }}-${{ github.ref_name }}.jar
+          files: fromgtog/target/${{ github.event.repository.name }}.jar#${{ github.event.repository.name }}-${{ github.ref_name }}.jar
