@@ -37,7 +37,21 @@ jobs:
         shell: pwsh
         run: |
           echo "RELEASE_TAG=${{ github.ref_name }}" >> $env:GITHUB_ENV
-          Write-Host "Tag di rilascio impostato su: ${{ github.ref_name }}"
+          Write-Host "Release Tag set on: ${{ github.ref_name }}"
+          
+          $JarFile = Get-ChildItem -Path downloaded-files -Filter fromgtog.jar -Recurse | Select-Object -First 1
+
+          if (-not $JarFile) { 
+              throw "ERROR: fromgtog.jar not found." 
+          }
+
+          $Destination = "downloaded-files\fromgtog.jar"
+          if ($JarFile.FullName -ne $Destination) {
+              Write-Host "JAR found: $($JarFile.FullName). Copy it to root..."
+              Copy-Item -Path $JarFile.FullName -Destination $Destination -Force
+          } else {
+              Write-Host "JAR in the right place ($Destination)."
+          }
       - name: Download Artifact (JAR and resources)
         uses: actions/download-artifact@v4
         with:
