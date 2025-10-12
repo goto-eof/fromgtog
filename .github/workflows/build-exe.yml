@@ -66,7 +66,6 @@ jobs:
             --win-menu `
             --java-options "-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dswing.crossplatformlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel" `
             --add-modules java.base,java.desktop,java.net.http,java.naming,java.sql,java.management,java.security.jgss,java.xml,java.logging,jdk.crypto.ec,java.security.sasl `
-            --runtime-image (Get-Item -Path $env:JAVA_HOME).Parent.FullName `
             --verbose
 
       - name: Zip exe file
