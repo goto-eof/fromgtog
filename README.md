@@ -110,6 +110,7 @@ Further features
       just install the .exe file and start cloning.
 
 <h2 id="download-linux">Linux</h2>
+
 - [Install from Ubutnu AMD64/ARM64 Snapstore](https://snapcraft.io/fromgtog) - or execute `sudo snap install fromgtog` in order
       to install the application.
 - [Download Ubuntu AMD64 package](https://github.com/goto-eof/fromgtog/releases/download/8.1.0/fromgtog-Linux-8.1.0-amd64-Installer.zip) -
