@@ -54,7 +54,7 @@ FromGtoG goes beyond simple batch operations, offering advanced filtering and pe
       and long-term storage.)
 * **Granular Control:**
     * Easily **filter out** specific repositories you do not wish to clone from the batch operation.
-    * Clone **only** the repositories listed in a file, allowing developers to manage migration using an external lists.
+    * Clone **only** the repositories listed in a file, allowing developers to manage migration using an external list.
 
 ## Universal Compatibility
 
