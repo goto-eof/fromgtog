@@ -57,7 +57,7 @@ FromGtoG is built for maximum accessibility and stability, with dedicated suppor
 
 Since publishing version 3.0 just a few months ago, I realized a significant **code rewrite** was necessary to ensure the application remains **maintainable** and **easy to understand** as it grows. This rewrite led us to the current, stable version, **8.1.1**.
 
-## Architectural Improvements (The Evolution from 3.0)
+## Architectural Improvements: the evolution
 
 To achieve the best possible structural integrity and to allow for future feature expansion, I implemented extensive use of several **Software Design Patterns**. These patterns ensure better **modularity** and long-term stability:
 * **Composite Pattern:** Used for robust and flexible **user input validation**, ensuring data integrity across all platforms.
