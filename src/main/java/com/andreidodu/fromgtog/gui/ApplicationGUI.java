@@ -1065,7 +1065,7 @@ public class ApplicationGUI extends JFrame {
         final JPanel panel76 = new JPanel();
         panel76.setLayout(new GridLayoutManager(4, 3, new Insets(10, 10, 10, 10), -1, -1));
         panel75.add(panel76, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        panel76.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(-5363968)), "DANGEROUS ZONE", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, this.$$$getFont$$$(null, Font.BOLD, 20, panel76.getFont()), new Color(-5363968)));
+        panel76.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(-5363968)), "DANGER ZONE", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, this.$$$getFont$$$(null, Font.BOLD, 20, panel76.getFont()), new Color(-5363968)));
         final JLabel label45 = new JLabel();
         label45.setForeground(new Color(-5363968));
         label45.setText("Delete all repositories on GitHub");
