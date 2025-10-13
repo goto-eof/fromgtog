@@ -68,6 +68,7 @@ public class RepositoryClonerServiceImpl implements RepositoryCloner {
                         engineContext.callbackContainer().setWorking().accept(false);
                         if (!engineContext.settingsContext().chronJobEnabled()) {
                             engineContext.callbackContainer().setEnabledUI().accept(true);
+                            engineContext.callbackContainer().setShouldStop().accept(true);
                         }
                         timeCounterService.stopCounter();
                         if (isSuccess && !engineContext.settingsContext().chronJobEnabled()) {

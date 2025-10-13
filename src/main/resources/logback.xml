@@ -18,5 +18,5 @@
         <appender-ref ref="CONSOLE"/>
     </root>
 
-    <logger name="com.andreidodu" level="DEBUG"/>
+    <logger name="com.andreidodu" level="INFO"/>
 </configuration>
