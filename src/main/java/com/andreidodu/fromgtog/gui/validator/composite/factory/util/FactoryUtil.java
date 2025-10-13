@@ -5,6 +5,9 @@ import com.andreidodu.fromgtog.gui.validator.composite.PrimaryComponentValidator
 import com.andreidodu.fromgtog.gui.validator.composite.SecondaryComponentValidator;
 import com.andreidodu.fromgtog.type.EngineOptionsType;
 import com.andreidodu.fromgtog.type.EngineType;
+import com.cronutils.model.CronType;
+import com.cronutils.model.definition.CronDefinitionBuilder;
+import com.cronutils.parser.CronParser;
 import org.json.JSONObject;
 
 import java.util.Arrays;
@@ -161,4 +164,22 @@ public class FactoryUtil {
             return !isEmpty(valueToValidate) && validate(valueToValidate, RegexUtil.REGEX_PATTERN_NUMBER_0_120);
         };
     }
+
+    public static Predicate<JSONObject> isChronExpressionValid(String key) {
+        return jsonObject -> {
+            try {
+                String chronExpression = jsonObject.get(key).toString();
+                CronParser parser = new CronParser(CronDefinitionBuilder.instanceDefinitionFor(CronType.QUARTZ));
+                parser.parse(chronExpression).validate();
+                return true;
+            } catch (IllegalArgumentException e) {
+                return false;
+            }
+        };
+    }
+
+    public static Predicate<JSONObject> isTrue(String key) {
+        return jsonObject -> jsonObject.optBoolean(key, false);
+    }
+
 }
