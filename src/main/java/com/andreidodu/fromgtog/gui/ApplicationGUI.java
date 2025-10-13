@@ -104,7 +104,7 @@ public class ApplicationGUI extends JFrame {
     private JButton fromGitlabChooseRepoFileButton;
     private JCheckBox chronJobCheckBox;
     private JCheckBox enableJobCheckBox;
-    private JTextField textField1;
+    private JTextField cronExpressionTextField;
     private JCheckBox toGithubOverrideIfExistsCheckBox;
     private JCheckBox toGiteaOverrideIfExistsCheckBox;
     private JCheckBox toGitlabOverrideIfExistsCheckBox;
@@ -1068,8 +1068,8 @@ public class ApplicationGUI extends JFrame {
         final JLabel label44 = new JLabel();
         label44.setText("Chron expression");
         panel73.add(label44, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        textField1 = new JTextField();
-        panel73.add(textField1, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        cronExpressionTextField = new JTextField();
+        panel73.add(cronExpressionTextField, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         multithreadingEnabled = new JCheckBox();
         multithreadingEnabled.setText("Multi-threadead");
         panel72.add(multithreadingEnabled, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
