@@ -150,7 +150,7 @@ public class ApplicationGUI extends JFrame {
                 JOptionPane.showMessageDialog(null, "System tray not supported on this platform.");
                 return;
             }
-            new TrayIconHelper(this);
+            new TrayIconHelper(this, !chronJobCheckBox.isSelected());
         });
     }
 

@@ -17,7 +17,7 @@ public class TrayIconHelper {
     private TrayIcon trayIcon;
     final static Logger log = LoggerFactory.getLogger(TrayIconHelper.class);
 
-    public TrayIconHelper(JFrame mainWindow) {
+    public TrayIconHelper(JFrame mainWindow, final boolean isWindowVisible) {
         try {
 
             SystemTray tray = SystemTray.getSystemTray();
@@ -34,8 +34,7 @@ public class TrayIconHelper {
             addWindowListeners(mainWindow);
 
             mainWindow.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
-
-            mainWindow.setVisible(true);
+            mainWindow.setVisible(isWindowVisible);
         } catch (AWTException ex) {
             log.error("Something went wrong", ex);
             mainWindow.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
