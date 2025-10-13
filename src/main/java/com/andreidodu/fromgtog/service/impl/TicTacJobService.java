@@ -26,7 +26,7 @@ public class TicTacJobService {
 
     private final static Logger log = LoggerFactory.getLogger(TicTacJobService.class);
 
-    private static Future<?> future;
+    private Future<?> future;
     @Getter
     @Setter
     private ScheduledExecutorService ticTacJobExecutorService;
@@ -56,7 +56,7 @@ public class TicTacJobService {
                 boolean isCronMatchesNow = isNow(executionTime, now);
                 log.info("checking if need to run the job: {}", isCronMatchesNow);
 
-                if (!engineContext.callbackContainer().isShouldStop().get()) {
+                if (engineContext.callbackContainer().isWorking().get()) {
                     engineContext.callbackContainer().jobTicker().accept(false);
                 } else {
                     engineContext.callbackContainer().jobTicker().accept(true);
@@ -64,7 +64,6 @@ public class TicTacJobService {
 
                 if (!engineContext.callbackContainer().isShouldStop().get() && isCronMatchesNow) {
                     runnable.run();
-                } else if (!isCronMatchesNow) {
                 } else if (engineContext.callbackContainer().isShouldStop().get()) {
                     shutdown();
                 }
@@ -86,7 +85,7 @@ public class TicTacJobService {
         if (future != null) {
             future.cancel(true);
         }
-        ticTacJobExecutorService.shutdown();
+        ticTacJobExecutorService.shutdownNow();
     }
 
 

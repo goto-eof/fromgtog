@@ -71,6 +71,9 @@ public class AppController implements GUIController {
     @Getter
     @Setter
     private volatile boolean shouldStop = false;
+    @Getter
+    @Setter
+    private volatile boolean isWorking = false;
 
     private JButton clearLogFileButton;
     private JLabel timeLabel;
@@ -142,6 +145,10 @@ public class AppController implements GUIController {
         applySettings(settings);
 
         this.setShouldStop(true);
+
+        if (chronJobCheckBox.isSelected()) {
+            start(fromControllerList, toControllerList, fromTabbedPane, toTabbedPane);
+        }
 
     }
 
@@ -265,10 +272,15 @@ public class AppController implements GUIController {
                 this.showErrorMessage("Something went wrong." + System.lineSeparator() + String.join(System.lineSeparator(), errorList));
                 setEnabledUI.accept(true);
                 setShouldStop(true);
+                setWorking(false);
                 return;
             }
             saveSettings(allSettings);
         });
+    }
+
+    private synchronized void enableDisableUi(boolean enable) {
+        setEnabledUI.accept(enable);
     }
 
     public synchronized void setShouldStop(boolean shouldStop) {
@@ -285,64 +297,72 @@ public class AppController implements GUIController {
             this.setShouldStop(true);
             this.appStartButton.setVisible(true);
             this.appStopButton.setVisible(false);
+            this.enableDisableUi(true);
         });
     }
 
     private void defineAppStartButtonListener(List<GUIFromController> fromControllerList, List<GUIToController> toControllerList, JTabbedPane fromTabbedPane, JTabbedPane toTabbedPane) {
-
         this.appStartButton.addActionListener(e -> {
-            try {
-                this.setShouldStop(false);
-                SwingUtilities.invokeLater(() -> {
-                    this.appStartButton.setVisible(false);
-                    this.appStopButton.setVisible(true);
-                });
+            start(fromControllerList, toControllerList, fromTabbedPane, toTabbedPane);
+        });
+    }
 
-                JSONObject jsonObjectFrom = retrieveJsonData(fromControllerList, fromTabbedPane.getSelectedIndex());
-                JSONObject jsonObjectTo = retrieveJsonData(toControllerList, toTabbedPane.getSelectedIndex());
-                JSONObject jsonObjectApp = getDataFromChildren();
+    private void start(List<GUIFromController> fromControllerList, List<GUIToController> toControllerList, JTabbedPane fromTabbedPane, JTabbedPane toTabbedPane) {
+        try {
+            this.setShouldStop(false);
+            SwingUtilities.invokeLater(() -> {
+                this.appStartButton.setVisible(false);
+                this.appStopButton.setVisible(true);
+            });
 
-                var allSettingsArr = new JSONObject[]{jsonObjectFrom, jsonObjectTo, jsonObjectApp};
-                JSONObject allSettings = JsonObjectServiceImpl.getInstance().merge(allSettingsArr);
+            JSONObject jsonObjectFrom = retrieveJsonData(fromControllerList, fromTabbedPane.getSelectedIndex());
+            JSONObject jsonObjectTo = retrieveJsonData(toControllerList, toTabbedPane.getSelectedIndex());
+            JSONObject jsonObjectApp = getDataFromChildren();
 
-                List<String> errorList = validateSettings(allSettings);
-                if (!errorList.isEmpty()) {
-                    this.showErrorMessage("Something went wrong. " + System.lineSeparator() + String.join(System.lineSeparator(), errorList));
-                    setEnabledUI.accept(true);
-                    setShouldStop(true);
-                    return;
-                }
+            var allSettingsArr = new JSONObject[]{jsonObjectFrom, jsonObjectTo, jsonObjectApp};
+            JSONObject allSettings = JsonObjectServiceImpl.getInstance().merge(allSettingsArr);
 
-                saveSettings(allSettingsArr);
-
-                EngineContext engineContext = EngineContext.builder()
-                        .settingsContext(translatorApp.translate(jsonObjectApp))
-                        .fromContext(translatorFrom.translate(jsonObjectFrom))
-                        .toContext(translatorTo.translate(jsonObjectTo))
-                        .callbackContainer(CallbackContainer
-                                .builder()
-                                .updateApplicationProgressBarMax(this::updateApplicationProgressBarMax)
-                                .updateApplicationProgressBarCurrent(this::updateApplicationProgressBarCurrent)
-                                .updateApplicationStatusMessage(this::updateApplicationStatusMessage)
-                                .setEnabledUI(setEnabledUI)
-                                .showErrorMessage(this::invokeLaterShowErrorMessage)
-                                .showSuccessMessage(this::invokeLaterSuccessMessage)
-                                .isShouldStop(this::isShouldStop)
-                                .setShouldStop(this::setShouldStop)
-                                .updateTimeLabel(this::updateTimeLabel)
-                                .jobTicker(this::ticTacJobStatusToggle)
-                                .build())
-                        .build();
-
-                RepositoryCloner repositoryCloner = RepositoryClonerServiceImpl.getInstance();
-                repositoryCloner.cloneAllRepositories(engineContext);
-            } catch (Exception ee) {
-                log.error(ee.getMessage(), e);
-                this.showErrorMessage("Something went wrong. " + ee.getMessage());
+            List<String> errorList = validateSettings(allSettings);
+            if (!errorList.isEmpty()) {
+                this.showErrorMessage("Something went wrong. " + System.lineSeparator() + String.join(System.lineSeparator(), errorList));
                 setEnabledUI.accept(true);
                 setShouldStop(true);
+                setWorking(false);
+                return;
             }
-        });
+
+            saveSettings(allSettingsArr);
+
+            EngineContext engineContext = EngineContext.builder()
+                    .settingsContext(translatorApp.translate(jsonObjectApp))
+                    .fromContext(translatorFrom.translate(jsonObjectFrom))
+                    .toContext(translatorTo.translate(jsonObjectTo))
+                    .callbackContainer(CallbackContainer
+                            .builder()
+                            .updateApplicationProgressBarMax(this::updateApplicationProgressBarMax)
+                            .updateApplicationProgressBarCurrent(this::updateApplicationProgressBarCurrent)
+                            .updateApplicationStatusMessage(this::updateApplicationStatusMessage)
+                            .setEnabledUI(setEnabledUI)
+                            .isWorking(this::isWorking)
+                            .setWorking(this::setWorking)
+                            .showErrorMessage(this::invokeLaterShowErrorMessage)
+                            .showSuccessMessage(this::invokeLaterSuccessMessage)
+                            .isShouldStop(this::isShouldStop)
+                            .setShouldStop(this::setShouldStop)
+                            .updateTimeLabel(this::updateTimeLabel)
+                            .jobTicker(this::ticTacJobStatusToggle)
+                            .build())
+                    .build();
+
+            RepositoryCloner repositoryCloner = RepositoryClonerServiceImpl.getInstance();
+            repositoryCloner.cloneAllRepositories(engineContext);
+        } catch (Exception ee) {
+            log.error(ee.getMessage(), ee);
+            this.showErrorMessage("Something went wrong. " + ee.getMessage());
+            setEnabledUI.accept(true);
+            setShouldStop(true);
+            setWorking(false);
+        }
     }
 
     private List<String> validateSettings(JSONObject allSettings) {

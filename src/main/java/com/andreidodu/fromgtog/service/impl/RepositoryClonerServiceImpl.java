@@ -40,17 +40,15 @@ public class RepositoryClonerServiceImpl implements RepositoryCloner {
             TicTacJobService ticTacJobService = new TicTacJobService(engineContext);
             try {
                 log.debug("Starting TicTac Job Service, isShouldStop: {}", engineContext.callbackContainer().isShouldStop());
+                engineContext.callbackContainer().setEnabledUI().accept(false);
                 ticTacJobService.runTicTak(() -> executeOnNewThread(engineContext, sourceEngine, destinationEngine));
             } catch (Exception e) {
                 log.error(e.getMessage(), e);
                 ticTacJobService.shutdown();
                 return false;
-            } finally {
-
             }
         } else {
             executeOnNewThread(engineContext, sourceEngine, destinationEngine);
-            engineContext.callbackContainer().setShouldStop().accept(true);
         }
         return true;
     }
@@ -65,8 +63,12 @@ public class RepositoryClonerServiceImpl implements RepositoryCloner {
                         engineContext.callbackContainer().updateApplicationStatusMessage().accept("Start to clone from " + from + " to " + to);
 
                         engineContext.callbackContainer().setEnabledUI().accept(false);
+                        engineContext.callbackContainer().setWorking().accept(true);
                         boolean isSuccess = cloneFromAndTo(engineContext, sourceEngine, destinationEngine);
-                        engineContext.callbackContainer().setEnabledUI().accept(true);
+                        engineContext.callbackContainer().setWorking().accept(false);
+                        if (!engineContext.settingsContext().chronJobEnabled()) {
+                            engineContext.callbackContainer().setEnabledUI().accept(true);
+                        }
                         timeCounterService.stopCounter();
                         if (isSuccess && !engineContext.settingsContext().chronJobEnabled()) {
                             engineContext.callbackContainer().showSuccessMessage().accept("Clone procedure completed successfully!");

@@ -11,6 +11,8 @@ public record CallbackContainer(
         Consumer<Integer> updateApplicationProgressBarCurrent,
         Consumer<String> updateApplicationStatusMessage,
         Consumer<Boolean> setEnabledUI,
+        Supplier<Boolean> isWorking,
+        Consumer<Boolean> setWorking,
         Consumer<String> showErrorMessage,
         Consumer<String> showSuccessMessage,
         Supplier<Boolean> isShouldStop,
