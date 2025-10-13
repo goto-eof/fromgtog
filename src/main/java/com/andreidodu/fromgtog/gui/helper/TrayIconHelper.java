@@ -18,8 +18,8 @@ public class TrayIconHelper {
 
     private TrayIcon trayIcon;
     final static Logger log = LoggerFactory.getLogger(TrayIconHelper.class);
-    private boolean isTrayIconMain = true;
-
+    private volatile boolean isTrayIconMain = true;
+    private volatile String currentTrayIconImageFile = TRAY_ICON_IMAGE;
 
     public TrayIconHelper(JFrame mainWindow, final boolean isWindowVisible) {
         try {
@@ -132,21 +132,26 @@ public class TrayIconHelper {
         if (loadDefault) {
             {
                 Image image = loadImage(TRAY_ICON_IMAGE);
+                currentTrayIconImageFile = TRAY_ICON_IMAGE;
                 isTrayIconMain = true;
                 trayIcon.setImage(image);
                 return;
             }
         }
 
+
         Image image;
-        if (isTrayIconMain) {
+        if (isTrayIconMain && !TRAY_ICON_IMAGE_SECONDARY.equals(currentTrayIconImageFile)) {
             isTrayIconMain = false;
             image = loadImage(TRAY_ICON_IMAGE_SECONDARY);
-        } else {
+            currentTrayIconImageFile = TRAY_ICON_IMAGE_SECONDARY;
+            trayIcon.setImage(image);
+        } else if (!TRAY_ICON_IMAGE.equals(currentTrayIconImageFile)) {
+            currentTrayIconImageFile = TRAY_ICON_IMAGE;
             image = loadImage(TRAY_ICON_IMAGE);
             isTrayIconMain = true;
+            trayIcon.setImage(image);
         }
-        trayIcon.setImage(image);
     }
 
     private static Image loadImage(final String imgFile) {
