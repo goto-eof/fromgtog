@@ -3,6 +3,7 @@ package com.andreidodu.fromgtog.gui;
 import com.andreidodu.fromgtog.gui.controller.GUIFromController;
 import com.andreidodu.fromgtog.gui.controller.GUIToController;
 import com.andreidodu.fromgtog.gui.controller.impl.*;
+import com.andreidodu.fromgtog.gui.helper.TrayIconHelper;
 import com.andreidodu.fromgtog.service.impl.SettingsServiceImpl;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
@@ -109,7 +110,7 @@ public class ApplicationGUI extends JFrame {
         setContentPane(mainPanel);
         pack();
         setLocationRelativeTo(null);
-        setVisible(true);
+
 
         JSONObject settings = SettingsServiceImpl.getInstance().load();
 
@@ -136,6 +137,13 @@ public class ApplicationGUI extends JFrame {
         disableGroupByRepositoryOwnerIfNecessary();
         addFromTabbedPaneListener();
 
+        SwingUtilities.invokeLater(() -> {
+            if (!SystemTray.isSupported()) {
+                JOptionPane.showMessageDialog(null, "System tray not supported on this platform.");
+                return;
+            }
+            new TrayIconHelper(this);
+        });
     }
 
     private GUIToController buildToGitlabController(JSONObject settings) {
@@ -370,7 +378,7 @@ public class ApplicationGUI extends JFrame {
                 projectWebsiteButton,
                 reportAnIssueButton,
                 multithreadingEnabled,
-                
+
                 githubFilterAndClone,
                 fromGithubOptionsTabbedPane,
                 fromGithubExcludeRepoNamesListTextField,
