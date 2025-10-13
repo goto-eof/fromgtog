@@ -65,8 +65,6 @@ public class GithubDestinationEngineFromRemoteStrategy extends AbstractStrategyC
 
         new UpdateStatusCommand(buildUpdateStatusContext(engineContext.callbackContainer(), repositoryDTOList.size(), super.getIndex(), String.format("done%s", calculateStatus(repositoryDTOList.size())))).execute();
 
-        callbackContainer.setShouldStop().accept(true);
-
         return super.getIndex() == repositoryDTOList.size();
     }
 

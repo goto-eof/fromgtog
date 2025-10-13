@@ -14,8 +14,12 @@ import java.util.Objects;
 
 public class TrayIconHelper {
     public static final String TRAY_ICON_IMAGE = "/images/xm/icon-64x64.png";
+    public static final String TRAY_ICON_IMAGE_SECONDARY = "/images/xm/icon-red-64x64.png";
+
     private TrayIcon trayIcon;
     final static Logger log = LoggerFactory.getLogger(TrayIconHelper.class);
+    private boolean isTrayIconMain = true;
+
 
     public TrayIconHelper(JFrame mainWindow, final boolean isWindowVisible) {
         try {
@@ -122,6 +126,36 @@ public class TrayIconHelper {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    public synchronized void toggleIcon(boolean loadDefault) {
+        if (loadDefault) {
+            {
+                Image image = loadImage(TRAY_ICON_IMAGE);
+                isTrayIconMain = true;
+                trayIcon.setImage(image);
+                return;
+            }
+        }
+
+        Image image;
+        if (isTrayIconMain) {
+            isTrayIconMain = false;
+            image = loadImage(TRAY_ICON_IMAGE_SECONDARY);
+        } else {
+            image = loadImage(TRAY_ICON_IMAGE);
+            isTrayIconMain = true;
+        }
+        trayIcon.setImage(image);
+    }
+
+    private static Image loadImage(final String imgFile) {
+        SystemTray tray = SystemTray.getSystemTray();
+        Image image = loadImage(imgFile, getTrayIconSize(tray));
+        if (image == null) {
+            image = createFallbackImage();
+        }
+        return image;
     }
 
     private static Image createFallbackImage() {

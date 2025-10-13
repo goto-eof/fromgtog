@@ -15,6 +15,7 @@ public record CallbackContainer(
         Consumer<String> showSuccessMessage,
         Supplier<Boolean> isShouldStop,
         Consumer<Boolean> setShouldStop,
-        Consumer<String> updateTimeLabel
+        Consumer<String> updateTimeLabel,
+        Consumer<Boolean> jobTicker
 ) {
 }

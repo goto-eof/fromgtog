@@ -25,6 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -77,6 +78,7 @@ public class AppController implements GUIController {
     private JCheckBox chronJobCheckBox;
     private JTextField chronExpressionTextField;
 
+    private Consumer<Boolean> toggleTrayIcon;
 
     public AppController(
             JSONObject settings,
@@ -99,7 +101,8 @@ public class AppController implements GUIController {
             JButton clearLogFileButton,
             JLabel timeLabel,
             JCheckBox chronJobCheckBox,
-            JTextField chronExpressionTextField
+            JTextField chronExpressionTextField,
+            Consumer<Boolean> toggleTrayIcon
     ) {
         this.fromControllerList = fromControllerList;
         this.toControllerList = toControllerList;
@@ -126,6 +129,8 @@ public class AppController implements GUIController {
         this.translatorTo = new JsonObjectToToContextTranslator();
         this.translatorApp = new JsonObjectToAppContextTranslator();
         this.translatorFrom = new JsonObjectToFromContextTranslator();
+
+        this.toggleTrayIcon = toggleTrayIcon;
 
         defineAppStartButtonListener(fromControllerList, toControllerList, fromTabbedPane, toTabbedPane);
         defineAppStopButtonListener();
@@ -268,6 +273,7 @@ public class AppController implements GUIController {
 
     public synchronized void setShouldStop(boolean shouldStop) {
         this.shouldStop = shouldStop;
+        log.debug("Setting should stop: " + shouldStop);
         SwingUtilities.invokeLater(() -> {
             this.appStartButton.setVisible(shouldStop);
             this.appStopButton.setVisible(!shouldStop);
@@ -287,8 +293,10 @@ public class AppController implements GUIController {
         this.appStartButton.addActionListener(e -> {
             try {
                 this.setShouldStop(false);
-                this.appStartButton.setVisible(false);
-                this.appStopButton.setVisible(true);
+                SwingUtilities.invokeLater(() -> {
+                    this.appStartButton.setVisible(false);
+                    this.appStopButton.setVisible(true);
+                });
 
                 JSONObject jsonObjectFrom = retrieveJsonData(fromControllerList, fromTabbedPane.getSelectedIndex());
                 JSONObject jsonObjectTo = retrieveJsonData(toControllerList, toTabbedPane.getSelectedIndex());
@@ -322,6 +330,7 @@ public class AppController implements GUIController {
                                 .isShouldStop(this::isShouldStop)
                                 .setShouldStop(this::setShouldStop)
                                 .updateTimeLabel(this::updateTimeLabel)
+                                .jobTicker(this::ticTacJobStatusToggle)
                                 .build())
                         .build();
 
@@ -343,6 +352,21 @@ public class AppController implements GUIController {
     private void updateTimeLabel(String message) {
         SwingUtilities.invokeLater(() -> {
             timeLabel.setText(String.format("%s", message));
+        });
+    }
+
+    private void ticTacJobStatusToggle(boolean loadDefault) {
+        SwingUtilities.invokeLater(() -> {
+            if (loadDefault) {
+                chronJobCheckBox.setForeground(Color.yellow);
+                this.toggleTrayIcon.accept(loadDefault);
+            } else if (chronJobCheckBox.getForeground().equals(Color.red)) {
+                chronJobCheckBox.setForeground(Color.yellow);
+                this.toggleTrayIcon.accept(loadDefault);
+            } else {
+                chronJobCheckBox.setForeground(Color.red);
+                this.toggleTrayIcon.accept(loadDefault);
+            }
         });
     }
 

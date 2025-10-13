@@ -28,20 +28,30 @@ public class RepositoryClonerServiceImpl implements RepositoryCloner {
         return instance;
     }
 
-    private static void validateInput(EngineContext engineContext) {
-        // TODO
-    }
-
     @Override
     public boolean cloneAllRepositories(EngineContext engineContext) {
-        validateInput(engineContext);
-
         CloneFactory cloneFactory = new CloneFactoryImpl();
         SourceEngine sourceEngine = cloneFactory.buildSource(engineContext.fromContext().sourceEngineType());
         DestinationEngine destinationEngine = cloneFactory.buildDestination(engineContext.toContext().engineType());
 
         log.debug("Source: {}, Destination: {}", sourceEngine.getEngineType(), destinationEngine.getDestinationEngineType());
-        executeOnNewThread(engineContext, sourceEngine, destinationEngine);
+
+        if (engineContext.settingsContext().chronJobEnabled()) {
+            TicTacJobService ticTacJobService = new TicTacJobService(engineContext);
+            try {
+                log.debug("Starting TicTac Job Service, isShouldStop: {}", engineContext.callbackContainer().isShouldStop());
+                ticTacJobService.runTicTak(() -> executeOnNewThread(engineContext, sourceEngine, destinationEngine));
+            } catch (Exception e) {
+                log.error(e.getMessage(), e);
+                ticTacJobService.shutdown();
+                return false;
+            } finally {
+
+            }
+        } else {
+            executeOnNewThread(engineContext, sourceEngine, destinationEngine);
+            engineContext.callbackContainer().setShouldStop().accept(true);
+        }
         return true;
     }
 
@@ -58,16 +68,19 @@ public class RepositoryClonerServiceImpl implements RepositoryCloner {
                         boolean isSuccess = cloneFromAndTo(engineContext, sourceEngine, destinationEngine);
                         engineContext.callbackContainer().setEnabledUI().accept(true);
                         timeCounterService.stopCounter();
-                        if (isSuccess) {
+                        if (isSuccess && !engineContext.settingsContext().chronJobEnabled()) {
                             engineContext.callbackContainer().showSuccessMessage().accept("Clone procedure completed successfully!");
                             return;
                         }
-                        engineContext.callbackContainer().showErrorMessage().accept("Something went wrong while cloning: not all repositories were cloned. Please check the log file for further details.");
+                        if (!isSuccess && !engineContext.settingsContext().chronJobEnabled()) {
+                            engineContext.callbackContainer().showErrorMessage().accept("Something went wrong while cloning: not all repositories were cloned. Please check the log file for further details.");
+                        }
                     } catch (Exception e) {
                         log.error(e.getMessage(), e);
                         engineContext.callbackContainer().setEnabledUI().accept(true);
-                        engineContext.callbackContainer().setShouldStop().accept(true);
-                        engineContext.callbackContainer().showErrorMessage().accept("Something went wrong while cloning: " + e.getMessage() + ". Please check the log file for further details.");
+                        if (!engineContext.settingsContext().chronJobEnabled()) {
+                            engineContext.callbackContainer().showErrorMessage().accept("Something went wrong while cloning: " + e.getMessage() + ". Please check the log file for further details.");
+                        }
                         timeCounterService.stopCounter();
                     }
                 }

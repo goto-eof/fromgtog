@@ -77,7 +77,6 @@ public class GenericDestinationEngineFromLocalStrategy<ServiceType extends Delet
 
         new UpdateStatusCommand(buildUpdateStatusContext(engineContext.callbackContainer(), pathList.size(), super.getIndex(), String.format("done%s", calculateStatus(pathList.size())))).execute();
 
-        callbackContainer.setShouldStop().accept(true);
         return super.getIndex() == pathList.size();
     }
 

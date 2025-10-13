@@ -38,10 +38,9 @@ public class TimeCounterService {
     }
 
     private void runTimeCounter(Consumer<String> updateTimeLabel) {
-        ScheduledFuture<?> future = this.timeExecutorService.scheduleAtFixedRate(() -> {
+        ScheduledFuture<?> future = this.getTimeExecutorService().scheduleAtFixedRate(() -> {
             if (timeEnabled.get()) {
                 updateTimeLabel.accept(String.format("%s", TimeUtil.formatMillis(System.currentTimeMillis() - startTime)));
-            } else {
             }
         }, 0, 1000, TimeUnit.MILLISECONDS);
     }

@@ -111,6 +111,8 @@ public class ApplicationGUI extends JFrame {
     private JCheckBox toGitlabOverrideIfExistsCheckBox;
     private JCheckBox toLocalOverrideIfExistsCheckBox;
 
+    private TrayIconHelper trayIconHelper;
+
     public ApplicationGUI() {
         setTitle("FromGtoG 9.0.0");
         setResizable(true);
@@ -150,7 +152,13 @@ public class ApplicationGUI extends JFrame {
                 JOptionPane.showMessageDialog(null, "System tray not supported on this platform.");
                 return;
             }
-            new TrayIconHelper(this, !chronJobCheckBox.isSelected());
+            trayIconHelper = new TrayIconHelper(this, !chronJobCheckBox.isSelected());
+        });
+    }
+
+    public void toggleTrayIcon(boolean loadDefault) {
+        SwingUtilities.invokeLater(() -> {
+            this.trayIconHelper.toggleIcon(loadDefault);
         });
     }
 
@@ -230,7 +238,8 @@ public class ApplicationGUI extends JFrame {
                 clearLogFileButton,
                 timeLable,
                 chronJobCheckBox,
-                chronExpressionTextField
+                chronExpressionTextField,
+                this::toggleTrayIcon
         );
     }
 
