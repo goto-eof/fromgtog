@@ -1,5 +1,6 @@
 package com.andreidodu.fromgtog.service.factory.to.engines;
 
+import com.andreidodu.fromgtog.service.DeletableDestinationContentService;
 import com.andreidodu.fromgtog.service.factory.to.AbstractDestinationEngine;
 import com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.DestinationEngineStrategy;
 import com.andreidodu.fromgtog.service.factory.to.engines.strategies.generic.GenericDestinationEngineFromLocalStrategy;
@@ -18,10 +19,10 @@ public class GitlabDestinationEngine extends AbstractDestinationEngine {
     private final static EngineType DESTINATION_ENGINE_TYPE = EngineType.GITLAB;
 
     static {
-        GenericDestinationEngineFromStrategyService gitlabService = GitlabServiceImpl.getInstance();
+        DeletableDestinationContentService gitlabService = GitlabServiceImpl.getInstance();
         STRATEGIES_LIST = List.of(
-                new GenericDestinationEngineFromRemoteStrategy<GenericDestinationEngineFromStrategyService>(gitlabService),
-                new GenericDestinationEngineFromLocalStrategy<GenericDestinationEngineFromStrategyService>(gitlabService)
+                new GenericDestinationEngineFromRemoteStrategy<DeletableDestinationContentService>(gitlabService),
+                new GenericDestinationEngineFromLocalStrategy<DeletableDestinationContentService>(gitlabService)
         );
     }
 

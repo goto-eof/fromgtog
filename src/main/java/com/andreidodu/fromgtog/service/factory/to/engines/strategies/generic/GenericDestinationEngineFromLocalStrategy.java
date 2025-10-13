@@ -1,11 +1,11 @@
 package com.andreidodu.fromgtog.service.factory.to.engines.strategies.generic;
 
 import com.andreidodu.fromgtog.dto.*;
+import com.andreidodu.fromgtog.service.DeletableDestinationContentService;
 import com.andreidodu.fromgtog.service.LocalService;
 import com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.AbstractStrategyCommon;
 import com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.commands.ThreadSleepCommand;
 import com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.commands.UpdateStatusCommand;
-import com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.records.RemoteExistsCheckCommandContext;
 import com.andreidodu.fromgtog.service.impl.LocalServiceImpl;
 import com.andreidodu.fromgtog.type.EngineType;
 import com.andreidodu.fromgtog.type.RepoPrivacyType;
@@ -19,12 +19,14 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 
 import static com.andreidodu.fromgtog.constants.ApplicationConstants.CLONER_THREAD_NAME_PREFIX;
-import static com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.commands.CommandCommon.*;
+import static com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.commands.CommandCommon.buildUpdateStatusContext;
+import static com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.commands.CommandCommon.isShouldStopTheProcess;
 
-public class GenericDestinationEngineFromLocalStrategy<ServiceType extends GenericDestinationEngineFromStrategyService> extends AbstractStrategyCommon implements GenericDestinationEngineFromStrategyCommon {
+public class GenericDestinationEngineFromLocalStrategy<ServiceType extends DeletableDestinationContentService> extends AbstractStrategyCommon implements GenericDestinationEngineFromStrategyCommon {
     private final ServiceType service;
     private Logger log = LoggerFactory.getLogger(GenericDestinationEngineFromLocalStrategy.class);
 
@@ -51,7 +53,6 @@ public class GenericDestinationEngineFromLocalStrategy<ServiceType extends Gener
 
         validateInput(fromContext, toContext);
 
-
         new UpdateStatusCommand(buildUpdateStatusContext(engineContext.callbackContainer(), repositoryDTOList.size(), 0, "initializing the cloning process")).execute();
 
 
@@ -59,20 +60,19 @@ public class GenericDestinationEngineFromLocalStrategy<ServiceType extends Gener
                 .map(RepositoryDTO::getPath)
                 .toList();
 
-        String tokenOwnerLogin = service.getLogin(toContext.token(), toContext.url());
+        String destinationTokenOwnerLogin = service.getLogin(toContext.token(), toContext.url());
 
-        log.debug("tokenOwnerLogin: {}", tokenOwnerLogin);
+        log.debug("destinationTokenOwnerLogin: {}", destinationTokenOwnerLogin);
 
 
         ThreadUtil threadUtil = ThreadUtil.getInstance();
 
         try (final ExecutorService executorService = threadUtil.createExecutor(CLONER_THREAD_NAME_PREFIX, engineContext.settingsContext().multithreadingEnabled())) {
             super.resetIndex();
-
+            LocalService localService = LocalServiceImpl.getInstance();
             for (String path : pathList) {
-                executorService.execute(() -> processItem(engineContext, path, tokenOwnerLogin));
+                executorService.execute(() -> processItem(engineContext, path, destinationTokenOwnerLogin, localService));
             }
-
         }
 
         new UpdateStatusCommand(buildUpdateStatusContext(engineContext.callbackContainer(), pathList.size(), super.getIndex(), String.format("done%s", calculateStatus(pathList.size())))).execute();
@@ -81,11 +81,10 @@ public class GenericDestinationEngineFromLocalStrategy<ServiceType extends Gener
         return super.getIndex() == pathList.size();
     }
 
-    private void processItem(EngineContext engineContext, String path, String tokenOwnerLogin) {
+    private void processItem(EngineContext engineContext, String path, String destinationTokenOwnerLogin, LocalService localService) {
         String repositoryName = new File(path).getName();
         ToContext toContext = engineContext.toContext();
         CallbackContainer callbackContainer = engineContext.callbackContainer();
-        LocalService localService = LocalServiceImpl.getInstance();
 
         if (isShouldStopTheProcess(repositoryName, callbackContainer)) {
             return;
@@ -94,39 +93,57 @@ public class GenericDestinationEngineFromLocalStrategy<ServiceType extends Gener
         repositoryName = super.correctRepositoryName(repositoryName);
         log.debug("toDirectoryPath: {}", path);
 
+        String remoteRepositoryUrl = toContext.url() + "/" + destinationTokenOwnerLogin + "/" + repositoryName + ".git";
 
-        RemoteExistsCheckCommandContext remoteExistsCheckCommandContext = GenericDestinationEngineCommon.buildRemoteExistsCheckInput(engineContext, tokenOwnerLogin, repositoryName);
-        if (isRemoteRepositoryAlreadyExists(remoteExistsCheckCommandContext)) {
-            incrementIndexSuccess(callbackContainer);
-            return;
-        }
+        boolean isOverrideFlagEnabled = toContext.overrideIfExists();
+        boolean isDestinationRepositoryExists = localService.isRemoteRepositoryExists(destinationTokenOwnerLogin, toContext.token(), remoteRepositoryUrl);
 
-        String remoteRepositoryUrl = toContext.url() + "/" + tokenOwnerLogin + "/" + repositoryName + ".git";
-        if (localService.isRemoteRepositoryExists(tokenOwnerLogin, toContext.token(), remoteRepositoryUrl)) {
+        if (!isOverrideFlagEnabled && isDestinationRepositoryExists) {
             log.debug("skipping because {} already exists", repositoryName);
             callbackContainer.updateApplicationStatusMessage().accept("Skipping repository because it already exists: " + repositoryName);
             incrementIndexSuccess(callbackContainer);
             return;
-        }
 
+        }
         callbackContainer.updateApplicationStatusMessage().accept("cloning " + repositoryName + " ...");
         callbackContainer.updateApplicationStatusMessage().accept("cloning repository: " + repositoryName);
 
+
         try {
-            if (!service.createRepository(toContext.url(), toContext.token(), repositoryName, "", RepoPrivacyType.ALL_PRIVATE.equals(toContext.repositoryPrivacy()))) {
+
+            if (!isDestinationRepositoryExists) {
+                callbackContainer.updateApplicationStatusMessage().accept("repository not found on destination platform: " + repositoryName);
+                callbackContainer.updateApplicationStatusMessage().accept("I am going to create it: " + repositoryName);
+            }
+
+            if (!isDestinationRepositoryExists && !service.createRepository(toContext.url(), toContext.token(), repositoryName, "", RepoPrivacyType.ALL_PRIVATE.equals(toContext.repositoryPrivacy()))) {
                 callbackContainer.updateApplicationStatusMessage().accept("unable to create repository: " + repositoryName);
                 log.debug("unable to create repository: {}", repositoryName);
                 return;
             }
+
+            callbackContainer.updateApplicationStatusMessage().accept("Destination repo created: " + repositoryName);
+
         } catch (Exception e) {
             callbackContainer.updateApplicationStatusMessage().accept("unable to create repository: " + repositoryName);
             log.debug("unable to create repository: {}", repositoryName, e);
             return;
         }
 
+
+        if (isOverrideFlagEnabled) {
+            String message = String.format("isOverrideFlagEnabled: executing git push --force %s", repositoryName);
+            callbackContainer.updateApplicationStatusMessage().accept(message);
+        }
+
         try {
-            log.debug("pushing...");
-            boolean isPushOk = localService.pushOnRemote(tokenOwnerLogin, toContext.token(), toContext.url(), repositoryName, tokenOwnerLogin, new File(path));
+            String message = String.format("pushing %s on %s...", repositoryName, toContext.url());
+            callbackContainer.updateApplicationStatusMessage().accept(message);
+
+            boolean isPushOk = localService.pushOnRemote(destinationTokenOwnerLogin, toContext.token(), toContext.url(), repositoryName, destinationTokenOwnerLogin, new File(path), isOverrideFlagEnabled);
+
+            message = String.format("push status for repo %s: %S", repositoryName, isPushOk);
+            callbackContainer.updateApplicationStatusMessage().accept(message);
         } catch (IOException | GitAPIException | URISyntaxException e) {
             callbackContainer.updateApplicationStatusMessage().accept("Unable to push repository " + repositoryName);
             log.error("Unable to push repository {}", repositoryName, e);
@@ -135,7 +152,7 @@ public class GenericDestinationEngineFromLocalStrategy<ServiceType extends Gener
 
         try {
             log.debug("updating repository privacy...");
-            boolean result = service.updateRepositoryPrivacy(toContext.token(), tokenOwnerLogin, toContext.url(), repositoryName, false, RepoPrivacyType.ALL_PRIVATE.equals(toContext.repositoryPrivacy()));
+            boolean result = service.updateRepositoryPrivacy(toContext.token(), destinationTokenOwnerLogin, toContext.url(), repositoryName, false, RepoPrivacyType.ALL_PRIVATE.equals(toContext.repositoryPrivacy()));
         } catch (Exception e) {
             callbackContainer.updateApplicationStatusMessage().accept("Unable to push repository " + repositoryName);
             log.error("Unable to push repository {}", repositoryName, e);
@@ -147,6 +164,11 @@ public class GenericDestinationEngineFromLocalStrategy<ServiceType extends Gener
         if (!new ThreadSleepCommand(engineContext.settingsContext().sleepTimeSeconds()).execute()) {
             throw new RuntimeException("Unable to put thread on sleep " + repositoryName);
         }
+    }
+
+    private static DeleteRepositoryRequestDTO buildDestinationDeleteRepositoryRequestDTO(ToContext
+                                                                                                 toContext, String repositoryName) {
+        return new DeleteRepositoryRequestDTO(Optional.of(toContext.token()), Optional.of(toContext.url()), Optional.of(toContext.token()), Optional.of(repositoryName), Optional.empty());
     }
 
 

@@ -41,7 +41,8 @@ public class JsonObjectToToContextTranslator implements JsonObjectToRecordTransl
                 null,
                 null,
                 jsonObject.getString(TO_LOCAL_ROOT_PATH),
-                jsonObject.getBoolean(TO_LOCAL_GROUP_BY_OWNER)
+                jsonObject.getBoolean(TO_LOCAL_GROUP_BY_OWNER),
+                jsonObject.getBoolean(TO_LOCAL_OVERRIDE_IF_EXISTS)
         );
     }
 
@@ -52,7 +53,8 @@ public class JsonObjectToToContextTranslator implements JsonObjectToRecordTransl
                 jsonObject.getString(TO_GITEA_TOKEN),
                 RepoPrivacyType.fromValue(jsonObject.getInt(TO_GITEA_PRIVACY_INDEX)),
                 null,
-                false
+                false,
+                jsonObject.getBoolean(TO_GITEA_OVERRIDE_IF_EXISTS)
         );
     }
 
@@ -63,7 +65,8 @@ public class JsonObjectToToContextTranslator implements JsonObjectToRecordTransl
                 jsonObject.getString(TO_GITLAB_TOKEN),
                 RepoPrivacyType.fromValue(jsonObject.getInt(TO_GITLAB_PRIVACY_INDEX)),
                 null,
-                false
+                false,
+                jsonObject.getBoolean(TO_GITLAB_OVERRIDE_IF_EXISTS)
         );
     }
 
@@ -74,7 +77,8 @@ public class JsonObjectToToContextTranslator implements JsonObjectToRecordTransl
                 jsonObject.getString(TO_GITHUB_TOKEN),
                 RepoPrivacyType.fromValue(jsonObject.getInt(TO_GITHUB_PRIVACY_INDEX)),
                 null,
-                false
+                false,
+                jsonObject.getBoolean(TO_GITHUB_OVERRIDE_IF_EXISTS)
         );
     }
 }

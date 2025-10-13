@@ -37,10 +37,6 @@ import static com.andreidodu.fromgtog.gui.controller.constants.GuiKeys.*;
 import static com.andreidodu.fromgtog.util.NumberUtil.toIntegerOrDefault;
 
 
-/**
- * TODO error managing for retrieveJsonData -> show error alert
- * TODO validate user input -> show error alert
- */
 @Getter
 @Setter
 public class AppController implements GUIController {

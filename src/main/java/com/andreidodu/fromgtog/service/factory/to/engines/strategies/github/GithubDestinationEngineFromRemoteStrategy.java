@@ -24,6 +24,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 
 import static com.andreidodu.fromgtog.constants.ApplicationConstants.CLONER_THREAD_NAME_PREFIX;
@@ -55,9 +56,9 @@ public class GithubDestinationEngineFromRemoteStrategy extends AbstractStrategyC
         try (final ExecutorService executorService = threadUtil.createExecutor(CLONER_THREAD_NAME_PREFIX, engineContext.settingsContext().multithreadingEnabled())) {
             super.resetIndex();
             NoHomeGitConfigSystemReader.install();
-
+            LocalService localService = LocalServiceImpl.getInstance();
             for (RepositoryDTO repositoryDTO : repositoryDTOList) {
-                executorService.execute(() -> processItem(engineContext, repositoryDTO, githubClient, tokenOwnerLogin));
+                executorService.execute(() -> processItem(engineContext, repositoryDTO, gitHubService, githubClient, localService, tokenOwnerLogin));
             }
 
         }
@@ -69,12 +70,11 @@ public class GithubDestinationEngineFromRemoteStrategy extends AbstractStrategyC
         return super.getIndex() == repositoryDTOList.size();
     }
 
-    private void processItem(EngineContext engineContext, RepositoryDTO repositoryDTO, GitHub githubClient, String tokenOwnerLogin) {
+    private void processItem(EngineContext engineContext, RepositoryDTO repositoryDTO, GitHubService service, GitHub githubClient, LocalService localService, String tokenOwnerLogin) {
         FromContext fromContext = engineContext.fromContext();
         ToContext toContext = engineContext.toContext();
         CallbackContainer callbackContainer = engineContext.callbackContainer();
         String repositoryName = repositoryDTO.getName();
-        LocalService localService = LocalServiceImpl.getInstance();
         String fromContextToken = fromContext.token();
         final String TEMP_DIRECTORY = System.getProperty("java.io.tmpdir");
         if (isShouldStopTheProcess(repositoryName, callbackContainer)) {
@@ -82,8 +82,10 @@ public class GithubDestinationEngineFromRemoteStrategy extends AbstractStrategyC
         }
 
         callbackContainer.updateApplicationStatusMessage().accept("cloning repository: " + repositoryName);
+        boolean isOverrideFlagEnabled = toContext.overrideIfExists();
+        boolean isDestinationRepositoryAlreadyExists = isRemoteRepositoryAlreadyExists(GithubDestinationEngineCommon.buildRemoteExistsCheckInput(engineContext, tokenOwnerLogin, repositoryName));
 
-        if (isRemoteRepositoryAlreadyExists(GithubDestinationEngineCommon.buildRemoteExistsCheckInput(engineContext, tokenOwnerLogin, repositoryName))) {
+        if (!isOverrideFlagEnabled && isDestinationRepositoryAlreadyExists) {
             incrementIndexSuccess(callbackContainer);
             return;
         }
@@ -106,16 +108,33 @@ public class GithubDestinationEngineFromRemoteStrategy extends AbstractStrategyC
         callbackContainer.updateApplicationStatusMessage().accept("cloning repository: " + repositoryName);
 
         try {
-            githubClient.createRepository(repositoryName).private_(RepoPrivacyType.ALL_PRIVATE.equals(toContext.repositoryPrivacy())).owner(tokenOwnerLogin).create();
+            if (!isDestinationRepositoryAlreadyExists) {
+                callbackContainer.updateApplicationStatusMessage().accept("repository not found on destination platform: " + repositoryName);
+                callbackContainer.updateApplicationStatusMessage().accept("I am going to create it: " + repositoryName);
+                githubClient.createRepository(repositoryName).private_(RepoPrivacyType.ALL_PRIVATE.equals(toContext.repositoryPrivacy())).owner(tokenOwnerLogin).create();
+                callbackContainer.updateApplicationStatusMessage().accept("Destination repo created: " + repositoryName);
+            }
         } catch (IOException e) {
             callbackContainer.updateApplicationStatusMessage().accept("unable to create repository: " + repositoryName);
             log.debug("unable to create repository: {}", repositoryName, e);
             return;
         }
 
+
+        if (isOverrideFlagEnabled) {
+            String message = String.format("isOverrideFlagEnabled: executing git push --force %s", repositoryName);
+            callbackContainer.updateApplicationStatusMessage().accept(message);
+        }
+
         try {
-            log.debug("pushing...");
-            boolean result = localService.pushOnRemote(tokenOwnerLogin, toContext.token(), "https://github.com", repositoryName, tokenOwnerLogin, new File(stagedClonePath));
+            String message = String.format("pushing %s on %s...", repositoryName, toContext.url());
+            callbackContainer.updateApplicationStatusMessage().accept(message);
+
+            boolean isPushOk = localService.pushOnRemote(tokenOwnerLogin, toContext.token(), "https://github.com", repositoryName, tokenOwnerLogin, new File(stagedClonePath), isOverrideFlagEnabled);
+
+
+            message = String.format("push status for repo %s: %S", repositoryName, isPushOk);
+            callbackContainer.updateApplicationStatusMessage().accept(message);
         } catch (IOException | GitAPIException | URISyntaxException e) {
             callbackContainer.updateApplicationStatusMessage().accept("Unable to push repository " + repositoryName);
             log.error("Unable to push repository {}", repositoryName, e);
@@ -138,5 +157,9 @@ public class GithubDestinationEngineFromRemoteStrategy extends AbstractStrategyC
             throw new RuntimeException("Unable to put thread on sleep " + repositoryName);
         }
 
+    }
+
+    private static DeleteRepositoryRequestDTO buildDestinationDeleteRepositoryRequestDTO(String tokenOwnerLogin, ToContext toContext, String repositoryName) {
+        return new DeleteRepositoryRequestDTO(Optional.of(toContext.token()), Optional.of(toContext.url()), Optional.of(tokenOwnerLogin), Optional.of(repositoryName), Optional.empty());
     }
 }

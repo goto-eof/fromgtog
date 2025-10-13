@@ -1,5 +1,6 @@
 package com.andreidodu.fromgtog.service.impl;
 
+import com.andreidodu.fromgtog.dto.DeleteRepositoryRequestDTO;
 import com.andreidodu.fromgtog.dto.Filter;
 import com.andreidodu.fromgtog.exception.CloningSourceException;
 import com.andreidodu.fromgtog.service.GitlabService;
@@ -16,6 +17,9 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static com.andreidodu.fromgtog.util.ValidatorUtil.validateIsNotNull;
+import static com.andreidodu.fromgtog.util.ValidatorUtil.validateIsNotNullAndNotBlank;
 
 public class GitlabServiceImpl implements GitlabService {
 
@@ -249,5 +253,26 @@ public class GitlabServiceImpl implements GitlabService {
     public void deleteAllRepositories(String baseUrl, String token) {
         tryToRetrieveUserRepositories(null, baseUrl, token)
                 .forEach(repo -> deleteRepository(baseUrl, token, repo.getNamespace().getFullPath(), repo.getPath()));
+    }
+
+    @Override
+    public boolean deleteRepository(DeleteRepositoryRequestDTO deleteRepositoryRequestDTO) {
+        validateIsNotNull(deleteRepositoryRequestDTO);
+        validateIsNotNullAndNotBlank(deleteRepositoryRequestDTO.baseUrl());
+        validateIsNotNullAndNotBlank(deleteRepositoryRequestDTO.owner());
+        validateIsNotNullAndNotBlank(deleteRepositoryRequestDTO.repoName());
+        validateIsNotNullAndNotBlank(deleteRepositoryRequestDTO.token());
+
+        try {
+            log.debug("deleting repository {}...", deleteRepositoryRequestDTO.repoName().get());
+            GitLabApi gitLabApi = new GitLabApi(deleteRepositoryRequestDTO.baseUrl().get(), deleteRepositoryRequestDTO.token().get());
+            String projectIdOrPath = deleteRepositoryRequestDTO.owner().get() + "/" + deleteRepositoryRequestDTO.repoName().get();
+            gitLabApi.getProjectApi().deleteProject(projectIdOrPath);
+            log.debug("Project deleted: {}", projectIdOrPath);
+            return true;
+        } catch (Exception e) {
+            log.error("Failed to delete repository {} of platform {}, because {}", deleteRepositoryRequestDTO.repoName().get(), deleteRepositoryRequestDTO.baseUrl().get(), e.getMessage());
+            throw new CloningSourceException("Failed to delete repository " + deleteRepositoryRequestDTO.repoName().get(), e);
+        }
     }
 }

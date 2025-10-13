@@ -1,5 +1,6 @@
 package com.andreidodu.fromgtog.service.impl;
 
+import com.andreidodu.fromgtog.dto.DeleteRepositoryRequestDTO;
 import com.andreidodu.fromgtog.exception.CloningDestinationException;
 import com.andreidodu.fromgtog.exception.CloningSourceException;
 import com.andreidodu.fromgtog.service.GitHubService;
@@ -12,6 +13,9 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.andreidodu.fromgtog.util.ValidatorUtil.validateIsNotNull;
+import static com.andreidodu.fromgtog.util.ValidatorUtil.validateIsNotNullAndNotBlank;
 
 public class GitHubServiceImpl implements GitHubService {
 
@@ -86,6 +90,25 @@ public class GitHubServiceImpl implements GitHubService {
                         throw new CloningDestinationException("Error while trying to delete repository", ee);
                     }
                 });
+    }
+
+    @Override
+    public boolean deleteRepository(DeleteRepositoryRequestDTO deleteRepositoryRequestDTO) {
+        validateIsNotNull(deleteRepositoryRequestDTO);
+        validateIsNotNullAndNotBlank(deleteRepositoryRequestDTO.baseUrl());
+        validateIsNotNullAndNotBlank(deleteRepositoryRequestDTO.owner());
+        validateIsNotNullAndNotBlank(deleteRepositoryRequestDTO.repoName());
+        validateIsNotNullAndNotBlank(deleteRepositoryRequestDTO.token());
+
+        try {
+            retrieveGitHubMyself(retrieveGitHubClient(deleteRepositoryRequestDTO.token().get()))
+                    .getRepository(deleteRepositoryRequestDTO.repoName().get())
+                    .delete();
+        } catch (IOException e) {
+            log.error("Error while trying to delete repository: {}", e.toString());
+            throw new CloningDestinationException("Error while trying to delete repository", e);
+        }
+        return true;
     }
 
 }
