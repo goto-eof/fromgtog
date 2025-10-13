@@ -19,7 +19,7 @@
 
 # FromGtoG 9.0.0: Advanced Git Repository Backup and Migration Utility
 
-I'm excited to announce the release of **FromGtoG 9.0.0**! This application is an essential **cross-platform desktop
+This application is an essential **cross-platform desktop
 utility** for developers.
 
 The **initial idea** focused only on cloning from GitHub to Gitea. Following a rapid evolution of features, FromGtoG is
@@ -53,8 +53,7 @@ FromGtoG goes beyond simple batch operations, offering advanced filtering and pe
       and long-term storage.)
 * **Granular Control:**
     * Easily **filter out** specific repositories you do not wish to clone from the batch operation.
-    * Clone **only** the repositories listed in a file, allowing developers to manage migration pipelines using external
-      lists.
+    * Clone **only** the repositories listed in a file, allowing developers to manage migration using an external list.
 
 ## Universal Compatibility
 
@@ -63,6 +62,8 @@ architectures:
 
 * **Operating Systems:** **Windows**, **macOS**, and **Linux** (available as Snap and .deb package).
 * **Architectures:** **amd64** (standard x86/Intel/AMD) and **arm64** (Apple Silicon/ARM Linux).
+
+## Architectural Improvements: the evolution
 
 Since publishing version 3.0 just a few months ago, I realized a significant **code rewrite** was necessary to ensure
 the application remains **maintainable** and **easy to understand** as it grows. This rewrite led us to the current,
