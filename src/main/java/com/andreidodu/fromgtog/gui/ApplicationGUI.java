@@ -102,15 +102,14 @@ public class ApplicationGUI extends JFrame {
     private JTextField fromGitlabExcludeRepoNamesListTextField;
     private JTextField fromGitlabIncludeRepoNamesListFile;
     private JButton fromGitlabChooseRepoFileButton;
+
     private JCheckBox chronJobCheckBox;
-    private JCheckBox enableJobCheckBox;
-    private JTextField cronExpressionTextField;
+    private JTextField chronExpressionTextField;
+
     private JCheckBox toGithubOverrideIfExistsCheckBox;
     private JCheckBox toGiteaOverrideIfExistsCheckBox;
     private JCheckBox toGitlabOverrideIfExistsCheckBox;
     private JCheckBox toLocalOverrideIfExistsCheckBox;
-    private JButton updateButton;
-    private JCheckBox enableCheckBox;
 
     public ApplicationGUI() {
         setTitle("FromGtoG 9.0.0");
@@ -155,27 +154,19 @@ public class ApplicationGUI extends JFrame {
         });
     }
 
-    private GUIToController buildToGitlabController(JSONObject settings) {
-        return new ToGitlabController(
-                settings, this.toGitlabUrlTextField,
-                this.toGitlabTokenTextField,
-                this.toGitlabPrivacyComboBox
-        );
-    }
-
     private GUIFromController buildFromGitlabController(JSONObject settings) {
         return new FromGitlabController(
                 settings,
-                this.fromGitlabPanel,
-                this.fromGitlabUrlTextfield,
-                this.fromGitlabUrlTokenTextfield,
-                this.fromGitlabCloneStarredRepositoriesCheckBox,
-                this.fromGitlabCloneForkedRepositoriesCheckBox,
-                this.fromGitlabClonePrivateRepositoriesCheckBox,
-                this.fromGitlabCloneArchivedRepositoriesCheckBox,
-                this.fromGitlabClonePublicRepositoriesCheckBox,
-                this.fromGitlabCloneOrganizationsRepositoriesCheckBox,
-                this.fromGitlabExcludeOrganizationTextField,
+                fromGitlabPanel,
+                fromGitlabUrlTextfield,
+                fromGitlabUrlTokenTextfield,
+                fromGitlabCloneStarredRepositoriesCheckBox,
+                fromGitlabCloneForkedRepositoriesCheckBox,
+                fromGitlabClonePrivateRepositoriesCheckBox,
+                fromGitlabCloneArchivedRepositoriesCheckBox,
+                fromGitlabClonePublicRepositoriesCheckBox,
+                fromGitlabCloneOrganizationsRepositoriesCheckBox,
+                fromGitlabExcludeOrganizationTextField,
                 fromGitlabOptionsTabbedPane,
                 fromGitlabExcludeRepoNamesListTextField,
                 fromGitlabIncludeRepoNamesListFile,
@@ -237,7 +228,9 @@ public class ApplicationGUI extends JFrame {
                 statusContainerJPanel,
                 multithreadingEnabled,
                 clearLogFileButton,
-                timeLable
+                timeLable,
+                chronJobCheckBox,
+                chronExpressionTextField
         );
     }
 
@@ -245,7 +238,8 @@ public class ApplicationGUI extends JFrame {
         return new ToGithubController(
                 settings,
                 toGithubTokenTextField,
-                toGithubPrivacyComboBox
+                toGithubPrivacyComboBox,
+                toGithubOverrideIfExistsCheckBox
         );
     }
 
@@ -254,7 +248,8 @@ public class ApplicationGUI extends JFrame {
                 settings,
                 toGiteaUrlTextField,
                 toGiteaTokenTextField,
-                toGiteaPrivacyComboBox
+                toGiteaPrivacyComboBox,
+                toGiteaOverrideIfExistsCheckBox
         );
     }
 
@@ -263,7 +258,18 @@ public class ApplicationGUI extends JFrame {
                 settings,
                 toLocalRootPathTextField,
                 toLocalGroupByRepositoryOwnerCheckBox,
-                toLocalChooseButton
+                toLocalChooseButton,
+                toLocalOverrideIfExistsCheckBox
+        );
+    }
+
+    private GUIToController buildToGitlabController(JSONObject settings) {
+        return new ToGitlabController(
+                settings,
+                toGitlabUrlTextField,
+                toGitlabTokenTextField,
+                toGitlabPrivacyComboBox,
+                toGitlabOverrideIfExistsCheckBox
         );
     }
 
@@ -400,7 +406,14 @@ public class ApplicationGUI extends JFrame {
                 fromGitlabOptionsTabbedPane,
                 fromGitlabExcludeRepoNamesListTextField,
                 fromGitlabIncludeRepoNamesListFile,
-                fromGitlabChooseRepoFileButton
+                fromGitlabChooseRepoFileButton,
+
+                chronJobCheckBox,
+                chronExpressionTextField,
+                toGithubOverrideIfExistsCheckBox,
+                toGiteaOverrideIfExistsCheckBox,
+                toGitlabOverrideIfExistsCheckBox,
+                toLocalOverrideIfExistsCheckBox
         );
     }
 
@@ -1068,8 +1081,8 @@ public class ApplicationGUI extends JFrame {
         final JLabel label44 = new JLabel();
         label44.setText("Chron expression");
         panel73.add(label44, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        cronExpressionTextField = new JTextField();
-        panel73.add(cronExpressionTextField, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        chronExpressionTextField = new JTextField();
+        panel73.add(chronExpressionTextField, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         multithreadingEnabled = new JCheckBox();
         multithreadingEnabled.setText("Multi-threadead");
         panel72.add(multithreadingEnabled, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));

@@ -22,12 +22,13 @@ public class ToLocalController implements GUIToController {
     private JTextField toLocalRootPathTextField;
     private JCheckBox toLocalGroupByRepositoryOwnerCheckBox;
     private JButton toLocalChooseButton;
+    private JCheckBox toLocalOverrideIfExistsCheckBox;
 
-    public ToLocalController(JSONObject settings, JTextField toLocalRootPathTextField, JCheckBox toLocalGroupByRepositoryOwnerCheckBox, JButton toLocalChooseButton) {
+    public ToLocalController(JSONObject settings, JTextField toLocalRootPathTextField, JCheckBox toLocalGroupByRepositoryOwnerCheckBox, JButton toLocalChooseButton, JCheckBox toLocalOverrideIfExistsCheckBox) {
         this.toLocalRootPathTextField = toLocalRootPathTextField;
         this.toLocalGroupByRepositoryOwnerCheckBox = toLocalGroupByRepositoryOwnerCheckBox;
         this.toLocalChooseButton = toLocalChooseButton;
-
+        this.toLocalOverrideIfExistsCheckBox = toLocalOverrideIfExistsCheckBox;
 
         applySettings(settings);
         addActionListenerToChooseButton();
@@ -38,6 +39,9 @@ public class ToLocalController implements GUIToController {
     public void applySettings(JSONObject settings) {
         toLocalRootPathTextField.setText(settings.optString(TO_LOCAL_ROOT_PATH));
         toLocalGroupByRepositoryOwnerCheckBox.setSelected(settings.optBoolean(TO_LOCAL_GROUP_BY_OWNER));
+
+        toLocalOverrideIfExistsCheckBox.setSelected(settings.optBoolean(TO_LOCAL_OVERRIDE_IF_EXISTS, false));
+
 
     }
 
@@ -68,6 +72,8 @@ public class ToLocalController implements GUIToController {
         jsonObject.put(TO_LOCAL_ROOT_PATH, toLocalRootPathTextField.getText());
         jsonObject.put(TO_LOCAL_GROUP_BY_OWNER, toLocalGroupByRepositoryOwnerCheckBox.isSelected());
         jsonObject.put(ENGINE_TYPE, EngineType.fromValue(TAB_INDEX));
+
+        jsonObject.put(TO_LOCAL_OVERRIDE_IF_EXISTS, toLocalOverrideIfExistsCheckBox.isSelected());
 
         return jsonObject;
     }

@@ -4,6 +4,8 @@ public interface GuiKeys {
 
     String APP_SLEEP_TIME = "app.sleep-time";
     String APP_MULTITHREADING_ENABLED = "app.multithreading-enabled";
+    String APP_CHRON_JOB_ENABLED = "app.chron-job-enabled";
+    String APP_CHRON_JOB_EXPRESSION = "app.chron-job-expression";
 
     String FROM_GITEA_URL = "from.gitea.url";
     String FROM_GITEA_TOKEN = "from.gitea.token";
@@ -48,17 +50,21 @@ public interface GuiKeys {
     String TO_GITEA_URL = "to.gitea.url";
     String TO_GITEA_TOKEN = "to.gitea.token";
     String TO_GITEA_PRIVACY_INDEX = "to.gitea.privacy-index";
+    String TO_GITEA_OVERRIDE_IF_EXISTS = "to.gitea.override-if-exists";
 
     String TO_GITLAB_URL = "to.gitlab.url";
     String TO_GITLAB_TOKEN = "to.gitlab.token";
     String TO_GITLAB_PRIVACY_INDEX = "to.gitlab.privacy-index";
+    String TO_GITLAB_OVERRIDE_IF_EXISTS = "to.gitlab.override-if-exists";
 
 
     String TO_GITHUB_TOKEN = "to.github.token";
     String TO_GITHUB_PRIVACY_INDEX = "to.github-tab-index";
+    String TO_GITHUB_OVERRIDE_IF_EXISTS = "to.github.override-if-exists";
 
     String TO_LOCAL_ROOT_PATH = "to.local.root-path";
     String TO_LOCAL_GROUP_BY_OWNER = "to.local.group-by-owner";
+    String TO_LOCAL_OVERRIDE_IF_EXISTS = "to.local.override-if-exists";
 
     String ENGINE_TYPE = "engine-type";
 

@@ -18,11 +18,13 @@ public class ToGiteaController implements GUIToController {
     private JTextField toGiteaUrlTextField;
     private JTextField toGiteaTokenTextField;
     private JComboBox toGiteaPrivacyComboBox;
+    private JCheckBox toGiteaOverrideIfExistsCheckBox;
 
-    public ToGiteaController(JSONObject settings, JTextField toGiteaUrlTextField, JTextField toGiteaTokenTextField, JComboBox toGiteaPrivacyComboBox) {
+    public ToGiteaController(JSONObject settings, JTextField toGiteaUrlTextField, JTextField toGiteaTokenTextField, JComboBox toGiteaPrivacyComboBox, JCheckBox toGiteaOverrideIfExistsCheckBox) {
         this.toGiteaUrlTextField = toGiteaUrlTextField;
         this.toGiteaTokenTextField = toGiteaTokenTextField;
         this.toGiteaPrivacyComboBox = toGiteaPrivacyComboBox;
+        this.toGiteaOverrideIfExistsCheckBox = toGiteaOverrideIfExistsCheckBox;
 
         DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(new String[]{"All private", "All public"});
         this.toGiteaPrivacyComboBox.setModel(model);
@@ -36,6 +38,7 @@ public class ToGiteaController implements GUIToController {
         toGiteaTokenTextField.setText(settings.optString(TO_GITEA_TOKEN));
         toGiteaPrivacyComboBox.setSelectedIndex(settings.optInt(TO_GITEA_PRIVACY_INDEX));
 
+        toGiteaOverrideIfExistsCheckBox.setSelected(settings.optBoolean(TO_GITEA_OVERRIDE_IF_EXISTS, false));
     }
 
     @Override
@@ -51,6 +54,8 @@ public class ToGiteaController implements GUIToController {
         jsonObject.put(TO_GITEA_TOKEN, toGiteaTokenTextField.getText());
         jsonObject.put(TO_GITEA_PRIVACY_INDEX, toGiteaPrivacyComboBox.getSelectedIndex());
         jsonObject.put(ENGINE_TYPE, EngineType.fromValue(TAB_INDEX));
+
+        jsonObject.put(TO_GITEA_OVERRIDE_IF_EXISTS, toGiteaOverrideIfExistsCheckBox.isSelected());
 
         return jsonObject;
     }

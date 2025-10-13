@@ -78,26 +78,33 @@ public class AppController implements GUIController {
     private JButton clearLogFileButton;
     private JLabel timeLabel;
 
+    private JCheckBox chronJobCheckBox;
+    private JTextField chronExpressionTextField;
 
-    public AppController(JSONObject settings,
-                         List<GUIFromController> fromControllerList,
-                         List<GUIToController> toControllerList,
-                         JTextArea appLogTextArea,
-                         JTextField appSleepTimeTextField,
-                         JButton appSaveConfigurationButton,
-                         JProgressBar appProgressBar,
-                         JLabel messageStatus,
-                         JLabel position,
-                         JButton appStartButton,
-                         JTabbedPane fromTabbedPane,
-                         JTabbedPane toTabbedPane,
-                         JButton appOpenLogFileButton,
-                         Consumer<Boolean> setEnabledUI,
-                         JButton appStopButton,
-                         JPanel statusContainerJPanel,
-                         JCheckBox multithreadingEnabled,
-                         JButton clearLogFileButton,
-                         JLabel timeLabel) {
+
+    public AppController(
+            JSONObject settings,
+            List<GUIFromController> fromControllerList,
+            List<GUIToController> toControllerList,
+            JTextArea appLogTextArea,
+            JTextField appSleepTimeTextField,
+            JButton appSaveConfigurationButton,
+            JProgressBar appProgressBar,
+            JLabel messageStatus,
+            JLabel position,
+            JButton appStartButton,
+            JTabbedPane fromTabbedPane,
+            JTabbedPane toTabbedPane,
+            JButton appOpenLogFileButton,
+            Consumer<Boolean> setEnabledUI,
+            JButton appStopButton,
+            JPanel statusContainerJPanel,
+            JCheckBox multithreadingEnabled,
+            JButton clearLogFileButton,
+            JLabel timeLabel,
+            JCheckBox chronJobCheckBox,
+            JTextField chronExpressionTextField
+    ) {
         this.fromControllerList = fromControllerList;
         this.toControllerList = toControllerList;
         this.appLogTextArea = appLogTextArea;
@@ -116,6 +123,9 @@ public class AppController implements GUIController {
         this.multithreadingEnabled = multithreadingEnabled;
         this.clearLogFileButton = clearLogFileButton;
         this.timeLabel = timeLabel;
+
+        this.chronJobCheckBox = chronJobCheckBox;
+        this.chronExpressionTextField = chronExpressionTextField;
 
         this.translatorTo = new JsonObjectToToContextTranslator();
         this.translatorApp = new JsonObjectToAppContextTranslator();
@@ -226,6 +236,10 @@ public class AppController implements GUIController {
         fromTabbedPane.setSelectedIndex(settings.optInt(FROM_TAB_INDEX, 0));
         toTabbedPane.setSelectedIndex(settings.optInt(TO_TAB_INDEX, 0));
         multithreadingEnabled.setSelected(settings.optBoolean(APP_MULTITHREADING_ENABLED, false));
+
+        chronJobCheckBox.setSelected(settings.optBoolean(APP_CHRON_JOB_ENABLED, false));
+        chronExpressionTextField.setText(settings.optString(APP_CHRON_JOB_EXPRESSION, ""));
+
     }
 
     private void defineSaveSettingsButtonListener() {
@@ -367,6 +381,9 @@ public class AppController implements GUIController {
         jsonObject.put(APP_MULTITHREADING_ENABLED, multithreadingEnabled.isSelected());
         jsonObject.put(FROM_TAB_INDEX, fromTabbedPane.getSelectedIndex());
         jsonObject.put(TO_TAB_INDEX, toTabbedPane.getSelectedIndex());
+
+        jsonObject.put(APP_CHRON_JOB_ENABLED, chronJobCheckBox.isSelected());
+        jsonObject.put(APP_CHRON_JOB_EXPRESSION, chronExpressionTextField.getText());
 
         return jsonObject;
     }
