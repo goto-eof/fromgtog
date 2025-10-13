@@ -136,11 +136,18 @@ public class AppController implements GUIController {
         defineSaveSettingsButtonListener();
         defineOpenLogFileButtonListener();
         defineClearLogFileButtonListener();
+        addEnableChronJobCheckBoxListener();
 
         applySettings(settings);
 
         this.setShouldStop(true);
 
+    }
+
+    private void addEnableChronJobCheckBoxListener() {
+        chronJobCheckBox.addActionListener(e -> {
+            chronExpressionTextField.setEnabled(chronJobCheckBox.isSelected());
+        });
     }
 
     private static File getLogFile() {
@@ -239,6 +246,7 @@ public class AppController implements GUIController {
 
         chronJobCheckBox.setSelected(settings.optBoolean(APP_CHRON_JOB_ENABLED, false));
         chronExpressionTextField.setText(settings.optString(APP_CHRON_JOB_EXPRESSION, ""));
+        chronExpressionTextField.setEnabled(chronJobCheckBox.isSelected());
 
     }
 
