@@ -74,6 +74,7 @@ stable version, **9.0.0**.
 To achieve the best possible structural integrity and to allow for future feature expansion, I implemented extensive use
 of several **Software Design Patterns**. These patterns ensure better **modularity** and long-term stability:
 
+* **Command Pattern:** Used for several common actions used by services.
 * **Composite Pattern:** Used for robust and flexible **user input validation**, ensuring data integrity across all
   platforms.
 * **Abstract Factory:** Manages flexible connections with different Git platform APIs (GitHub, Gitea, GitLab).
