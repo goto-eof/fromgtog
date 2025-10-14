@@ -66,7 +66,7 @@ public class TicTacJobService {
                 }
 
 
-                if (!engineContext.callbackContainer().isShouldStop().get() && isCronMatchesNow) {
+                if (!engineContext.callbackContainer().isWorking().get() && !engineContext.callbackContainer().isShouldStop().get() && isCronMatchesNow) {
                     runnable.run();
                 } else if (engineContext.callbackContainer().isShouldStop().get()) {
                     shutdown();
