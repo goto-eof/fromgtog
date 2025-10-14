@@ -64,7 +64,8 @@ public class RepositoryClonerServiceImpl implements RepositoryCloner {
     private Runnable cloningTask(EngineContext engineContext, SourceEngine sourceEngine, DestinationEngine destinationEngine) {
         return () -> {
             TimeCounterService timeCounterService = new TimeCounterService(engineContext.callbackContainer().updateTimeLabel());
-            new SingleThreadScheduledServiceImpl(engineContext).run(getTrayIconUpdater(engineContext));
+            SingleThreadScheduledServiceImpl trayIconSingleThreadScheduledService = new SingleThreadScheduledServiceImpl(engineContext);
+            trayIconSingleThreadScheduledService.run(getTrayIconUpdater(engineContext));
             try {
                 EngineType from = engineContext.fromContext().sourceEngineType();
                 EngineType to = engineContext.toContext().engineType();
@@ -84,11 +85,13 @@ public class RepositoryClonerServiceImpl implements RepositoryCloner {
                 if (isSuccess && !engineContext.settingsContext().chronJobEnabled()) {
                     engineContext.callbackContainer().showSuccessMessage().accept("Clone procedure completed successfully!");
                     engineContext.callbackContainer().setEnabledUI().accept(true);
+                    trayIconSingleThreadScheduledService.shutdown();
                     return;
                 }
                 if (!isSuccess && !engineContext.settingsContext().chronJobEnabled()) {
                     engineContext.callbackContainer().showErrorMessage().accept("Something went wrong while cloning: not all repositories were cloned. Please check the log file for further details.");
                     engineContext.callbackContainer().setEnabledUI().accept(true);
+                    trayIconSingleThreadScheduledService.shutdown();
                 }
             } catch (Exception e) {
                 log.error(e.getMessage(), e);
@@ -99,6 +102,7 @@ public class RepositoryClonerServiceImpl implements RepositoryCloner {
                     engineContext.callbackContainer().showErrorMessage().accept("Something went wrong while cloning: " + e.getMessage() + ". Please check the log file for further details.");
                 }
                 timeCounterService.stopCounter();
+                trayIconSingleThreadScheduledService.shutdown();
                 engineContext.callbackContainer().setEnabledUI().accept(true);
             }
         };
