@@ -147,7 +147,7 @@ public class AppController implements GUIController {
         this.setShouldStop(true);
 
         if (chronJobCheckBox.isSelected()) {
-            start(fromControllerList, toControllerList, fromTabbedPane, toTabbedPane);
+            Thread.ofPlatform().start(() -> start(fromControllerList, toControllerList, fromTabbedPane, toTabbedPane));
         }
 
     }
@@ -302,9 +302,7 @@ public class AppController implements GUIController {
     }
 
     private void defineAppStartButtonListener(List<GUIFromController> fromControllerList, List<GUIToController> toControllerList, JTabbedPane fromTabbedPane, JTabbedPane toTabbedPane) {
-        this.appStartButton.addActionListener(e -> {
-            start(fromControllerList, toControllerList, fromTabbedPane, toTabbedPane);
-        });
+        this.appStartButton.addActionListener(e -> Thread.ofPlatform().start(() -> start(fromControllerList, toControllerList, fromTabbedPane, toTabbedPane)));
     }
 
     private void start(List<GUIFromController> fromControllerList, List<GUIToController> toControllerList, JTabbedPane fromTabbedPane, JTabbedPane toTabbedPane) {
@@ -323,6 +321,7 @@ public class AppController implements GUIController {
             JSONObject allSettings = JsonObjectServiceImpl.getInstance().merge(allSettingsArr);
 
             List<String> errorList = validateSettings(allSettings);
+
             if (!errorList.isEmpty()) {
                 this.showErrorMessage("Something went wrong. " + System.lineSeparator() + String.join(System.lineSeparator(), errorList));
                 setEnabledUI.accept(true);

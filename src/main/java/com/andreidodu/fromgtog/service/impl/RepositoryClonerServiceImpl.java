@@ -45,6 +45,9 @@ public class RepositoryClonerServiceImpl implements RepositoryCloner {
             } catch (Exception e) {
                 log.error(e.getMessage(), e);
                 ticTacJobService.shutdown();
+                engineContext.callbackContainer().setEnabledUI().accept(true);
+                engineContext.callbackContainer().setShouldStop().accept(true);
+                engineContext.callbackContainer().setWorking().accept(false);
                 return false;
             }
         } else {
@@ -64,6 +67,7 @@ public class RepositoryClonerServiceImpl implements RepositoryCloner {
 
                         engineContext.callbackContainer().setEnabledUI().accept(false);
                         engineContext.callbackContainer().setWorking().accept(true);
+                        engineContext.callbackContainer().setShouldStop().accept(false);
                         boolean isSuccess = cloneFromAndTo(engineContext, sourceEngine, destinationEngine);
                         engineContext.callbackContainer().setWorking().accept(false);
                         if (!engineContext.settingsContext().chronJobEnabled()) {
