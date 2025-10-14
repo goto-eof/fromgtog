@@ -10,6 +10,7 @@
     - [Windows](#download-windows)
     - [Linux](#download-linux)
 - [Screenshot](#screenshot)
+- [Technologies](#technologies)
 - [Logs from the developer](#news)
 - [For developers](#for-developers)
 - [Tested on](#tested-on)
@@ -140,10 +141,6 @@ The application supports robust, two-way cloning and secure migration across all
 | **Debian**         | [Installer ZIP](https://github.com/goto-eof/fromgtog/releases/download/9.0.0/fromgtog-Linux-9.0.0-amd64-Installer.zip)   | N/A                                                                                                                    | **Snap Store (AMD64/ARM64):** [Install Link](https://snapcraft.io/fromgtog)<br>**Comment:** Or run `sudo snap install fromgtog`.                            |
 | **Cross-Platform** | N/A                                                                                                                      | N/A                                                                                                                    | **Jar file:** [Download Link](https://github.com/goto-eof/fromgtog/releases/download/9.0.0/fromgtog.jar)<br>**Comment:** Run with `java -jar fromgtog.jar`. |
 
-<h2 id="technologies">Technologies/Tools</h2>
-
-JDK 21, Intellij UI Designer (plugin for Intellij), Slf4J, Lombok, Apache Commons, JSON.
-
 <h2 id="screenshot">Screenshot</h2>
 
 ### FromGtoG Screenshot
@@ -153,6 +150,11 @@ JDK 21, Intellij UI Designer (plugin for Intellij), Slf4J, Lombok, Apache Common
 ### FromGtoG Screenshot - Tray Icon
 
 ![FromGtoG Screenshot - Tray Icon](images/fromgtog-job-and-tray-icon.webp)
+
+<h2 id="technologies">Technologies/Tools</h2>
+
+JDK 21, Intellij UI Designer (plugin for Intellij), Slf4J, Lombok, Apache Commons, JSON.
+
 
 <img src="https://andre-i.eu/api/v1/ipResource/custom.png?host=https://github.com/goto-eof/fromgtog" onerror="this.style.display='none'" />
 
