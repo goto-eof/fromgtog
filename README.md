@@ -178,7 +178,8 @@ JDK 21, Intellij UI Designer (plugin for Intellij), Slf4J, Lombok, Apache Common
 
 
 <h2 id="news">News</h2>
-
+- 2025/10/14
+  - implemented the backup all repositories scheduled job and now FromGtoG has it's Tray Icon
 - 2025/10/12
     - added the following GitHub Workflows in order to build executables of FromGtoG for each platform:
         - Linux (.deb)
