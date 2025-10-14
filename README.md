@@ -38,7 +38,10 @@ FromGtoG goes beyond simple batch operations, offering advanced filtering and pe
 
 * **Scheduled Backup Jobs (Toggleable):** Take control of your workflow by automating complete backup and migration
   tasks using **Quartz Cron Expressions**. Users can define a schedule and **easily activate or deactivate** the job as
-  needed. When the schedule matches the current time, the backup runs. During execution, the application's **system tray
+  needed. **If the cron job is enabled, the application will start as a daemon**; the user can open the app window by
+  clicking on the **FromGtoG icon in the system tray** and hide it by clicking the close window button. To **exit
+  completely**, the user must right-click on the system tray icon to access the menu and then select **Exit**. When the
+  schedule matches the current time, the backup runs. During execution, the application's **system tray
   icon** flashes intermittently (red and blue) to indicate the active job, advising users not to shut down the computer
   or terminate the process.
 * **Destination Repository Override:** Overrides the default skip behavior when a destination repository already exists.
