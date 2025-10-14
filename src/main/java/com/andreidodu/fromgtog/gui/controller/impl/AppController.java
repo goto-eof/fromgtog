@@ -376,18 +376,7 @@ public class AppController implements GUIController {
     }
 
     private void ticTacJobStatusToggle(boolean loadDefault) {
-        SwingUtilities.invokeLater(() -> {
-            if (loadDefault) {
-                chronJobCheckBox.setForeground(Color.yellow);
-                this.toggleTrayIcon.accept(loadDefault);
-            } else if (chronJobCheckBox.getForeground().equals(Color.red)) {
-                chronJobCheckBox.setForeground(Color.yellow);
-                this.toggleTrayIcon.accept(loadDefault);
-            } else {
-                chronJobCheckBox.setForeground(Color.red);
-                this.toggleTrayIcon.accept(loadDefault);
-            }
-        });
+        SwingUtilities.invokeLater(() -> this.toggleTrayIcon.accept(loadDefault));
     }
 
     private void saveSettings(JSONObject... jsonObjectArr) {
