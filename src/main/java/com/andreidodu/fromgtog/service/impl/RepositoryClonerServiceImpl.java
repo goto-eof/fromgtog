@@ -46,6 +46,7 @@ public class RepositoryClonerServiceImpl implements RepositoryCloner {
             } catch (Exception e) {
                 log.error(e.getMessage(), e);
                 jobService.shutdown();
+                engineContext.callbackContainer().jobTicker().accept(true);
                 engineContext.callbackContainer().setEnabledUI().accept(true);
                 engineContext.callbackContainer().setShouldStop().accept(true);
                 engineContext.callbackContainer().setWorking().accept(false);

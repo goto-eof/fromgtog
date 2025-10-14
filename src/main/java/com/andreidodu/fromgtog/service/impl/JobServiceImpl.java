@@ -82,6 +82,7 @@ public class JobServiceImpl implements JobService {
 
     private void stopJobIfNecessary() {
         if (isNecessaryToStopJob()) {
+            engineContext.callbackContainer().jobTicker().accept(true);
             shutdown();
         }
     }
@@ -141,7 +142,6 @@ public class JobServiceImpl implements JobService {
     @Override
     public synchronized void shutdown() {
         log.info("Shutting down JobServiceImpl");
-        engineContext.callbackContainer().jobTicker().accept(true);
         if (jobScheduledFuture != null) {
             jobScheduledFuture.cancel(true);
         }
