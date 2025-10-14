@@ -42,12 +42,8 @@ public class ScheduledJobServiceImpl implements ScheduledService {
         CustomThreadFactory customThreadFactory = new CustomThreadFactory(JOB_THREAD_NAME_PREFIX);
         ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1, customThreadFactory);
         this.setScheduledExecutorService(scheduledExecutorService);
-        reset();
     }
 
-    private synchronized void reset() {
-        engineContext.callbackContainer().jobTicker().accept(true);
-    }
 
     @Override
     public synchronized void run(Runnable runnable) {

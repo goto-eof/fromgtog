@@ -65,7 +65,7 @@ public class RepositoryClonerServiceImpl implements RepositoryCloner {
         return () -> {
             TimeCounterService timeCounterService = new TimeCounterService(engineContext.callbackContainer().updateTimeLabel());
             SingleThreadScheduledServiceImpl trayIconSingleThreadScheduledService = new SingleThreadScheduledServiceImpl(engineContext);
-            trayIconSingleThreadScheduledService.run(getTrayIconUpdater(engineContext));
+            trayIconSingleThreadScheduledService.run(getTrayIconUpdaterRunnable(engineContext));
             try {
                 EngineType from = engineContext.fromContext().sourceEngineType();
                 EngineType to = engineContext.toContext().engineType();
@@ -108,7 +108,7 @@ public class RepositoryClonerServiceImpl implements RepositoryCloner {
         };
     }
 
-    private static Runnable getTrayIconUpdater(EngineContext engineContext) {
+    private static Runnable getTrayIconUpdaterRunnable(EngineContext engineContext) {
         return () -> {
             if (engineContext.callbackContainer().isWorking().get()) {
                 engineContext.callbackContainer().jobTicker().accept(false);

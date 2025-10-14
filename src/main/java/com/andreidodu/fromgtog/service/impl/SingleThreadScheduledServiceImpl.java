@@ -62,11 +62,6 @@ public class SingleThreadScheduledServiceImpl implements ScheduledService {
             scheduledExecutorService.awaitTermination(Long.MAX_VALUE, TimeUnit.MINUTES);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
-        } finally {
-            engineContext.callbackContainer().setEnabledUI().accept(true);
-            engineContext.callbackContainer().jobTicker().accept(true);
-            engineContext.callbackContainer().setShouldStop().accept(true);
-            engineContext.callbackContainer().setWorking().accept(false);
         }
     }
 
