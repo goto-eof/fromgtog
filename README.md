@@ -1,4 +1,4 @@
-<h1 align="center"><img src="images/fromgtog_header.png" alt="header" /></h1>
+<h1 align="center"><img src="images/fromgtog_header.webp" alt="header" /></h1>
 <h1 align="right" id="title">FromGtoG v. 9.0.0</h1>
 
 <h2 id="index">Index</h2>
@@ -168,7 +168,7 @@ JDK 21, Intellij UI Designer (plugin for Intellij), Slf4J, Lombok, Apache Common
 
 <h2 id="screenshot">Screenshot</h2>
 
-![screenshot](images/FromGtoG.png)
+![screenshot](images/FromGtoG.webp)
 
 <img src="https://andre-i.eu/api/v1/ipResource/custom.png?host=https://github.com/goto-eof/fromgtog" onerror="this.style.display='none'" />
 
