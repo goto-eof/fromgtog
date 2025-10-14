@@ -169,9 +169,11 @@ JDK 21, Intellij UI Designer (plugin for Intellij), Slf4J, Lombok, Apache Common
 <h2 id="screenshot">Screenshot</h2>
 
 ### FromGtoG Screenshot
+
 ![FromGtoG Screenshot](images/FromGtoG.webp)
 
 ### FromGtoG Screenshot - Tray Icon
+
 ![FromGtoG Screenshot - Tray Icon](images/fromgtog-job-and-tray-icon.webp)
 
 <img src="https://andre-i.eu/api/v1/ipResource/custom.png?host=https://github.com/goto-eof/fromgtog" onerror="this.style.display='none'" />
@@ -179,7 +181,7 @@ JDK 21, Intellij UI Designer (plugin for Intellij), Slf4J, Lombok, Apache Common
 <h2 id="news">News</h2>
 
 - 2025/10/14
-  - implemented the backup all repositories scheduled job and now FromGtoG has it's Tray Icon
+    - implemented the backup all repositories scheduled job and now FromGtoG has it's Tray Icon
 - 2025/10/12
     - added the following GitHub Workflows in order to build executables of FromGtoG for each platform:
         - Linux (.deb)
@@ -217,16 +219,19 @@ JDK 21, Intellij UI Designer (plugin for Intellij), Slf4J, Lombok, Apache Common
       to get a few seconds less than Platform Threads. Because the improvement was not significant (there is a
       bottleneck in an external library), I decided to avoid
       to include this new feature into FromGtoG application.
-- 2025/06/23 - I discovered that FromGtoG `.deb` package was not working on Debian 10. I rebuilt the package on Debian
-    10. So, now it should work on both Ubuntu latest and Debian 10. I apologize for the inconvenience. Please ping me if
-        you find a bug (
-        open an issue on [GitHub](https://github.com/goto-eof/fromgtog/issues)
-        or [contact me](https://andre-i.eu/#contactme)). The v. 7.0.0 should work now also on Debian 10.
-        You can download it
-        from [here](https://github.com/goto-eof/fromgtog/releases/download/7.0.0/fromgtog_7.0.0_amd64.deb).
-- fixed the windows/linux and macOS packaging - now it is possible to clone from GitHub. The absence of the
-  `jdk.crypto.ec` and `java.security.sasl` imports in the `--add-modules` option, prevented the SSL connections, so the
-  clone process failed, in particular for GitHub (which uses SSL).
+- 2025/06/23
+    - I discovered that FromGtoG `.deb` package was not working on Debian 10. I rebuilt the package on Debian
+        10. So, now it should work on both Ubuntu latest and Debian 10. I apologize for the inconvenience. Please ping
+            me if
+            you find a bug (
+            open an issue on [GitHub](https://github.com/goto-eof/fromgtog/issues)
+            or [contact me](https://andre-i.eu/#contactme)). The v. 7.0.0 should work now also on Debian 10.
+            You can download it
+            from [here](https://github.com/goto-eof/fromgtog/releases/download/7.0.0/fromgtog_7.0.0_amd64.deb).
+        - fixed the windows/linux and macOS packaging - now it is possible to clone from GitHub. The absence of the
+          `jdk.crypto.ec` and `java.security.sasl` imports in the `--add-modules` option, prevented the SSL connections,
+          so the
+          clone process failed, in particular for GitHub (which uses SSL).
 
 <h2 id="for-developers">For developers</h2>
 
