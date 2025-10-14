@@ -82,17 +82,14 @@ public class RepositoryClonerServiceImpl implements RepositoryCloner {
                     engineContext.callbackContainer().setShouldStop().accept(true);
                 }
                 engineContext.callbackContainer().jobTicker().accept(true);
-                timeCounterService.stopCounter();
                 if (isSuccess && !engineContext.settingsContext().chronJobEnabled()) {
                     engineContext.callbackContainer().showSuccessMessage().accept("Clone procedure completed successfully!");
                     engineContext.callbackContainer().setEnabledUI().accept(true);
-                    trayIconSingleThreadScheduledService.shutdown();
                     return;
                 }
                 if (!isSuccess && !engineContext.settingsContext().chronJobEnabled()) {
                     engineContext.callbackContainer().showErrorMessage().accept("Something went wrong while cloning: not all repositories were cloned. Please check the log file for further details.");
                     engineContext.callbackContainer().setEnabledUI().accept(true);
-                    trayIconSingleThreadScheduledService.shutdown();
                 }
             } catch (Exception e) {
                 log.error(e.getMessage(), e);
@@ -102,9 +99,10 @@ public class RepositoryClonerServiceImpl implements RepositoryCloner {
                 if (!engineContext.settingsContext().chronJobEnabled()) {
                     engineContext.callbackContainer().showErrorMessage().accept("Something went wrong while cloning: " + e.getMessage() + ". Please check the log file for further details.");
                 }
+                engineContext.callbackContainer().setEnabledUI().accept(true);
+            } finally {
                 timeCounterService.stopCounter();
                 trayIconSingleThreadScheduledService.shutdown();
-                engineContext.callbackContainer().setEnabledUI().accept(true);
             }
         };
     }
