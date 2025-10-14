@@ -24,9 +24,9 @@ import java.util.concurrent.TimeUnit;
 
 import static com.andreidodu.fromgtog.constants.ApplicationConstants.JOB_THREAD_NAME_PREFIX;
 
-public class JobServiceImpl implements JobService {
+public class ScheduledJobServiceImpl implements JobService {
 
-    private final static Logger log = LoggerFactory.getLogger(JobServiceImpl.class);
+    private final static Logger log = LoggerFactory.getLogger(ScheduledJobServiceImpl.class);
 
     private ScheduledFuture<?> jobScheduledFuture;
     @Getter
@@ -36,7 +36,7 @@ public class JobServiceImpl implements JobService {
     private final EngineContext engineContext;
 
 
-    public JobServiceImpl(EngineContext engineContext) {
+    public ScheduledJobServiceImpl(EngineContext engineContext) {
         this.engineContext = engineContext;
         CustomThreadFactory customThreadFactory = new CustomThreadFactory(JOB_THREAD_NAME_PREFIX);
         ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor(customThreadFactory);
@@ -127,7 +127,7 @@ public class JobServiceImpl implements JobService {
 
     private static String calculateNextExecutionString(ExecutionTime executionTime, ZonedDateTime now) {
         Optional<ZonedDateTime> next = executionTime.nextExecution(now);
-        return next.map(JobServiceImpl::formatZoneDateTime)
+        return next.map(ScheduledJobServiceImpl::formatZoneDateTime)
                 .orElse("");
     }
 
@@ -141,11 +141,22 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public synchronized void shutdown() {
-        log.info("Shutting down JobServiceImpl");
+        engineContext.callbackContainer().jobTicker().accept(true);
+        engineContext.callbackContainer().setShouldStop().accept(true);
+        engineContext.callbackContainer().setWorking().accept(false);
+
+        log.info("Shutting down ScheduledJobServiceImpl");
         if (jobScheduledFuture != null) {
             jobScheduledFuture.cancel(true);
         }
-        ticTacJobExecutorService.shutdownNow();
+        ticTacJobExecutorService.shutdown();
+        try {
+            ticTacJobExecutorService.awaitTermination(Long.MAX_VALUE, TimeUnit.MINUTES);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } finally {
+            engineContext.callbackContainer().setEnabledUI().accept(true);
+        }
     }
 
 

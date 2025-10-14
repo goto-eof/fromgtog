@@ -25,11 +25,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
-import java.awt.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Consumer;
 
 import static com.andreidodu.fromgtog.constants.ApplicationConstants.LOG_DIR_NAME;
@@ -42,7 +42,7 @@ import static com.andreidodu.fromgtog.util.NumberUtil.toIntegerOrDefault;
 @Setter
 public class AppController implements GUIController {
 
-    Logger log = LoggerFactory.getLogger(AppController.class);
+    private final static Logger log = LoggerFactory.getLogger(AppController.class);
 
     private List<GUIFromController> fromControllerList;
     private List<GUIToController> toControllerList;
@@ -297,7 +297,7 @@ public class AppController implements GUIController {
             this.setShouldStop(true);
             this.appStartButton.setVisible(true);
             this.appStopButton.setVisible(false);
-            this.enableDisableUi(true);
+            // this.enableDisableUi(true);
         });
     }
 

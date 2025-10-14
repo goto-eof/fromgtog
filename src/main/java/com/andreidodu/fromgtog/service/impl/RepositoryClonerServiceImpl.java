@@ -38,66 +38,69 @@ public class RepositoryClonerServiceImpl implements RepositoryCloner {
         log.debug("Source: {}, Destination: {}", sourceEngine.getEngineType(), destinationEngine.getDestinationEngineType());
 
         if (engineContext.settingsContext().chronJobEnabled()) {
-            JobService jobService = new JobServiceImpl(engineContext);
+            JobService scheduledJobService = new ScheduledJobServiceImpl(engineContext);
             try {
                 log.debug("Starting TicTac Job Service, isShouldStop: {}", engineContext.callbackContainer().isShouldStop());
                 engineContext.callbackContainer().setEnabledUI().accept(false);
-                jobService.run(() -> executeOnNewThread(engineContext, sourceEngine, destinationEngine));
+                scheduledJobService.run(() -> startOrchestrator(engineContext, sourceEngine, destinationEngine));
             } catch (Exception e) {
                 log.error(e.getMessage(), e);
-                jobService.shutdown();
-                engineContext.callbackContainer().jobTicker().accept(true);
-                engineContext.callbackContainer().setEnabledUI().accept(true);
-                engineContext.callbackContainer().setShouldStop().accept(true);
-                engineContext.callbackContainer().setWorking().accept(false);
+                scheduledJobService.shutdown();
                 return false;
             }
         } else {
-            executeOnNewThread(engineContext, sourceEngine, destinationEngine);
+            startOrchestrator(engineContext, sourceEngine, destinationEngine);
         }
         return true;
     }
 
-    private void executeOnNewThread(EngineContext engineContext, SourceEngine sourceEngine, DestinationEngine destinationEngine) {
-        ThreadUtil.getInstance().executeOnSeparateThread(ORCHESTRATOR_THREAD_NAME_PREFIX, () -> {
-                    TimeCounterService timeCounterService = new TimeCounterService(engineContext.callbackContainer().updateTimeLabel());
-                    try {
-                        EngineType from = engineContext.fromContext().sourceEngineType();
-                        EngineType to = engineContext.toContext().engineType();
-                        log.info("Start to clone from {} to {}", from, to);
-                        engineContext.callbackContainer().updateLogAndApplicationStatusMessage().accept("Start to clone from " + from + " to " + to);
+    private void startOrchestrator(EngineContext engineContext, SourceEngine sourceEngine, DestinationEngine destinationEngine) {
+        Runnable runnable = cloningTask(engineContext, sourceEngine, destinationEngine);
+        try (var exe = ThreadUtil.getInstance().createExecutor(ORCHESTRATOR_THREAD_NAME_PREFIX, false)) {
+            exe.execute(runnable);
+        }
+    }
 
-                        engineContext.callbackContainer().setEnabledUI().accept(false);
-                        engineContext.callbackContainer().setWorking().accept(true);
-                        engineContext.callbackContainer().setShouldStop().accept(false);
-                        boolean isSuccess = cloneFromAndTo(engineContext, sourceEngine, destinationEngine);
-                        engineContext.callbackContainer().setWorking().accept(false);
-                        if (!engineContext.settingsContext().chronJobEnabled()) {
-                            engineContext.callbackContainer().setEnabledUI().accept(true);
-                            engineContext.callbackContainer().setShouldStop().accept(true);
-                        }
-                        engineContext.callbackContainer().jobTicker().accept(true);
-                        timeCounterService.stopCounter();
-                        if (isSuccess && !engineContext.settingsContext().chronJobEnabled()) {
-                            engineContext.callbackContainer().showSuccessMessage().accept("Clone procedure completed successfully!");
-                            return;
-                        }
-                        if (!isSuccess && !engineContext.settingsContext().chronJobEnabled()) {
-                            engineContext.callbackContainer().showErrorMessage().accept("Something went wrong while cloning: not all repositories were cloned. Please check the log file for further details.");
-                        }
-                    } catch (Exception e) {
-                        log.error(e.getMessage(), e);
-                        engineContext.callbackContainer().setEnabledUI().accept(true);
-                        engineContext.callbackContainer().setShouldStop().accept(true);
-                        engineContext.callbackContainer().setWorking().accept(false);
-                        engineContext.callbackContainer().jobTicker().accept(true);
-                        if (!engineContext.settingsContext().chronJobEnabled()) {
-                            engineContext.callbackContainer().showErrorMessage().accept("Something went wrong while cloning: " + e.getMessage() + ". Please check the log file for further details.");
-                        }
-                        timeCounterService.stopCounter();
-                    }
+    private Runnable cloningTask(EngineContext engineContext, SourceEngine sourceEngine, DestinationEngine destinationEngine) {
+        return () -> {
+            TimeCounterService timeCounterService = new TimeCounterService(engineContext.callbackContainer().updateTimeLabel());
+            try {
+                EngineType from = engineContext.fromContext().sourceEngineType();
+                EngineType to = engineContext.toContext().engineType();
+                log.info("Start to clone from {} to {}", from, to);
+                engineContext.callbackContainer().updateLogAndApplicationStatusMessage().accept("Start to clone from " + from + " to " + to);
+
+                engineContext.callbackContainer().setEnabledUI().accept(false);
+                engineContext.callbackContainer().setWorking().accept(true);
+                engineContext.callbackContainer().setShouldStop().accept(false);
+                boolean isSuccess = cloneFromAndTo(engineContext, sourceEngine, destinationEngine);
+                engineContext.callbackContainer().setWorking().accept(false);
+                if (!engineContext.settingsContext().chronJobEnabled()) {
+                    engineContext.callbackContainer().setShouldStop().accept(true);
                 }
-        );
+                engineContext.callbackContainer().jobTicker().accept(true);
+                timeCounterService.stopCounter();
+                if (isSuccess && !engineContext.settingsContext().chronJobEnabled()) {
+                    engineContext.callbackContainer().showSuccessMessage().accept("Clone procedure completed successfully!");
+                    engineContext.callbackContainer().setEnabledUI().accept(true);
+                    return;
+                }
+                if (!isSuccess && !engineContext.settingsContext().chronJobEnabled()) {
+                    engineContext.callbackContainer().showErrorMessage().accept("Something went wrong while cloning: not all repositories were cloned. Please check the log file for further details.");
+                    engineContext.callbackContainer().setEnabledUI().accept(true);
+                }
+            } catch (Exception e) {
+                log.error(e.getMessage(), e);
+                engineContext.callbackContainer().setShouldStop().accept(true);
+                engineContext.callbackContainer().setWorking().accept(false);
+                engineContext.callbackContainer().jobTicker().accept(true);
+                if (!engineContext.settingsContext().chronJobEnabled()) {
+                    engineContext.callbackContainer().showErrorMessage().accept("Something went wrong while cloning: " + e.getMessage() + ". Please check the log file for further details.");
+                }
+                timeCounterService.stopCounter();
+                engineContext.callbackContainer().setEnabledUI().accept(true);
+            }
+        };
     }
 
     private boolean cloneFromAndTo(EngineContext engineContext, SourceEngine sourceEngine, DestinationEngine destinationEngine) {
