@@ -176,8 +176,8 @@ JDK 21, Intellij UI Designer (plugin for Intellij), Slf4J, Lombok, Apache Common
 
 <img src="https://andre-i.eu/api/v1/ipResource/custom.png?host=https://github.com/goto-eof/fromgtog" onerror="this.style.display='none'" />
 
-
 <h2 id="news">News</h2>
+
 - 2025/10/14
   - implemented the backup all repositories scheduled job and now FromGtoG has it's Tray Icon
 - 2025/10/12
