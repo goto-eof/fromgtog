@@ -2,6 +2,7 @@ package com.andreidodu.fromgtog.service.impl;
 
 import com.andreidodu.fromgtog.dto.EngineContext;
 import com.andreidodu.fromgtog.dto.RepositoryDTO;
+import com.andreidodu.fromgtog.service.JobService;
 import com.andreidodu.fromgtog.service.RepositoryCloner;
 import com.andreidodu.fromgtog.service.factory.CloneFactory;
 import com.andreidodu.fromgtog.service.factory.CloneFactoryImpl;
@@ -37,14 +38,14 @@ public class RepositoryClonerServiceImpl implements RepositoryCloner {
         log.debug("Source: {}, Destination: {}", sourceEngine.getEngineType(), destinationEngine.getDestinationEngineType());
 
         if (engineContext.settingsContext().chronJobEnabled()) {
-            TicTacJobService ticTacJobService = new TicTacJobService(engineContext);
+            JobService jobService = new JobServiceImpl(engineContext);
             try {
                 log.debug("Starting TicTac Job Service, isShouldStop: {}", engineContext.callbackContainer().isShouldStop());
                 engineContext.callbackContainer().setEnabledUI().accept(false);
-                ticTacJobService.runTicTak(() -> executeOnNewThread(engineContext, sourceEngine, destinationEngine));
+                jobService.runTicTak(() -> executeOnNewThread(engineContext, sourceEngine, destinationEngine));
             } catch (Exception e) {
                 log.error(e.getMessage(), e);
-                ticTacJobService.shutdown();
+                jobService.shutdown();
                 engineContext.callbackContainer().setEnabledUI().accept(true);
                 engineContext.callbackContainer().setShouldStop().accept(true);
                 engineContext.callbackContainer().setWorking().accept(false);

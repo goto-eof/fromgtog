@@ -89,7 +89,6 @@ public class GenericDestinationEngineFromRemoteStrategy<ServiceType extends Dele
             return;
         }
 
-
         String stagedClonePath = TEMP_DIRECTORY + File.separator + repositoryName;
         try {
             log.debug("local cloning path: {}", stagedClonePath);
@@ -102,10 +101,8 @@ public class GenericDestinationEngineFromRemoteStrategy<ServiceType extends Dele
             return;
         }
 
-
         callbackContainer.updateLogAndApplicationStatusMessage().accept("cloning " + repositoryName + " ...");
         callbackContainer.updateLogAndApplicationStatusMessage().accept("cloning repository: " + repositoryName);
-
 
         try {
 
