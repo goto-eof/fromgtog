@@ -3,7 +3,6 @@ package com.andreidodu.fromgtog.service.impl;
 import com.andreidodu.fromgtog.dto.EngineContext;
 import com.andreidodu.fromgtog.dto.RepositoryDTO;
 import com.andreidodu.fromgtog.service.RepositoryCloner;
-import com.andreidodu.fromgtog.service.ScheduledService;
 import com.andreidodu.fromgtog.service.factory.CloneFactory;
 import com.andreidodu.fromgtog.service.factory.CloneFactoryImpl;
 import com.andreidodu.fromgtog.service.factory.from.SourceEngine;
@@ -46,8 +45,9 @@ public class RepositoryClonerServiceImpl implements RepositoryCloner {
                         .run(() -> startOrchestrator(engineContext, sourceEngine, destinationEngine));
             } catch (Exception e) {
                 log.error(e.getMessage(), e);
-                scheduledJobService.shutdown();
                 return false;
+            } finally {
+                scheduledJobService.shutdown();
             }
         } else {
             startOrchestrator(engineContext, sourceEngine, destinationEngine);
