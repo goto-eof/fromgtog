@@ -94,25 +94,42 @@ of several **Software Design Patterns**. These patterns ensure better **modulari
   operations).
 * **Singleton:** Ensures efficient, centralized resource management.
 
-<h2 id="features">Features</h2>
+<h2 id="features">Feature Summary</h2>
 
-Currently, the application is able to clone:
+### Cloning & Migration Matrix
 
-- from GitHub to GitHub\Gitea\Local\Gitlab
-- from Gitea to GitHub\Gitea\Local\Gitlab
-- from Gitlab to GitHub\Gitea\Local\Gitlab
-- from Local to GitHub\Gitea\Local\Gitlab (copies only git repositories, other directories are skipped)
+The application supports robust, two-way cloning and secure migration across all supported platforms:
 
-Further features
+| Source \ Destination | GitHub | Gitea | GitLab | Local |
+|:---------------------|:-------|:------|:-------|:------|
+| **GitHub**           | ✅      | ✅     | ✅      | ✅     |
+| **Gitea**            | ✅      | ✅     | ✅      | ✅     |
+| **GitLab**           | ✅      | ✅     | ✅      | ✅     |
+| **Local**            | ✅      | ✅     | ✅      | ✅     |
 
-- granular cloning filter
-- multi-threading
-- logging (log file)
-- customizable waiting time between 2 cloning processes
-- delete all repositories from:
-    - from GitHub
-    - from Gitea
-    - from Gitlab
+> **Note:** When cloning from **Local** sources to a remote destination, the utility automatically copies **only** Git
+> repositories and skips other directories.
+
+### Advanced Automation and Control
+
+* **Scheduled Backup Jobs (Cron):** Automate complete tasks using **toggleable** **Quartz Cron Expressions**.
+    * **Daemon Mode:** When cron is enabled, the application runs as a **daemon**. The window can be shown/hidden via a
+      click on the **system tray icon**, and a right-click menu is used to safely **Exit** the application completely.
+    * During execution, the system tray icon flashes intermittently to indicate an active job.
+* **Destination Repository Override:** Enables **force updates** of existing repositories (via `git push --force` for
+  remote or complete content replacement for local).
+* **Repository Cleanup:** Ability to delete all repositories from supported remote platforms (**GitHub**, **Gitea**, *
+  *GitLab**).
+
+### Filtering and Performance
+
+* **Precise Filtering:** Offers granular control over batch operations by allowing selection based on status/type: *
+  *Private**, **Public**, **Organization**, **Starred**, **Forked**, and **Archived** Repos.
+* **Granular Control:** Easily filter out specific repositories or clone **only** those listed in an external file.
+* **Multi-Threading:** Uses multi-core processing to **parallelize** cloning, maximizing **speed** and efficiency.
+* **Rate Limit Prevention:** Features a customizable **waiting time** (time interval) between sequential cloning
+  processes to prevent being banned by remote servers.
+* **Detailed Logging:** Produces a comprehensive **log file** for detailed analysis and verification of every operation.
 
 <h2 id="download">Download (Stable)</h2>
 
