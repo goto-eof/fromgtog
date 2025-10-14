@@ -131,36 +131,14 @@ The application supports robust, two-way cloning and secure migration across all
   processes to prevent being banned by remote servers.
 * **Detailed Logging:** Produces a comprehensive **log file** for detailed analysis and verification of every operation.
 
-<h2 id="download">Download (Stable)</h2>
+<h2 id="download">Download version 9.0.0</h2>
 
-<h2 id="download-macos">MacOS</h2>
-
-- [Download MacOS AMD64 installer](https://github.com/goto-eof/fromgtog/releases/download/9.0.0/fromgtog-MacOS-9.0.0-amd64-Installer.zip) -
-  just install the .pkg file (allow third party execution before). Note: for copy/paste actions, please use
-  `Control + C` and `Control + V` (I will enable `Command + C` and `Command + V` in the future.)
-- [Download MacOS ARM64 Installer](https://github.com/goto-eof/fromgtog/releases/download/9.0.0/fromgtog-MacOS-9.0.0-arm64-Installer.zip)
-
-<h2 id="download-windows">Windows</h2>
-
-- [Download Windows AMD64 installer](https://github.com/goto-eof/fromgtog/releases/download/9.0.0/fromgtog-Windows-9.0.0-amd64-Installer.zip) -
-  just install the .exe file and start cloning.
-  ~~- [Download Windows ARM64 installer](https://github.com/goto-eof/fromgtog/releases/download/9.0.0/fromgtog-Windows-9.0.0-arm64-Installer.zip) -
-  just install the .exe file and start cloning.~~
-
-<h2 id="download-linux">Linux</h2>
-
-- [Install from Ubutnu AMD64/ARM64 Snapstore](https://snapcraft.io/fromgtog) - or execute `sudo snap install fromgtog`
-  in order
-  to install the application.
-- [Download Ubuntu AMD64 package](https://github.com/goto-eof/fromgtog/releases/download/9.0.0/fromgtog-Linux-9.0.0-amd64-Installer.zip) -
-  in order to install the .deb package execute `sudo dpkg -i fromgtog_9.0.0_amd64.deb`
-  ~~- [Download Ubuntu ARM64 package](https://github.com/goto-eof/fromgtog/releases/download/9.0.0/fromgtog-Linux-9.0.0-arm64-Installer.zip) -
-  in order to install the .deb package execute `sudo dpkg -i fromgtog_9.0.0_arm64.deb`~~
-
-<h2 id="download-jar">Jar file</h2>
-
-- [Jar file](https://github.com/goto-eof/fromgtog/releases/download/9.0.0/fromgtog.jar) - run it by executing
-  `java -jar fromgtog.jar`.
+| Platform           | AMD64 Installer                                                                                                                                                                                       | ARM64 Installer                                                                                                        | Other Installation Method(s)                                                                                                                                |
+|:-------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-----------------------------------------------------------------------------------------------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **MacOS**          | [Installer ZIP](https://github.com/goto-eof/fromgtog/releases/download/9.0.0/fromgtog-MacOS-9.0.0-amd64-Installer.zip)<br>**Comment:** Install the **.pkg file**. Use `Control + C/V` for copy/paste. | [Installer ZIP](https://github.com/goto-eof/fromgtog/releases/download/9.0.0/fromgtog-MacOS-9.0.0-arm64-Installer.zip) | N/A                                                                                                                                                         |
+| **Windows**        | [Installer ZIP](https://github.com/goto-eof/fromgtog/releases/download/9.0.0/fromgtog-Windows-9.0.0-amd64-Installer.zip)<br>**Comment:** Install the **.exe file**.                                   | **Not available**                                                                                                      | N/A                                                                                                                                                         |
+| **Linux**          | [Ubuntu AMD64 package](https://github.com/goto-eof/fromgtog/releases/download/9.0.0/fromgtog-Linux-9.0.0-amd64-Installer.zip)<br>**Comment:** Install with `sudo dpkg -i ...amd64.deb`.               | **Not available**                                                                                                      | **Snapstore (AMD64/ARM64):** [Install Link](https://snapcraft.io/fromgtog) or run `sudo snap install fromgtog`.                                             |
+| **Cross-Platform** | N/A                                                                                                                                                                                                   | N/A                                                                                                                    | **Jar file:** [Download Link](https://github.com/goto-eof/fromgtog/releases/download/9.0.0/fromgtog.jar)<br>**Comment:** Run with `java -jar fromgtog.jar`. |
 
 <h2 id="technologies">Technologies/Tools</h2>
 
