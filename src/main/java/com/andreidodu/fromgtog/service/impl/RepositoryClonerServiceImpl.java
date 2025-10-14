@@ -39,14 +39,14 @@ public class RepositoryClonerServiceImpl implements RepositoryCloner {
         log.debug("Source: {}, Destination: {}", sourceEngine.getEngineType(), destinationEngine.getDestinationEngineType());
 
         if (engineContext.settingsContext().chronJobEnabled()) {
-            ScheduledService scheduledScheduledService = new ScheduledJobServiceImpl(engineContext);
+            ScheduledJobServiceImpl scheduledJobService = new ScheduledJobServiceImpl(engineContext);
             try {
                 log.debug("Starting TicTac Job Service, isShouldStop: {}", engineContext.callbackContainer().isShouldStop());
-                new ScheduledJobServiceImpl(engineContext)
+                scheduledJobService
                         .run(() -> startOrchestrator(engineContext, sourceEngine, destinationEngine));
             } catch (Exception e) {
                 log.error(e.getMessage(), e);
-                scheduledScheduledService.shutdown();
+                scheduledJobService.shutdown();
                 return false;
             }
         } else {
