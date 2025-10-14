@@ -168,7 +168,10 @@ JDK 21, Intellij UI Designer (plugin for Intellij), Slf4J, Lombok, Apache Common
 
 <h2 id="screenshot">Screenshot</h2>
 
+### FromGtoG Screenshot
 ![FromGtoG Screenshot](images/FromGtoG.webp)
+
+### FromGtoG Screenshot - Tray Icon
 ![FromGtoG Screenshot - Tray Icon](images/fromgtog-job-and-tray-icon.webp)
 
 <img src="https://andre-i.eu/api/v1/ipResource/custom.png?host=https://github.com/goto-eof/fromgtog" onerror="this.style.display='none'" />
