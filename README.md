@@ -8,8 +8,7 @@
 - [Download (Windows/MacOS/Linux/Cross-Platform)](#download)
 - [Screenshot](#screenshot)
 - [Technologies](#technologies)
-- [Logs from the developer](#news)
-- [For developers](#for-developers)
+- [My dev notes](#my-dev-notes)
 - [Support me](#support-me)
 
 <h2 id="introduction">Introduction</h2>
@@ -154,7 +153,7 @@ JDK 21, Intellij UI Designer (plugin for Intellij), Slf4J, Lombok, Apache Common
 
 <img src="https://andre-i.eu/api/v1/ipResource/custom.png?host=https://github.com/goto-eof/fromgtog" onerror="this.style.display='none'" />
 
-<h2 id="news">News</h2>
+<h2 id="my-dev-notes">My Dev Notes</h2>
 
 - 2025/10/14
     - implemented the backup all repositories scheduled job and now FromGtoG has it's Tray Icon
@@ -208,50 +207,6 @@ JDK 21, Intellij UI Designer (plugin for Intellij), Slf4J, Lombok, Apache Common
       `jdk.crypto.ec` and `java.security.sasl` imports in the `--add-modules` option, prevented the SSL connections,
       so the
       clone process failed, in particular for GitHub (which uses SSL).
-
-<h2 id="for-developers">For developers</h2>
-
-## Retrieve dependency modules of the jar
-
-```bash
-jdeps -s fromgtog.jar
-```
-
-## Generate a standalone for MacOS
-
-It is necessary to install Xcode Command Line Tools before.
-
-```bash
-jpackage --type pkg --name "FromGtoG" --vendor "Andrei Dodu" --app-version "9.0.0" --input "target" --main-jar "fromgtog.jar" --icon "resources/icon.icns" --main-class "com.andreidodu.fromgtog.Main" --dest "executable" --add-modules java.base,java.desktop,java.net.http,jdk.crypto.ec,java.security.sasl,java.naming,java.sql,java.management,java.security.jgss,java.xml,java.logging --verbose --java-options "-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dsun.java2d.uiScale=true"
-```
-
-## Generate a standalone for Windows
-
-It is necessary to install Wix Toolset before.
-
-```bash
-jpackage -t exe --name "FromGtoG" --vendor "Andrei Dodu" --app-version "9.0.0" --input "target" --dest "executable" --main-jar "fromgtog.jar" --icon "resources\icon.ico" --resource-dir resources --add-modules java.base,java.desktop,java.net.http,java.naming,java.sql,java.management,java.security.jgss,java.xml,java.logging,jdk.crypto.ec,java.security.sasl --win-shortcut --win-menu --main-class com.andreidodu.fromgtog.Main
-```
-
-## Generate a standalone for Linux
-
-```bash
-jpackage --type deb --name "FromGtoG" --vendor "Andrei Dodu" --app-version "9.0.0" --input "target" --main-jar "fromgtog.jar" --icon "resources/icon.png" --main-class "com.andreidodu.fromgtog.Main" --dest "executable" --add-modules java.base,java.desktop,java.net.http,java.naming,java.sql,java.management,java.security.jgss,java.xml,java.logging,jdk.crypto.ec,java.security.sasl --linux-shortcut --verbose --linux-package-deps "libasound2, libpulse0"
-```
-
-## Usefully commands
-
-```bash
-jar tvf fromgtog.jar 
-```
-
-### Generate and upload snap file - useful especially for me (:
-
-```bash
-sudo snap remove fromgtog && snapcraft clean && snapcraft && sudo snap install fromgtog_9.0.0_amd64.snap --dangerous && fromgtog
-
-snapcraft upload --release=edge fromgtog_9.0.0_amd64.snap
-```
 
 <h2 id="support-me">Support Me</h2>
 
