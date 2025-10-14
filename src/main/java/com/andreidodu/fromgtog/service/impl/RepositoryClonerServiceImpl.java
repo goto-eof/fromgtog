@@ -86,6 +86,7 @@ public class RepositoryClonerServiceImpl implements RepositoryCloner {
                     } catch (Exception e) {
                         log.error(e.getMessage(), e);
                         engineContext.callbackContainer().setEnabledUI().accept(true);
+                        engineContext.callbackContainer().setShouldStop().accept(true);
                         if (!engineContext.settingsContext().chronJobEnabled()) {
                             engineContext.callbackContainer().showErrorMessage().accept("Something went wrong while cloning: " + e.getMessage() + ". Please check the log file for further details.");
                         }

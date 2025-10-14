@@ -285,7 +285,7 @@ public class AppController implements GUIController {
 
     public synchronized void setShouldStop(boolean shouldStop) {
         this.shouldStop = shouldStop;
-        log.debug("Setting should stop: " + shouldStop);
+        log.debug("Setting should stop: {}", shouldStop);
         SwingUtilities.invokeLater(() -> {
             this.appStartButton.setVisible(shouldStop);
             this.appStopButton.setVisible(!shouldStop);
