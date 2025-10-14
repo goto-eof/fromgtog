@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 import java.util.concurrent.Executors;
@@ -60,7 +61,10 @@ public class TicTacJobService {
                     engineContext.callbackContainer().jobTicker().accept(false);
                 } else {
                     engineContext.callbackContainer().jobTicker().accept(true);
+                    engineContext.callbackContainer().updateApplicationStatusMessage()
+                            .accept(String.format("The job will run at %s", calculateNextExecutionString(executionTime, now)));
                 }
+
 
                 if (!engineContext.callbackContainer().isShouldStop().get() && isCronMatchesNow) {
                     runnable.run();
@@ -78,6 +82,15 @@ public class TicTacJobService {
         }
         long secondsUntilNext = now.until(next.get(), ChronoUnit.SECONDS);
         return secondsUntilNext == 0;
+    }
+
+    private static String calculateNextExecutionString(ExecutionTime executionTime, ZonedDateTime now) {
+        Optional<ZonedDateTime> next = executionTime.nextExecution(now);
+        if (next.isEmpty()) {
+            return "";
+        }
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return next.get().toLocalDateTime().format(formatter);
     }
 
     public synchronized void shutdown() {
