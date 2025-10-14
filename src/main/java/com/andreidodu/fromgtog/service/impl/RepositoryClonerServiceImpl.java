@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 import static com.andreidodu.fromgtog.constants.ApplicationConstants.ORCHESTRATOR_THREAD_NAME_PREFIX;
+import static com.andreidodu.fromgtog.constants.ApplicationConstants.TRAY_ICON_THREAD_NAME_PREFIX;
 
 public class RepositoryClonerServiceImpl implements RepositoryCloner {
 
@@ -64,7 +65,7 @@ public class RepositoryClonerServiceImpl implements RepositoryCloner {
     private Runnable cloningTask(EngineContext engineContext, SourceEngine sourceEngine, DestinationEngine destinationEngine) {
         return () -> {
             TimeCounterService timeCounterService = new TimeCounterService(engineContext.callbackContainer().updateTimeLabel());
-            SingleThreadScheduledServiceImpl trayIconSingleThreadScheduledService = new SingleThreadScheduledServiceImpl(engineContext);
+            SingleThreadScheduledServiceImpl trayIconSingleThreadScheduledService = new SingleThreadScheduledServiceImpl(TRAY_ICON_THREAD_NAME_PREFIX, engineContext);
             trayIconSingleThreadScheduledService.run(getTrayIconUpdaterRunnable(engineContext));
             try {
                 EngineType from = engineContext.fromContext().sourceEngineType();
