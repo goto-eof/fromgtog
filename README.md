@@ -5,7 +5,7 @@
 
 - [Introduction](#introduction)
 - [Features](#features)
-- [Download (Windows/MacOS/Linux/Cross-Platform)](#download)
+- [Download FromGtoG 9.0.0](#download)
 - [Screenshot](#screenshot)
 - [Technologies](#technologies)
 - [My Dev Notes about FromGtoG](#my-dev-notes)
