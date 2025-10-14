@@ -8,7 +8,7 @@
 - [Download (Windows/MacOS/Linux/Cross-Platform)](#download)
 - [Screenshot](#screenshot)
 - [Technologies](#technologies)
-- [My dev notes](#my-dev-notes)
+- [My Dev Notes about FromGtoG](#my-dev-notes)
 - [Support me](#support-me)
 
 <h2 id="introduction">Introduction</h2>
@@ -153,7 +153,7 @@ JDK 21, Intellij UI Designer (plugin for Intellij), Slf4J, Lombok, Apache Common
 
 <img src="https://andre-i.eu/api/v1/ipResource/custom.png?host=https://github.com/goto-eof/fromgtog" onerror="this.style.display='none'" />
 
-<h2 id="my-dev-notes">My Dev Notes</h2>
+<h2 id="my-dev-notes">My Dev Notes about FromGtoG</h2>
 
 - 2025/10/14
     - implemented the backup all repositories scheduled job and now FromGtoG has it's Tray Icon
