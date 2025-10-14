@@ -36,6 +36,11 @@ The application currently supports robust two-way cloning and backup across:
 
 FromGtoG goes beyond simple batch operations, offering advanced filtering and performance capabilities:
 
+* **Scheduled Backup Jobs (Toggleable):** Take control of your workflow by automating complete backup and migration
+  tasks using **Quartz Cron Expressions**. Users can define a schedule and **easily activate or deactivate** the job as
+  needed. When the schedule matches the current time, the backup runs. During execution, the application's **system tray
+  icon** flashes intermittently (red and blue) to indicate the active job, advising users not to shut down the computer
+  or terminate the process.
 * **Detailed Logging:** Produces a comprehensive **log file** that allows you to analyze the application's work in
   detail, ensuring that every necessary repository was successfully cloned and verified.
 * **Rate Limit Prevention:** Features an optional setting to define a **time interval between cloning calls** to prevent
