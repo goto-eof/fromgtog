@@ -76,7 +76,11 @@ public class RepositoryClonerServiceImpl implements RepositoryCloner {
                 engineContext.callbackContainer().setEnabledUI().accept(false);
                 engineContext.callbackContainer().setWorking().accept(true);
                 engineContext.callbackContainer().setShouldStop().accept(false);
+
+
                 boolean isSuccess = cloneFromAndTo(engineContext, sourceEngine, destinationEngine);
+
+
                 engineContext.callbackContainer().setWorking().accept(false);
                 if (!engineContext.settingsContext().chronJobEnabled()) {
                     engineContext.callbackContainer().setShouldStop().accept(true);
