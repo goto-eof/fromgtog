@@ -131,7 +131,7 @@ The application supports robust, two-way cloning and secure migration across all
   processes to prevent being banned by remote servers.
 * **Detailed Logging:** Produces a comprehensive **log file** for detailed analysis and verification of every operation.
 
-<h2 id="download">Download version 9.0.0</h2>
+<h2 id="download">Download FromGtoG 9.0.0</h2>
 
 | Platform           | AMD64 Installer                                                                                                                                                                                       | ARM64 Installer                                                                                                        | Other Installation Method(s)                                                                                                                                |
 |:-------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-----------------------------------------------------------------------------------------------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------|
