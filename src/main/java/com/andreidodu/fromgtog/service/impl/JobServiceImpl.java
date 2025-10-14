@@ -62,7 +62,7 @@ public class JobServiceImpl implements JobService {
                 if (engineContext.callbackContainer().isWorking().get()) {
                     engineContext.callbackContainer().jobTicker().accept(false);
                 } else {
-                    engineContext.callbackContainer().jobTicker().accept(true);
+
                     String nowString = formatZoneDateTime(Optional.of(now));
                     String nextRunString = calculateNextExecutionString(executionTime, now);
                     engineContext.callbackContainer().updateApplicationStatusMessage()
@@ -104,6 +104,7 @@ public class JobServiceImpl implements JobService {
     @Override
     public synchronized void shutdown() {
         log.info("Shutting down JobServiceImpl");
+        engineContext.callbackContainer().jobTicker().accept(true);
         if (future != null) {
             future.cancel(true);
         }

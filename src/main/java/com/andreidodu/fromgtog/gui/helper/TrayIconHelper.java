@@ -119,8 +119,8 @@ public class TrayIconHelper {
 
     private static Image loadImage(String resourcePath, Dimension size) {
         try {
-            log.info("Loading image from {}", resourcePath);
-            log.info("size: {}x{}", size.width, size.height);
+            log.debug("Loading image from {}", resourcePath);
+            log.debug("size: {}x{}", size.width, size.height);
             Image image = ImageIO.read(Objects.requireNonNull(TrayIconHelper.class.getResourceAsStream(resourcePath)));
             return image.getScaledInstance(size.width, size.height, Image.SCALE_SMOOTH);
         } catch (Exception e) {
@@ -130,13 +130,11 @@ public class TrayIconHelper {
 
     public synchronized void toggleIcon(boolean loadDefault) {
         if (loadDefault) {
-            {
-                Image image = loadImage(TRAY_ICON_IMAGE);
-                currentTrayIconImageFile = TRAY_ICON_IMAGE;
-                isTrayIconMain = true;
-                trayIcon.setImage(image);
-                return;
-            }
+            isTrayIconMain = true;
+            Image image = loadImage(TRAY_ICON_IMAGE);
+            currentTrayIconImageFile = TRAY_ICON_IMAGE;
+            trayIcon.setImage(image);
+            return;
         }
 
 
