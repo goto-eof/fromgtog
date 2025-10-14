@@ -130,25 +130,23 @@ public class TrayIconHelper {
 
     public synchronized void toggleIcon(boolean loadDefault) {
         if (loadDefault) {
-            isTrayIconMain = true;
-            Image image = loadImage(TRAY_ICON_IMAGE);
             currentTrayIconImageFile = TRAY_ICON_IMAGE;
-            trayIcon.setImage(image);
+            loadAndSetImage();
             return;
         }
 
-        Image image;
-        if (isTrayIconMain && !TRAY_ICON_IMAGE_SECONDARY.equals(currentTrayIconImageFile)) {
-            isTrayIconMain = false;
-            image = loadImage(TRAY_ICON_IMAGE_SECONDARY);
+        if (!TRAY_ICON_IMAGE_SECONDARY.equals(currentTrayIconImageFile)) {
             currentTrayIconImageFile = TRAY_ICON_IMAGE_SECONDARY;
-            trayIcon.setImage(image);
         } else if (!TRAY_ICON_IMAGE.equals(currentTrayIconImageFile)) {
             currentTrayIconImageFile = TRAY_ICON_IMAGE;
-            image = loadImage(TRAY_ICON_IMAGE);
-            isTrayIconMain = true;
-            trayIcon.setImage(image);
         }
+
+        loadAndSetImage();
+    }
+
+    private void loadAndSetImage() {
+        Image image = loadImage(currentTrayIconImageFile);
+        trayIcon.setImage(image);
     }
 
     private static Image loadImage(final String imgFile) {

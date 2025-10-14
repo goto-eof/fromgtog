@@ -1,6 +1,6 @@
 package com.andreidodu.fromgtog.service;
 
-public interface JobService {
+public interface ScheduledService {
     void run(Runnable runnable);
 
     void shutdown();

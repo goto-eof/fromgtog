@@ -1,7 +1,7 @@
 package com.andreidodu.fromgtog.service.impl;
 
 import com.andreidodu.fromgtog.dto.EngineContext;
-import com.andreidodu.fromgtog.service.JobService;
+import com.andreidodu.fromgtog.service.ScheduledService;
 import com.andreidodu.fromgtog.util.CustomThreadFactory;
 import com.cronutils.model.Cron;
 import com.cronutils.model.CronType;
@@ -24,14 +24,15 @@ import java.util.concurrent.TimeUnit;
 
 import static com.andreidodu.fromgtog.constants.ApplicationConstants.JOB_THREAD_NAME_PREFIX;
 
-public class ScheduledJobServiceImpl implements JobService {
+public class ScheduledJobServiceImpl implements ScheduledService {
 
     private final static Logger log = LoggerFactory.getLogger(ScheduledJobServiceImpl.class);
 
     private ScheduledFuture<?> jobScheduledFuture;
+
     @Getter
     @Setter
-    private ScheduledExecutorService ticTacJobExecutorService;
+    private ScheduledExecutorService scheduledExecutorService;
 
     private final EngineContext engineContext;
 
@@ -39,8 +40,8 @@ public class ScheduledJobServiceImpl implements JobService {
     public ScheduledJobServiceImpl(EngineContext engineContext) {
         this.engineContext = engineContext;
         CustomThreadFactory customThreadFactory = new CustomThreadFactory(JOB_THREAD_NAME_PREFIX);
-        ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor(customThreadFactory);
-        this.setTicTacJobExecutorService(scheduledExecutorService);
+        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1, customThreadFactory);
+        this.setScheduledExecutorService(scheduledExecutorService);
         reset();
     }
 
@@ -58,7 +59,7 @@ public class ScheduledJobServiceImpl implements JobService {
         CronParser parser = new CronParser(CronDefinitionBuilder.instanceDefinitionFor(CronType.QUARTZ));
         Cron cron = parser.parse(engineContext.settingsContext().chronExpression());
 
-        jobScheduledFuture = this.getTicTacJobExecutorService()
+        jobScheduledFuture = this.getScheduledExecutorService()
                 .scheduleAtFixedRate(buildRunnableRecurringTask(runnable, cron), 0, 1, TimeUnit.SECONDS);
 
     }
@@ -69,8 +70,6 @@ public class ScheduledJobServiceImpl implements JobService {
             ZonedDateTime now = ZonedDateTime.now();
             boolean isCronMatchesNow = isNow(executionTime, now);
             log.debug("checking if need to run the job: {}", isCronMatchesNow);
-
-            showsFlashingTrayIconIfNecessary();
 
             showNextJobRunInfoIfNecessary(now, executionTime);
 
@@ -110,12 +109,6 @@ public class ScheduledJobServiceImpl implements JobService {
         }
     }
 
-    private void showsFlashingTrayIconIfNecessary() {
-        if (engineContext.callbackContainer().isWorking().get()) {
-            engineContext.callbackContainer().jobTicker().accept(false);
-        }
-    }
-
     private static boolean isNow(ExecutionTime executionTime, ZonedDateTime now) {
         Optional<ZonedDateTime> next = executionTime.nextExecution(now);
         if (next.isEmpty()) {
@@ -141,21 +134,20 @@ public class ScheduledJobServiceImpl implements JobService {
 
     @Override
     public synchronized void shutdown() {
-        engineContext.callbackContainer().jobTicker().accept(true);
-        engineContext.callbackContainer().setShouldStop().accept(true);
-        engineContext.callbackContainer().setWorking().accept(false);
-
         log.info("Shutting down ScheduledJobServiceImpl");
         if (jobScheduledFuture != null) {
             jobScheduledFuture.cancel(true);
         }
-        ticTacJobExecutorService.shutdown();
+        scheduledExecutorService.shutdown();
         try {
-            ticTacJobExecutorService.awaitTermination(Long.MAX_VALUE, TimeUnit.MINUTES);
+            scheduledExecutorService.awaitTermination(Long.MAX_VALUE, TimeUnit.MINUTES);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         } finally {
             engineContext.callbackContainer().setEnabledUI().accept(true);
+            engineContext.callbackContainer().jobTicker().accept(true);
+            engineContext.callbackContainer().setShouldStop().accept(true);
+            engineContext.callbackContainer().setWorking().accept(false);
         }
     }
 

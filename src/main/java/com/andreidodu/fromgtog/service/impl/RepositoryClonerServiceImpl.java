@@ -2,8 +2,8 @@ package com.andreidodu.fromgtog.service.impl;
 
 import com.andreidodu.fromgtog.dto.EngineContext;
 import com.andreidodu.fromgtog.dto.RepositoryDTO;
-import com.andreidodu.fromgtog.service.JobService;
 import com.andreidodu.fromgtog.service.RepositoryCloner;
+import com.andreidodu.fromgtog.service.ScheduledService;
 import com.andreidodu.fromgtog.service.factory.CloneFactory;
 import com.andreidodu.fromgtog.service.factory.CloneFactoryImpl;
 import com.andreidodu.fromgtog.service.factory.from.SourceEngine;
@@ -38,14 +38,14 @@ public class RepositoryClonerServiceImpl implements RepositoryCloner {
         log.debug("Source: {}, Destination: {}", sourceEngine.getEngineType(), destinationEngine.getDestinationEngineType());
 
         if (engineContext.settingsContext().chronJobEnabled()) {
-            JobService scheduledJobService = new ScheduledJobServiceImpl(engineContext);
+            ScheduledService scheduledScheduledService = new ScheduledJobServiceImpl(engineContext);
             try {
                 log.debug("Starting TicTac Job Service, isShouldStop: {}", engineContext.callbackContainer().isShouldStop());
-                engineContext.callbackContainer().setEnabledUI().accept(false);
-                scheduledJobService.run(() -> startOrchestrator(engineContext, sourceEngine, destinationEngine));
+                new ScheduledJobServiceImpl(engineContext)
+                        .run(() -> startOrchestrator(engineContext, sourceEngine, destinationEngine));
             } catch (Exception e) {
                 log.error(e.getMessage(), e);
-                scheduledJobService.shutdown();
+                scheduledScheduledService.shutdown();
                 return false;
             }
         } else {
@@ -64,6 +64,7 @@ public class RepositoryClonerServiceImpl implements RepositoryCloner {
     private Runnable cloningTask(EngineContext engineContext, SourceEngine sourceEngine, DestinationEngine destinationEngine) {
         return () -> {
             TimeCounterService timeCounterService = new TimeCounterService(engineContext.callbackContainer().updateTimeLabel());
+            new SingleThreadScheduledServiceImpl(engineContext).run(getTrayIconUpdater(engineContext));
             try {
                 EngineType from = engineContext.fromContext().sourceEngineType();
                 EngineType to = engineContext.toContext().engineType();
@@ -99,6 +100,14 @@ public class RepositoryClonerServiceImpl implements RepositoryCloner {
                 }
                 timeCounterService.stopCounter();
                 engineContext.callbackContainer().setEnabledUI().accept(true);
+            }
+        };
+    }
+
+    private static Runnable getTrayIconUpdater(EngineContext engineContext) {
+        return () -> {
+            if (engineContext.callbackContainer().isWorking().get()) {
+                engineContext.callbackContainer().jobTicker().accept(false);
             }
         };
     }

@@ -71,8 +71,6 @@ public class AppController implements GUIController {
     @Getter
     @Setter
     private volatile boolean shouldStop = false;
-    @Getter
-    @Setter
     private volatile boolean isWorking = false;
 
     private JButton clearLogFileButton;
@@ -350,7 +348,7 @@ public class AppController implements GUIController {
                             .isShouldStop(this::isShouldStop)
                             .setShouldStop(this::setShouldStop)
                             .updateTimeLabel(this::updateTimeLabel)
-                            .jobTicker(this::ticTacJobStatusToggle)
+                            .jobTicker(toggleTrayIcon)
                             .build())
                     .build();
 
@@ -446,4 +444,11 @@ public class AppController implements GUIController {
         SwingUtilities.invokeLater(() -> appProgressBar.setMaximum(value));
     }
 
+    public boolean isWorking() {
+        return isWorking;
+    }
+
+    public void setWorking(boolean working) {
+        isWorking = working;
+    }
 }
