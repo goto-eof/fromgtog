@@ -228,10 +228,10 @@ JDK 21, Intellij UI Designer (plugin for Intellij), Slf4J, Lombok, Apache Common
             or [contact me](https://andre-i.eu/#contactme)). The v. 7.0.0 should work now also on Debian 10.
             You can download it
             from [here](https://github.com/goto-eof/fromgtog/releases/download/7.0.0/fromgtog_7.0.0_amd64.deb).
-        - fixed the windows/linux and macOS packaging - now it is possible to clone from GitHub. The absence of the
-          `jdk.crypto.ec` and `java.security.sasl` imports in the `--add-modules` option, prevented the SSL connections,
-          so the
-          clone process failed, in particular for GitHub (which uses SSL).
+    - fixed the windows/linux and macOS packaging - now it is possible to clone from GitHub. The absence of the
+      `jdk.crypto.ec` and `java.security.sasl` imports in the `--add-modules` option, prevented the SSL connections,
+      so the
+      clone process failed, in particular for GitHub (which uses SSL).
 
 <h2 id="for-developers">For developers</h2>
 
