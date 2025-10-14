@@ -18,8 +18,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import static com.andreidodu.fromgtog.constants.ApplicationConstants.JOB_THREAD_NAME_PREFIX;
@@ -28,7 +28,7 @@ public class JobServiceImpl implements JobService {
 
     private final static Logger log = LoggerFactory.getLogger(JobServiceImpl.class);
 
-    private Future<?> future;
+    private ScheduledFuture<?> jobScheduledFuture;
     @Getter
     @Setter
     private ScheduledExecutorService ticTacJobExecutorService;
@@ -49,33 +49,69 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public synchronized void runTicTak(Runnable runnable) {
+    public synchronized void run(Runnable runnable) {
+
+        if (jobScheduledFuture != null) {
+            return;
+        }
+
         CronParser parser = new CronParser(CronDefinitionBuilder.instanceDefinitionFor(CronType.QUARTZ));
         Cron cron = parser.parse(engineContext.settingsContext().chronExpression());
-        if (future == null) {
-            future = this.getTicTacJobExecutorService().scheduleAtFixedRate(() -> {
-                ExecutionTime executionTime = ExecutionTime.forCron(cron);
-                ZonedDateTime now = ZonedDateTime.now();
-                boolean isCronMatchesNow = isNow(executionTime, now);
-                log.info("checking if need to run the job: {}", isCronMatchesNow);
 
-                if (engineContext.callbackContainer().isWorking().get()) {
-                    engineContext.callbackContainer().jobTicker().accept(false);
-                } else {
+        jobScheduledFuture = this.getTicTacJobExecutorService()
+                .scheduleAtFixedRate(buildRunnableRecurringTask(runnable, cron), 0, 1, TimeUnit.SECONDS);
 
-                    String nowString = formatZoneDateTime(Optional.of(now));
-                    String nextRunString = calculateNextExecutionString(executionTime, now);
-                    engineContext.callbackContainer().updateApplicationStatusMessage()
-                            .accept(String.format("[%s] next run on %s", nowString, nextRunString));
-                }
+    }
 
+    private Runnable buildRunnableRecurringTask(Runnable runnable, Cron cron) {
+        return () -> {
+            ExecutionTime executionTime = ExecutionTime.forCron(cron);
+            ZonedDateTime now = ZonedDateTime.now();
+            boolean isCronMatchesNow = isNow(executionTime, now);
+            log.debug("checking if need to run the job: {}", isCronMatchesNow);
 
-                if (!engineContext.callbackContainer().isWorking().get() && !engineContext.callbackContainer().isShouldStop().get() && isCronMatchesNow) {
-                    runnable.run();
-                } else if (engineContext.callbackContainer().isShouldStop().get()) {
-                    shutdown();
-                }
-            }, 0, 1, TimeUnit.SECONDS);
+            showsFlashingTrayIconIfNecessary();
+
+            showNextJobRunInfoIfNecessary(now, executionTime);
+
+            runJobIfNecessary(runnable, isCronMatchesNow);
+
+            stopJobIfNecessary();
+        };
+    }
+
+    private void stopJobIfNecessary() {
+        if (isNecessaryToStopJob()) {
+            shutdown();
+        }
+    }
+
+    private void runJobIfNecessary(Runnable runnable, boolean isCronMatchesNow) {
+        if (isNecessaryToRunJob(isCronMatchesNow)) {
+            runnable.run();
+        }
+    }
+
+    private Boolean isNecessaryToStopJob() {
+        return engineContext.callbackContainer().isShouldStop().get();
+    }
+
+    private boolean isNecessaryToRunJob(boolean isCronMatchesNow) {
+        return !engineContext.callbackContainer().isWorking().get() && !isNecessaryToStopJob() && isCronMatchesNow;
+    }
+
+    private void showNextJobRunInfoIfNecessary(ZonedDateTime now, ExecutionTime executionTime) {
+        if (!engineContext.callbackContainer().isWorking().get()) {
+            String nowString = formatZoneDateTime(now);
+            String nextRunString = calculateNextExecutionString(executionTime, now);
+            engineContext.callbackContainer().updateApplicationStatusMessage()
+                    .accept(String.format("[%s] next run on %s", nowString, nextRunString));
+        }
+    }
+
+    private void showsFlashingTrayIconIfNecessary() {
+        if (engineContext.callbackContainer().isWorking().get()) {
+            engineContext.callbackContainer().jobTicker().accept(false);
         }
     }
 
@@ -90,23 +126,24 @@ public class JobServiceImpl implements JobService {
 
     private static String calculateNextExecutionString(ExecutionTime executionTime, ZonedDateTime now) {
         Optional<ZonedDateTime> next = executionTime.nextExecution(now);
-        if (next.isEmpty()) {
-            return "";
-        }
-        return formatZoneDateTime(next);
+        return next.map(JobServiceImpl::formatZoneDateTime)
+                .orElse("");
     }
 
-    private static String formatZoneDateTime(Optional<ZonedDateTime> next) {
+    private static String formatZoneDateTime(ZonedDateTime next) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        return next.get().toLocalDateTime().format(formatter);
+        return Optional.ofNullable(next)
+                .orElseThrow(() -> new IllegalArgumentException("nextZoneDateTime cannot be null"))
+                .toLocalDateTime()
+                .format(formatter);
     }
 
     @Override
     public synchronized void shutdown() {
         log.info("Shutting down JobServiceImpl");
         engineContext.callbackContainer().jobTicker().accept(true);
-        if (future != null) {
-            future.cancel(true);
+        if (jobScheduledFuture != null) {
+            jobScheduledFuture.cancel(true);
         }
         ticTacJobExecutorService.shutdownNow();
     }

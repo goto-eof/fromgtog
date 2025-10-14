@@ -1,7 +1,7 @@
 package com.andreidodu.fromgtog.service;
 
 public interface JobService {
-    void runTicTak(Runnable runnable);
+    void run(Runnable runnable);
 
     void shutdown();
 }

@@ -137,7 +137,6 @@ public class TrayIconHelper {
             return;
         }
 
-
         Image image;
         if (isTrayIconMain && !TRAY_ICON_IMAGE_SECONDARY.equals(currentTrayIconImageFile)) {
             isTrayIconMain = false;
