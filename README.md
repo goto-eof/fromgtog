@@ -10,7 +10,6 @@
 - [Technologies](#technologies)
 - [Logs from the developer](#news)
 - [For developers](#for-developers)
-- [Tested on](#tested-on)
 - [Support me](#support-me)
 
 <h2 id="introduction">Introduction</h2>
@@ -253,13 +252,6 @@ sudo snap remove fromgtog && snapcraft clean && snapcraft && sudo snap install f
 
 snapcraft upload --release=edge fromgtog_9.0.0_amd64.snap
 ```
-
-<h2 id="tested-on">Tested on</h2>
-
-- Ubuntu 25.04
-- Debian 10
-- Windows 11
-- MacOS
 
 <h2 id="support-me">Support Me</h2>
 
