@@ -5,10 +5,7 @@
 
 - [Introduction](#introduction)
 - [Features](#features)
-- [Download (Stable)](#download)
-    - [MacOS](#download-macos)
-    - [Windows](#download-windows)
-    - [Linux](#download-linux)
+- [Download (Windows/MacOS/Linux/Cross-Platform)](#download)
 - [Screenshot](#screenshot)
 - [Technologies](#technologies)
 - [Logs from the developer](#news)
