@@ -13,13 +13,11 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-import static com.andreidodu.fromgtog.constants.ApplicationConstants.JOB_THREAD_NAME_PREFIX;
-
 public class SingleThreadScheduledServiceImpl implements ScheduledService {
 
     private final static Logger log = LoggerFactory.getLogger(SingleThreadScheduledServiceImpl.class);
 
-    private ScheduledFuture<?> trayIconFlashingFuture;
+    private ScheduledFuture<?> future;
 
     @Getter
     @Setter
@@ -33,20 +31,15 @@ public class SingleThreadScheduledServiceImpl implements ScheduledService {
         CustomThreadFactory customThreadFactory = new CustomThreadFactory(threadName);
         ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1, customThreadFactory);
         this.setScheduledExecutorService(scheduledExecutorService);
-        reset();
-    }
-
-    private synchronized void reset() {
-        engineContext.callbackContainer().jobTicker().accept(true);
     }
 
     @Override
     public synchronized void run(Runnable runnable) {
-        if (trayIconFlashingFuture != null) {
+        if (future != null) {
             return;
         }
 
-        trayIconFlashingFuture = this.getScheduledExecutorService()
+        future = this.getScheduledExecutorService()
                 .scheduleAtFixedRate(runnable, 0, 1, TimeUnit.SECONDS);
 
     }
@@ -54,8 +47,8 @@ public class SingleThreadScheduledServiceImpl implements ScheduledService {
     @Override
     public synchronized void shutdown() {
         log.info("Shutting down ScheduledJobServiceImpl");
-        if (trayIconFlashingFuture != null) {
-            trayIconFlashingFuture.cancel(true);
+        if (future != null) {
+            future.cancel(true);
         }
         scheduledExecutorService.shutdown();
         try {
