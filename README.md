@@ -41,6 +41,10 @@ FromGtoG goes beyond simple batch operations, offering advanced filtering and pe
   needed. When the schedule matches the current time, the backup runs. During execution, the application's **system tray
   icon** flashes intermittently (red and blue) to indicate the active job, advising users not to shut down the computer
   or terminate the process.
+* **Destination Repository Override:** Overrides the default skip behavior when a destination repository already exists.
+  Users can now **force the update** of existing repositories. For remote destinations, this is achieved via a
+  `git push --force`. For local destinations, the existing directory content is **replaced** entirely with the source
+  repository's content, ensuring the destination is always an exact match of the source.
 * **Detailed Logging:** Produces a comprehensive **log file** that allows you to analyze the application's work in
   detail, ensuring that every necessary repository was successfully cloned and verified.
 * **Rate Limit Prevention:** Features an optional setting to define a **time interval between cloning calls** to prevent
