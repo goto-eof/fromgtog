@@ -19,7 +19,7 @@ public class CommandCommon {
                 .progressMaxValue(maxProgressValue)
                 .progressCurrentValue(currentProgressValue)
                 .messageStatus(statusMessage)
-                .updateStatusMessageConsumer(callbackContainer.updateApplicationStatusMessage())
+                .updateStatusMessageConsumer(callbackContainer.updateLogAndApplicationStatusMessage())
                 .updateProgressCurrentConsumer(callbackContainer.updateApplicationProgressBarCurrent())
                 .updateProgressMaxConsumer(callbackContainer.updateApplicationProgressBarMax())
                 .build();
@@ -30,7 +30,7 @@ public class CommandCommon {
                 ThreadStopCommandContext.builder()
                         .isShouldStopSupplier(callbackContainer.isShouldStop())
                         .repositoryName(repositoryName)
-                        .updateApplicationStatusMessageConsumer(callbackContainer.updateApplicationStatusMessage())
+                        .updateApplicationStatusMessageConsumer(callbackContainer.updateLogAndApplicationStatusMessage())
                         .build()
         ).execute();
     }

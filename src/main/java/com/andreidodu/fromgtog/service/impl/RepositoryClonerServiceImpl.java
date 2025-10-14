@@ -60,7 +60,7 @@ public class RepositoryClonerServiceImpl implements RepositoryCloner {
                         EngineType from = engineContext.fromContext().sourceEngineType();
                         EngineType to = engineContext.toContext().engineType();
                         log.info("Start to clone from {} to {}", from, to);
-                        engineContext.callbackContainer().updateApplicationStatusMessage().accept("Start to clone from " + from + " to " + to);
+                        engineContext.callbackContainer().updateLogAndApplicationStatusMessage().accept("Start to clone from " + from + " to " + to);
 
                         engineContext.callbackContainer().setEnabledUI().accept(false);
                         engineContext.callbackContainer().setWorking().accept(true);

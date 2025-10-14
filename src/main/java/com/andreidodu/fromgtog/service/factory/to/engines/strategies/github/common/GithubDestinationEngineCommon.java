@@ -7,7 +7,7 @@ public class GithubDestinationEngineCommon {
 
     public static RemoteExistsCheckCommandContext buildRemoteExistsCheckInput(EngineContext engineContext, String tokenOwnerLogin, String repositoryName) {
         return RemoteExistsCheckCommandContext.builder()
-                .updateApplicationStatusMessagesConsumer(engineContext.callbackContainer().updateApplicationStatusMessage())
+                .updateApplicationStatusMessagesConsumer(engineContext.callbackContainer().updateLogAndApplicationStatusMessage())
                 .login(tokenOwnerLogin)
                 .token(engineContext.toContext().token())
                 .baseUrl("https://github.com")

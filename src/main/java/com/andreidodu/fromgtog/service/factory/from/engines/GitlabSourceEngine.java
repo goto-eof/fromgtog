@@ -26,7 +26,7 @@ public class GitlabSourceEngine extends AbstractSourceEngine {
                 .map(mapper::toDTO)
                 .toList();
 
-        callbackContainer.updateApplicationStatusMessage().accept("All repositories information were retrieved.");
+        callbackContainer.updateLogAndApplicationStatusMessage().accept("All repositories information were retrieved.");
 
         return repositoryDTOList;
     }
@@ -42,18 +42,18 @@ public class GitlabSourceEngine extends AbstractSourceEngine {
         FromContext fromContext = engineContext.fromContext();
         CallbackContainer callbackContainer = engineContext.callbackContainer();
 
-        callbackContainer.updateApplicationStatusMessage().accept("Retrieving repositories information...");
+        callbackContainer.updateLogAndApplicationStatusMessage().accept("Retrieving repositories information...");
 
 
         if (EngineOptionsType.FILTER.equals(fromContext.engineOptionsType())) {
             List<RepositoryDTO> repositoryDTOList = retrieveFilteredRepositoryList(gitlabService, fromContext, callbackContainer);
-            callbackContainer.updateApplicationStatusMessage().accept("Repositories retrieved and filtered by filters with success");
+            callbackContainer.updateLogAndApplicationStatusMessage().accept("Repositories retrieved and filtered by filters with success");
             return repositoryDTOList;
         }
 
         if (EngineOptionsType.FILE.equals(fromContext.engineOptionsType())) {
             List<RepositoryDTO> repostoryDTOList = retrieveRepositoryListFromCustomList(gitlabService, fromContext, callbackContainer);
-            callbackContainer.updateApplicationStatusMessage().accept("Repositories retrieved and filtered by file with success");
+            callbackContainer.updateLogAndApplicationStatusMessage().accept("Repositories retrieved and filtered by file with success");
             return repostoryDTOList;
         }
 

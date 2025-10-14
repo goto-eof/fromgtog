@@ -35,7 +35,7 @@ public class LocalDestinationEngineFromRemoteStrategy extends AbstractStrategyCo
 
         callbackContainer.updateApplicationProgressBarMax().accept(repositoryDTOList.size());
         callbackContainer.updateApplicationProgressBarCurrent().accept(0);
-        callbackContainer.updateApplicationStatusMessage().accept("initializing the cloning process");
+        callbackContainer.updateLogAndApplicationStatusMessage().accept("initializing the cloning process");
 
         ThreadUtil threadUtil = ThreadUtil.getInstance();
         try (final ExecutorService executorService = threadUtil.createExecutor(CLONER_THREAD_NAME_PREFIX, engineContext.settingsContext().multithreadingEnabled())) {
@@ -48,7 +48,7 @@ public class LocalDestinationEngineFromRemoteStrategy extends AbstractStrategyCo
             }
         }
 
-        callbackContainer.updateApplicationStatusMessage().accept(String.format("done%s", calculateStatus(repositoryDTOList.size())));
+        callbackContainer.updateLogAndApplicationStatusMessage().accept(String.format("done%s", calculateStatus(repositoryDTOList.size())));
         callbackContainer.updateApplicationProgressBarMax().accept(repositoryDTOList.size());
         callbackContainer.updateApplicationProgressBarCurrent().accept(super.getIndex());
 
@@ -62,7 +62,7 @@ public class LocalDestinationEngineFromRemoteStrategy extends AbstractStrategyCo
         CallbackContainer callbackContainer = engineContext.callbackContainer();
         if (callbackContainer.isShouldStop().get()) {
             log.debug("skipping because {} because user stop request", repositoryDTO.getName());
-            callbackContainer.updateApplicationStatusMessage().accept("Skipping repository because user stop request: " + repositoryDTO.getName());
+            callbackContainer.updateLogAndApplicationStatusMessage().accept("Skipping repository because user stop request: " + repositoryDTO.getName());
             return;
         }
 
@@ -73,7 +73,7 @@ public class LocalDestinationEngineFromRemoteStrategy extends AbstractStrategyCo
             cloneUrl = cloneUrl.replace("github.com", fromContext.login() + ":" + fromContext.token() + "@github.com");
         }
 
-        callbackContainer.updateApplicationStatusMessage().accept("cloning repository: " + repositoryDTO.getName());
+        callbackContainer.updateLogAndApplicationStatusMessage().accept("cloning repository: " + repositoryDTO.getName());
         File localRepoFile = new File(toContext.rootPath() + "/" + repositoryDTO.getName());
         if (toContext.groupByRepositoryOwner()) {
             String repositoryOwnerName = repositoryDTO.getLogin();
@@ -88,18 +88,18 @@ public class LocalDestinationEngineFromRemoteStrategy extends AbstractStrategyCo
             if (isOverrideIfExistsFlagEnabled) {
 
                 String message = String.format("Override flag enabled. Deleting local repository [%s]...", repositoryDTO.getName());
-                callbackContainer.updateApplicationStatusMessage().accept(message);
+                callbackContainer.updateLogAndApplicationStatusMessage().accept(message);
 
                 DeleteRepositoryRequestDTO deleteRepositoryRequestDTO = buildDestinationDeleteRepositoryRequestDTO(localRepoFile);
                 boolean deletionStatus = service.deleteRepository(deleteRepositoryRequestDTO);
 
                 message = String.format("Destination repository %s deleted: %s", repositoryDTO.getName(), deletionStatus);
-                callbackContainer.updateApplicationStatusMessage().accept(message);
+                callbackContainer.updateLogAndApplicationStatusMessage().accept(message);
 
                 log.info("I am going to clone again the same repository...");
             } else {
                 log.debug("skipping because {} already exists", repositoryDTO.getName());
-                callbackContainer.updateApplicationStatusMessage().accept("Skipping repository because it already exists: " + repositoryDTO.getName());
+                callbackContainer.updateLogAndApplicationStatusMessage().accept("Skipping repository because it already exists: " + repositoryDTO.getName());
                 incrementIndexSuccess(callbackContainer);
                 return;
             }
@@ -117,7 +117,7 @@ public class LocalDestinationEngineFromRemoteStrategy extends AbstractStrategyCo
             log.debug("Done! Repository {} cloned successfully.", repositoryDTO.getName());
         } catch (GitAPIException e) {
             log.error("Unable to clone repository {} because {}", repositoryDTO.getName(), e.getMessage(), e);
-            callbackContainer.updateApplicationStatusMessage().accept("Unable to clone repository " + repositoryDTO.getName());
+            callbackContainer.updateLogAndApplicationStatusMessage().accept("Unable to clone repository " + repositoryDTO.getName());
             return;
         }
 

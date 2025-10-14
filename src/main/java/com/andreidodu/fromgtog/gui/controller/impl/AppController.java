@@ -341,6 +341,7 @@ public class AppController implements GUIController {
                             .builder()
                             .updateApplicationProgressBarMax(this::updateApplicationProgressBarMax)
                             .updateApplicationProgressBarCurrent(this::updateApplicationProgressBarCurrent)
+                            .updateLogAndApplicationStatusMessage(this::updateLogAndApplicationStatusMessage)
                             .updateApplicationStatusMessage(this::updateApplicationStatusMessage)
                             .setEnabledUI(setEnabledUI)
                             .isWorking(this::isWorking)
@@ -436,10 +437,14 @@ public class AppController implements GUIController {
         return jsonObject;
     }
 
-    private void updateApplicationStatusMessage(String message) {
+    private void updateLogAndApplicationStatusMessage(String message) {
         SwingUtilities.invokeLater(() -> messageStatus.setText(correctMessageLength(message)));
         SwingUtilities.invokeLater(() -> appLogTextArea.setText(String.format("%s\n%s", appLogTextArea.getText(), correctMessageLength(message))));
         log.info("{}", message);
+    }
+
+    private void updateApplicationStatusMessage(String message) {
+        SwingUtilities.invokeLater(() -> messageStatus.setText(correctMessageLength(message)));
     }
 
     private void updateApplicationProgressBarCurrent(int i) {

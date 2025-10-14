@@ -93,43 +93,43 @@ public class GithubDestinationEngineFromLocaleStrategy extends AbstractStrategyC
         boolean isDestinationRepositoryAlreadyExists = isRemoteRepositoryAlreadyExists(GithubDestinationEngineCommon.buildRemoteExistsCheckInput(engineContext, tokenOwnerLogin, repositoryName));
 
         if (!isOverrideFlagEnabled && isDestinationRepositoryAlreadyExists) {
-            callbackContainer.updateApplicationStatusMessage().accept("Skipping repository because it already exists: " + repositoryName);
+            callbackContainer.updateLogAndApplicationStatusMessage().accept("Skipping repository because it already exists: " + repositoryName);
             incrementIndexSuccess(callbackContainer);
             return;
         }
 
-        callbackContainer.updateApplicationStatusMessage().accept("cloning " + repositoryName + " ...");
-        callbackContainer.updateApplicationStatusMessage().accept("cloning repository: " + repositoryName);
+        callbackContainer.updateLogAndApplicationStatusMessage().accept("cloning " + repositoryName + " ...");
+        callbackContainer.updateLogAndApplicationStatusMessage().accept("cloning repository: " + repositoryName);
 
 
         try {
             if (!isDestinationRepositoryAlreadyExists) {
-                callbackContainer.updateApplicationStatusMessage().accept("repository not found on destination platform: " + repositoryName);
-                callbackContainer.updateApplicationStatusMessage().accept("I am going to create it: " + repositoryName);
+                callbackContainer.updateLogAndApplicationStatusMessage().accept("repository not found on destination platform: " + repositoryName);
+                callbackContainer.updateLogAndApplicationStatusMessage().accept("I am going to create it: " + repositoryName);
                 githubClient.createRepository(repositoryName).private_(RepoPrivacyType.ALL_PRIVATE.equals(toContext.repositoryPrivacy())).owner(tokenOwnerLogin).create();
-                callbackContainer.updateApplicationStatusMessage().accept("Destination repo created: " + repositoryName);
+                callbackContainer.updateLogAndApplicationStatusMessage().accept("Destination repo created: " + repositoryName);
             }
         } catch (IOException e) {
-            callbackContainer.updateApplicationStatusMessage().accept("unable to create repository: " + repositoryName);
+            callbackContainer.updateLogAndApplicationStatusMessage().accept("unable to create repository: " + repositoryName);
             log.debug("unable to create repository: {}", repositoryName, e);
             return;
         }
 
         if (isOverrideFlagEnabled) {
             String message = String.format("isOverrideFlagEnabled: executing git push --force %s", repositoryName);
-            callbackContainer.updateApplicationStatusMessage().accept(message);
+            callbackContainer.updateLogAndApplicationStatusMessage().accept(message);
         }
 
         try {
             String message = String.format("pushing %s on %s...", repositoryName, toContext.url());
-            callbackContainer.updateApplicationStatusMessage().accept(message);
+            callbackContainer.updateLogAndApplicationStatusMessage().accept(message);
 
             boolean isPushOk = localService.pushOnRemote(tokenOwnerLogin, toContext.token(), GITHUB_URL, repositoryName, tokenOwnerLogin, new File(path), isOverrideFlagEnabled);
 
             message = String.format("push status for repo %s: %S", repositoryName, isPushOk);
-            callbackContainer.updateApplicationStatusMessage().accept(message);
+            callbackContainer.updateLogAndApplicationStatusMessage().accept(message);
         } catch (IOException | GitAPIException | URISyntaxException e) {
-            callbackContainer.updateApplicationStatusMessage().accept("Unable to push repository " + repositoryName);
+            callbackContainer.updateLogAndApplicationStatusMessage().accept("Unable to push repository " + repositoryName);
             log.error("Unable to push repository {}", repositoryName, e);
             return;
         }
@@ -139,7 +139,7 @@ public class GithubDestinationEngineFromLocaleStrategy extends AbstractStrategyC
             githubClient.getRepository(tokenOwnerLogin + "/" + repositoryName)
                     .setPrivate(RepoPrivacyType.ALL_PRIVATE.equals(toContext.repositoryPrivacy()));
         } catch (IOException e) {
-            callbackContainer.updateApplicationStatusMessage().accept("Unable to push repository " + repositoryName);
+            callbackContainer.updateLogAndApplicationStatusMessage().accept("Unable to push repository " + repositoryName);
             log.error("Unable to push repository {}", repositoryName, e);
             return;
         }

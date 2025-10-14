@@ -39,7 +39,7 @@ public class LocalDestinationEngineFromLocalStrategy extends AbstractStrategyCom
 
         callbackContainer.updateApplicationProgressBarMax().accept(repositoryDTOList.size());
         callbackContainer.updateApplicationProgressBarCurrent().accept(0);
-        callbackContainer.updateApplicationStatusMessage().accept("initializing the cloning process");
+        callbackContainer.updateLogAndApplicationStatusMessage().accept("initializing the cloning process");
 
         List<String> pathList = repositoryDTOList.stream()
                 .map(RepositoryDTO::getPath)
@@ -55,7 +55,7 @@ public class LocalDestinationEngineFromLocalStrategy extends AbstractStrategyCom
 
         }
 
-        callbackContainer.updateApplicationStatusMessage().accept(String.format("done%s", calculateStatus(pathList.size())));
+        callbackContainer.updateLogAndApplicationStatusMessage().accept(String.format("done%s", calculateStatus(pathList.size())));
         callbackContainer.updateApplicationProgressBarMax().accept(pathList.size());
         callbackContainer.updateApplicationProgressBarCurrent().accept(super.getIndex());
         return super.getIndex() == pathList.size();
@@ -67,7 +67,7 @@ public class LocalDestinationEngineFromLocalStrategy extends AbstractStrategyCom
 
         if (callbackContainer.isShouldStop().get()) {
             log.debug("skipping because {} because user stop request", path);
-            callbackContainer.updateApplicationStatusMessage().accept("Skipping repository because user stop request: " + path);
+            callbackContainer.updateLogAndApplicationStatusMessage().accept("Skipping repository because user stop request: " + path);
             return;
         }
         String repositoryName = new File(path).getName();
@@ -82,25 +82,25 @@ public class LocalDestinationEngineFromLocalStrategy extends AbstractStrategyCom
         if (isLocalRepoAlreadyExists) {
             if (isOverrideIfExistsFlagEnabled) {
                 String message = String.format("Override flag enabled. Deleting local repository [%s]...", repositoryName);
-                callbackContainer.updateApplicationStatusMessage().accept(message);
+                callbackContainer.updateLogAndApplicationStatusMessage().accept(message);
 
                 DeleteRepositoryRequestDTO deleteRepositoryRequestDTO = buildDestinationDeleteRepositoryRequestDTO(localRepoFile);
                 boolean deletionStatus = service.deleteRepository(deleteRepositoryRequestDTO);
 
                 message = String.format("Destination repository %s deleted: %s", repositoryName, deletionStatus);
-                callbackContainer.updateApplicationStatusMessage().accept(message);
+                callbackContainer.updateLogAndApplicationStatusMessage().accept(message);
 
                 log.info("I am going to clone again the same repository...");
             } else {
                 log.debug("skipping because {} already exists", repositoryName);
-                callbackContainer.updateApplicationStatusMessage().accept("Skipping repository because it already exists: " + repositoryName);
+                callbackContainer.updateLogAndApplicationStatusMessage().accept("Skipping repository because it already exists: " + repositoryName);
                 incrementIndexSuccess(callbackContainer);
                 return;
             }
         }
 
         try {
-            callbackContainer.updateApplicationStatusMessage().accept("cloning " + repositoryName + " ...");
+            callbackContainer.updateLogAndApplicationStatusMessage().accept("cloning " + repositoryName + " ...");
             FileUtils.copyDirectory(new File(path), localRepoFile);
         } catch (IOException e) {
             log.error("unable to copy from {} to {} because {}", path, toDirectoryPath, e.getMessage());

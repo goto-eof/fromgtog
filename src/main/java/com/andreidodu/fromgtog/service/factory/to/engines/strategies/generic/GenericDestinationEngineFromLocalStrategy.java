@@ -99,32 +99,32 @@ public class GenericDestinationEngineFromLocalStrategy<ServiceType extends Delet
 
         if (!isOverrideFlagEnabled && isDestinationRepositoryExists) {
             log.debug("skipping because {} already exists", repositoryName);
-            callbackContainer.updateApplicationStatusMessage().accept("Skipping repository because it already exists: " + repositoryName);
+            callbackContainer.updateLogAndApplicationStatusMessage().accept("Skipping repository because it already exists: " + repositoryName);
             incrementIndexSuccess(callbackContainer);
             return;
 
         }
-        callbackContainer.updateApplicationStatusMessage().accept("cloning " + repositoryName + " ...");
-        callbackContainer.updateApplicationStatusMessage().accept("cloning repository: " + repositoryName);
+        callbackContainer.updateLogAndApplicationStatusMessage().accept("cloning " + repositoryName + " ...");
+        callbackContainer.updateLogAndApplicationStatusMessage().accept("cloning repository: " + repositoryName);
 
 
         try {
 
             if (!isDestinationRepositoryExists) {
-                callbackContainer.updateApplicationStatusMessage().accept("repository not found on destination platform: " + repositoryName);
-                callbackContainer.updateApplicationStatusMessage().accept("I am going to create it: " + repositoryName);
+                callbackContainer.updateLogAndApplicationStatusMessage().accept("repository not found on destination platform: " + repositoryName);
+                callbackContainer.updateLogAndApplicationStatusMessage().accept("I am going to create it: " + repositoryName);
             }
 
             if (!isDestinationRepositoryExists && !service.createRepository(toContext.url(), toContext.token(), repositoryName, "", RepoPrivacyType.ALL_PRIVATE.equals(toContext.repositoryPrivacy()))) {
-                callbackContainer.updateApplicationStatusMessage().accept("unable to create repository: " + repositoryName);
+                callbackContainer.updateLogAndApplicationStatusMessage().accept("unable to create repository: " + repositoryName);
                 log.debug("unable to create repository: {}", repositoryName);
                 return;
             }
 
-            callbackContainer.updateApplicationStatusMessage().accept("Destination repo created: " + repositoryName);
+            callbackContainer.updateLogAndApplicationStatusMessage().accept("Destination repo created: " + repositoryName);
 
         } catch (Exception e) {
-            callbackContainer.updateApplicationStatusMessage().accept("unable to create repository: " + repositoryName);
+            callbackContainer.updateLogAndApplicationStatusMessage().accept("unable to create repository: " + repositoryName);
             log.debug("unable to create repository: {}", repositoryName, e);
             return;
         }
@@ -132,19 +132,19 @@ public class GenericDestinationEngineFromLocalStrategy<ServiceType extends Delet
 
         if (isOverrideFlagEnabled) {
             String message = String.format("isOverrideFlagEnabled: executing git push --force %s", repositoryName);
-            callbackContainer.updateApplicationStatusMessage().accept(message);
+            callbackContainer.updateLogAndApplicationStatusMessage().accept(message);
         }
 
         try {
             String message = String.format("pushing %s on %s...", repositoryName, toContext.url());
-            callbackContainer.updateApplicationStatusMessage().accept(message);
+            callbackContainer.updateLogAndApplicationStatusMessage().accept(message);
 
             boolean isPushOk = localService.pushOnRemote(destinationTokenOwnerLogin, toContext.token(), toContext.url(), repositoryName, destinationTokenOwnerLogin, new File(path), isOverrideFlagEnabled);
 
             message = String.format("push status for repo %s: %S", repositoryName, isPushOk);
-            callbackContainer.updateApplicationStatusMessage().accept(message);
+            callbackContainer.updateLogAndApplicationStatusMessage().accept(message);
         } catch (IOException | GitAPIException | URISyntaxException e) {
-            callbackContainer.updateApplicationStatusMessage().accept("Unable to push repository " + repositoryName);
+            callbackContainer.updateLogAndApplicationStatusMessage().accept("Unable to push repository " + repositoryName);
             log.error("Unable to push repository {}", repositoryName, e);
             return;
         }
@@ -153,7 +153,7 @@ public class GenericDestinationEngineFromLocalStrategy<ServiceType extends Delet
             log.debug("updating repository privacy...");
             boolean result = service.updateRepositoryPrivacy(toContext.token(), destinationTokenOwnerLogin, toContext.url(), repositoryName, false, RepoPrivacyType.ALL_PRIVATE.equals(toContext.repositoryPrivacy()));
         } catch (Exception e) {
-            callbackContainer.updateApplicationStatusMessage().accept("Unable to push repository " + repositoryName);
+            callbackContainer.updateLogAndApplicationStatusMessage().accept("Unable to push repository " + repositoryName);
             log.error("Unable to push repository {}", repositoryName, e);
             return;
         }

@@ -11,7 +11,6 @@ import com.andreidodu.fromgtog.mapper.GiteaRepositoryMapper;
 import com.andreidodu.fromgtog.service.GiteaService;
 import com.andreidodu.fromgtog.service.factory.from.AbstractSourceEngine;
 import com.andreidodu.fromgtog.service.factory.from.engines.common.SourceEngineCommon;
-import com.andreidodu.fromgtog.service.factory.to.engines.strategies.local.LocalDestinationEngineFromLocalStrategy;
 import com.andreidodu.fromgtog.service.impl.GiteaServiceImpl;
 import com.andreidodu.fromgtog.type.EngineOptionsType;
 import com.andreidodu.fromgtog.type.EngineType;
@@ -43,17 +42,17 @@ public class GiteaSourceEngine extends AbstractSourceEngine {
 
         GiteaUserDTO myself = giteaService.getMyself(context.token(), context.url());
 
-        callbackContainer.updateApplicationStatusMessage().accept("Retrieving repositories information...");
+        callbackContainer.updateLogAndApplicationStatusMessage().accept("Retrieving repositories information...");
 
         if (EngineOptionsType.FILTER.equals(context.engineOptionsType())) {
             List<RepositoryDTO> repositoryDTOList = retrieveFilteredRepositoryList(context, giteaRepositoryDTOList, myself);
-            callbackContainer.updateApplicationStatusMessage().accept("Repositories retrieved and filtered by filters with success");
+            callbackContainer.updateLogAndApplicationStatusMessage().accept("Repositories retrieved and filtered by filters with success");
             return repositoryDTOList;
         }
 
         if (EngineOptionsType.FILE.equals(context.engineOptionsType())) {
             List<RepositoryDTO> repostoryDTOList = retrieveRepositoryListFromCustomList(context, giteaRepositoryDTOList);
-            callbackContainer.updateApplicationStatusMessage().accept("Repositories retrieved and filtered by file with success");
+            callbackContainer.updateLogAndApplicationStatusMessage().accept("Repositories retrieved and filtered by file with success");
             return repostoryDTOList;
         }
 
