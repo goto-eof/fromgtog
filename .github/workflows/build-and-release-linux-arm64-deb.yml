@@ -30,8 +30,8 @@ jobs:
             target/fromgtog.jar
             resources/
 
-  create_packages:
-    name: Package ${{ matrix.arch }} DEB
+  create_linux_packages:
+    name: Package Linux ARM64 DEB
     runs-on: ubuntu-latest
     needs: build_jar
     permissions:
@@ -40,15 +40,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        arch: [amd64, arm64]
-        java-arch: [x64, aarch64]
+        # Definisce UNICA architettura target: ARM64
+        arch: [arm64]
+        deb-arch-label: [arm64]
         include:
-          - arch: amd64
-            java-arch: x64
-            deb-arch-label: amd64
           - arch: arm64
-            java-arch: aarch64
             deb-arch-label: arm64
+            java-runtime-arch: aarch64
 
     steps:
       - uses: actions/checkout@v4
@@ -59,39 +57,48 @@ jobs:
           echo "RELEASE_TAG=${GITHUB_REF_NAME}" >> $GITHUB_ENV
           echo "Release Tag set on: ${GITHUB_REF_NAME}"
 
-      - name: Setup QEMU (per ARM64 Cross-Build)
-        if: matrix.arch == 'arm64'
-        uses: docker/setup-qemu-action@v3
-        with:
-          platforms: all
-
       - name: Download Artifact (JAR and resources)
         uses: actions/download-artifact@v4
         with:
           name: application-files
           path: downloaded-files
 
-      - name: Configure JDK for ${{ matrix.arch }}
+      # PASSO 1: Configura la JDK HOST (AMD64) che contiene l'eseguibile jpackage nativo
+      - name: Configure HOST JDK (x64) for jpackage execution
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '21'
-          architecture: ${{ matrix.java-arch }} # Scarica la JDK corretta
+          architecture: x64 # Sempre x64 per l'host Ubuntu
+
+      # PASSO 2: Scarica la JRE/Runtime TARGET (aarch64). Questo passo è sempre eseguito
+      - name: Download TARGET JRE for Cross-Compilation
+        id: download_jre
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          architecture: ${{ matrix.java-runtime-arch }} # Scarica aarch64
+          check-latest: true
 
       - name: Install required dependencies for jpackage
         run: |
           sudo apt-get update
           sudo apt-get install -y fakeroot dpkg-dev
 
-      - name: Create DEB package with jpackage
+      - name: Create DEB package with jpackage (Cross-Build)
         run: |
           INPUT_PATH="downloaded-files/target"
           OUTPUT_PATH="executable"
           MAIN_JAR="fromgtog.jar"
           ICON_PATH="downloaded-files/resources/icon-linux.png"
 
-          # Il jpackage per arm64 verrà eseguito in emulazione QEMU
-          # ma creerà un pacchetto nativo per ARM64
+          # Determina il percorso della runtime, che punta alla JRE TARGET (aarch64)
+          # Questa logica ora si applica sempre, poiché è una build ARM64
+          JRE_PATH=$(echo $JRE_21_HOME | sed 's/\(.*\)\/bin\//\1/')
+          RUNTIME_IMAGE_ARG="--runtime-image $JRE_PATH"
+          echo "Using cross-runtime: $JRE_PATH"
+
           jpackage \
             --input "$INPUT_PATH" \
             --dest "$OUTPUT_PATH" \
@@ -103,6 +110,8 @@ jobs:
             --icon "$ICON_PATH" \
             --type deb \
             --linux-shortcut \
+            --linux-arch "arm64" \
+            $RUNTIME_IMAGE_ARG \
             --java-options "-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true" \
             --add-modules java.base,java.desktop,java.net.http,java.naming,java.sql,java.management,java.security.jgss,java.xml,java.logging,jdk.crypto.ec,java.security.sasl \
             --verbose
@@ -110,14 +119,13 @@ jobs:
       - name: Zip DEB file
         run: |
           DEB_FILE=$(find executable -name "*.deb")
-          # Rinomina e zippa il file usando l'architettura corretta dalla matrice
           FINAL_DEB_NAME="fromgtog_${RELEASE_TAG}_${{ matrix.deb-arch-label }}.deb"
           mv "$DEB_FILE" "$FINAL_DEB_NAME"
-          
+
           ZIP_NAME="${{ github.event.repository.name }}-Linux-${{ github.ref_name }}-arm64-Installer.zip"
           zip -j "$ZIP_NAME" "$FINAL_DEB_NAME"
 
-      - name: Release on GitHub
+      - name: Release Linux Artifacts
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:

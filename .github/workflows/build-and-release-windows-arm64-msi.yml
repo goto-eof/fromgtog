@@ -1,4 +1,4 @@
-name: Create Windows ARM64 DEB file
+name: Create Windows ARM64 MSI file
 
 on:
   push:
@@ -7,21 +7,22 @@ on:
   workflow_dispatch:
 
 jobs:
+  # Riferimento al job esistente (assumendo che build_jar esista nel tuo repo)
   build_jar:
     name: Build JAR
+    # Questo step è necessario per far funzionare il "needs" se il job è in un file separato.
+    # Se il job build_jar è nel file multiplatform-release.yml, questo può essere rimosso.
+    # Assumiamo sia un job di build minimale per dipendenza:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Configure JDK (Linux)
+      - name: Configure JDK
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '21'
-
       - name: Build JAR with Maven
         run: mvn clean package
-
       - name: Upload Artifact (JAR and resources)
         uses: actions/upload-artifact@v4
         with:
@@ -30,118 +31,18 @@ jobs:
             target/fromgtog.jar
             resources/
 
-  create_linux_packages:
-    name: Package Linux ${{ matrix.arch }} DEB
-    runs-on: ubuntu-latest
+  create_windows_arm_package:
+    name: Package Windows ARM64 MSI
+    runs-on: windows-latest # Deve essere Windows per creare pacchetti Windows
     needs: build_jar
     permissions:
       contents: write
-
-    strategy:
-      fail-fast: false
-      matrix:
-        arch: [amd64, arm64]
-        java-arch: [x64, aarch64]
-        include:
-          - arch: amd64
-            java-arch: x64
-            deb-arch-label: amd64
-          - arch: arm64
-            java-arch: aarch64
-            deb-arch-label: arm64
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Define release version
-        id: set_version
-        run: |
-          echo "RELEASE_TAG=${GITHUB_REF_NAME}" >> $GITHUB_ENV
-          echo "Release Tag set on: ${GITHUB_REF_NAME}"
-
-      - name: Setup QEMU (for ARM64)
-        if: matrix.arch == 'arm64'
-        uses: docker/setup-qemu-action@v3
-        with:
-          platforms: all
-
-      - name: Download Artifact (JAR and resources)
-        uses: actions/download-artifact@v4
-        with:
-          name: application-files
-          path: downloaded-files
-
-      - name: Configure JDK for Linux ${{ matrix.arch }}
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: '21'
-          architecture: ${{ matrix.java-arch }}
-
-      - name: Install required dependencies for jpackage
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y fakeroot dpkg-dev
-
-      - name: Create DEB package with jpackage
-        run: |
-          INPUT_PATH="downloaded-files/target"
-          OUTPUT_PATH="executable"
-          MAIN_JAR="fromgtog.jar"
-          ICON_PATH="downloaded-files/resources/icon-linux.png"
-
-          jpackage \
-            --input "$INPUT_PATH" \
-            --dest "$OUTPUT_PATH" \
-            --name "FromGtoG" \
-            --vendor "Andrei Dodu" \
-            --app-version "$RELEASE_TAG" \
-            --main-jar "$MAIN_JAR" \
-            --main-class com.andreidodu.fromgtog.Main \
-            --icon "$ICON_PATH" \
-            --type deb \
-            --linux-shortcut \
-            --java-options "-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true" \
-            --add-modules java.base,java.desktop,java.net.http,java.naming,java.sql,java.management,java.security.jgss,java.xml,java.logging,jdk.crypto.ec,java.security.sasl \
-            --verbose
-
-      - name: Zip DEB file
-        run: |
-          DEB_FILE=$(find executable -name "*.deb")
-          FINAL_DEB_NAME="fromgtog_${RELEASE_TAG}_${{ matrix.deb-arch-label }}.deb"
-          mv "$DEB_FILE" "$FINAL_DEB_NAME"
-          
-          ZIP_NAME="${{ github.event.repository.name }}-Linux-${{ github.ref_name }}-arm64-Installer.zip"
-          zip -j "$ZIP_NAME" "$FINAL_DEB_NAME"
-
-      - name: Release Linux Artifacts
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
-        with:
-          files: ${{ github.event.repository.name }}-Linux-${{ github.ref_name }}-arm64-Installer.zip
-
-
-  create_windows_packages:
-    name: Package Windows ${{ matrix.win-arch-label }} MSI
-    runs-on: windows-latest
-    needs: build_jar
-    permissions:
-      contents: write
-
-    strategy:
-      fail-fast: false
-      matrix:
-        arch: [x64, aarch64]
-        include:
-          - arch: x64
-            win-arch-label: x64
-          - arch: aarch64
-            win-arch-label: arm64
 
     steps:
       - uses: actions/checkout@v4
 
       - name: Install WiX Toolset
+        # Necessario per creare pacchetti MSI su Windows (richiesto da jpackage)
         uses: wierob/setup-wix-toolset@v1
         with:
           version: 3.11.2
@@ -158,22 +59,26 @@ jobs:
           name: application-files
           path: downloaded-files
 
-      - name: Configure JDK for Windows ${{ matrix.arch }}
+      # Configura la JDK Windows SPECIFICA per l'architettura ARM64 (AArch64)
+      - name: Configure JDK for Windows ARM64
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '21'
-          architecture: ${{ matrix.arch }}
+          architecture: aarch64 # Scarica JDK Windows ARM64
 
       - name: Create MSI package with jpackage
         run: |
           $INPUT_PATH="downloaded-files\target"
           $OUTPUT_PATH="executable"
           $MAIN_JAR="fromgtog.jar"
-          $ICON_PATH="downloaded-files\resources\icon-windows.ico"
+          # L'icona deve essere in formato ICO per Windows
+          $ICON_PATH="downloaded-files\resources\icon-windows.ico" 
 
           mkdir $OUTPUT_PATH
 
+          # jpackage ora utilizza l'eseguibile jpackage nativo Windows che si trova 
+          # all'interno della JDK Windows ARM64 appena scaricata, creando un pacchetto MSI ARM64.
           jpackage `
             --input "$INPUT_PATH" `
             --dest "$OUTPUT_PATH" `
@@ -190,8 +95,10 @@ jobs:
             --add-modules java.base,java.desktop,java.net.http,java.naming,java.sql,java.management,java.security.jgss,java.xml,java.logging,jdk.crypto.ec,java.security.sasl `
             --verbose
 
-      - name: Release Windows Artifacts
+      - name: Release Windows ARM64 Artifact
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: executable/*.msi
+          name: Windows ARM64 Installer ${{ github.ref_name }}
+          tag_name: ${{ github.ref_name }}
