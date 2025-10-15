@@ -70,7 +70,7 @@ public class ScheduledJobServiceImpl implements ScheduledService {
 
         checkUserActionStopFuture = this.getScheduledExecutorService()
                 .scheduleAtFixedRate(() -> {
-                    if (engineContext.callbackContainer().isShouldStop().get()) {
+                    if (!engineContext.callbackContainer().isWorking().get() && engineContext.callbackContainer().isShouldStop().get()) {
                         this.shutdown();
                     }
                 }, 0, 1, TimeUnit.SECONDS);
