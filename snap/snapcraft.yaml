@@ -34,7 +34,6 @@ apps:
       - home
       - network
       - network-bind
-      - personal-files
       - removable-media
       - unity7
       - wayland
