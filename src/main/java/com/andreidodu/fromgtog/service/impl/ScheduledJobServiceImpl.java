@@ -89,7 +89,12 @@ public class ScheduledJobServiceImpl implements ScheduledService {
     }
 
     private Thread runIdleStatusUpdaterVirtualThread(Cron cron) {
-        return Thread.ofVirtual().start(() -> showNextJobRunInfo(cron));
+        return Thread.ofVirtual().start(() -> {
+            while (!engineContext.callbackContainer().isShouldStop().get()) {
+                showNextJobRunInfo(cron);
+                showCronExplanation(cron);
+            }
+        });
     }
 
     private static void sleep(long seconds) {
@@ -136,10 +141,6 @@ public class ScheduledJobServiceImpl implements ScheduledService {
     }
 
     private void showNextJobRunInfo(Cron cron) {
-        if (engineContext.callbackContainer().isShouldStop().get()) {
-            return;
-        }
-
         if (!engineContext.callbackContainer().isWorking().get()) {
             ExecutionTime executionTime = ExecutionTime.forCron(cron);
             ZonedDateTime now = ZonedDateTime.now();
@@ -150,13 +151,9 @@ public class ScheduledJobServiceImpl implements ScheduledService {
         }
 
         sleep(5);
-        showCronExplanation(cron);
     }
 
     private void showCronExplanation(Cron cron) {
-        if (engineContext.callbackContainer().isShouldStop().get()) {
-            return;
-        }
         if (!engineContext.callbackContainer().isWorking().get()) {
             CronDescriptor descriptor = CronDescriptor.instance(Locale.US);
             String description = descriptor.describe(cron);
@@ -165,7 +162,6 @@ public class ScheduledJobServiceImpl implements ScheduledService {
         }
 
         sleep(5);
-        showNextJobRunInfo(cron);
     }
 
     private static boolean isNow(ExecutionTime executionTime, ZonedDateTime now) {
