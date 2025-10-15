@@ -62,7 +62,7 @@ public class ScheduledJobServiceImpl implements ScheduledService {
     public Thread runDescriptorThread() {
         CronParser parser = new CronParser(CronDefinitionBuilder.instanceDefinitionFor(CronType.QUARTZ));
         Cron cron = parser.parse(engineContext.settingsContext().chronExpression());
-        return Thread.ofPlatform().name("FromGtoG - Mr.JobCronDescriptor").start(() -> runIdleStatusUpdaterVirtualThread(cron));
+        return runIdleStatusUpdaterVirtualThread(cron);
     }
 
     private void runCoreTaskIfNecessary(Runnable runnable, Cron cron) {
@@ -139,7 +139,6 @@ public class ScheduledJobServiceImpl implements ScheduledService {
         if (engineContext.callbackContainer().isShouldStop().get()) {
             return;
         }
-
 
         if (!engineContext.callbackContainer().isWorking().get()) {
             ExecutionTime executionTime = ExecutionTime.forCron(cron);
