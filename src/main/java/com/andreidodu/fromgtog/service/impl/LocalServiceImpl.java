@@ -6,6 +6,7 @@ import com.andreidodu.fromgtog.service.LocalService;
 import org.apache.commons.io.FileUtils;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.eclipse.jgit.transport.URIish;
@@ -83,6 +84,14 @@ public class LocalServiceImpl implements LocalService {
                 .setCredentialsProvider(new UsernamePasswordCredentialsProvider(login, token))
                 .call()) {
             return true;
+        } catch (TransportException e) {
+            log.error("Unable to clone repository {}...", cloneUrl, e);
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException ie) {
+                Thread.currentThread().interrupt();
+            }
+            throw e;
         }
     }
 

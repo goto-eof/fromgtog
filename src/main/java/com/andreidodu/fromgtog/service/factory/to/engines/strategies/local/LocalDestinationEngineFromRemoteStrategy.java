@@ -9,6 +9,7 @@ import com.andreidodu.fromgtog.type.EngineType;
 import com.andreidodu.fromgtog.util.ThreadUtil;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -110,6 +111,14 @@ public class LocalDestinationEngineFromRemoteStrategy extends AbstractStrategyCo
                     .setCredentialsProvider(new UsernamePasswordCredentialsProvider(fromContext.login(), fromContext.token()))
                     .call()) {
                 log.debug("Done! Repository {} cloned successfully.", repositoryDTO.getName());
+            } catch (TransportException e) {
+                log.error("Unable to clone repository {}...", repositoryDTO.getName(), e);
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException ie) {
+                    Thread.currentThread().interrupt();
+                }
+                throw e;
             }
         } catch (GitAPIException e) {
             log.error("Unable to clone repository {} because {}", repositoryDTO.getName(), e.getMessage(), e);

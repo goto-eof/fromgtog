@@ -23,7 +23,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 
 import static com.andreidodu.fromgtog.constants.ApplicationConstants.CLONER_THREAD_NAME_PREFIX;
@@ -42,7 +41,6 @@ public class GithubDestinationEngineFromLocaleStrategy extends AbstractStrategyC
     public boolean cloneAll(EngineContext engineContext, List<RepositoryDTO> repositoryDTOList) {
         FromContext fromContext = engineContext.fromContext();
         ToContext toContext = engineContext.toContext();
-        CallbackContainer callbackContainer = engineContext.callbackContainer();
 
         if (StringUtils.equals(fromContext.rootPath(), toContext.rootPath())) {
             throw new IllegalArgumentException("Root paths cannot be the same");
@@ -90,7 +88,7 @@ public class GithubDestinationEngineFromLocaleStrategy extends AbstractStrategyC
 
         repositoryName = correctRepositoryName(repositoryName);
         boolean isOverrideFlagEnabled = toContext.overrideIfExists();
-        boolean isDestinationRepositoryAlreadyExists = isRemoteRepositoryAlreadyExists(GithubDestinationEngineCommon.buildRemoteExistsCheckInput(engineContext, tokenOwnerLogin, repositoryName));
+        boolean isDestinationRepositoryAlreadyExists = isRemoteDestinationRepositoryAlreadyExists(GithubDestinationEngineCommon.buildRemoteDestinationExistsCheckInput(engineContext, tokenOwnerLogin, repositoryName));
 
         if (!isOverrideFlagEnabled && isDestinationRepositoryAlreadyExists) {
             callbackContainer.updateLogAndApplicationStatusMessage().accept("Skipping repository because it already exists: " + repositoryName);
@@ -152,10 +150,6 @@ public class GithubDestinationEngineFromLocaleStrategy extends AbstractStrategyC
             throw new RuntimeException("Unable to put thread on sleep " + repositoryName);
         }
 
-    }
-
-    private static DeleteRepositoryRequestDTO buildDestinationDeleteRepositoryRequestDTO(String tokenOwnerLogin, ToContext toContext, String repositoryName) {
-        return new DeleteRepositoryRequestDTO(Optional.of(toContext.token()), Optional.of(toContext.url()), Optional.of(tokenOwnerLogin), Optional.of(repositoryName), Optional.empty());
     }
 
 }

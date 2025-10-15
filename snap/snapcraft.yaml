@@ -40,7 +40,6 @@ apps:
       - network-bind
       - audio-playback
       - alsa
-      - appindicator
     slots:
       - fromgtog-dbus
 platforms:
