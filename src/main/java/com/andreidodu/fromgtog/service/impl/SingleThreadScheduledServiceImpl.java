@@ -23,11 +23,7 @@ public class SingleThreadScheduledServiceImpl implements ScheduledService {
     @Setter
     private ScheduledExecutorService scheduledExecutorService;
 
-    private final EngineContext engineContext;
-
-
     public SingleThreadScheduledServiceImpl(String threadName, EngineContext engineContext) {
-        this.engineContext = engineContext;
         CustomThreadFactory customThreadFactory = new CustomThreadFactory(threadName);
         ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1, customThreadFactory);
         this.setScheduledExecutorService(scheduledExecutorService);
