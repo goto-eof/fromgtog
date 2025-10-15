@@ -37,24 +37,11 @@ jobs:
     permissions:
       contents: write
 
-    strategy:
-      fail-fast: false
-      matrix:
-        arch: [arm64]
-        deb-arch-label: [arm64]
-        include:
-          - arch: arm64
-            deb-arch-label: arm64
-            java-runtime-arch: aarch64
-
     steps:
       - uses: actions/checkout@v4
 
       - name: Define release version
-        id: set_version
-        run: |
-          echo "RELEASE_TAG=${GITHUB_REF_NAME}" >> $GITHUB_ENV
-          echo "Release Tag set on: ${GITHUB_REF_NAME}"
+        run: echo "RELEASE_TAG=${GITHUB_REF_NAME}" >> $GITHUB_ENV
 
       - name: Download Artifact (JAR and resources)
         uses: actions/download-artifact@v4
@@ -68,14 +55,14 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
           architecture: x64
+          cache: maven
 
-      - name: Download TARGET JRE for Cross-Compilation
-        id: download_jre
+      - name: Download TARGET JRE (aarch64) for Cross-Compilation
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '21'
-          architecture: ${{ matrix.java-runtime-arch }}
+          architecture: aarch64
           check-latest: true
 
       - name: Install required dependencies for jpackage
@@ -114,7 +101,7 @@ jobs:
       - name: Zip DEB file
         run: |
           DEB_FILE=$(find executable -name "*.deb")
-          FINAL_DEB_NAME="fromgtog_${RELEASE_TAG}_${{ matrix.deb-arch-label }}.deb"
+          FINAL_DEB_NAME="fromgtog_${RELEASE_TAG}_arm64.deb"
           mv "$DEB_FILE" "$FINAL_DEB_NAME"
 
           ZIP_NAME="${{ github.event.repository.name }}-Linux-${{ github.ref_name }}-arm64-Installer.zip"
