@@ -38,7 +38,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Install WiX Toolset
-        uses: wierob/setup-wix-toolset@v1
+        uses: wixtoolset/setup-wix@v1
         with:
           version: 3.11.2
 
