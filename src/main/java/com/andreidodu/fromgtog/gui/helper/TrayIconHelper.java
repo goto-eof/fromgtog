@@ -85,7 +85,7 @@ public class TrayIconHelper {
         popup.add(restoreItem);
 
         MenuItem showMsg = new MenuItem("About");
-        showMsg.addActionListener(e -> displayInfo("FromGtoG", "FromGtoG 9.0.10 by Andrei Dodu"));
+        showMsg.addActionListener(e -> displayInfo("FromGtoG", "FromGtoG 9.0.11 by Andrei Dodu"));
         popup.add(showMsg);
 
         MenuItem exitItem = new MenuItem("Exit");
