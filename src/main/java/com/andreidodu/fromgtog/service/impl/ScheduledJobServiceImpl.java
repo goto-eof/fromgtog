@@ -90,12 +90,15 @@ public class ScheduledJobServiceImpl implements ScheduledService {
     }
 
     private Thread runIdleStatusUpdaterVirtualThread(Cron cron) {
-        return Thread.ofVirtual().name(DESCRIPTOR_THREAD_NAME_PREFIX).start(() -> {
+        Thread virtualThread = Thread.ofVirtual().name(DESCRIPTOR_THREAD_NAME_PREFIX).unstarted(() -> {
             while (!engineContext.callbackContainer().isShouldStop().get()) {
                 showNextJobRunInfo(cron);
                 showCronExplanation(cron);
             }
         });
+        virtualThread.setDaemon(true);
+        virtualThread.start();
+        return virtualThread;
     }
 
     private static void sleep(long seconds) {

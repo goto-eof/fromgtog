@@ -145,7 +145,7 @@ public class AppController implements GUIController {
         this.setShouldStop(true);
 
         if (chronJobCheckBox.isSelected()) {
-            Thread.ofPlatform().start(() -> start(fromControllerList, toControllerList, fromTabbedPane, toTabbedPane));
+            Thread.ofPlatform().daemon().start(() -> start(fromControllerList, toControllerList, fromTabbedPane, toTabbedPane));
         }
 
     }
@@ -300,7 +300,7 @@ public class AppController implements GUIController {
     }
 
     private void defineAppStartButtonListener(List<GUIFromController> fromControllerList, List<GUIToController> toControllerList, JTabbedPane fromTabbedPane, JTabbedPane toTabbedPane) {
-        this.appStartButton.addActionListener(e -> Thread.ofPlatform().start(() -> start(fromControllerList, toControllerList, fromTabbedPane, toTabbedPane)));
+        this.appStartButton.addActionListener(e -> Thread.ofPlatform().daemon().start(() -> start(fromControllerList, toControllerList, fromTabbedPane, toTabbedPane)));
     }
 
     private void start(List<GUIFromController> fromControllerList, List<GUIToController> toControllerList, JTabbedPane fromTabbedPane, JTabbedPane toTabbedPane) {
