@@ -105,12 +105,13 @@ public class LocalDestinationEngineFromRemoteStrategy extends AbstractStrategyCo
 
         try {
             log.debug("starting the cloning process of {}...", repositoryDTO.getName());
-            Git clonedRepo = Git.cloneRepository()
+            try (Git clonedRepo = Git.cloneRepository()
                     .setURI(cloneUrl)
                     .setDirectory(localRepoFile)
                     .setCredentialsProvider(new UsernamePasswordCredentialsProvider(fromContext.login(), fromContext.token()))
-                    .call();
-            log.debug("Done! Repository {} cloned successfully.", repositoryDTO.getName());
+                    .call()) {
+                log.debug("Done! Repository {} cloned successfully.", repositoryDTO.getName());
+            }
         } catch (GitAPIException e) {
             log.error("Unable to clone repository {} because {}", repositoryDTO.getName(), e.getMessage(), e);
             callbackContainer.updateLogAndApplicationStatusMessage().accept("Unable to clone repository " + repositoryDTO.getName());
