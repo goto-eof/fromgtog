@@ -40,8 +40,7 @@ apps:
       - network-bind
       - audio-playback
       - alsa
-      - desktop-fallback-tray
-      - unity-tray
+      - appindicator
     slots:
       - fromgtog-dbus
 platforms:
