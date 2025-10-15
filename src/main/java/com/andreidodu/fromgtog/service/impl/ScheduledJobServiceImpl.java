@@ -3,6 +3,7 @@ package com.andreidodu.fromgtog.service.impl;
 import com.andreidodu.fromgtog.dto.EngineContext;
 import com.andreidodu.fromgtog.service.ScheduledService;
 import com.andreidodu.fromgtog.util.CustomThreadFactory;
+import com.cronutils.descriptor.CronDescriptor;
 import com.cronutils.model.Cron;
 import com.cronutils.model.CronType;
 import com.cronutils.model.definition.CronDefinitionBuilder;
@@ -16,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -48,22 +50,32 @@ public class ScheduledJobServiceImpl implements ScheduledService {
 
     @Override
     public synchronized void run(Runnable runnable) {
+        CronParser parser = new CronParser(CronDefinitionBuilder.instanceDefinitionFor(CronType.QUARTZ));
+        Cron cron = parser.parse(engineContext.settingsContext().chronExpression());
 
-        runCheckStopUserAction();
+        runCheckStopUserActionIfNecessary();
 
+        runCoreTaskIfNecessary(runnable, cron);
+
+    }
+
+    public Thread runDescriptorThread() {
+        CronParser parser = new CronParser(CronDefinitionBuilder.instanceDefinitionFor(CronType.QUARTZ));
+        Cron cron = parser.parse(engineContext.settingsContext().chronExpression());
+        return Thread.ofPlatform().name("FromGtoG - Mr.JobCronDescriptor").start(() -> runIdleStatusUpdaterVirtualThread(cron));
+    }
+
+    private void runCoreTaskIfNecessary(Runnable runnable, Cron cron) {
         if (jobScheduledFuture != null) {
             return;
         }
 
-        CronParser parser = new CronParser(CronDefinitionBuilder.instanceDefinitionFor(CronType.QUARTZ));
-        Cron cron = parser.parse(engineContext.settingsContext().chronExpression());
 
         jobScheduledFuture = this.getScheduledExecutorService()
                 .scheduleAtFixedRate(buildRunnableRecurringTask(runnable, cron), 0, 1, TimeUnit.SECONDS);
-
     }
 
-    private void runCheckStopUserAction() {
+    private void runCheckStopUserActionIfNecessary() {
         if (checkUserActionStopFuture != null) {
             return;
         }
@@ -76,6 +88,18 @@ public class ScheduledJobServiceImpl implements ScheduledService {
                 }, 0, 1, TimeUnit.SECONDS);
     }
 
+    private Thread runIdleStatusUpdaterVirtualThread(Cron cron) {
+        return Thread.ofVirtual().start(() -> showNextJobRunInfo(cron));
+    }
+
+    private static void sleep(long seconds) {
+        try {
+            Thread.currentThread().sleep(seconds * 1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private Runnable buildRunnableRecurringTask(Runnable runnable, Cron cron) {
         return () -> {
             ExecutionTime executionTime = ExecutionTime.forCron(cron);
@@ -83,7 +107,6 @@ public class ScheduledJobServiceImpl implements ScheduledService {
             boolean isCronMatchesNow = isNow(executionTime, now);
             log.debug("checking if need to run the job: {}", isCronMatchesNow);
 
-            showNextJobRunInfoIfNecessary(now, executionTime);
 
             runJobIfNecessary(runnable, isCronMatchesNow);
 
@@ -112,13 +135,38 @@ public class ScheduledJobServiceImpl implements ScheduledService {
         return !engineContext.callbackContainer().isWorking().get() && !isNecessaryToStopJob() && isCronMatchesNow;
     }
 
-    private void showNextJobRunInfoIfNecessary(ZonedDateTime now, ExecutionTime executionTime) {
+    private void showNextJobRunInfo(Cron cron) {
+        if (engineContext.callbackContainer().isShouldStop().get()) {
+            return;
+        }
+
+
         if (!engineContext.callbackContainer().isWorking().get()) {
+            ExecutionTime executionTime = ExecutionTime.forCron(cron);
+            ZonedDateTime now = ZonedDateTime.now();
             String nowString = formatZoneDateTime(now);
             String nextRunString = calculateNextExecutionString(executionTime, now);
             engineContext.callbackContainer().updateApplicationStatusMessage()
-                    .accept(String.format("[%s] next run on %s", nowString, nextRunString));
+                    .accept(String.format("next run on %s, now is %s", nextRunString, nowString));
         }
+
+        sleep(5);
+        showCronExplanation(cron);
+    }
+
+    private void showCronExplanation(Cron cron) {
+        if (engineContext.callbackContainer().isShouldStop().get()) {
+            return;
+        }
+        if (!engineContext.callbackContainer().isWorking().get()) {
+            CronDescriptor descriptor = CronDescriptor.instance(Locale.US);
+            String description = descriptor.describe(cron);
+            engineContext.callbackContainer().updateApplicationStatusMessage()
+                    .accept(String.format("%s", description));
+        }
+
+        sleep(5);
+        showNextJobRunInfo(cron);
     }
 
     private static boolean isNow(ExecutionTime executionTime, ZonedDateTime now) {
@@ -150,7 +198,7 @@ public class ScheduledJobServiceImpl implements ScheduledService {
         if (jobScheduledFuture != null) {
             jobScheduledFuture.cancel(true);
         }
-        if (jobScheduledFuture != null) {
+        if (checkUserActionStopFuture != null) {
             checkUserActionStopFuture.cancel(true);
         }
         scheduledExecutorService.shutdown();

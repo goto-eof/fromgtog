@@ -42,6 +42,7 @@ public class RepositoryClonerServiceImpl implements RepositoryCloner {
             try {
                 log.debug("Starting TicTac Job Service, isShouldStop: {}", engineContext.callbackContainer().isShouldStop());
                 engineContext.callbackContainer().setEnabledUI().accept(false);
+                scheduledJobService.runDescriptorThread();
                 scheduledJobService
                         .run(() -> startOrchestrator(engineContext, sourceEngine, destinationEngine));
             } catch (Exception e) {

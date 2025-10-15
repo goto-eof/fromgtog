@@ -19,7 +19,7 @@ public class AppFactory implements ComponentValidatorFactory {
                         .test(jsonObject);
             }
             return true;
-        }, "chron expression"));
+        }, "cron expression"));
         return primaryTab;
     }
 
