@@ -16,8 +16,6 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.StreamSupport;
 
@@ -79,14 +77,13 @@ public class LocalServiceImpl implements LocalService {
 
     @Override
     public boolean clone(String login, String token, String cloneUrl, String toPath) throws GitAPIException {
-
-        Git git = Git.cloneRepository()
+        try (Git git = Git.cloneRepository()
                 .setURI(cloneUrl)
                 .setDirectory(new File(toPath))
                 .setCredentialsProvider(new UsernamePasswordCredentialsProvider(login, token))
-                .call();
-
-        return true;
+                .call()) {
+            return true;
+        }
     }
 
     @Override
