@@ -66,7 +66,6 @@ public class LocalDestinationEngineFromRemoteStrategy extends AbstractStrategyCo
             return;
         }
 
-
         String cloneUrl = repositoryDTO.getCloneAddress();
 
         callbackContainer.updateLogAndApplicationStatusMessage().accept("cloning repository: " + repositoryDTO.getName());
