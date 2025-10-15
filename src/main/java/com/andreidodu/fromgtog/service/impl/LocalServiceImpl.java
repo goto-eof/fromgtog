@@ -2,6 +2,7 @@ package com.andreidodu.fromgtog.service.impl;
 
 import com.andreidodu.fromgtog.dto.DeleteRepositoryRequestDTO;
 import com.andreidodu.fromgtog.service.LocalService;
+import org.apache.commons.io.FileUtils;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.transport.PushResult;
@@ -17,8 +18,6 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
-import java.util.function.Consumer;
-import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import static com.andreidodu.fromgtog.util.ValidatorUtil.validateIsNotNull;
@@ -165,12 +164,7 @@ public class LocalServiceImpl implements LocalService {
                 return false;
             }
 
-            try (Stream<Path> walk = Files.walk(path)) {
-                walk.sorted(Comparator.reverseOrder())
-                        .forEach(deleteSingleFileOrDirectoryConsumer());
-                log.info("Deleted directory: {}", path.toAbsolutePath());
-            }
-
+            FileUtils.deleteDirectory(file);
             log.info("Directory deleted successfully: {}", file.getAbsoluteFile());
 
             return true;
@@ -179,16 +173,6 @@ public class LocalServiceImpl implements LocalService {
             log.error("error deleting files: {}", e.getMessage(), e);
             return false;
         }
-    }
-
-    private Consumer<Path> deleteSingleFileOrDirectoryConsumer() {
-        return pathFile -> {
-            try {
-                Files.delete(pathFile);
-            } catch (IOException e) {
-                log.error("Failed to delete {}", pathFile, e);
-            }
-        };
     }
 
 }
