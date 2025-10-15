@@ -7,12 +7,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  # Riferimento al job esistente (assumendo che build_jar esista nel tuo repo)
   build_jar:
     name: Build JAR
-    # Questo step è necessario per far funzionare il "needs" se il job è in un file separato.
-    # Se il job build_jar è nel file multiplatform-release.yml, questo può essere rimosso.
-    # Assumiamo sia un job di build minimale per dipendenza:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -33,7 +29,7 @@ jobs:
 
   create_windows_arm_package:
     name: Package Windows ARM64 MSI
-    runs-on: windows-latest # Deve essere Windows per creare pacchetti Windows
+    runs-on: windows-latest
     needs: build_jar
     permissions:
       contents: write
@@ -42,7 +38,6 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Install WiX Toolset
-        # Necessario per creare pacchetti MSI su Windows (richiesto da jpackage)
         uses: wierob/setup-wix-toolset@v1
         with:
           version: 3.11.2
@@ -59,26 +54,22 @@ jobs:
           name: application-files
           path: downloaded-files
 
-      # Configura la JDK Windows SPECIFICA per l'architettura ARM64 (AArch64)
       - name: Configure JDK for Windows ARM64
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '21'
-          architecture: aarch64 # Scarica JDK Windows ARM64
+          architecture: aarch64
 
       - name: Create MSI package with jpackage
         run: |
           $INPUT_PATH="downloaded-files\target"
           $OUTPUT_PATH="executable"
           $MAIN_JAR="fromgtog.jar"
-          # L'icona deve essere in formato ICO per Windows
           $ICON_PATH="downloaded-files\resources\icon-windows.ico" 
 
           mkdir $OUTPUT_PATH
 
-          # jpackage ora utilizza l'eseguibile jpackage nativo Windows che si trova 
-          # all'interno della JDK Windows ARM64 appena scaricata, creando un pacchetto MSI ARM64.
           jpackage `
             --input "$INPUT_PATH" `
             --dest "$OUTPUT_PATH" `

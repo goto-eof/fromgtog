@@ -40,7 +40,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # Definisce UNICA architettura target: ARM64
         arch: [arm64]
         deb-arch-label: [arm64]
         include:
@@ -63,22 +62,20 @@ jobs:
           name: application-files
           path: downloaded-files
 
-      # PASSO 1: Configura la JDK HOST (AMD64) che contiene l'eseguibile jpackage nativo
       - name: Configure HOST JDK (x64) for jpackage execution
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '21'
-          architecture: x64 # Sempre x64 per l'host Ubuntu
+          architecture: x64
 
-      # PASSO 2: Scarica la JRE/Runtime TARGET (aarch64). Questo passo è sempre eseguito
       - name: Download TARGET JRE for Cross-Compilation
         id: download_jre
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '21'
-          architecture: ${{ matrix.java-runtime-arch }} # Scarica aarch64
+          architecture: ${{ matrix.java-runtime-arch }}
           check-latest: true
 
       - name: Install required dependencies for jpackage
@@ -93,8 +90,6 @@ jobs:
           MAIN_JAR="fromgtog.jar"
           ICON_PATH="downloaded-files/resources/icon-linux.png"
 
-          # Determina il percorso della runtime, che punta alla JRE TARGET (aarch64)
-          # Questa logica ora si applica sempre, poiché è una build ARM64
           JRE_PATH=$(echo $JRE_21_HOME | sed 's/\(.*\)\/bin\//\1/')
           RUNTIME_IMAGE_ARG="--runtime-image $JRE_PATH"
           echo "Using cross-runtime: $JRE_PATH"
