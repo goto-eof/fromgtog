@@ -13,10 +13,10 @@ public interface ApplicationConstants {
 
     String CLONER_THREAD_NAME_PREFIX = "FromGtoG - Mr.Cloner";
     String TERMINATOR_THREAD_NAME_PREFIX = "FromGtoG - Mr.Terminator";
-    String TICKER_THREAD_NAME_PREFIX = "FromGtoG - Mr.Timer";
-    String JOB_THREAD_NAME_PREFIX = "FromGtoG - Mr.Job";
+    String TICKER_THREAD_NAME_PREFIX = "FromGtoG - Mr.TimeElapsed";
+    String JOB_THREAD_NAME_PREFIX = "FromGtoG - Mr.BackupJobOrchestrator";
     String TRAY_ICON_THREAD_NAME_PREFIX = "FromGtoG - Mr.TrayIcon";
-    String ORCHESTRATOR_THREAD_NAME_PREFIX = "FromGtoG - Mr.Orchestrator";
+    String ORCHESTRATOR_THREAD_NAME_PREFIX = "FromGtoG - Mr.BackupOrchestrator";
 
     String LIST_ITEM_SEPARATOR = ",";
 }

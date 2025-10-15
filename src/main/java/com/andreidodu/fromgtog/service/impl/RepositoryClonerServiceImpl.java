@@ -13,7 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
-import java.util.Optional;
 
 import static com.andreidodu.fromgtog.constants.ApplicationConstants.ORCHESTRATOR_THREAD_NAME_PREFIX;
 import static com.andreidodu.fromgtog.constants.ApplicationConstants.TRAY_ICON_THREAD_NAME_PREFIX;
@@ -44,19 +43,19 @@ public class RepositoryClonerServiceImpl implements RepositoryCloner {
                 log.debug("Starting TicTac Job Service, isShouldStop: {}", engineContext.callbackContainer().isShouldStop());
                 engineContext.callbackContainer().setEnabledUI().accept(false);
                 scheduledJobService
-                        .run(() -> startOrchestrator(engineContext, sourceEngine, destinationEngine, Optional.of(scheduledJobService)));
+                        .run(() -> startOrchestrator(engineContext, sourceEngine, destinationEngine));
             } catch (Exception e) {
                 log.error(e.getMessage(), e);
                 scheduledJobService.shutdown();
                 return false;
             }
         } else {
-            startOrchestrator(engineContext, sourceEngine, destinationEngine, Optional.empty());
+            startOrchestrator(engineContext, sourceEngine, destinationEngine);
         }
         return true;
     }
 
-    private void startOrchestrator(EngineContext engineContext, SourceEngine sourceEngine, DestinationEngine destinationEngine, Optional<ScheduledJobServiceImpl> scheduledJobServiceOptional) {
+    private void startOrchestrator(EngineContext engineContext, SourceEngine sourceEngine, DestinationEngine destinationEngine) {
         Runnable runnable = cloningTask(engineContext, sourceEngine, destinationEngine);
         try (var exe = ThreadUtil.getInstance().createExecutor(ORCHESTRATOR_THREAD_NAME_PREFIX, false)) {
             exe.execute(runnable);
