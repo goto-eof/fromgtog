@@ -112,7 +112,6 @@ public class ScheduledJobServiceImpl implements ScheduledService {
             boolean isCronMatchesNow = isNow(executionTime, now);
             log.debug("checking if need to run the job: {}", isCronMatchesNow);
 
-
             runJobIfNecessary(runnable, isCronMatchesNow);
 
             stopJobIfNecessary();
