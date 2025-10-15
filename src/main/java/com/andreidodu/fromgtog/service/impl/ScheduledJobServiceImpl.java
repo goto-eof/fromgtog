@@ -24,6 +24,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
+import static com.andreidodu.fromgtog.constants.ApplicationConstants.DESCRIPTOR_THREAD_NAME_PREFIX;
 import static com.andreidodu.fromgtog.constants.ApplicationConstants.JOB_THREAD_NAME_PREFIX;
 
 public class ScheduledJobServiceImpl implements ScheduledService {
@@ -89,7 +90,7 @@ public class ScheduledJobServiceImpl implements ScheduledService {
     }
 
     private Thread runIdleStatusUpdaterVirtualThread(Cron cron) {
-        return Thread.ofVirtual().start(() -> {
+        return Thread.ofVirtual().name(DESCRIPTOR_THREAD_NAME_PREFIX).start(() -> {
             while (!engineContext.callbackContainer().isShouldStop().get()) {
                 showNextJobRunInfo(cron);
                 showCronExplanation(cron);
