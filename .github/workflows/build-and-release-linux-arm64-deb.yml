@@ -114,11 +114,11 @@ jobs:
           FINAL_DEB_NAME="fromgtog_${RELEASE_TAG}_${{ matrix.deb-arch-label }}.deb"
           mv "$DEB_FILE" "$FINAL_DEB_NAME"
           
-          ZIP_NAME="${{ github.event.repository.name }}-Linux-${{ github.ref_name }}-${{ matrix.deb-arch-label }}-Installer.zip"
+          ZIP_NAME="${{ github.event.repository.name }}-Linux-${{ github.ref_name }}-arm64-Installer.zip"
           zip -j "$ZIP_NAME" "$FINAL_DEB_NAME"
 
       - name: Release on GitHub
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: ${{ github.event.repository.name }}-Linux-${{ github.ref_name }}-${{ matrix.deb-arch-label }}-Installer.zip
+          files: ${{ github.event.repository.name }}-Linux-${{ github.ref_name }}-arm64-Installer.zip
