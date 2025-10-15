@@ -12,7 +12,7 @@ public interface ApplicationConstants {
     int MAX_NUM_THREADS = 5;
 
     String CLONER_THREAD_NAME_PREFIX = "FromGtoG - Mr.Cloner";
-    String TERMINATOR_THREAD_NAME_PREFIX = "FromGtoG - Mr.Terminator";
+    String TERMINATOR_THREAD_NAME_PREFIX = "FromGtoG - Mr.Remover";
     String TICKER_THREAD_NAME_PREFIX = "FromGtoG - Mr.TimeElapsed";
     String JOB_THREAD_NAME_PREFIX = "FromGtoG - Mr.BackupJobOrchestrator";
     String TRAY_ICON_THREAD_NAME_PREFIX = "FromGtoG - Mr.TrayIcon";
