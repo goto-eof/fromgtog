@@ -100,7 +100,7 @@ public class ScheduledJobServiceImpl implements ScheduledService {
 
     private static void sleep(long seconds) {
         try {
-            Thread.currentThread().sleep(seconds * 1000);
+            Thread.sleep(seconds * 1000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

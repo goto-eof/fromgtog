@@ -20,7 +20,7 @@ import static com.andreidodu.fromgtog.util.ValidatorUtil.validateIsNotNullAndNot
 public class GitHubServiceImpl implements GitHubService {
 
     private static GitHubService instance;
-    private Logger log = LoggerFactory.getLogger(GitHubServiceImpl.class);
+    private final Logger log = LoggerFactory.getLogger(GitHubServiceImpl.class);
 
     public static synchronized GitHubService getInstance() {
         if (instance == null) {

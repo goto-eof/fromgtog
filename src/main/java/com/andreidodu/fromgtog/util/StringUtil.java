@@ -23,7 +23,7 @@ public class StringUtil {
         Objects.requireNonNull(separator);
 
         return stringsSeparatedByCommaToList(stringsSeparatedByComma, separator)
-                .<String>toArray(String[]::new);
+                .toArray(String[]::new);
     }
 
 }

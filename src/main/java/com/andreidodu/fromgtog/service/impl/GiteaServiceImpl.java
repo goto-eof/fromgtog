@@ -80,7 +80,7 @@ public class GiteaServiceImpl implements GiteaService {
 
             ObjectMapper mapper = new ObjectMapper();
             mapper.registerModule(new JavaTimeModule());
-            log.debug("User Info: {}", response.toString());
+            log.debug("User Info: {}", response);
             return mapper.readValue(response.toString(), GiteaUserDTO.class);
         } catch (Exception e) {
             log.error("Error getting user info", e);

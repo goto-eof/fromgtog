@@ -28,7 +28,7 @@ import static com.andreidodu.fromgtog.service.factory.to.engines.strategies.comm
 
 public class GenericDestinationEngineFromLocalStrategy<ServiceType extends DeletableDestinationContentService> extends AbstractStrategyCommon implements GenericDestinationEngineFromStrategyCommon {
     private final ServiceType service;
-    private Logger log = LoggerFactory.getLogger(GenericDestinationEngineFromLocalStrategy.class);
+    private final Logger log = LoggerFactory.getLogger(GenericDestinationEngineFromLocalStrategy.class);
 
     public GenericDestinationEngineFromLocalStrategy(ServiceType service) {
         this.service = service;

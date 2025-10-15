@@ -22,7 +22,7 @@ import static com.andreidodu.fromgtog.constants.ApplicationConstants.CLONER_THRE
 
 public class LocalDestinationEngineFromRemoteStrategy extends AbstractStrategyCommon implements LocalDestinationEngineFromStrategy {
 
-    private Logger log = LoggerFactory.getLogger(LocalDestinationEngineFromRemoteStrategy.class);
+    private final Logger log = LoggerFactory.getLogger(LocalDestinationEngineFromRemoteStrategy.class);
 
     @Override
     public boolean isApplicable(EngineType engineType) {

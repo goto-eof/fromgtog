@@ -18,7 +18,6 @@ public class TrayIconHelper {
 
     private TrayIcon trayIcon;
     final static Logger log = LoggerFactory.getLogger(TrayIconHelper.class);
-    private volatile boolean isTrayIconMain = true;
     private volatile String currentTrayIconImageFile = TRAY_ICON_IMAGE;
 
     public TrayIconHelper(JFrame mainWindow, final boolean isWindowVisible) {
