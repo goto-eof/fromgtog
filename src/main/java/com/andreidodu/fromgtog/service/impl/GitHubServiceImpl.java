@@ -1,5 +1,6 @@
 package com.andreidodu.fromgtog.service.impl;
 
+import com.andreidodu.fromgtog.dto.DeleteRepositoryRequestDTO;
 import com.andreidodu.fromgtog.exception.CloningDestinationException;
 import com.andreidodu.fromgtog.exception.CloningSourceException;
 import com.andreidodu.fromgtog.service.GitHubService;
@@ -13,10 +14,13 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.andreidodu.fromgtog.util.ValidatorUtil.validateIsNotNull;
+import static com.andreidodu.fromgtog.util.ValidatorUtil.validateIsNotNullAndNotBlank;
+
 public class GitHubServiceImpl implements GitHubService {
 
     private static GitHubService instance;
-    private Logger log = LoggerFactory.getLogger(GitHubServiceImpl.class);
+    private final Logger log = LoggerFactory.getLogger(GitHubServiceImpl.class);
 
     public static synchronized GitHubService getInstance() {
         if (instance == null) {
@@ -86,6 +90,25 @@ public class GitHubServiceImpl implements GitHubService {
                         throw new CloningDestinationException("Error while trying to delete repository", ee);
                     }
                 });
+    }
+
+    @Override
+    public boolean deleteRepository(DeleteRepositoryRequestDTO deleteRepositoryRequestDTO) {
+        validateIsNotNull(deleteRepositoryRequestDTO);
+        validateIsNotNullAndNotBlank(deleteRepositoryRequestDTO.baseUrl());
+        validateIsNotNullAndNotBlank(deleteRepositoryRequestDTO.owner());
+        validateIsNotNullAndNotBlank(deleteRepositoryRequestDTO.repoName());
+        validateIsNotNullAndNotBlank(deleteRepositoryRequestDTO.token());
+
+        try {
+            retrieveGitHubMyself(retrieveGitHubClient(deleteRepositoryRequestDTO.token().get()))
+                    .getRepository(deleteRepositoryRequestDTO.repoName().get())
+                    .delete();
+        } catch (IOException e) {
+            log.error("Error while trying to delete repository: {}", e.toString());
+            throw new CloningDestinationException("Error while trying to delete repository", e);
+        }
+        return true;
     }
 
 }

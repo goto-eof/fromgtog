@@ -1,27 +1,22 @@
-<h1 align="center"><img src="images/fromgtog_header.png" alt="header" /></h1>
-<h1 align="right" id="title">FromGtoG v. 8.1.16</h1>
+<h1 align="center"><img src="images/fromgtog_header.webp" alt="header" /></h1>
+<h1 align="right" id="title">FromGtoG v. 9.0.0</h1>
 
 <h2 id="index">Index</h2>
 
 - [Introduction](#introduction)
 - [Features](#features)
-- [Download (Stable)](#download)
-    - [MacOS](#download-macos)
-    - [Windows](#download-windows)
-    - [Linux](#download-linux)
+- [Download FromGtoG 9.0.0](#download)
 - [Screenshot](#screenshot)
-- [Logs from the developer](#news)
-- [For developers](#for-developers)
-- [Tested on](#tested-on)
+- [Technologies](#technologies)
+- [My Dev Notes about FromGtoG](#my-dev-notes)
 - [Support me](#support-me)
 
 <h2 id="introduction">Introduction</h2>
 
-# FromGtoG 8.1.16: Advanced Git Repository Backup and Migration Utility
+# FromGtoG 9.0.0: Advanced Git Repository Backup and Migration Utility
 
-I'm excited to announce the release of **FromGtoG 8.1.16**! 
-
-FromGtoG is an essential **cross-platform desktop utility** for developers.
+This application is an essential **cross-platform desktop
+utility** for developers.
 
 The **initial idea** focused only on cloning from GitHub to Gitea. Following a rapid evolution of features, FromGtoG is
 now a powerful, full-fledged tool for **batch cloning** and **secure migration** between multiple platforms.
@@ -37,6 +32,18 @@ The application currently supports robust two-way cloning and backup across:
 
 FromGtoG goes beyond simple batch operations, offering advanced filtering and performance capabilities:
 
+* **Scheduled Backup Jobs (Toggleable):** Take control of your workflow by automating complete backup and migration
+  tasks using **Quartz Cron Expressions**. Users can define a schedule and **easily activate or deactivate** the job as
+  needed. **If the cron job is enabled, the application will start as a daemon**; the user can open the app window by
+  clicking on the **FromGtoG icon in the system tray** and hide it by clicking the close window button. To **exit
+  completely**, the user must right-click on the system tray icon to access the menu and then select **Exit**. When the
+  schedule matches the current time, the backup runs. During execution, the application's **system tray
+  icon** flashes intermittently (red and blue) to indicate the active job, advising users not to shut down the computer
+  or terminate the process.
+* **Destination Repository Override:** Overrides the default skip behavior when a destination repository already exists.
+  Users can now **force the update** of existing repositories. For remote destinations, this is achieved via a
+  `git push --force`. For local destinations, the existing directory content is **replaced** entirely with the source
+  repository's content, ensuring the destination is always an exact match of the source.
 * **Detailed Logging:** Produces a comprehensive **log file** that allows you to analyze the application's work in
   detail, ensuring that every necessary repository was successfully cloned and verified.
 * **Rate Limit Prevention:** Features an optional setting to define a **time interval between cloning calls** to prevent
@@ -67,12 +74,15 @@ architectures:
 ## Architectural Improvements: the evolution
 
 Since publishing version 3.0 just a few months ago, I realized a significant **code rewrite** was necessary to ensure
-the application remains **maintainable** and **easy to understand** as it grows. This rewrite led me to the current,
-stable version, **8.1.16**.
+the application remains **maintainable** and **easy to understand** as it grows. This rewrite led us to the current,
+stable version, **9.0.0**.
+
+## Architectural Improvements: the evolution
 
 To achieve the best possible structural integrity and to allow for future feature expansion, I implemented extensive use
 of several **Software Design Patterns**. These patterns ensure better **modularity** and long-term stability:
 
+* **Command Pattern:** Used for several common actions used by services.
 * **Composite Pattern:** Used for robust and flexible **user input validation**, ensuring data integrity across all
   platforms.
 * **Abstract Factory:** Manages flexible connections with different Git platform APIs (GitHub, Gitea, GitLab).
@@ -80,70 +90,73 @@ of several **Software Design Patterns**. These patterns ensure better **modulari
   operations).
 * **Singleton:** Ensures efficient, centralized resource management.
 
-<h2 id="features">Features</h2>
+<h2 id="features">Feature Summary</h2>
 
-Currently, the application is able to clone:
+### Cloning & Migration Matrix
 
-- from GitHub to GitHub\Gitea\Local\Gitlab
-- from Gitea to GitHub\Gitea\Local\Gitlab
-- from Gitlab to GitHub\Gitea\Local\Gitlab
-- from Local to GitHub\Gitea\Local\Gitlab (copies only git repositories, other directories are skipped)
+The application supports robust, two-way cloning and secure migration across all supported platforms:
 
-Further features
+| Source \ Destination | GitHub | Gitea | GitLab | Local |
+|:---------------------|:-------|:------|:-------|:------|
+| **GitHub**           | ✅      | ✅     | ✅      | ✅     |
+| **Gitea**            | ✅      | ✅     | ✅      | ✅     |
+| **GitLab**           | ✅      | ✅     | ✅      | ✅     |
+| **Local**            | ✅      | ✅     | ✅      | ✅     |
 
-- granular cloning filter
-- multi-threading
-- logging (log file)
-- customizable waiting time between 2 cloning processes
-- delete all repositories from:
-    - from GitHub
-    - from Gitea
-    - from Gitlab
+> **Note:** When cloning from **Local** sources to a remote destination, the utility automatically copies **only** Git
+> repositories and skips other directories.
 
-<h2 id="download">Download (Stable)</h2>
+### Advanced Automation and Control
 
-<h2 id="download-macos">MacOS</h2>
+* **Scheduled Backup Jobs (Cron):** Automate complete tasks using **toggleable** **Quartz Cron Expressions**.
+    * **Daemon Mode:** When cron is enabled, the application runs as a **daemon**. The window can be shown/hidden via a
+      click on the **system tray icon**, and a right-click menu is used to safely **Exit** the application completely.
+    * During execution, the system tray icon flashes intermittently to indicate an active job.
+* **Destination Repository Override:** Enables **force updates** of existing repositories (via `git push --force` for
+  remote or complete content replacement for local).
+* **Repository Cleanup:** Ability to delete all repositories from supported remote platforms (**GitHub**, **Gitea**, *
+  *GitLab**).
 
-- [Download MacOS AMD64 installer](https://github.com/goto-eof/fromgtog/releases/download/8.1.16/fromgtog-MacOS-8.1.16-amd64-Installer.zip) -
-  just install the .pkg file (allow third party execution before). Note: for copy/paste actions, please use
-  `Control + C` and `Control + V` (I will enable `Command + C` and `Command + V` in the future.)
-- [Download MacOS ARM64 Installer](https://github.com/goto-eof/fromgtog/releases/download/8.1.16/fromgtog-MacOS-8.1.16-arm64-Installer.zip)
+### Filtering and Performance
 
-<h2 id="download-windows">Windows</h2>
+* **Precise Filtering:** Offers granular control over batch operations by allowing selection based on status/type: *
+  *Private**, **Public**, **Organization**, **Starred**, **Forked**, and **Archived** Repos.
+* **Granular Control:** Easily filter out specific repositories or clone **only** those listed in an external file.
+* **Multi-Threading:** Uses multi-core processing to **parallelize** cloning, maximizing **speed** and efficiency.
+* **Rate Limit Prevention:** Features a customizable **waiting time** (time interval) between sequential cloning
+  processes to prevent being banned by remote servers.
+* **Detailed Logging:** Produces a comprehensive **log file** for detailed analysis and verification of every operation.
 
-- [Download Windows AMD64 installer](https://github.com/goto-eof/fromgtog/releases/download/8.1.16/fromgtog-Windows-8.1.16-amd64-Installer.zip) -
-  just install the .exe file and start cloning.
-  ~~- [Download Windows ARM64 installer](https://github.com/goto-eof/fromgtog/releases/download/8.1.16/fromgtog-Windows-8.1.16-arm64-Installer.zip) -
-  just install the .exe file and start cloning.~~
+<h2 id="download">Download FromGtoG 9.0.0</h2>
 
-<h2 id="download-linux">Linux</h2>
+| Platform           | AMD64 Installer                                                                                                          | ARM64 Installer                                                                                                        | Other Installation Method(s)                                                                                                                                |
+|:-------------------|:-------------------------------------------------------------------------------------------------------------------------|:-----------------------------------------------------------------------------------------------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **MacOS**          | [Installer ZIP](https://github.com/goto-eof/fromgtog/releases/download/9.0.0/fromgtog-MacOS-9.0.0-amd64-Installer.zip)   | [Installer ZIP](https://github.com/goto-eof/fromgtog/releases/download/9.0.0/fromgtog-MacOS-9.0.0-arm64-Installer.zip) | N/A                                                                                                                                                         |
+| **Windows**        | [Installer ZIP](https://github.com/goto-eof/fromgtog/releases/download/9.0.0/fromgtog-Windows-9.0.0-amd64-Installer.zip) | N/A                                                                                                                    | N/A                                                                                                                                                         |
+| **Debian**         | [Installer ZIP](https://github.com/goto-eof/fromgtog/releases/download/9.0.0/fromgtog-Linux-9.0.0-amd64-Installer.zip)   | N/A                                                                                                                    | **Snap Store (AMD64/ARM64):** [Install Link](https://snapcraft.io/fromgtog)<br>**Comment:** Or run `sudo snap install fromgtog`.                            |
+| **Cross-Platform** | N/A                                                                                                                      | N/A                                                                                                                    | **Jar file:** [Download Link](https://github.com/goto-eof/fromgtog/releases/download/9.0.0/fromgtog.jar)<br>**Comment:** Run with `java -jar fromgtog.jar`. |
 
-- [Install from Ubutnu AMD64/ARM64 Snapstore](https://snapcraft.io/fromgtog) - or execute `sudo snap install fromgtog`
-  in order
-  to install the application.
-- [Download Ubuntu AMD64 package](https://github.com/goto-eof/fromgtog/releases/download/8.1.16/fromgtog-Linux-8.1.16-amd64-Installer.zip) -
-  in order to install the .deb package execute `sudo dpkg -i fromgtog_8.1.16_amd64.deb`
-  ~~- [Download Ubuntu ARM64 package](https://github.com/goto-eof/fromgtog/releases/download/8.1.16/fromgtog-Linux-8.1.16-arm64-Installer.zip) -
-  in order to install the .deb package execute `sudo dpkg -i fromgtog_8.1.16_arm64.deb`~~
+<h2 id="screenshot">Screenshot</h2>
 
-<h2 id="download-jar">Jar file</h2>
+### FromGtoG Screenshot
 
-- [Jar file](https://github.com/goto-eof/fromgtog/releases/download/8.1.16/fromgtog.jar) - run it by executing
-  `java -jar fromgtog.jar`.
+![FromGtoG Screenshot](images/FromGtoG.webp)
+
+### FromGtoG Screenshot - Tray Icon
+
+![FromGtoG Screenshot - Tray Icon](images/fromgtog-job-and-tray-icon.webp)
 
 <h2 id="technologies">Technologies/Tools</h2>
 
 JDK 21, Intellij UI Designer (plugin for Intellij), Slf4J, Lombok, Apache Commons, JSON.
 
-<h2 id="screenshot">Screenshot</h2>
-
-![screenshot](images/FromGtoG.png)
 
 <img src="https://andre-i.eu/api/v1/ipResource/custom.png?host=https://github.com/goto-eof/fromgtog" onerror="this.style.display='none'" />
 
+<h2 id="my-dev-notes">My Dev Notes about FromGtoG</h2>
 
-<h2 id="news">News</h2>
-
+- 2025/10/14
+    - implemented the backup all repositories scheduled job and now FromGtoG has it's Tray Icon
 - 2025/10/12
     - added the following GitHub Workflows in order to build executables of FromGtoG for each platform:
         - Linux (.deb)
@@ -181,67 +194,19 @@ JDK 21, Intellij UI Designer (plugin for Intellij), Slf4J, Lombok, Apache Common
       to get a few seconds less than Platform Threads. Because the improvement was not significant (there is a
       bottleneck in an external library), I decided to avoid
       to include this new feature into FromGtoG application.
-- 2025/06/23 - I discovered that FromGtoG `.deb` package was not working on Debian 10. I rebuilt the package on Debian
-    10. So, now it should work on both Ubuntu latest and Debian 10. I apologize for the inconvenience. Please ping me if
-        you find a bug (
-        open an issue on [GitHub](https://github.com/goto-eof/fromgtog/issues)
-        or [contact me](https://andre-i.eu/#contactme)). The v. 7.0.0 should work now also on Debian 10.
-        You can download it
-        from [here](https://github.com/goto-eof/fromgtog/releases/download/7.0.0/fromgtog_7.0.0_amd64.deb).
-- fixed the windows/linux and macOS packaging - now it is possible to clone from GitHub. The absence of the
-  `jdk.crypto.ec` and `java.security.sasl` imports in the `--add-modules` option, prevented the SSL connections, so the
-  clone process failed, in particular for GitHub (which uses SSL).
-
-<h2 id="for-developers">For developers</h2>
-
-## Retrieve dependency modules of the jar
-
-```bash
-jdeps -s fromgtog.jar
-```
-
-## Generate a standalone for MacOS
-
-It is necessary to install Xcode Command Line Tools before.
-
-```bash
-jpackage --type pkg --name "FromGtoG" --vendor "Andrei Dodu" --app-version "8.1.16" --input "target" --main-jar "fromgtog.jar" --icon "resources/icon.icns" --main-class "com.andreidodu.fromgtog.Main" --dest "executable" --add-modules java.base,java.desktop,java.net.http,jdk.crypto.ec,java.security.sasl,java.naming,java.sql,java.management,java.security.jgss,java.xml,java.logging --verbose --java-options "-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dsun.java2d.uiScale=true"
-```
-
-## Generate a standalone for Windows
-
-It is necessary to install Wix Toolset before.
-
-```bash
-jpackage -t exe --name "FromGtoG" --vendor "Andrei Dodu" --app-version "8.1.16" --input "target" --dest "executable" --main-jar "fromgtog.jar" --icon "resources\icon.ico" --resource-dir resources --add-modules java.base,java.desktop,java.net.http,java.naming,java.sql,java.management,java.security.jgss,java.xml,java.logging,jdk.crypto.ec,java.security.sasl --win-shortcut --win-menu --main-class com.andreidodu.fromgtog.Main
-```
-
-## Generate a standalone for Linux
-
-```bash
-jpackage --type deb --name "FromGtoG" --vendor "Andrei Dodu" --app-version "8.1.16" --input "target" --main-jar "fromgtog.jar" --icon "resources/icon.png" --main-class "com.andreidodu.fromgtog.Main" --dest "executable" --add-modules java.base,java.desktop,java.net.http,java.naming,java.sql,java.management,java.security.jgss,java.xml,java.logging,jdk.crypto.ec,java.security.sasl --linux-shortcut --verbose --linux-package-deps "libasound2, libpulse0"
-```
-
-## Usefully commands
-
-```bash
-jar tvf fromgtog.jar 
-```
-
-### Generate and upload snap file - useful especially for me (:
-
-```bash
-sudo snap remove fromgtog && snapcraft clean && snapcraft && sudo snap install fromgtog_8.1.16_amd64.snap --dangerous && fromgtog
-
-snapcraft upload --release=edge fromgtog_8.1.16_amd64.snap
-```
-
-<h2 id="tested-on">Tested on</h2>
-
-- Ubuntu 25.04
-- Debian 10
-- Windows 11
-- MacOS
+- 2025/06/23
+    - I discovered that FromGtoG `.deb` package was not working on Debian 10. I rebuilt the package on Debian
+        10. So, now it should work on both Ubuntu latest and Debian 10. I apologize for the inconvenience. Please ping
+            me if
+            you find a bug (
+            open an issue on [GitHub](https://github.com/goto-eof/fromgtog/issues)
+            or [contact me](https://andre-i.eu/#contactme)). The v. 7.0.0 should work now also on Debian 10.
+            You can download it
+            from [here](https://github.com/goto-eof/fromgtog/releases/download/7.0.0/fromgtog_7.0.0_amd64.deb).
+    - fixed the windows/linux and macOS packaging - now it is possible to clone from GitHub. The absence of the
+      `jdk.crypto.ec` and `java.security.sasl` imports in the `--add-modules` option, prevented the SSL connections,
+      so the
+      clone process failed, in particular for GitHub (which uses SSL).
 
 <h2 id="support-me">Support Me</h2>
 

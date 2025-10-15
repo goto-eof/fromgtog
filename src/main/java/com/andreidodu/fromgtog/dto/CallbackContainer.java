@@ -9,12 +9,16 @@ import java.util.function.Supplier;
 public record CallbackContainer(
         Consumer<Integer> updateApplicationProgressBarMax,
         Consumer<Integer> updateApplicationProgressBarCurrent,
+        Consumer<String> updateLogAndApplicationStatusMessage,
         Consumer<String> updateApplicationStatusMessage,
         Consumer<Boolean> setEnabledUI,
+        Supplier<Boolean> isWorking,
+        Consumer<Boolean> setWorking,
         Consumer<String> showErrorMessage,
         Consumer<String> showSuccessMessage,
         Supplier<Boolean> isShouldStop,
         Consumer<Boolean> setShouldStop,
-        Consumer<String> updateTimeLabel
+        Consumer<String> updateTimeLabel,
+        Consumer<Boolean> jobTicker
 ) {
 }

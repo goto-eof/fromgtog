@@ -29,6 +29,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Consumer;
 
 import static com.andreidodu.fromgtog.constants.ApplicationConstants.LOG_DIR_NAME;
@@ -37,15 +38,11 @@ import static com.andreidodu.fromgtog.gui.controller.constants.GuiKeys.*;
 import static com.andreidodu.fromgtog.util.NumberUtil.toIntegerOrDefault;
 
 
-/**
- * TODO error managing for retrieveJsonData -> show error alert
- * TODO validate user input -> show error alert
- */
 @Getter
 @Setter
 public class AppController implements GUIController {
 
-    Logger log = LoggerFactory.getLogger(AppController.class);
+    private final static Logger log = LoggerFactory.getLogger(AppController.class);
 
     private List<GUIFromController> fromControllerList;
     private List<GUIToController> toControllerList;
@@ -74,30 +71,40 @@ public class AppController implements GUIController {
     @Getter
     @Setter
     private volatile boolean shouldStop = false;
+    private volatile boolean isWorking = false;
 
     private JButton clearLogFileButton;
     private JLabel timeLabel;
 
+    private JCheckBox chronJobCheckBox;
+    private JTextField chronExpressionTextField;
 
-    public AppController(JSONObject settings,
-                         List<GUIFromController> fromControllerList,
-                         List<GUIToController> toControllerList,
-                         JTextArea appLogTextArea,
-                         JTextField appSleepTimeTextField,
-                         JButton appSaveConfigurationButton,
-                         JProgressBar appProgressBar,
-                         JLabel messageStatus,
-                         JLabel position,
-                         JButton appStartButton,
-                         JTabbedPane fromTabbedPane,
-                         JTabbedPane toTabbedPane,
-                         JButton appOpenLogFileButton,
-                         Consumer<Boolean> setEnabledUI,
-                         JButton appStopButton,
-                         JPanel statusContainerJPanel,
-                         JCheckBox multithreadingEnabled,
-                         JButton clearLogFileButton,
-                         JLabel timeLabel) {
+    private Consumer<Boolean> toggleTrayIcon;
+
+    public AppController(
+            JSONObject settings,
+            List<GUIFromController> fromControllerList,
+            List<GUIToController> toControllerList,
+            JTextArea appLogTextArea,
+            JTextField appSleepTimeTextField,
+            JButton appSaveConfigurationButton,
+            JProgressBar appProgressBar,
+            JLabel messageStatus,
+            JLabel position,
+            JButton appStartButton,
+            JTabbedPane fromTabbedPane,
+            JTabbedPane toTabbedPane,
+            JButton appOpenLogFileButton,
+            Consumer<Boolean> setEnabledUI,
+            JButton appStopButton,
+            JPanel statusContainerJPanel,
+            JCheckBox multithreadingEnabled,
+            JButton clearLogFileButton,
+            JLabel timeLabel,
+            JCheckBox chronJobCheckBox,
+            JTextField chronExpressionTextField,
+            Consumer<Boolean> toggleTrayIcon
+    ) {
         this.fromControllerList = fromControllerList;
         this.toControllerList = toControllerList;
         this.appLogTextArea = appLogTextArea;
@@ -117,20 +124,36 @@ public class AppController implements GUIController {
         this.clearLogFileButton = clearLogFileButton;
         this.timeLabel = timeLabel;
 
+        this.chronJobCheckBox = chronJobCheckBox;
+        this.chronExpressionTextField = chronExpressionTextField;
+
         this.translatorTo = new JsonObjectToToContextTranslator();
         this.translatorApp = new JsonObjectToAppContextTranslator();
         this.translatorFrom = new JsonObjectToFromContextTranslator();
+
+        this.toggleTrayIcon = toggleTrayIcon;
 
         defineAppStartButtonListener(fromControllerList, toControllerList, fromTabbedPane, toTabbedPane);
         defineAppStopButtonListener();
         defineSaveSettingsButtonListener();
         defineOpenLogFileButtonListener();
         defineClearLogFileButtonListener();
+        addEnableChronJobCheckBoxListener();
 
         applySettings(settings);
 
         this.setShouldStop(true);
 
+        if (chronJobCheckBox.isSelected()) {
+            Thread.ofPlatform().start(() -> start(fromControllerList, toControllerList, fromTabbedPane, toTabbedPane));
+        }
+
+    }
+
+    private void addEnableChronJobCheckBoxListener() {
+        chronJobCheckBox.addActionListener(e -> {
+            chronExpressionTextField.setEnabled(chronJobCheckBox.isSelected());
+        });
     }
 
     private static File getLogFile() {
@@ -226,6 +249,11 @@ public class AppController implements GUIController {
         fromTabbedPane.setSelectedIndex(settings.optInt(FROM_TAB_INDEX, 0));
         toTabbedPane.setSelectedIndex(settings.optInt(TO_TAB_INDEX, 0));
         multithreadingEnabled.setSelected(settings.optBoolean(APP_MULTITHREADING_ENABLED, false));
+
+        chronJobCheckBox.setSelected(settings.optBoolean(APP_CHRON_JOB_ENABLED, false));
+        chronExpressionTextField.setText(settings.optString(APP_CHRON_JOB_EXPRESSION, ""));
+        chronExpressionTextField.setEnabled(chronJobCheckBox.isSelected());
+
     }
 
     private void defineSaveSettingsButtonListener() {
@@ -242,14 +270,20 @@ public class AppController implements GUIController {
                 this.showErrorMessage("Something went wrong." + System.lineSeparator() + String.join(System.lineSeparator(), errorList));
                 setEnabledUI.accept(true);
                 setShouldStop(true);
+                setWorking(false);
                 return;
             }
             saveSettings(allSettings);
         });
     }
 
+    private synchronized void enableDisableUi(boolean enable) {
+        setEnabledUI.accept(enable);
+    }
+
     public synchronized void setShouldStop(boolean shouldStop) {
         this.shouldStop = shouldStop;
+        log.debug("Setting should stop: {}", shouldStop);
         SwingUtilities.invokeLater(() -> {
             this.appStartButton.setVisible(shouldStop);
             this.appStopButton.setVisible(!shouldStop);
@@ -261,61 +295,72 @@ public class AppController implements GUIController {
             this.setShouldStop(true);
             this.appStartButton.setVisible(true);
             this.appStopButton.setVisible(false);
+            // this.enableDisableUi(true);
         });
     }
 
     private void defineAppStartButtonListener(List<GUIFromController> fromControllerList, List<GUIToController> toControllerList, JTabbedPane fromTabbedPane, JTabbedPane toTabbedPane) {
+        this.appStartButton.addActionListener(e -> Thread.ofPlatform().start(() -> start(fromControllerList, toControllerList, fromTabbedPane, toTabbedPane)));
+    }
 
-        this.appStartButton.addActionListener(e -> {
-            try {
-                this.setShouldStop(false);
+    private void start(List<GUIFromController> fromControllerList, List<GUIToController> toControllerList, JTabbedPane fromTabbedPane, JTabbedPane toTabbedPane) {
+        try {
+            this.setShouldStop(false);
+            SwingUtilities.invokeLater(() -> {
                 this.appStartButton.setVisible(false);
                 this.appStopButton.setVisible(true);
+            });
 
-                JSONObject jsonObjectFrom = retrieveJsonData(fromControllerList, fromTabbedPane.getSelectedIndex());
-                JSONObject jsonObjectTo = retrieveJsonData(toControllerList, toTabbedPane.getSelectedIndex());
-                JSONObject jsonObjectApp = getDataFromChildren();
+            JSONObject jsonObjectFrom = retrieveJsonData(fromControllerList, fromTabbedPane.getSelectedIndex());
+            JSONObject jsonObjectTo = retrieveJsonData(toControllerList, toTabbedPane.getSelectedIndex());
+            JSONObject jsonObjectApp = getDataFromChildren();
 
-                var allSettingsArr = new JSONObject[]{jsonObjectFrom, jsonObjectTo, jsonObjectApp};
-                JSONObject allSettings = JsonObjectServiceImpl.getInstance().merge(allSettingsArr);
+            var allSettingsArr = new JSONObject[]{jsonObjectFrom, jsonObjectTo, jsonObjectApp};
+            JSONObject allSettings = JsonObjectServiceImpl.getInstance().merge(allSettingsArr);
 
-                List<String> errorList = validateSettings(allSettings);
-                if (!errorList.isEmpty()) {
-                    this.showErrorMessage("Something went wrong. " + System.lineSeparator() + String.join(System.lineSeparator(), errorList));
-                    setEnabledUI.accept(true);
-                    setShouldStop(true);
-                    return;
-                }
+            List<String> errorList = validateSettings(allSettings);
 
-                saveSettings(allSettingsArr);
-
-                EngineContext engineContext = EngineContext.builder()
-                        .settingsContext(translatorApp.translate(jsonObjectApp))
-                        .fromContext(translatorFrom.translate(jsonObjectFrom))
-                        .toContext(translatorTo.translate(jsonObjectTo))
-                        .callbackContainer(CallbackContainer
-                                .builder()
-                                .updateApplicationProgressBarMax(this::updateApplicationProgressBarMax)
-                                .updateApplicationProgressBarCurrent(this::updateApplicationProgressBarCurrent)
-                                .updateApplicationStatusMessage(this::updateApplicationStatusMessage)
-                                .setEnabledUI(setEnabledUI)
-                                .showErrorMessage(this::invokeLaterShowErrorMessage)
-                                .showSuccessMessage(this::invokeLaterSuccessMessage)
-                                .isShouldStop(this::isShouldStop)
-                                .setShouldStop(this::setShouldStop)
-                                .updateTimeLabel(this::updateTimeLabel)
-                                .build())
-                        .build();
-
-                RepositoryCloner repositoryCloner = RepositoryClonerServiceImpl.getInstance();
-                repositoryCloner.cloneAllRepositories(engineContext);
-            } catch (Exception ee) {
-                log.error(ee.getMessage(), e);
-                this.showErrorMessage("Something went wrong. " + ee.getMessage());
+            if (!errorList.isEmpty()) {
+                this.showErrorMessage("Something went wrong. " + System.lineSeparator() + String.join(System.lineSeparator(), errorList));
                 setEnabledUI.accept(true);
                 setShouldStop(true);
+                setWorking(false);
+                return;
             }
-        });
+
+            saveSettings(allSettingsArr);
+
+            EngineContext engineContext = EngineContext.builder()
+                    .settingsContext(translatorApp.translate(jsonObjectApp))
+                    .fromContext(translatorFrom.translate(jsonObjectFrom))
+                    .toContext(translatorTo.translate(jsonObjectTo))
+                    .callbackContainer(CallbackContainer
+                            .builder()
+                            .updateApplicationProgressBarMax(this::updateApplicationProgressBarMax)
+                            .updateApplicationProgressBarCurrent(this::updateApplicationProgressBarCurrent)
+                            .updateLogAndApplicationStatusMessage(this::updateLogAndApplicationStatusMessage)
+                            .updateApplicationStatusMessage(this::updateApplicationStatusMessage)
+                            .setEnabledUI(setEnabledUI)
+                            .isWorking(this::isWorking)
+                            .setWorking(this::setWorking)
+                            .showErrorMessage(this::invokeLaterShowErrorMessage)
+                            .showSuccessMessage(this::invokeLaterSuccessMessage)
+                            .isShouldStop(this::isShouldStop)
+                            .setShouldStop(this::setShouldStop)
+                            .updateTimeLabel(this::updateTimeLabel)
+                            .jobTicker(toggleTrayIcon)
+                            .build())
+                    .build();
+
+            RepositoryCloner repositoryCloner = RepositoryClonerServiceImpl.getInstance();
+            repositoryCloner.cloneAllRepositories(engineContext);
+        } catch (Exception ee) {
+            log.error(ee.getMessage(), ee);
+            this.showErrorMessage("Something went wrong. " + ee.getMessage());
+            setEnabledUI.accept(true);
+            setShouldStop(true);
+            setWorking(false);
+        }
     }
 
     private List<String> validateSettings(JSONObject allSettings) {
@@ -326,6 +371,10 @@ public class AppController implements GUIController {
         SwingUtilities.invokeLater(() -> {
             timeLabel.setText(String.format("%s", message));
         });
+    }
+
+    private void ticTacJobStatusToggle(boolean loadDefault) {
+        SwingUtilities.invokeLater(() -> this.toggleTrayIcon.accept(loadDefault));
     }
 
     private void saveSettings(JSONObject... jsonObjectArr) {
@@ -368,13 +417,20 @@ public class AppController implements GUIController {
         jsonObject.put(FROM_TAB_INDEX, fromTabbedPane.getSelectedIndex());
         jsonObject.put(TO_TAB_INDEX, toTabbedPane.getSelectedIndex());
 
+        jsonObject.put(APP_CHRON_JOB_ENABLED, chronJobCheckBox.isSelected());
+        jsonObject.put(APP_CHRON_JOB_EXPRESSION, chronExpressionTextField.getText());
+
         return jsonObject;
+    }
+
+    private void updateLogAndApplicationStatusMessage(String message) {
+        SwingUtilities.invokeLater(() -> messageStatus.setText(correctMessageLength(message)));
+        SwingUtilities.invokeLater(() -> appLogTextArea.setText(String.format("%s\n%s", appLogTextArea.getText(), correctMessageLength(message))));
+        log.info("{}", message);
     }
 
     private void updateApplicationStatusMessage(String message) {
         SwingUtilities.invokeLater(() -> messageStatus.setText(correctMessageLength(message)));
-        SwingUtilities.invokeLater(() -> appLogTextArea.setText(String.format("%s\n%s", appLogTextArea.getText(), correctMessageLength(message))));
-        log.info("{}", message);
     }
 
     private void updateApplicationProgressBarCurrent(int i) {
@@ -388,4 +444,11 @@ public class AppController implements GUIController {
         SwingUtilities.invokeLater(() -> appProgressBar.setMaximum(value));
     }
 
+    public boolean isWorking() {
+        return isWorking;
+    }
+
+    public void setWorking(boolean working) {
+        isWorking = working;
+    }
 }

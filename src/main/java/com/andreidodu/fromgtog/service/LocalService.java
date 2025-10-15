@@ -1,5 +1,6 @@
 package com.andreidodu.fromgtog.service;
 
+import com.andreidodu.fromgtog.dto.DeleteRepositoryRequestDTO;
 import org.eclipse.jgit.api.errors.GitAPIException;
 
 import java.io.File;
@@ -13,7 +14,10 @@ public interface LocalService {
 
     boolean clone(String login, String token, String cloneUrl, String toPath) throws GitAPIException;
 
-    boolean pushOnRemote(String login, String token, String baseUrl, String repositoryName, String ownerLogin, File localDir) throws IOException, GitAPIException, URISyntaxException;
+    boolean pushOnRemote(String login, String token, String baseUrl, String repositoryName, String ownerLogin, File localDir, final boolean forceFlag) throws IOException, GitAPIException, URISyntaxException;
 
     boolean isRemoteRepositoryExists(String login, String token, String remoteUrl);
+
+    boolean deleteRepository(DeleteRepositoryRequestDTO deleteRepositoryRequestDTO);
+
 }

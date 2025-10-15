@@ -51,7 +51,7 @@ public class GithubSourceEngine extends AbstractSourceEngine {
         FromContext context = engineContext.fromContext();
         CallbackContainer callbackContainer = engineContext.callbackContainer();
 
-        callbackContainer.updateApplicationStatusMessage().accept("Retrieving repositories information...");
+        callbackContainer.updateLogAndApplicationStatusMessage().accept("Retrieving repositories information...");
 
         GitHub githubClient = gitHubService.retrieveGitHubClient(context.token());
         GHMyself myself = gitHubService.retrieveGitHubMyself(githubClient);
@@ -62,13 +62,13 @@ public class GithubSourceEngine extends AbstractSourceEngine {
 
         if (EngineOptionsType.FILTER.equals(context.engineOptionsType())) {
             List<RepositoryDTO> repositoryDTOList = retrieveFilteredRepositoryList(context, allUserRepositories, myself, callbackContainer);
-            callbackContainer.updateApplicationStatusMessage().accept("Repositories retrieved and filtered by filters with success");
+            callbackContainer.updateLogAndApplicationStatusMessage().accept("Repositories retrieved and filtered by filters with success");
             return repositoryDTOList;
         }
 
         if (EngineOptionsType.FILE.equals(context.engineOptionsType())) {
             List<RepositoryDTO> repostoryDTOList = retrieveRepositoryListFromCustomList(context, allUserRepositories);
-            callbackContainer.updateApplicationStatusMessage().accept("Repositories retrieved and filtered by file with success");
+            callbackContainer.updateLogAndApplicationStatusMessage().accept("Repositories retrieved and filtered by file with success");
             return repostoryDTOList;
         }
 
@@ -138,7 +138,7 @@ public class GithubSourceEngine extends AbstractSourceEngine {
                 .map(ghRepositoryGHUserPair -> mapper.toDTO(ghRepositoryGHUserPair.getLeft(), ghRepositoryGHUserPair.getRight()))
                 .toList();
 
-        callbackContainer.updateApplicationStatusMessage().accept("All repositories information were retrieved.");
+        callbackContainer.updateLogAndApplicationStatusMessage().accept("All repositories information were retrieved.");
 
         return repositoryDTOList;
     }

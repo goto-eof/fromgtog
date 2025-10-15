@@ -5,15 +5,16 @@ import com.andreidodu.fromgtog.gui.controller.translator.JsonObjectToRecordTrans
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import static com.andreidodu.fromgtog.gui.controller.constants.GuiKeys.APP_MULTITHREADING_ENABLED;
-import static com.andreidodu.fromgtog.gui.controller.constants.GuiKeys.APP_SLEEP_TIME;
+import static com.andreidodu.fromgtog.gui.controller.constants.GuiKeys.*;
 
 public class JsonObjectToAppContextTranslator implements JsonObjectToRecordTranslator<SettingsContext> {
     @Override
     public SettingsContext translate(JSONObject jsonObject) throws JSONException {
         return new SettingsContext(
                 jsonObject.getInt(APP_SLEEP_TIME),
-                jsonObject.getBoolean(APP_MULTITHREADING_ENABLED)
+                jsonObject.getBoolean(APP_MULTITHREADING_ENABLED),
+                jsonObject.getBoolean(APP_CHRON_JOB_ENABLED),
+                jsonObject.getString(APP_CHRON_JOB_EXPRESSION)
         );
     }
 }

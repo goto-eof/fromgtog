@@ -11,10 +11,13 @@ public interface ApplicationConstants {
     String SETTINGS_FILENAME = "settings.properties";
     int MAX_NUM_THREADS = 5;
 
-    String CLONER_THREAD_NAME_PREFIX = "Mr.Cloner";
-    String TERMINATOR_THREAD_NAME_PREFIX = "Mr.Terminator";
-    String TICKER_THREAD_NAME_PREFIX = "Mr.Timer";
-    String ORCHESTRATOR_THREAD_NAME_PREFIX = "Mr.Orchestrator";
+    String CLONER_THREAD_NAME_PREFIX = "FromGtoG - Mr.Cloner";
+    String TERMINATOR_THREAD_NAME_PREFIX = "FromGtoG - Mr.Remover";
+    String TICKER_THREAD_NAME_PREFIX = "FromGtoG - Mr.TimeElapsed";
+    String JOB_THREAD_NAME_PREFIX = "FromGtoG - Mr.BackupJobOrchestrator";
+    String TRAY_ICON_THREAD_NAME_PREFIX = "FromGtoG - Mr.TrayIcon";
+    String ORCHESTRATOR_THREAD_NAME_PREFIX = "FromGtoG - Mr.BackupOrchestrator";
+    String DESCRIPTOR_THREAD_NAME_PREFIX = "FromGtoG - Mr.CronDescriptor";
 
     String LIST_ITEM_SEPARATOR = ",";
 }

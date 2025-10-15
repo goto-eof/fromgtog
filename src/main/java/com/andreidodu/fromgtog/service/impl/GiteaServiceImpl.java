@@ -1,5 +1,6 @@
 package com.andreidodu.fromgtog.service.impl;
 
+import com.andreidodu.fromgtog.dto.DeleteRepositoryRequestDTO;
 import com.andreidodu.fromgtog.dto.gitea.GiteaRepositoryDTO;
 import com.andreidodu.fromgtog.dto.gitea.GiteaUserDTO;
 import com.andreidodu.fromgtog.exception.CloningSourceException;
@@ -25,6 +26,9 @@ import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static com.andreidodu.fromgtog.util.ValidatorUtil.validateIsNotNull;
+import static com.andreidodu.fromgtog.util.ValidatorUtil.validateIsNotNullAndNotBlank;
 
 public class GiteaServiceImpl implements GiteaService {
 
@@ -76,7 +80,7 @@ public class GiteaServiceImpl implements GiteaService {
 
             ObjectMapper mapper = new ObjectMapper();
             mapper.registerModule(new JavaTimeModule());
-            log.debug("User Info: {}", response.toString());
+            log.debug("User Info: {}", response);
             return mapper.readValue(response.toString(), GiteaUserDTO.class);
         } catch (Exception e) {
             log.error("Error getting user info", e);
@@ -235,4 +239,29 @@ public class GiteaServiceImpl implements GiteaService {
         tryToRetrieveUserRepositories(baseUrl, token)
                 .forEach(repositoryDTO -> deleteRepository(baseUrl, token, repositoryDTO.getOwner().getLogin(), repositoryDTO.getName()));
     }
+
+    @Override
+    public boolean deleteRepository(DeleteRepositoryRequestDTO deleteRepositoryRequestDTO) {
+        validateIsNotNull(deleteRepositoryRequestDTO);
+        validateIsNotNullAndNotBlank(deleteRepositoryRequestDTO.baseUrl());
+        validateIsNotNullAndNotBlank(deleteRepositoryRequestDTO.owner());
+        validateIsNotNullAndNotBlank(deleteRepositoryRequestDTO.repoName());
+        validateIsNotNullAndNotBlank(deleteRepositoryRequestDTO.token());
+
+        try {
+            String urlString = deleteRepositoryRequestDTO.baseUrl().get() + "/api/v1/repos/" + deleteRepositoryRequestDTO.owner().get() + "/" + deleteRepositoryRequestDTO.repoName().get();
+            URL url = new URL(urlString);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("DELETE");
+            conn.setRequestProperty(HEADER_AUTHORIZATION, TOKEN_PREFIX + deleteRepositoryRequestDTO.token().get());
+            conn.setRequestProperty(HEADER_ACCEPT, CONTENT_TYPE_JSON);
+            int responseCode = conn.getResponseCode();
+            log.info("Fetching {} -> Status: {}", urlString, responseCode);
+            return responseCode >= 200 && responseCode < 300;
+        } catch (Exception e) {
+            log.error("Failed to delete repository {} of {}, because {}", deleteRepositoryRequestDTO.repoName().get(), deleteRepositoryRequestDTO.baseUrl().get(), e.getMessage());
+            throw new CloningSourceException("Failed to delete repository " + deleteRepositoryRequestDTO.baseUrl().get());
+        }
+    }
+
 }

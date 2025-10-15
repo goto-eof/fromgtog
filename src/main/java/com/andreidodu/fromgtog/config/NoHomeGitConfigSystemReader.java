@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class NoHomeGitConfigSystemReader extends SystemReader {
 
-    private File dummyFile;
+    private final File dummyFile;
 
     public NoHomeGitConfigSystemReader() {
         try {

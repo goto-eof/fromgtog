@@ -28,7 +28,7 @@ public class RemoteExistsCheckCommand implements Command<Boolean> {
         if (localService.isRemoteRepositoryExists(remoteExistsCheckCommandContext.login(), remoteExistsCheckCommandContext.token(), fullUrl)) {
             log.debug("skipping because {} already exists", remoteExistsCheckCommandContext.repositoryName());
             remoteExistsCheckCommandContext.updateApplicationStatusMessagesConsumer()
-                    .accept("Skipping repository because it already exists: " + remoteExistsCheckCommandContext.repositoryName());
+                    .accept("repository already exists: " + remoteExistsCheckCommandContext.repositoryName());
             return true;
         }
         return false;

@@ -1,5 +1,6 @@
 package com.andreidodu.fromgtog.service.factory.to.engines;
 
+import com.andreidodu.fromgtog.service.DeletableDestinationContentService;
 import com.andreidodu.fromgtog.service.factory.to.AbstractDestinationEngine;
 import com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.DestinationEngineStrategy;
 import com.andreidodu.fromgtog.service.factory.to.engines.strategies.generic.GenericDestinationEngineFromLocalStrategy;
@@ -18,10 +19,10 @@ public class GiteaDestinationEngine extends AbstractDestinationEngine {
     private final static EngineType DESTINATION_ENGINE_TYPE = EngineType.GITEA;
 
     static {
-        GenericDestinationEngineFromStrategyService giteaService = GiteaServiceImpl.getInstance();
+        DeletableDestinationContentService giteaService = GiteaServiceImpl.getInstance();
         STRATEGIES_LIST = List.of(
-                new GenericDestinationEngineFromRemoteStrategy<GenericDestinationEngineFromStrategyService>(giteaService),
-                new GenericDestinationEngineFromLocalStrategy<GenericDestinationEngineFromStrategyService>(giteaService)
+                new GenericDestinationEngineFromRemoteStrategy<DeletableDestinationContentService>(giteaService),
+                new GenericDestinationEngineFromLocalStrategy<DeletableDestinationContentService>(giteaService)
         );
     }
 

@@ -22,7 +22,7 @@ import static com.andreidodu.fromgtog.constants.ApplicationConstants.*;
 public class SettingsServiceImpl implements SettingsService {
 
     private static SettingsServiceImpl instance;
-    private Logger log = LoggerFactory.getLogger(SettingsServiceImpl.class);
+    private final Logger log = LoggerFactory.getLogger(SettingsServiceImpl.class);
 
     public static SettingsServiceImpl getInstance() {
         if (instance == null) {

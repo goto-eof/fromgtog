@@ -18,11 +18,13 @@ public class ToGitlabController implements GUIToController {
     private JTextField toGitlabUrlTextField;
     private JTextField toGitlabTokenTextField;
     private JComboBox toGitlabPrivacyComboBox;
+    private JCheckBox toGitlabOverrideIfExistsCheckBox;
 
-    public ToGitlabController(JSONObject settings, JTextField toGitlabUrlTextField, JTextField toGitlabTokenTextField, JComboBox toGitlabPrivacyComboBox) {
+    public ToGitlabController(JSONObject settings, JTextField toGitlabUrlTextField, JTextField toGitlabTokenTextField, JComboBox toGitlabPrivacyComboBox, JCheckBox toGitlabOverrideIfExistsCheckBox) {
         this.toGitlabUrlTextField = toGitlabUrlTextField;
         this.toGitlabTokenTextField = toGitlabTokenTextField;
         this.toGitlabPrivacyComboBox = toGitlabPrivacyComboBox;
+        this.toGitlabOverrideIfExistsCheckBox = toGitlabOverrideIfExistsCheckBox;
 
         DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(new String[]{"All private", "All public"});
         this.toGitlabPrivacyComboBox.setModel(model);
@@ -35,6 +37,8 @@ public class ToGitlabController implements GUIToController {
         toGitlabUrlTextField.setText(settings.optString(TO_GITLAB_URL));
         toGitlabTokenTextField.setText(settings.optString(TO_GITLAB_TOKEN));
         toGitlabPrivacyComboBox.setSelectedIndex(settings.optInt(TO_GITLAB_PRIVACY_INDEX));
+
+        toGitlabOverrideIfExistsCheckBox.setSelected(settings.optBoolean(TO_GITLAB_OVERRIDE_IF_EXISTS, false));
     }
 
     @Override
@@ -50,6 +54,9 @@ public class ToGitlabController implements GUIToController {
         jsonObject.put(TO_GITLAB_TOKEN, toGitlabTokenTextField.getText());
         jsonObject.put(TO_GITLAB_PRIVACY_INDEX, toGitlabPrivacyComboBox.getSelectedIndex());
         jsonObject.put(ENGINE_TYPE, EngineType.fromValue(TAB_INDEX));
+
+        jsonObject.put(TO_GITLAB_OVERRIDE_IF_EXISTS, toGitlabOverrideIfExistsCheckBox.isSelected());
+
 
         return jsonObject;
     }

@@ -31,7 +31,7 @@ public class LocalSourceEngine extends AbstractSourceEngine {
         LocalService localService = LocalServiceImpl.getInstance();
 
         Path path = Paths.get(fromContext.rootPath());
-        log.debug("source path: {}", path.toString());
+        log.debug("source path: {}", path);
         if (Files.notExists(path) || !Files.isDirectory(path)) {
             throw new CloningSourceException("source directory \"" + fromContext.rootPath() + "\" does not exists");
         }

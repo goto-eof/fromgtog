@@ -1,5 +1,6 @@
 package com.andreidodu.fromgtog.service.impl;
 
+import com.andreidodu.fromgtog.dto.DeleteRepositoryRequestDTO;
 import com.andreidodu.fromgtog.service.LocalService;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -13,8 +14,14 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
+import java.util.function.Consumer;
+import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
+
+import static com.andreidodu.fromgtog.util.ValidatorUtil.validateIsNotNull;
 
 public class LocalServiceImpl implements LocalService {
     private static LocalService instance;
@@ -83,7 +90,7 @@ public class LocalServiceImpl implements LocalService {
     }
 
     @Override
-    public boolean pushOnRemote(String login, String token, String baseUrl, String repositoryName, String ownerLogin, File localDir) throws IOException, GitAPIException, URISyntaxException {
+    public boolean pushOnRemote(String login, String token, String baseUrl, String repositoryName, String ownerLogin, File localDir, final boolean forceFlag) throws IOException, GitAPIException, URISyntaxException {
         String remoteUrl = baseUrl + "/" + ownerLogin + "/" + repositoryName + ".git";
         log.debug("pushOnRemote {}", remoteUrl);
         Git git = Git.open(localDir);
@@ -100,6 +107,7 @@ public class LocalServiceImpl implements LocalService {
                 .setRemote(GIT_REMOTE)
                 .setCredentialsProvider(new UsernamePasswordCredentialsProvider(login, token))
                 .setPushAll()
+                .setForce(forceFlag)
                 .call();
 
         git.remoteRemove().setRemoteName(GIT_REMOTE).call();
@@ -125,16 +133,62 @@ public class LocalServiceImpl implements LocalService {
     public boolean isRemoteRepositoryExists(String login, String token, String remoteUrl) {
         try {
             log.debug("checking if repository already exists...{}", remoteUrl);
-            Git.lsRemoteRepository()
+            var result = Git.lsRemoteRepository()
                     .setRemote(remoteUrl)
                     .setCredentialsProvider(new UsernamePasswordCredentialsProvider(login, token))
                     .call();
-            log.debug("isRemoteRepositoryExists {}", true);
+            log.debug("isRemoteRepositoryExists {}", result);
             return true;
         } catch (GitAPIException e) {
             log.error("Error checking remote repository: {}", e.getMessage());
             return false;
         }
+    }
+
+    @Override
+    public boolean deleteRepository(DeleteRepositoryRequestDTO deleteRepositoryRequestDTO) {
+        validateIsNotNull(deleteRepositoryRequestDTO);
+        File file = deleteRepositoryRequestDTO.localPath()
+                .orElseThrow(() -> new IllegalArgumentException("localPath is null"));
+        return deleteFilesRecursively(file);
+    }
+
+    private boolean deleteFilesRecursively(File file) {
+        validateIsNotNull(file);
+
+        log.debug("deleteFilesRecursively {}", file.getAbsoluteFile());
+        try {
+
+            Path path = file.toPath();
+
+            if (!Files.exists(path)) {
+                return false;
+            }
+
+            try (Stream<Path> walk = Files.walk(path)) {
+                walk.sorted(Comparator.reverseOrder())
+                        .forEach(deleteSingleFileOrDirectoryConsumer());
+                log.info("Deleted directory: {}", path.toAbsolutePath());
+            }
+
+            log.info("Directory deleted successfully: {}", file.getAbsoluteFile());
+
+            return true;
+
+        } catch (IOException e) {
+            log.error("error deleting files: {}", e.getMessage(), e);
+            return false;
+        }
+    }
+
+    private Consumer<Path> deleteSingleFileOrDirectoryConsumer() {
+        return pathFile -> {
+            try {
+                Files.delete(pathFile);
+            } catch (IOException e) {
+                log.error("Failed to delete {}", pathFile, e);
+            }
+        };
     }
 
 }

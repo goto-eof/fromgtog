@@ -11,6 +11,7 @@ public record ToContext(
         String token,
         RepoPrivacyType repositoryPrivacy,
         String rootPath,
-        boolean groupByRepositoryOwner
+        boolean groupByRepositoryOwner,
+        boolean overrideIfExists
 ) {
 }

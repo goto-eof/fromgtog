@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 
 import static com.andreidodu.fromgtog.constants.ApplicationConstants.CLONER_THREAD_NAME_PREFIX;
@@ -49,7 +50,6 @@ public class GithubDestinationEngineFromLocaleStrategy extends AbstractStrategyC
 
         new UpdateStatusCommand(buildUpdateStatusContext(engineContext.callbackContainer(), repositoryDTOList.size(), 0, "initializing the cloning process")).execute();
 
-
         List<String> pathList = repositoryDTOList.stream()
                 .map(RepositoryDTO::getPath)
                 .toList();
@@ -65,55 +65,71 @@ public class GithubDestinationEngineFromLocaleStrategy extends AbstractStrategyC
         ThreadUtil threadUtil = ThreadUtil.getInstance();
         try (final ExecutorService executorService = threadUtil.createExecutor(CLONER_THREAD_NAME_PREFIX, engineContext.settingsContext().multithreadingEnabled())) {
             super.resetIndex();
-
-
+            LocalService localService = LocalServiceImpl.getInstance();
             for (String path : pathList) {
-                executorService.execute(() -> processItem(engineContext, path, githubClient, tokenOwnerLogin));
+                executorService.execute(() -> processItem(engineContext, path, gitHubService, githubClient, localService, tokenOwnerLogin));
             }
 
         }
 
         new UpdateStatusCommand(buildUpdateStatusContext(engineContext.callbackContainer(), pathList.size(), super.getIndex(), String.format("done%s", calculateStatus(pathList.size())))).execute();
 
-        callbackContainer.setShouldStop().accept(true);
         return super.getIndex() == pathList.size();
     }
 
 
-    private void processItem(EngineContext engineContext, String path, GitHub githubClient, String tokenOwnerLogin) {
+    private void processItem(EngineContext engineContext, String path, GitHubService service, GitHub githubClient, LocalService localService, String tokenOwnerLogin) {
         String repositoryName = new File(path).getName();
         FromContext fromContext = engineContext.fromContext();
         ToContext toContext = engineContext.toContext();
         CallbackContainer callbackContainer = engineContext.callbackContainer();
-        LocalService localService = LocalServiceImpl.getInstance();
 
         if (isShouldStopTheProcess(repositoryName, callbackContainer)) {
             return;
         }
 
         repositoryName = correctRepositoryName(repositoryName);
+        boolean isOverrideFlagEnabled = toContext.overrideIfExists();
+        boolean isDestinationRepositoryAlreadyExists = isRemoteRepositoryAlreadyExists(GithubDestinationEngineCommon.buildRemoteExistsCheckInput(engineContext, tokenOwnerLogin, repositoryName));
 
-        if (isRemoteRepositoryAlreadyExists(GithubDestinationEngineCommon.buildRemoteExistsCheckInput(engineContext, tokenOwnerLogin, repositoryName))) {
+        if (!isOverrideFlagEnabled && isDestinationRepositoryAlreadyExists) {
+            callbackContainer.updateLogAndApplicationStatusMessage().accept("Skipping repository because it already exists: " + repositoryName);
             incrementIndexSuccess(callbackContainer);
             return;
         }
 
-        callbackContainer.updateApplicationStatusMessage().accept("cloning " + repositoryName + " ...");
-        callbackContainer.updateApplicationStatusMessage().accept("cloning repository: " + repositoryName);
+        callbackContainer.updateLogAndApplicationStatusMessage().accept("cloning " + repositoryName + " ...");
+        callbackContainer.updateLogAndApplicationStatusMessage().accept("cloning repository: " + repositoryName);
+
 
         try {
-            githubClient.createRepository(repositoryName).private_(RepoPrivacyType.ALL_PRIVATE.equals(toContext.repositoryPrivacy())).owner(tokenOwnerLogin).create();
+            if (!isDestinationRepositoryAlreadyExists) {
+                callbackContainer.updateLogAndApplicationStatusMessage().accept("repository not found on destination platform: " + repositoryName);
+                callbackContainer.updateLogAndApplicationStatusMessage().accept("I am going to create it: " + repositoryName);
+                githubClient.createRepository(repositoryName).private_(RepoPrivacyType.ALL_PRIVATE.equals(toContext.repositoryPrivacy())).owner(tokenOwnerLogin).create();
+                callbackContainer.updateLogAndApplicationStatusMessage().accept("Destination repo created: " + repositoryName);
+            }
         } catch (IOException e) {
-            callbackContainer.updateApplicationStatusMessage().accept("unable to create repository: " + repositoryName);
+            callbackContainer.updateLogAndApplicationStatusMessage().accept("unable to create repository: " + repositoryName);
             log.debug("unable to create repository: {}", repositoryName, e);
             return;
         }
 
+        if (isOverrideFlagEnabled) {
+            String message = String.format("isOverrideFlagEnabled: executing git push --force %s", repositoryName);
+            callbackContainer.updateLogAndApplicationStatusMessage().accept(message);
+        }
+
         try {
-            log.debug("pushing...");
-            boolean result = localService.pushOnRemote(tokenOwnerLogin, toContext.token(), GITHUB_URL, repositoryName, tokenOwnerLogin, new File(path));
+            String message = String.format("pushing %s on %s...", repositoryName, toContext.url());
+            callbackContainer.updateLogAndApplicationStatusMessage().accept(message);
+
+            boolean isPushOk = localService.pushOnRemote(tokenOwnerLogin, toContext.token(), GITHUB_URL, repositoryName, tokenOwnerLogin, new File(path), isOverrideFlagEnabled);
+
+            message = String.format("push status for repo %s: %S", repositoryName, isPushOk);
+            callbackContainer.updateLogAndApplicationStatusMessage().accept(message);
         } catch (IOException | GitAPIException | URISyntaxException e) {
-            callbackContainer.updateApplicationStatusMessage().accept("Unable to push repository " + repositoryName);
+            callbackContainer.updateLogAndApplicationStatusMessage().accept("Unable to push repository " + repositoryName);
             log.error("Unable to push repository {}", repositoryName, e);
             return;
         }
@@ -123,7 +139,7 @@ public class GithubDestinationEngineFromLocaleStrategy extends AbstractStrategyC
             githubClient.getRepository(tokenOwnerLogin + "/" + repositoryName)
                     .setPrivate(RepoPrivacyType.ALL_PRIVATE.equals(toContext.repositoryPrivacy()));
         } catch (IOException e) {
-            callbackContainer.updateApplicationStatusMessage().accept("Unable to push repository " + repositoryName);
+            callbackContainer.updateLogAndApplicationStatusMessage().accept("Unable to push repository " + repositoryName);
             log.error("Unable to push repository {}", repositoryName, e);
             return;
         }
@@ -136,6 +152,10 @@ public class GithubDestinationEngineFromLocaleStrategy extends AbstractStrategyC
             throw new RuntimeException("Unable to put thread on sleep " + repositoryName);
         }
 
+    }
+
+    private static DeleteRepositoryRequestDTO buildDestinationDeleteRepositoryRequestDTO(String tokenOwnerLogin, ToContext toContext, String repositoryName) {
+        return new DeleteRepositoryRequestDTO(Optional.of(toContext.token()), Optional.of(toContext.url()), Optional.of(tokenOwnerLogin), Optional.of(repositoryName), Optional.empty());
     }
 
 }
