@@ -15,7 +15,7 @@ public interface ApplicationConstants {
     String TERMINATOR_THREAD_NAME_PREFIX = "FromGtoG - Mr.Terminator";
     String TICKER_THREAD_NAME_PREFIX = "FromGtoG - Mr.Timer";
     String JOB_THREAD_NAME_PREFIX = "FromGtoG - Mr.Job";
-    String TRAY_ICON_THREAD_NAME_PREFIX = "FromGtoG - Mr.Icon";
+    String TRAY_ICON_THREAD_NAME_PREFIX = "FromGtoG - Mr.TrayIcon";
     String ORCHESTRATOR_THREAD_NAME_PREFIX = "FromGtoG - Mr.Orchestrator";
 
     String LIST_ITEM_SEPARATOR = ",";

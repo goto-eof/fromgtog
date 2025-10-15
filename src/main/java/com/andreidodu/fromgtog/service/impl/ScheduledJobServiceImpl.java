@@ -29,6 +29,7 @@ public class ScheduledJobServiceImpl implements ScheduledService {
     private final static Logger log = LoggerFactory.getLogger(ScheduledJobServiceImpl.class);
 
     private ScheduledFuture<?> jobScheduledFuture;
+    private ScheduledFuture<?> checkUserActionStopFuture;
 
     @Getter
     @Setter
@@ -40,13 +41,15 @@ public class ScheduledJobServiceImpl implements ScheduledService {
     public ScheduledJobServiceImpl(EngineContext engineContext) {
         this.engineContext = engineContext;
         CustomThreadFactory customThreadFactory = new CustomThreadFactory(JOB_THREAD_NAME_PREFIX);
-        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1, customThreadFactory);
+        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(2, customThreadFactory);
         this.setScheduledExecutorService(scheduledExecutorService);
     }
 
 
     @Override
     public synchronized void run(Runnable runnable) {
+
+        runCheckStopUserAction();
 
         if (jobScheduledFuture != null) {
             return;
@@ -58,6 +61,19 @@ public class ScheduledJobServiceImpl implements ScheduledService {
         jobScheduledFuture = this.getScheduledExecutorService()
                 .scheduleAtFixedRate(buildRunnableRecurringTask(runnable, cron), 0, 1, TimeUnit.SECONDS);
 
+    }
+
+    private void runCheckStopUserAction() {
+        if (checkUserActionStopFuture != null) {
+            return;
+        }
+
+        checkUserActionStopFuture = this.getScheduledExecutorService()
+                .scheduleAtFixedRate(() -> {
+                    if (engineContext.callbackContainer().isShouldStop().get()) {
+                        this.shutdown();
+                    }
+                }, 0, 1, TimeUnit.SECONDS);
     }
 
     private Runnable buildRunnableRecurringTask(Runnable runnable, Cron cron) {
@@ -133,6 +149,9 @@ public class ScheduledJobServiceImpl implements ScheduledService {
         log.info("Shutting down ScheduledJobServiceImpl");
         if (jobScheduledFuture != null) {
             jobScheduledFuture.cancel(true);
+        }
+        if (jobScheduledFuture != null) {
+            checkUserActionStopFuture.cancel(true);
         }
         scheduledExecutorService.shutdown();
         try {
