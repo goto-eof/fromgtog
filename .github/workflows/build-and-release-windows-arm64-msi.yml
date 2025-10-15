@@ -1,4 +1,4 @@
-name: Build e Package Multi-OS (Cross-Arch)
+name: Create Windows ARM64 DEB file
 
 on:
   push:

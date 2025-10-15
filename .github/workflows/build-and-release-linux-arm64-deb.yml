@@ -1,4 +1,4 @@
-name: Build e Package Linux DEB (Cross-Arch)
+name: Create Linux ARM64 DEB file
 
 on:
   push:
