@@ -879,7 +879,7 @@ public class ApplicationGUI extends JFrame {
         panel48.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(-1769445)), "DANGER ZONE", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION, null, new Color(-1769445)));
         toGithubOverrideIfExistsCheckBox = new JCheckBox();
         toGithubOverrideIfExistsCheckBox.setForeground(new Color(-1769445));
-        toGithubOverrideIfExistsCheckBox.setText("Override if exists");
+        toGithubOverrideIfExistsCheckBox.setText("Override destination if exists");
         panel48.add(toGithubOverrideIfExistsCheckBox, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer17 = new Spacer();
         panel48.add(spacer17, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
@@ -941,7 +941,7 @@ public class ApplicationGUI extends JFrame {
         panel57.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(-1769445)), "DANGER ZONE", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION, null, new Color(-1769445)));
         toGiteaOverrideIfExistsCheckBox = new JCheckBox();
         toGiteaOverrideIfExistsCheckBox.setForeground(new Color(-1769445));
-        toGiteaOverrideIfExistsCheckBox.setText("Override if exists");
+        toGiteaOverrideIfExistsCheckBox.setText("Override destination if exists");
         panel57.add(toGiteaOverrideIfExistsCheckBox, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer21 = new Spacer();
         panel57.add(spacer21, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
@@ -1002,7 +1002,7 @@ public class ApplicationGUI extends JFrame {
         panel65.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(-1769445)), "DANGER ZONE", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION, null, new Color(-1769445)));
         toGitlabOverrideIfExistsCheckBox = new JCheckBox();
         toGitlabOverrideIfExistsCheckBox.setForeground(new Color(-1769445));
-        toGitlabOverrideIfExistsCheckBox.setText("Override if exists");
+        toGitlabOverrideIfExistsCheckBox.setText("Override destination if exists");
         panel65.add(toGitlabOverrideIfExistsCheckBox, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer25 = new Spacer();
         panel65.add(spacer25, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
@@ -1048,7 +1048,7 @@ public class ApplicationGUI extends JFrame {
         panel70.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(-1769445)), "DANGER ZONE", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION, this.$$$getFont$$$(null, -1, -1, panel70.getFont()), new Color(-1769445)));
         toLocalOverrideIfExistsCheckBox = new JCheckBox();
         toLocalOverrideIfExistsCheckBox.setForeground(new Color(-1769445));
-        toLocalOverrideIfExistsCheckBox.setText("Override if exists");
+        toLocalOverrideIfExistsCheckBox.setText("Override destination if exists");
         panel70.add(toLocalOverrideIfExistsCheckBox, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer29 = new Spacer();
         panel70.add(spacer29, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
