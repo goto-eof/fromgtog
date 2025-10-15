@@ -69,17 +69,13 @@ public class LocalDestinationEngineFromRemoteStrategy extends AbstractStrategyCo
 
         String cloneUrl = repositoryDTO.getCloneAddress();
 
-        if (repositoryDTO.isPrivateFlag()) {
-            cloneUrl = cloneUrl.replace("github.com", fromContext.login() + ":" + fromContext.token() + "@github.com");
-        }
-
         callbackContainer.updateLogAndApplicationStatusMessage().accept("cloning repository: " + repositoryDTO.getName());
         File localRepoFile = new File(toContext.rootPath() + "/" + repositoryDTO.getName());
         if (toContext.groupByRepositoryOwner()) {
             String repositoryOwnerName = repositoryDTO.getLogin();
             localRepoFile = new File(toContext.rootPath() + "/" + repositoryOwnerName + "/" + repositoryDTO.getName());
-            log.debug("path: {}", localRepoFile.getAbsolutePath());
         }
+        log.info("repo path: {}", localRepoFile.getAbsolutePath());
 
         boolean isOverrideIfExistsFlagEnabled = toContext.overrideIfExists();
         boolean isLocalRepoAlreadyExists = localRepoFile.exists();

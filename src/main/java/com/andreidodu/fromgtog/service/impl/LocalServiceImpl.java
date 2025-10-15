@@ -1,6 +1,7 @@
 package com.andreidodu.fromgtog.service.impl;
 
 import com.andreidodu.fromgtog.dto.DeleteRepositoryRequestDTO;
+import com.andreidodu.fromgtog.exception.CloningDestinationException;
 import com.andreidodu.fromgtog.service.LocalService;
 import org.apache.commons.io.FileUtils;
 import org.eclipse.jgit.api.Git;
@@ -158,20 +159,19 @@ public class LocalServiceImpl implements LocalService {
         log.debug("deleteFilesRecursively {}", file.getAbsoluteFile());
         try {
 
-            Path path = file.toPath();
-
-            if (!Files.exists(path)) {
+            if (!file.exists()) {
                 return false;
             }
 
             FileUtils.deleteDirectory(file);
+
             log.info("Directory deleted successfully: {}", file.getAbsoluteFile());
 
             return true;
 
         } catch (IOException e) {
             log.error("error deleting files: {}", e.getMessage(), e);
-            return false;
+            throw new CloningDestinationException("unable to delete the file", e);
         }
     }
 

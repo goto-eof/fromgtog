@@ -75,7 +75,6 @@ public class LocalDestinationEngineFromLocalStrategy extends AbstractStrategyCom
 
         File localRepoFile = new File(toDirectoryPath);
 
-
         boolean isLocalRepoAlreadyExists = localRepoFile.exists();
         boolean isOverrideIfExistsFlagEnabled = toContext.overrideIfExists();
 
