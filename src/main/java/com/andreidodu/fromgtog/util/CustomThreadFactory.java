@@ -15,6 +15,7 @@ public class CustomThreadFactory implements ThreadFactory {
     public Thread newThread(Runnable r) {
         Thread t = new Thread(r);
         t.setName(threadNamePrefix + threadCount.getAndIncrement());
+        t.setDaemon(true);
         return t;
     }
 }
