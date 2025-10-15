@@ -112,6 +112,7 @@ The application supports robust, two-way cloning and secure migration across all
     * **Daemon Mode:** When cron is enabled, the application runs as a **daemon**. The window can be shown/hidden via a
       click on the **system tray icon**, and a right-click menu is used to safely **Exit** the application completely.
     * During execution, the system tray icon flashes intermittently to indicate an active job.
+    * example of cron expressions:
 * **Destination Repository Override:** Enables **force updates** of existing repositories (via `git push --force` for
   remote or complete content replacement for local).
 * **Repository Cleanup:** Ability to delete all repositories from supported remote platforms (**GitHub**, **Gitea**, *
@@ -135,6 +136,16 @@ The application supports robust, two-way cloning and secure migration across all
 | **Windows**        | [Installer ZIP](https://github.com/goto-eof/fromgtog/releases/download/9.0.6/fromgtog-Windows-9.0.6-amd64-Installer.zip) | N/A                                                                                                                    | N/A                                                                                                                                                         |
 | **Debian**         | [Installer ZIP](https://github.com/goto-eof/fromgtog/releases/download/9.0.6/fromgtog-Linux-9.0.6-amd64-Installer.zip)   | N/A                                                                                                                    | **Snap Store (AMD64/ARM64):** [Install Link](https://snapcraft.io/fromgtog)<br>**Comment:** Or run `sudo snap install fromgtog`.                            |
 | **Cross-Platform** | N/A                                                                                                                      | N/A                                                                                                                    | **Jar file:** [Download Link](https://github.com/goto-eof/fromgtog/releases/download/9.0.6/fromgtog.jar)<br>**Comment:** Run with `java -jar fromgtog.jar`. |
+
+### Cron Job Expressions
+
+| cron expression                  | descritpion              |
+|:---------------------------------|:-------------------------|
+| 0 0 * ? * * *                    | every hour               |
+| 0 0 0/1 ? * * *                  | every day                |
+| 0 0 15 ? * * *                   | every day at 3 PM        |
+| 0 0 15 ? * MON,TUE,WED,THU,FRI * | from Mo. to Fri. at 3 PM |
+> You can generate your custom cron expression [here](https://freeformatter.com/cron-expression-generator-quartz.html).
 
 <h2 id="screenshot">Screenshot</h2>
 
