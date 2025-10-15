@@ -82,7 +82,7 @@ public class GenericDestinationEngineFromRemoteStrategy<ServiceType extends Dele
 
         boolean isOverrideFlagEnabled = toContext.overrideIfExists();
         RemoteExistsCheckCommandContext remoteExistsCheckCommandContext = GenericDestinationEngineCommon.buildRemoteExistsCheckInput(engineContext, toContextLogin, repositoryName);
-        Boolean isDestinationRepositoryAlreadyExists = isRemoteRepositoryAlreadyExists(remoteExistsCheckCommandContext);
+        Boolean isDestinationRepositoryAlreadyExists = isRemoteDestinationRepositoryAlreadyExists(remoteExistsCheckCommandContext);
 
         if (!isOverrideFlagEnabled && isDestinationRepositoryAlreadyExists) {
             incrementIndexSuccess(callbackContainer);

@@ -81,7 +81,7 @@ public class GithubDestinationEngineFromRemoteStrategy extends AbstractStrategyC
 
         callbackContainer.updateLogAndApplicationStatusMessage().accept("cloning repository: " + repositoryName);
         boolean isOverrideFlagEnabled = toContext.overrideIfExists();
-        boolean isDestinationRepositoryAlreadyExists = isRemoteRepositoryAlreadyExists(GithubDestinationEngineCommon.buildRemoteExistsCheckInput(engineContext, tokenOwnerLogin, repositoryName));
+        boolean isDestinationRepositoryAlreadyExists = isRemoteDestinationRepositoryAlreadyExists(GithubDestinationEngineCommon.buildRemoteDestinationExistsCheckInput(engineContext, tokenOwnerLogin, repositoryName));
 
         if (!isOverrideFlagEnabled && isDestinationRepositoryAlreadyExists) {
             incrementIndexSuccess(callbackContainer);

@@ -36,7 +36,7 @@ public class CommandCommon {
     }
 
 
-    public static Boolean isRemoteRepositoryAlreadyExists(RemoteExistsCheckCommandContext remoteExistsCheckCommandContext) {
+    public static Boolean isRemoteDestinationRepositoryAlreadyExists(RemoteExistsCheckCommandContext remoteExistsCheckCommandContext) {
         return new RemoteExistsCheckCommand(remoteExistsCheckCommandContext).execute();
     }
 }

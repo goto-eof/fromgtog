@@ -5,7 +5,7 @@ import com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.reco
 
 public class GithubDestinationEngineCommon {
 
-    public static RemoteExistsCheckCommandContext buildRemoteExistsCheckInput(EngineContext engineContext, String tokenOwnerLogin, String repositoryName) {
+    public static RemoteExistsCheckCommandContext buildRemoteDestinationExistsCheckInput(EngineContext engineContext, String tokenOwnerLogin, String repositoryName) {
         return RemoteExistsCheckCommandContext.builder()
                 .updateApplicationStatusMessagesConsumer(engineContext.callbackContainer().updateLogAndApplicationStatusMessage())
                 .login(tokenOwnerLogin)
