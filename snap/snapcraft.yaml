@@ -28,19 +28,17 @@ apps:
     command: executor
     extensions: [ gnome ]
     plugs:
-      - network
-      - x11
-      - browser-support
-      - unity7
-      - home
-      - desktop
-      - desktop-legacy
-      - removable-media
-      - wayland
-      - network-bind
-      - audio-playback
       - alsa
+      - audio-playback
+      - browser-support
+      - home
+      - network
+      - network-bind
       - personal-files
+      - removable-media
+      - unity7
+      - wayland
+      - x11
     slots:
       - fromgtog-dbus
 platforms:
