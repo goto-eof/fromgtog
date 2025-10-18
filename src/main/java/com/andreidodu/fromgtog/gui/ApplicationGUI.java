@@ -4,12 +4,11 @@ import com.andreidodu.fromgtog.gui.controller.GUIFromController;
 import com.andreidodu.fromgtog.gui.controller.GUIToController;
 import com.andreidodu.fromgtog.gui.controller.impl.*;
 import com.andreidodu.fromgtog.gui.helper.TrayIconHelper;
+import com.andreidodu.fromgtog.gui.helper.systemtray.SystemTrayCoordinatorImpl;
 import com.andreidodu.fromgtog.service.impl.SettingsServiceImpl;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
-import dorkbox.jna.linux.AppIndicator;
-import dorkbox.systemTray.SystemTray;
 import org.json.JSONObject;
 
 import javax.swing.*;
@@ -116,7 +115,7 @@ public class ApplicationGUI extends JFrame {
     private TrayIconHelper trayIconHelper;
 
     public ApplicationGUI() {
-        setTitle("FromGtoG 9.1.0");
+        setTitle("FromGtoG 9.1.1");
         setResizable(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setContentPane(mainPanel);
@@ -150,8 +149,7 @@ public class ApplicationGUI extends JFrame {
         addFromTabbedPaneListener();
 
         SwingUtilities.invokeLater(() -> {
-            SystemTray.DEBUG = true;
-            if (SystemTray.get() == null) {
+            if (!new SystemTrayCoordinatorImpl().getSystemTrayStrategy().isSupported()) {
                 JOptionPane.showMessageDialog(null, "System tray not supported on this platform.");
                 System.exit(1);
                 return;
@@ -1234,7 +1232,7 @@ public class ApplicationGUI extends JFrame {
         final Spacer spacer40 = new Spacer();
         panel87.add(spacer40, new GridConstraints(6, 0, 1, 4, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         final JLabel label52 = new JLabel();
-        label52.setText("Version: 9.1.0");
+        label52.setText("Version: 9.1.1");
         panel87.add(label52, new GridConstraints(2, 0, 1, 4, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label53 = new JLabel();
         label53.setText("Author: Andrei Dodu");

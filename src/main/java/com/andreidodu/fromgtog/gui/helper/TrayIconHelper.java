@@ -1,5 +1,7 @@
 package com.andreidodu.fromgtog.gui.helper;
 
+import com.andreidodu.fromgtog.dto.Tuple;
+import com.andreidodu.fromgtog.gui.helper.systemtray.SystemTrayCoordinatorImpl;
 import com.andreidodu.fromgtog.util.OsUtil;
 import dorkbox.systemTray.SystemTray;
 import org.slf4j.Logger;
@@ -8,31 +10,32 @@ import org.slf4j.LoggerFactory;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.util.Objects;
+import java.util.function.Consumer;
 
 public class TrayIconHelper {
     public static final String TRAY_ICON_IMAGE = "/images/xm/icon-64x64.png";
     public static final String TRAY_ICON_IMAGE_SECONDARY = "/images/xm/icon-red-64x64.png";
+    private final static SystemTrayCoordinatorImpl strategyFinder = new SystemTrayCoordinatorImpl();
 
-    private SystemTray systemTray;
-    final static Logger log = LoggerFactory.getLogger(TrayIconHelper.class);
+
+    private final static Logger log = LoggerFactory.getLogger(TrayIconHelper.class);
     private volatile String currentTrayIconImageFile = TRAY_ICON_IMAGE;
 
     public TrayIconHelper(JFrame mainWindow, final boolean isWindowVisible) {
         try {
-            this.systemTray = SystemTray.get();
 
-            SystemTray tray = SystemTray.get();
-            Image image = loadImage(TRAY_ICON_IMAGE, getTrayIconSize(tray));
+            Image image = loadImage(TRAY_ICON_IMAGE, strategyFinder.getSystemTrayStrategy().getTrayIconSize());
             if (image == null) {
                 image = createFallbackImage();
             }
 
-            BuildTrayIconMenu result = buildTrayIconMenu(mainWindow);
-            completeTrayIcon(image, result.popup());
+            java.util.List<Tuple<String, Consumer<ActionEvent>>> trayMenu = buildTrayIconMenu(mainWindow);
+            completeTrayIcon(image, trayMenu);
 
             addWindowListeners(mainWindow);
 
@@ -65,29 +68,16 @@ public class TrayIconHelper {
         mainWindow.setVisible(false);
     }
 
-    private void completeTrayIcon(Image image, JMenu popupMenu) throws AWTException {
-        systemTray.setImage(image);
-        systemTray.setMenu(popupMenu);
+    private void completeTrayIcon(Image image, java.util.List<Tuple<String, Consumer<ActionEvent>>> menu) throws AWTException {
+        strategyFinder.getSystemTrayStrategy().setMenu(image, menu);
     }
 
-    private BuildTrayIconMenu buildTrayIconMenu(JFrame mainWindow) {
-        JMenu popup = new JMenu("FromGtoG");
-
-        JMenuItem restoreItem = new JMenuItem("Open");
-        restoreItem.addActionListener(e -> SwingUtilities.invokeLater(() -> showWindow(mainWindow)));
-        popup.add(restoreItem);
-
-        JMenuItem showMsg = new JMenuItem("About");
-        showMsg.addActionListener(e -> displayInfo("FromGtoG", "FromGtoG 9.1.0 by Andrei Dodu"));
-        popup.add(showMsg);
-
-        JMenuItem exitItem = new JMenuItem("Exit");
-        exitItem.addActionListener(e -> {
-            SwingUtilities.invokeLater(() -> System.exit(0));
-        });
-        popup.addSeparator();
-        popup.add(exitItem);
-        return new BuildTrayIconMenu(popup, restoreItem);
+    private java.util.List<Tuple<String, Consumer<ActionEvent>>> buildTrayIconMenu(JFrame mainWindow) {
+        return java.util.List.of(
+                new Tuple<>("Open", (e) -> SwingUtilities.invokeLater(() -> showWindow(mainWindow))),
+                new Tuple<>("About", (e) -> SwingUtilities.invokeLater(() -> displayInfo("FromGtoG", "FromGtoG 9.1.1 by Andrei Dodu"))),
+                new Tuple<>("Exit", (e) -> SwingUtilities.invokeLater(() -> System.exit(0)))
+        );
     }
 
     private static void showWindow(JFrame mainWindow) {
@@ -137,12 +127,11 @@ public class TrayIconHelper {
 
     private void loadAndSetImage() {
         Image image = loadImage(currentTrayIconImageFile);
-        systemTray.setImage(image);
+        strategyFinder.getSystemTrayStrategy().setImage(image);
     }
 
     private static Image loadImage(final String imgFile) {
-        SystemTray tray = SystemTray.get();
-        Image image = loadImage(imgFile, getTrayIconSize(tray));
+        Image image = loadImage(imgFile, strategyFinder.getSystemTrayStrategy().getTrayIconSize());
         if (image == null) {
             image = createFallbackImage();
         }
