@@ -1,10 +1,9 @@
-package com.andreidodu.fromgtog.gui.helper.systemtray;
+package com.andreidodu.fromgtog.gui.helper.systemtray.strategy;
 
 import com.andreidodu.fromgtog.dto.Tuple;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.util.List;
 import java.util.function.Consumer;
 
 public interface SystemTrayStrategy {

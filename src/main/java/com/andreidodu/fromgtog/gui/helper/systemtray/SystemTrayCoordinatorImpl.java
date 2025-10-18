@@ -2,6 +2,7 @@ package com.andreidodu.fromgtog.gui.helper.systemtray;
 
 import com.andreidodu.fromgtog.gui.helper.systemtray.strategy.LinuxSystemTrayStrategyImpl;
 import com.andreidodu.fromgtog.gui.helper.systemtray.strategy.MacOsSystemTrayStrategyImpl;
+import com.andreidodu.fromgtog.gui.helper.systemtray.strategy.SystemTrayStrategy;
 import com.andreidodu.fromgtog.gui.helper.systemtray.strategy.WindowsSystemTrayStrategyImpl;
 
 import java.util.List;

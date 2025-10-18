@@ -10,4 +10,8 @@ public class ApplicationUtil {
         String userHome = System.getProperty("user.home");
         return new File(userHome, APP_NAME_FOR_DATA);
     }
+
+    public static String getTemporaryFolderName() {
+        return System.getProperty("java.io.tmpdir") + File.separator + "fromgtog";
+    }
 }
