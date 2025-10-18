@@ -142,7 +142,6 @@ parts:
       - alsa-config
     override-prime: |
       snapcraftctl prime
-      ARCH_TRIPLET="*-linux-gnu"
-      LIB_DIR="$SNAPCRAFT_PRIME/usr/lib/$ARCH_TRIPLET"
+      LIB_DIR=$(find "$SNAPCRAFT_PRIME/usr/lib/" -maxdepth 1 -type d -name "*-linux-gnu" -print -quit)
       ln -sf libappindicator3.so.* "$LIB_DIR/libappindicator3.so"
 
