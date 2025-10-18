@@ -12,6 +12,7 @@ import com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.reco
 import com.andreidodu.fromgtog.service.impl.LocalServiceImpl;
 import com.andreidodu.fromgtog.type.EngineType;
 import com.andreidodu.fromgtog.type.RepoPrivacyType;
+import com.andreidodu.fromgtog.util.ApplicationUtil;
 import com.andreidodu.fromgtog.util.ThreadUtil;
 import org.apache.commons.io.FileUtils;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -72,7 +73,7 @@ public class GenericDestinationEngineFromRemoteStrategy<ServiceType extends Dele
         ToContext toContext = engineContext.toContext();
         CallbackContainer callbackContainer = engineContext.callbackContainer();
 
-        final String TEMP_DIRECTORY = System.getProperty("java.io.tmpdir");
+        final String TEMP_DIRECTORY = ApplicationUtil.getTemporaryFolderName();
 
         if (isShouldStopTheProcess(repositoryName, callbackContainer)) {
             return;

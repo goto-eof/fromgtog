@@ -4,13 +4,13 @@ import com.andreidodu.fromgtog.dto.DeleteRepositoryRequestDTO;
 import com.andreidodu.fromgtog.exception.CloningDestinationException;
 import com.andreidodu.fromgtog.service.LocalService;
 import org.apache.commons.io.FileUtils;
+import org.eclipse.jgit.api.CreateBranchCommand;
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.ListBranchCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.TransportException;
-import org.eclipse.jgit.transport.PushResult;
-import org.eclipse.jgit.transport.RemoteRefUpdate;
-import org.eclipse.jgit.transport.URIish;
-import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -78,13 +78,61 @@ public class LocalServiceImpl implements LocalService {
 
     @Override
     public boolean clone(String login, String token, String cloneUrl, String toPath) throws GitAPIException {
-        try (Git git = Git.cloneRepository()
+        try {
+            FileUtils.deleteDirectory(new File(toPath));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        try (Git localGitRepository = Git.cloneRepository()
                 .setURI(cloneUrl)
+                .setCloneSubmodules(true)
+                .setCloneAllBranches(true)
                 .setDirectory(new File(toPath))
                 .setCredentialsProvider(new UsernamePasswordCredentialsProvider(login, token))
                 .call()) {
+            String masterBranch = localGitRepository.getRepository().getBranch();
+            log.info("master: {}", masterBranch);
+            localGitRepository.branchList()
+                    .setListMode(ListBranchCommand.ListMode.REMOTE)
+                    .call()
+                    .stream()
+                    .filter(branch -> !branch.getName().endsWith("/" + masterBranch))
+                    .forEach(branch -> {
+                        try {
+                            String[] fullName = branch.getName().split("/");
+                            localGitRepository.branchCreate()
+                                    .setName(fullName[fullName.length - 1])
+                                    .setStartPoint(branch.getName())
+                                    .setUpstreamMode(CreateBranchCommand.SetupUpstreamMode.TRACK)
+                                    .call();
+
+                        } catch (GitAPIException e) {
+                            throw new RuntimeException(e);
+                        }
+                    });
+
+            localGitRepository.tagList().call().forEach(ref -> {
+                try (RevWalk revWalk = new RevWalk(localGitRepository.getRepository())) {
+//                    String tagName = ref.getName().replace("refs/tags/", "");
+//                    RevObject revObject = revWalk.parseAny(ref.getObjectId());
+//                    Ref tagCommand = localGitRepository.tag()
+//                            .setName(tagName)
+//                            .setObjectId(revObject)
+//                            .setForceUpdate(true)
+//                            .call();
+
+                    localGitRepository.checkout()
+                            .setName(ref.getName())
+                            .call();
+
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            });
+
+
             return true;
-        } catch (TransportException e) {
+        } catch (TransportException | RuntimeException e) {
             log.error("Unable to clone repository {}...", cloneUrl, e);
             try {
                 Thread.sleep(3000);
@@ -92,31 +140,38 @@ public class LocalServiceImpl implements LocalService {
                 Thread.currentThread().interrupt();
             }
             throw e;
+        } catch (IOException e) {
+            log.error("Unable to clone repository {}...", cloneUrl, e);
+            throw new RuntimeException(e);
         }
     }
 
     @Override
-    public boolean pushOnRemote(String login, String token, String baseUrl, String repositoryName, String ownerLogin, File localDir, final boolean forceFlag) throws IOException, GitAPIException, URISyntaxException {
+    public boolean pushOnRemote(String login, String token, String baseUrl, String repositoryName, String
+            ownerLogin, File localDir, final boolean forceFlag) throws IOException, GitAPIException, URISyntaxException {
         String remoteUrl = baseUrl + "/" + ownerLogin + "/" + repositoryName + ".git";
         log.debug("pushOnRemote {}", remoteUrl);
-        Git git = Git.open(localDir);
+        Git localGit = Git.open(localDir);
 
 
         final String GIT_REMOTE = "fromgtog";
 
-        git.remoteAdd()
+        localGit.remoteAdd()
                 .setName(GIT_REMOTE)
                 .setUri(new URIish(remoteUrl))
                 .call();
 
-        Iterable<PushResult> pushResult = git.push()
+        Iterable<PushResult> pushResult = localGit.push()
                 .setRemote(GIT_REMOTE)
                 .setCredentialsProvider(new UsernamePasswordCredentialsProvider(login, token))
                 .setPushAll()
+                .setPushTags()
+                .setRefSpecs(new RefSpec("refs/*:refs/*"))
+                .setAtomic(true)
                 .setForce(forceFlag)
                 .call();
 
-        git.remoteRemove().setRemoteName(GIT_REMOTE).call();
+        localGit.remoteRemove().setRemoteName(GIT_REMOTE).call();
 
         return isPushOK(pushResult);
     }
