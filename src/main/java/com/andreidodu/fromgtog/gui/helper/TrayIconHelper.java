@@ -1,6 +1,7 @@
 package com.andreidodu.fromgtog.gui.helper;
 
 import com.andreidodu.fromgtog.util.OsUtil;
+import dorkbox.systemTray.SystemTray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,23 +17,22 @@ public class TrayIconHelper {
     public static final String TRAY_ICON_IMAGE = "/images/xm/icon-64x64.png";
     public static final String TRAY_ICON_IMAGE_SECONDARY = "/images/xm/icon-red-64x64.png";
 
-    private TrayIcon trayIcon;
+    private SystemTray systemTray;
     final static Logger log = LoggerFactory.getLogger(TrayIconHelper.class);
     private volatile String currentTrayIconImageFile = TRAY_ICON_IMAGE;
 
     public TrayIconHelper(JFrame mainWindow, final boolean isWindowVisible) {
         try {
+            this.systemTray = SystemTray.get();
 
-            SystemTray tray = SystemTray.getSystemTray();
+            SystemTray tray = SystemTray.get();
             Image image = loadImage(TRAY_ICON_IMAGE, getTrayIconSize(tray));
             if (image == null) {
                 image = createFallbackImage();
             }
 
-            BuildTrayIconMenu result = buildTrayIconMenu(mainWindow, tray);
-            trayIcon = new TrayIcon(image, "FromGtoG", result.popup());
-
-            completeTrayIcon(mainWindow, tray);
+            BuildTrayIconMenu result = buildTrayIconMenu(mainWindow);
+            completeTrayIcon(image, result.popup());
 
             addWindowListeners(mainWindow);
 
@@ -54,51 +54,40 @@ public class TrayIconHelper {
         });
     }
 
-    private static Dimension getTrayIconSize(SystemTray tray) {
+    private static int getTrayIconSize(SystemTray tray) {
         if (OsUtil.isLinux()) {
-            return new Dimension(16, 16);
+            return 16;
         }
-        return tray.getTrayIconSize();
+        return tray.getTrayImageSize();
     }
 
     private void hideWindow(JFrame mainWindow) {
-        if (trayIcon != null) {
-            mainWindow.setVisible(false);
-        } else {
-            System.exit(0);
-        }
+        mainWindow.setVisible(false);
     }
 
-    private void completeTrayIcon(JFrame mainWindow, SystemTray tray) throws AWTException {
-        trayIcon.setImageAutoSize(false);
-        trayIcon.addActionListener((e) -> SwingUtilities.invokeLater(() -> showWindow(mainWindow)));
-        tray.add(trayIcon);
+    private void completeTrayIcon(Image image, JMenu popupMenu) throws AWTException {
+        systemTray.setImage(image);
+        systemTray.setMenu(popupMenu);
     }
 
-    private BuildTrayIconMenu buildTrayIconMenu(JFrame mainWindow, SystemTray tray) {
-        PopupMenu popup = new PopupMenu();
+    private BuildTrayIconMenu buildTrayIconMenu(JFrame mainWindow) {
+        JMenu popup = new JMenu("FromGtoG");
 
-        MenuItem restoreItem = new MenuItem("Open");
-        restoreItem.addActionListener(e -> {
-            SwingUtilities.invokeLater(() -> showWindow(mainWindow));
-        });
+        JMenuItem restoreItem = new JMenuItem("Open");
+        restoreItem.addActionListener(e -> SwingUtilities.invokeLater(() -> showWindow(mainWindow)));
         popup.add(restoreItem);
 
-        MenuItem showMsg = new MenuItem("About");
-        showMsg.addActionListener(e -> displayInfo("FromGtoG", "FromGtoG 9.0.11 by Andrei Dodu"));
+        JMenuItem showMsg = new JMenuItem("About");
+        showMsg.addActionListener(e -> displayInfo("FromGtoG", "FromGtoG 9.1.0 by Andrei Dodu"));
         popup.add(showMsg);
 
-        MenuItem exitItem = new MenuItem("Exit");
+        JMenuItem exitItem = new JMenuItem("Exit");
         exitItem.addActionListener(e -> {
-            SwingUtilities.invokeLater(() -> {
-                tray.remove(trayIcon);
-                System.exit(0);
-            });
+            SwingUtilities.invokeLater(() -> System.exit(0));
         });
         popup.addSeparator();
         popup.add(exitItem);
-        BuildTrayIconMenu result = new BuildTrayIconMenu(popup, restoreItem);
-        return result;
+        return new BuildTrayIconMenu(popup, restoreItem);
     }
 
     private static void showWindow(JFrame mainWindow) {
@@ -107,21 +96,24 @@ public class TrayIconHelper {
         mainWindow.toFront();
     }
 
-    private record BuildTrayIconMenu(PopupMenu popup, MenuItem restoreItem) {
+    private record BuildTrayIconMenu(JMenu popup, JMenuItem restoreItem) {
     }
 
     private void displayInfo(String caption, String text) {
-        if (trayIcon != null) {
-            trayIcon.displayMessage(caption, text, TrayIcon.MessageType.INFO);
-        }
+        JOptionPane.showMessageDialog(
+                null,
+                text,
+                caption,
+                JOptionPane.INFORMATION_MESSAGE
+        );
     }
 
-    private static Image loadImage(String resourcePath, Dimension size) {
+    private static Image loadImage(String resourcePath, int size) {
         try {
             log.debug("Loading image from {}", resourcePath);
-            log.debug("size: {}x{}", size.width, size.height);
+            log.debug("size: {}x{}", size, size);
             Image image = ImageIO.read(Objects.requireNonNull(TrayIconHelper.class.getResourceAsStream(resourcePath)));
-            return image.getScaledInstance(size.width, size.height, Image.SCALE_SMOOTH);
+            return image.getScaledInstance(size, size, Image.SCALE_SMOOTH);
         } catch (Exception e) {
             return null;
         }
@@ -145,11 +137,11 @@ public class TrayIconHelper {
 
     private void loadAndSetImage() {
         Image image = loadImage(currentTrayIconImageFile);
-        trayIcon.setImage(image);
+        systemTray.setImage(image);
     }
 
     private static Image loadImage(final String imgFile) {
-        SystemTray tray = SystemTray.getSystemTray();
+        SystemTray tray = SystemTray.get();
         Image image = loadImage(imgFile, getTrayIconSize(tray));
         if (image == null) {
             image = createFallbackImage();

@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.andreidodu</groupId>
     <artifactId>fromgtog</artifactId>
-    <version>9.0.11</version>
+    <version>9.1.0</version>
     <name>fromgtog</name>
     <url>https://andre-i.eu</url>
     <packaging>jar</packaging>
@@ -79,12 +79,17 @@
         <dependency>
             <groupId>org.gitlab4j</groupId>
             <artifactId>gitlab4j-api</artifactId>
-            <version>5.0.1</version> <!-- check for latest version -->
+            <version>5.0.1</version>
         </dependency>
         <dependency>
             <groupId>com.cronutils</groupId>
             <artifactId>cron-utils</artifactId>
             <version>9.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.dorkbox</groupId>
+            <artifactId>SystemTray</artifactId>
+            <version>4.4</version>
         </dependency>
     </dependencies>
     <build>

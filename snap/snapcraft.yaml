@@ -1,5 +1,5 @@
 name: fromgtog
-version: '9.0.11'
+version: '9.1.0'
 summary: Advanced utility for Git backup and bulk migration(GitHub,Gitea,GitLab,Local)
 description: |
   Helps to clone all repositories from GitHub on Gitea/Local and vice versa.
@@ -137,8 +137,12 @@ parts:
       - libasound2
       - libasound2-plugins
       - alsa-utils
+      - libappindicator3-1
     after:
       - alsa-config
     override-prime: |
       snapcraftctl prime
+      ARCH_TRIPLET="x86_64-linux-gnu"
+      LIB_DIR="$SNAPCRAFT_PRIME/usr/lib/$ARCH_TRIPLET"
+      ln -sf libappindicator3.so.1.0.0 "$LIB_DIR/libappindicator3.so"
 
