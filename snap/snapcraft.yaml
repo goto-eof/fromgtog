@@ -1,5 +1,5 @@
 name: fromgtog
-version: '9.1.1'
+version: '9.1.2'
 summary: Advanced utility for Git backup and bulk migration(GitHub,Gitea,GitLab,Local)
 description: |
   Helps to clone all repositories from GitHub on Gitea/Local and vice versa.
