@@ -6,6 +6,7 @@ import com.andreidodu.fromgtog.util.OsUtil;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.util.Arrays;
 import java.util.function.Consumer;
 
 public class MacOsSystemTrayStrategyImpl implements SystemTrayStrategy {
@@ -47,7 +48,9 @@ public class MacOsSystemTrayStrategyImpl implements SystemTrayStrategy {
 
     @Override
     public void setImage(Image image) {
-        dorkbox.systemTray.SystemTray.get().setImage(image);
+        Arrays.stream(SystemTray.getSystemTray().getTrayIcons())
+                .findFirst()
+                .ifPresent(systemTrayIcon -> systemTrayIcon.setImage(image));
     }
 
 }
