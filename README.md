@@ -41,18 +41,6 @@ FromGtoG goes beyond simple batch operations, offering advanced filtering and pe
   schedule matches the current time, the backup runs. During execution, the application's **system tray
   icon** flashes intermittently (red and blue) to indicate the active job, advising users not to shut down the computer
   or terminate the process.
-
-### Cron Job Expressions
-
-| cron expression                  | descritpion              |
-|:---------------------------------|:-------------------------|
-| 0 0 * ? * * *                    | every hour               |
-| 0 0 0/1 ? * * *                  | every day                |
-| 0 0 15 ? * * *                   | every day at 3 PM        |
-| 0 0 15 ? * MON,TUE,WED,THU,FRI * | from Mo. to Fri. at 3 PM |
-
-> You can generate your custom cron expression [here](https://freeformatter.com/cron-expression-generator-quartz.html).
-
 * **Destination Repository Override:** Overrides the default skip behavior when a destination repository already exists.
   Users can now **force the update** of existing repositories. For remote destinations, this is achieved via a
   `git push --force`. For local destinations, the existing directory content is **replaced** entirely with the source
