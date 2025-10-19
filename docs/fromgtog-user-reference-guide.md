@@ -1,7 +1,7 @@
-<div style="text-align: center;"><h1 id="index">FromGtoG User Reference Guide (v10.0+)</h1></div>
-<div style='text-align: right;'>Document revision version: 1.0</div>
-<div style='text-align: right;'>Last update: 19/10/2025</div>
-<div style='text-align: right;'>Author: Andrei Dodu</div>
+<div align="center"><h1 id="index">FromGtoG User Reference Guide (v10.0+)</h1></div>
+<div align='right'>Document revision version: 1.0</div>
+<div align='right'>Last update: 19/10/2025</div>
+<div align='right'>Author: Andrei Dodu</div>
 
 ## Index
 
