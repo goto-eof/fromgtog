@@ -154,8 +154,15 @@ public class LocalServiceImpl implements LocalService {
                 .forEach(branch -> {
                     try {
                         String[] fullName = branch.getName().split("/");
+                        List<String> arr = Arrays.stream(branch.getName()
+                                        .replace("refs/remotes/", "")
+                                        .split("/"))
+                                .skip(1)
+                                .toList();
+                        String branchName = String.join("/", arr);
+
                         localGitRepository.branchCreate()
-                                .setName(fullName[fullName.length - 1])
+                                .setName(branchName)
                                 .setStartPoint(branch.getName())
                                 .setUpstreamMode(CreateBranchCommand.SetupUpstreamMode.TRACK)
                                 .call();
