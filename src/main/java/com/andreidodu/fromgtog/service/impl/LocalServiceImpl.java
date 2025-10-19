@@ -153,7 +153,6 @@ public class LocalServiceImpl implements LocalService {
                 .filter(branch -> !branch.getName().endsWith("/" + masterBranch))
                 .forEach(branch -> {
                     try {
-                        String[] fullName = branch.getName().split("/");
                         List<String> arr = Arrays.stream(branch.getName()
                                         .replace("refs/remotes/", "")
                                         .split("/"))
