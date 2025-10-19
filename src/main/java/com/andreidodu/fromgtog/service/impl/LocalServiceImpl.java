@@ -96,8 +96,6 @@ public class LocalServiceImpl implements LocalService {
             log.debug("master: {}", masterBranch);
             cloneAllRepositoryBranches(localGitRepository, masterBranch);
             cloneAllRepositoryTags(localGitRepository);
-            // delete list returned by git remote -v
-            removeAllRemoteURL(localGitRepository);
             return true;
         } catch (TransportException | RuntimeException e) {
             log.error("Unable to clone repository {}...", cloneUrl, e);
