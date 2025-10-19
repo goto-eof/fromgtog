@@ -4,6 +4,7 @@
 <h2 id="index">Index</h2>
 
 - [Introduction](#introduction)
+- [User Reference Guide](./docs/fromgtog-user-reference-guide.md)
 - [Features](#features)
 - [Download FromGtoG 10.0.0](#download)
 - [Screenshot](#screenshot)
