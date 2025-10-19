@@ -1095,7 +1095,7 @@ public class ApplicationGUI extends JFrame {
         chronExpressionTextField = new JTextField();
         panel73.add(chronExpressionTextField, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         multithreadingEnabled = new JCheckBox();
-        multithreadingEnabled.setText("Multi-threadead");
+        multithreadingEnabled.setText("Multithreaded");
         panel72.add(multithreadingEnabled, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel74 = new JPanel();
         panel74.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
