@@ -1,4 +1,5 @@
-<div align="center"><h1 id="index">FromGtoG User Reference Guide (v10.0+)</h1></div>
+<h1 align="center">FromGtoG</h1>
+<h2 id="index">User Reference Guide (v10.0+)</h2>
 <div align='right'>Document revision version: 1.0</div>
 <div align='right'>Last update: 19/10/2025</div>
 <div align='right'>Author: Andrei Dodu</div>
@@ -98,12 +99,12 @@ backup workflow.
 If you use Windows or macOS, just download the installer and provide the permission to execute the file even if it is
 from unknown source.
 
-| Platform           | AMD64 Installer                                                                                                          | ARM64 Installer                                                                                                                  | Other Installation Method(s)                                                                                                                                |
-|:-------------------|:-------------------------------------------------------------------------------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **MacOS**          | [Installer ZIP](https://github.com/goto-eof/fromgtog/releases/download/10.0.0/fromgtog-MacOS-10.0.0-amd64-Installer.zip)   | [Installer ZIP](https://github.com/goto-eof/fromgtog/releases/download/10.0.0/fromgtog-MacOS-10.0.0-arm64-Installer.zip)           | N/A                                                                                                                                                         |
-| **Windows**        | [Installer ZIP](https://github.com/goto-eof/fromgtog/releases/download/10.0.0/fromgtog-Windows-10.0.0-amd64-Installer.zip) | N/A                                                                                                                              | N/A                                                                                                                                                         |
-| **Debian/Linux**   | [Installer ZIP](https://github.com/goto-eof/fromgtog/releases/download/10.0.0/fromgtog-Linux-10.0.0-amd64-Installer.zip)   | **Snap Store (AMD64/ARM64):** [Install Link](https://snapcraft.io/fromgtog)<br>**Comment:** Or run `sudo snap install fromgtog`. | N/A                                                                                                                                                         |
-| **Cross-Platform** | N/A                                                                                                                      | N/A                                                                                                                              | **Jar file:** [Download Link](https://github.com/goto-eof/fromgtog/releases/download/10.0.0/fromgtog.jar)<br>**Comment:** Run with `java -jar fromgtog.jar`. |
+| Platform           | AMD64 Installer                                                                                                            | ARM64 Installer                                                                                                                  | Other Installation Method(s)                                                                                                                                 |
+|:-------------------|:---------------------------------------------------------------------------------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **MacOS**          | [Installer ZIP](https://github.com/goto-eof/fromgtog/releases/download/10.0.0/fromgtog-MacOS-10.0.0-amd64-Installer.zip)   | [Installer ZIP](https://github.com/goto-eof/fromgtog/releases/download/10.0.0/fromgtog-MacOS-10.0.0-arm64-Installer.zip)         | N/A                                                                                                                                                          |
+| **Windows**        | [Installer ZIP](https://github.com/goto-eof/fromgtog/releases/download/10.0.0/fromgtog-Windows-10.0.0-amd64-Installer.zip) | N/A                                                                                                                              | N/A                                                                                                                                                          |
+| **Debian/Linux**   | [Installer ZIP](https://github.com/goto-eof/fromgtog/releases/download/10.0.0/fromgtog-Linux-10.0.0-amd64-Installer.zip)   | **Snap Store (AMD64/ARM64):** [Install Link](https://snapcraft.io/fromgtog)<br>**Comment:** Or run `sudo snap install fromgtog`. | N/A                                                                                                                                                          |
+| **Cross-Platform** | N/A                                                                                                                        | N/A                                                                                                                              | **Jar file:** [Download Link](https://github.com/goto-eof/fromgtog/releases/download/10.0.0/fromgtog.jar)<br>**Comment:** Run with `java -jar fromgtog.jar`. |
 
 ## Linux
 
@@ -162,9 +163,8 @@ npm install -g fromgtog
 > Note:
 > the UI paths and labels may vary slightly
 
-
-| Screenshot                                                                                |
-|-------------------------------------------------------------------------------------------|
+| Screenshot                                                                                 |
+|--------------------------------------------------------------------------------------------|
 | <img src="images/github-token-generation.webp" alt="GitHub token generation" width="300"/> |
 
 [Go to Top](#index)
@@ -195,8 +195,8 @@ npm install -g fromgtog
 > Note:
 > the UI paths and labels may vary slightly between Gitea versions.
 
-| Screenshot                                                                              |
-|-----------------------------------------------------------------------------------------|
+| Screenshot                                                                               |
+|------------------------------------------------------------------------------------------|
 | <img src="images/gitea-token-generation.webp" alt="Gitea token generation" width="300"/> |
 
 [Go to Top](#index)
@@ -230,8 +230,8 @@ How to create a read-only PAT
 > Note:
 > the UI paths and labels may vary slightly between Gitea versions.
 
-| Screenshot                                                                                |
-|-------------------------------------------------------------------------------------------|
+| Screenshot                                                                                 |
+|--------------------------------------------------------------------------------------------|
 | <img src="images/gitlab-token-generation.webp" alt="GitLab token generation" width="300"/> |
 
 [Go to Top](#index)
