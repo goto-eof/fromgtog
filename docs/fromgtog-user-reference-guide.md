@@ -1,5 +1,5 @@
-<h1 id="index" align="center">FromGtoG</h1>
-<h2 align="center">User Reference Guide (v10.0+)</h2>
+<h2 align="center">FromGtoG</h2>
+<h1  id="index" align="center">User Reference Guide (v10.0+)</h1>
 <div align='right'>Document revision version: 1.0</div>
 <div align='right'>Last update: 19/10/2025</div>
 <div align='right'>Author: Andrei Dodu</div>
