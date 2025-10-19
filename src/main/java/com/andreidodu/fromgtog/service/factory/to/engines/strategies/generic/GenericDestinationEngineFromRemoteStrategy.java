@@ -122,7 +122,7 @@ public class GenericDestinationEngineFromRemoteStrategy<ServiceType extends Dele
             String message = String.format("pushing %s on %s...", repositoryName, toContext.url());
             callbackContainer.updateLogAndApplicationStatusMessage().accept(message);
 
-            boolean isPushOk = localService.pushOnRemote(toContextLogin, toContext.token(), toContext.url(), repositoryName, toContextLogin, new File(stagedClonePath), isOverrideFlagEnabled);
+            boolean isPushOk = localService.pushOnRemote(toContextLogin, toContext.token(), toContext.url(), repositoryName, toContextLogin, new File(stagedClonePath), isOverrideFlagEnabled, true);
 
             message = String.format("push status for repo %s: %S", repositoryName, isPushOk);
             callbackContainer.updateLogAndApplicationStatusMessage().accept(message);

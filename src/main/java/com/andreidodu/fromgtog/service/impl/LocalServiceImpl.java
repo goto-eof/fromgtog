@@ -172,7 +172,7 @@ public class LocalServiceImpl implements LocalService {
     // TODO builder pattern + pass DTO and not a lot of parameters
     @Override
     public boolean pushOnRemote(String login, String token, String baseUrl, String repositoryName, String
-            ownerLogin, File localTemporaryRepoPath, final boolean forceFlag) throws IOException, GitAPIException, URISyntaxException {
+            ownerLogin, File localTemporaryRepoPath, final boolean forceFlag, boolean deleteLocalDirectory) throws IOException, GitAPIException, URISyntaxException {
         String remoteUrl = baseUrl + "/" + ownerLogin + "/" + repositoryName + ".git";
         log.debug("pushOnRemote {}", remoteUrl);
         Git localGit = Git.open(localTemporaryRepoPath);
@@ -185,7 +185,9 @@ public class LocalServiceImpl implements LocalService {
         Iterable<PushResult> pushResult = pushAll(login, token, forceFlag, localGit, GIT_REMOTE);
         localGit.remoteRemove().setRemoteName(GIT_REMOTE).call();
         // delete temporary directory
-        deleteDirectoryIfNecessary(localTemporaryRepoPath.getAbsolutePath());
+        if (deleteLocalDirectory) {
+            deleteDirectoryIfNecessary(localTemporaryRepoPath.getAbsolutePath());
+        }
 
         return isPushOK(pushResult);
     }

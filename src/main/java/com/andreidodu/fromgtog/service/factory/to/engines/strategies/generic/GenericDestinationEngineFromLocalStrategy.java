@@ -139,7 +139,7 @@ public class GenericDestinationEngineFromLocalStrategy<ServiceType extends Delet
             String message = String.format("pushing %s on %s...", repositoryName, toContext.url());
             callbackContainer.updateLogAndApplicationStatusMessage().accept(message);
 
-            boolean isPushOk = localService.pushOnRemote(destinationTokenOwnerLogin, toContext.token(), toContext.url(), repositoryName, destinationTokenOwnerLogin, new File(path), isOverrideFlagEnabled);
+            boolean isPushOk = localService.pushOnRemote(destinationTokenOwnerLogin, toContext.token(), toContext.url(), repositoryName, destinationTokenOwnerLogin, new File(path), isOverrideFlagEnabled, false);
 
             message = String.format("push status for repo %s: %S", repositoryName, isPushOk);
             callbackContainer.updateLogAndApplicationStatusMessage().accept(message);

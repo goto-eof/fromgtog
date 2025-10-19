@@ -126,10 +126,10 @@ public class GithubDestinationEngineFromRemoteStrategy extends AbstractStrategyC
         }
 
         try {
-            String message = String.format("pushing %s on %s...", repositoryName, toContext.url());
+            String message = String.format("pushing %s on %s...", repositoryName, "GitHub");
             callbackContainer.updateLogAndApplicationStatusMessage().accept(message);
 
-            boolean isPushOk = localService.pushOnRemote(tokenOwnerLogin, toContext.token(), "https://github.com", repositoryName, tokenOwnerLogin, new File(stagedClonePath), isOverrideFlagEnabled);
+            boolean isPushOk = localService.pushOnRemote(tokenOwnerLogin, toContext.token(), "https://github.com", repositoryName, tokenOwnerLogin, new File(stagedClonePath), isOverrideFlagEnabled, true);
 
 
             message = String.format("push status for repo %s: %S", repositoryName, isPushOk);
