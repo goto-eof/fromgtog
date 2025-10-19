@@ -100,15 +100,15 @@ from unknown source.
 
 | Platform           | AMD64 Installer                                                                                                          | ARM64 Installer                                                                                                                  | Other Installation Method(s)                                                                                                                                |
 |:-------------------|:-------------------------------------------------------------------------------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **MacOS**          | [Installer ZIP](https://github.com/goto-eof/fromgtog/releases/download/9.1.4/fromgtog-MacOS-9.1.4-amd64-Installer.zip)   | [Installer ZIP](https://github.com/goto-eof/fromgtog/releases/download/9.1.4/fromgtog-MacOS-9.1.4-arm64-Installer.zip)           | N/A                                                                                                                                                         |
-| **Windows**        | [Installer ZIP](https://github.com/goto-eof/fromgtog/releases/download/9.1.4/fromgtog-Windows-9.1.4-amd64-Installer.zip) | N/A                                                                                                                              | N/A                                                                                                                                                         |
-| **Debian/Linux**   | [Installer ZIP](https://github.com/goto-eof/fromgtog/releases/download/9.1.4/fromgtog-Linux-9.1.4-amd64-Installer.zip)   | **Snap Store (AMD64/ARM64):** [Install Link](https://snapcraft.io/fromgtog)<br>**Comment:** Or run `sudo snap install fromgtog`. | N/A                                                                                                                                                         |
-| **Cross-Platform** | N/A                                                                                                                      | N/A                                                                                                                              | **Jar file:** [Download Link](https://github.com/goto-eof/fromgtog/releases/download/9.1.4/fromgtog.jar)<br>**Comment:** Run with `java -jar fromgtog.jar`. |
+| **MacOS**          | [Installer ZIP](https://github.com/goto-eof/fromgtog/releases/download/10.0.0/fromgtog-MacOS-10.0.0-amd64-Installer.zip)   | [Installer ZIP](https://github.com/goto-eof/fromgtog/releases/download/10.0.0/fromgtog-MacOS-10.0.0-arm64-Installer.zip)           | N/A                                                                                                                                                         |
+| **Windows**        | [Installer ZIP](https://github.com/goto-eof/fromgtog/releases/download/10.0.0/fromgtog-Windows-10.0.0-amd64-Installer.zip) | N/A                                                                                                                              | N/A                                                                                                                                                         |
+| **Debian/Linux**   | [Installer ZIP](https://github.com/goto-eof/fromgtog/releases/download/10.0.0/fromgtog-Linux-10.0.0-amd64-Installer.zip)   | **Snap Store (AMD64/ARM64):** [Install Link](https://snapcraft.io/fromgtog)<br>**Comment:** Or run `sudo snap install fromgtog`. | N/A                                                                                                                                                         |
+| **Cross-Platform** | N/A                                                                                                                      | N/A                                                                                                                              | **Jar file:** [Download Link](https://github.com/goto-eof/fromgtog/releases/download/10.0.0/fromgtog.jar)<br>**Comment:** Run with `java -jar fromgtog.jar`. |
 
 ## Linux
 
 Download
-the [zip](https://github.com/goto-eof/fromgtog/releases/download/9.1.4/fromgtog-Linux-9.1.4-amd64-Installer.zip) file
+the [zip](https://github.com/goto-eof/fromgtog/releases/download/10.0.0/fromgtog-Linux-10.0.0-amd64-Installer.zip) file
 and execute:
 
 ```bash
@@ -125,7 +125,7 @@ in order to install the application from the Snap Store.
 
 ## Other platforms
 
-Download the [.jar](https://github.com/goto-eof/fromgtog/releases/download/9.1.4/fromgtog.jar) file and install JRE 21.
+Download the [.jar](https://github.com/goto-eof/fromgtog/releases/download/10.0.0/fromgtog.jar) file and install JRE 21.
 Then from the terminal run:
 
 ```bash
