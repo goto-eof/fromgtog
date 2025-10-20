@@ -115,7 +115,7 @@ public class ApplicationGUI extends JFrame {
     private TrayIconHelper trayIconHelper;
 
     public ApplicationGUI() {
-        setTitle("FromGtoG 9.1.4");
+        setTitle("FromGtoG 10.0.0");
         setResizable(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setContentPane(mainPanel);
@@ -1095,7 +1095,7 @@ public class ApplicationGUI extends JFrame {
         chronExpressionTextField = new JTextField();
         panel73.add(chronExpressionTextField, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         multithreadingEnabled = new JCheckBox();
-        multithreadingEnabled.setText("Multi-threadead");
+        multithreadingEnabled.setText("Multithreaded");
         panel72.add(multithreadingEnabled, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel74 = new JPanel();
         panel74.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
@@ -1232,7 +1232,7 @@ public class ApplicationGUI extends JFrame {
         final Spacer spacer40 = new Spacer();
         panel87.add(spacer40, new GridConstraints(6, 0, 1, 4, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         final JLabel label52 = new JLabel();
-        label52.setText("Version: 9.1.4");
+        label52.setText("Version: 10.0.0");
         panel87.add(label52, new GridConstraints(2, 0, 1, 4, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label53 = new JLabel();
         label53.setText("Author: Andrei Dodu");

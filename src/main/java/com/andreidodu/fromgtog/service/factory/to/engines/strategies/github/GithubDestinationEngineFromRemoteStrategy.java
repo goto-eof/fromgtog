@@ -12,6 +12,7 @@ import com.andreidodu.fromgtog.service.impl.GitHubServiceImpl;
 import com.andreidodu.fromgtog.service.impl.LocalServiceImpl;
 import com.andreidodu.fromgtog.type.EngineType;
 import com.andreidodu.fromgtog.type.RepoPrivacyType;
+import com.andreidodu.fromgtog.util.ApplicationUtil;
 import com.andreidodu.fromgtog.util.ThreadUtil;
 import org.apache.commons.io.FileUtils;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -74,7 +75,7 @@ public class GithubDestinationEngineFromRemoteStrategy extends AbstractStrategyC
         CallbackContainer callbackContainer = engineContext.callbackContainer();
         String repositoryName = repositoryDTO.getName();
         String fromContextToken = fromContext.token();
-        final String TEMP_DIRECTORY = System.getProperty("java.io.tmpdir");
+        final String TEMP_DIRECTORY = ApplicationUtil.getTemporaryFolderName();
         if (isShouldStopTheProcess(repositoryName, callbackContainer)) {
             return;
         }
@@ -125,15 +126,19 @@ public class GithubDestinationEngineFromRemoteStrategy extends AbstractStrategyC
         }
 
         try {
-            String message = String.format("pushing %s on %s...", repositoryName, toContext.url());
+            String message = String.format("pushing %s on %s...", repositoryName, "GitHub");
             callbackContainer.updateLogAndApplicationStatusMessage().accept(message);
 
-            boolean isPushOk = localService.pushOnRemote(tokenOwnerLogin, toContext.token(), "https://github.com", repositoryName, tokenOwnerLogin, new File(stagedClonePath), isOverrideFlagEnabled);
+            boolean isPushOk = localService.pushOnRemote(tokenOwnerLogin, toContext.token(), "https://github.com", repositoryName, tokenOwnerLogin, new File(stagedClonePath), isOverrideFlagEnabled, true);
 
 
             message = String.format("push status for repo %s: %S", repositoryName, isPushOk);
             callbackContainer.updateLogAndApplicationStatusMessage().accept(message);
-        } catch (IOException | GitAPIException | URISyntaxException e) {
+
+            if (!isPushOk) {
+                throw new RuntimeException(String.format("push status for repo %s: %S", repositoryName, isPushOk));
+            }
+        } catch (IOException | GitAPIException | URISyntaxException | RuntimeException e) {
             callbackContainer.updateLogAndApplicationStatusMessage().accept("Unable to push repository " + repositoryName);
             log.error("Unable to push repository {}", repositoryName, e);
             return;

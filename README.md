@@ -1,11 +1,16 @@
 <h1 align="center"><img src="images/fromgtog_header.webp" alt="header" /></h1>
-<h1 align="right" id="title">FromGtoG v. 9.1.4</h1>
+<h1 align="right" id="title">FromGtoG v. 10.0.0</h1>
 
 <h2 id="index">Index</h2>
 
 - [Introduction](#introduction)
 - [Features](#features)
-- [Download FromGtoG 9.1.4](#download)
+- [User Reference Guide](./docs/fromgtog-user-reference-guide.md)
+
+> `User Reference Guide` includes also how to generate read/write tokens on all platforms with which FromGtoG interacts.
+> Most common issues are related to the token permissions.
+
+- [Download FromGtoG 10.0.0](#download)
 - [Screenshot](#screenshot)
 - [Technologies](#technologies)
 - [My Dev Notes about FromGtoG](#my-dev-notes)
@@ -13,7 +18,7 @@
 
 <h2 id="introduction">Introduction</h2>
 
-# FromGtoG 9.1.4: Advanced Git Repository Backup and Migration Utility
+# FromGtoG 10.0.0: Advanced Git Repository Backup and Migration Utility
 
 This application is an essential **cross-platform desktop
 utility** for developers.
@@ -32,6 +37,7 @@ The application currently supports robust two-way cloning and backup across:
 
 FromGtoG goes beyond simple batch operations, offering advanced filtering and performance capabilities:
 
+* **Deep Cloning**: Ensures the **complete replication** of the repository by **cloning all branches and tags**.
 * **Scheduled Backup Jobs (Toggleable):** Take control of your workflow by automating complete backup and migration
   tasks using **Quartz Cron Expressions**. Users can define a schedule and **easily activate or deactivate** the job as
   needed. **If the cron job is enabled, the application will start as a daemon**; the user can open the app window by
@@ -40,18 +46,6 @@ FromGtoG goes beyond simple batch operations, offering advanced filtering and pe
   schedule matches the current time, the backup runs. During execution, the application's **system tray
   icon** flashes intermittently (red and blue) to indicate the active job, advising users not to shut down the computer
   or terminate the process.
-
-### Cron Job Expressions
-
-| cron expression                  | descritpion              |
-|:---------------------------------|:-------------------------|
-| 0 0 * ? * * *                    | every hour               |
-| 0 0 0/1 ? * * *                  | every day                |
-| 0 0 15 ? * * *                   | every day at 3 PM        |
-| 0 0 15 ? * MON,TUE,WED,THU,FRI * | from Mo. to Fri. at 3 PM |
-
-> You can generate your custom cron expression [here](https://freeformatter.com/cron-expression-generator-quartz.html).
-
 * **Destination Repository Override:** Overrides the default skip behavior when a destination repository already exists.
   Users can now **force the update** of existing repositories. For remote destinations, this is achieved via a
   `git push --force`. For local destinations, the existing directory content is **replaced** entirely with the source
@@ -87,7 +81,7 @@ architectures:
 
 Since publishing version 3.0 just a few months ago, I realized a significant **code rewrite** was necessary to ensure
 the application remains **maintainable** and **easy to understand** as it grows. This rewrite led us to the current,
-stable version, **9.1.4**.
+stable version, **10.0.0**.
 
 ## Architectural Improvements: the evolution
 
@@ -140,14 +134,14 @@ The application supports robust, two-way cloning and secure migration across all
   processes to prevent being banned by remote servers.
 * **Detailed Logging:** Produces a comprehensive **log file** for detailed analysis and verification of every operation.
 
-<h2 id="download">Download FromGtoG 9.1.4</h2>
+<h2 id="download">Download FromGtoG 10.0.0</h2>
 
-| Platform           | AMD64 Installer                                                                                                          | ARM64 Installer                                                                                                                  | Other Installation Method(s)                                                                                                                                |
-|:-------------------|:-------------------------------------------------------------------------------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **MacOS**          | [Installer ZIP](https://github.com/goto-eof/fromgtog/releases/download/9.1.4/fromgtog-MacOS-9.1.4-amd64-Installer.zip)   | [Installer ZIP](https://github.com/goto-eof/fromgtog/releases/download/9.1.4/fromgtog-MacOS-9.1.4-arm64-Installer.zip)           | N/A                                                                                                                                                         | |
-| **Windows**        | [Installer ZIP](https://github.com/goto-eof/fromgtog/releases/download/9.1.4/fromgtog-Windows-9.1.4-amd64-Installer.zip) | N/A                                                                                                                              | N/A                                                                                                                                                         |
-| **Debian**         | [Installer ZIP](https://github.com/goto-eof/fromgtog/releases/download/9.1.4/fromgtog-Linux-9.1.4-amd64-Installer.zip)   | **Snap Store (AMD64/ARM64):** [Install Link](https://snapcraft.io/fromgtog)<br>**Comment:** Or run `sudo snap install fromgtog`. | N/A                                                                                                                                                         |
-| **Cross-Platform** | N/A                                                                                                                      | N/A                                                                                                                              | **Jar file:** [Download Link](https://github.com/goto-eof/fromgtog/releases/download/9.1.4/fromgtog.jar)<br>**Comment:** Run with `java -jar fromgtog.jar`. |
+| Platform           | AMD64 Installer                                                                                                            | ARM64 Installer                                                                                                                  | Other Installation Method(s)                                                                                                                                 |
+|:-------------------|:---------------------------------------------------------------------------------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **MacOS**          | [Installer ZIP](https://github.com/goto-eof/fromgtog/releases/download/10.0.0/fromgtog-MacOS-10.0.0-amd64-Installer.zip)   | [Installer ZIP](https://github.com/goto-eof/fromgtog/releases/download/10.0.0/fromgtog-MacOS-10.0.0-arm64-Installer.zip)         | N/A                                                                                                                                                          |
+| **Windows**        | [Installer ZIP](https://github.com/goto-eof/fromgtog/releases/download/10.0.0/fromgtog-Windows-10.0.0-amd64-Installer.zip) | N/A                                                                                                                              | N/A                                                                                                                                                          |
+| **Debian/Linux**   | [Installer ZIP](https://github.com/goto-eof/fromgtog/releases/download/10.0.0/fromgtog-Linux-10.0.0-amd64-Installer.zip)   | **Snap Store (AMD64/ARM64):** [Install Link](https://snapcraft.io/fromgtog)<br>**Comment:** Or run `sudo snap install fromgtog`. | N/A                                                                                                                                                          |
+| **Cross-Platform** | N/A                                                                                                                        | N/A                                                                                                                              | **Jar file:** [Download Link](https://github.com/goto-eof/fromgtog/releases/download/10.0.0/fromgtog.jar)<br>**Comment:** Run with `java -jar fromgtog.jar`. |
 
 <h2 id="screenshot">Screenshot</h2>
 

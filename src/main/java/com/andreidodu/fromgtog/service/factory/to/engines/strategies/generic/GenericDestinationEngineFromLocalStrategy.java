@@ -139,11 +139,15 @@ public class GenericDestinationEngineFromLocalStrategy<ServiceType extends Delet
             String message = String.format("pushing %s on %s...", repositoryName, toContext.url());
             callbackContainer.updateLogAndApplicationStatusMessage().accept(message);
 
-            boolean isPushOk = localService.pushOnRemote(destinationTokenOwnerLogin, toContext.token(), toContext.url(), repositoryName, destinationTokenOwnerLogin, new File(path), isOverrideFlagEnabled);
+            boolean isPushOk = localService.pushOnRemote(destinationTokenOwnerLogin, toContext.token(), toContext.url(), repositoryName, destinationTokenOwnerLogin, new File(path), isOverrideFlagEnabled, false);
 
             message = String.format("push status for repo %s: %S", repositoryName, isPushOk);
             callbackContainer.updateLogAndApplicationStatusMessage().accept(message);
-        } catch (IOException | GitAPIException | URISyntaxException e) {
+
+            if (!isPushOk) {
+                throw new RuntimeException(String.format("push status for repo %s: %S", repositoryName, isPushOk));
+            }
+        } catch (IOException | GitAPIException | URISyntaxException | RuntimeException e) {
             callbackContainer.updateLogAndApplicationStatusMessage().accept("Unable to push repository " + repositoryName);
             log.error("Unable to push repository {}", repositoryName, e);
             return;
@@ -152,6 +156,9 @@ public class GenericDestinationEngineFromLocalStrategy<ServiceType extends Delet
         try {
             log.debug("updating repository privacy...");
             boolean result = service.updateRepositoryPrivacy(toContext.token(), destinationTokenOwnerLogin, toContext.url(), repositoryName, false, RepoPrivacyType.ALL_PRIVATE.equals(toContext.repositoryPrivacy()));
+            if (!result) {
+                throw new RuntimeException(String.format("update repository privacy for repo %s: %s", repositoryName, result));
+            }
         } catch (Exception e) {
             callbackContainer.updateLogAndApplicationStatusMessage().accept("Unable to push repository " + repositoryName);
             log.error("Unable to push repository {}", repositoryName, e);

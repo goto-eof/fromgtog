@@ -122,11 +122,15 @@ public class GithubDestinationEngineFromLocaleStrategy extends AbstractStrategyC
             String message = String.format("pushing %s on %s...", repositoryName, toContext.url());
             callbackContainer.updateLogAndApplicationStatusMessage().accept(message);
 
-            boolean isPushOk = localService.pushOnRemote(tokenOwnerLogin, toContext.token(), GITHUB_URL, repositoryName, tokenOwnerLogin, new File(path), isOverrideFlagEnabled);
+            boolean isPushOk = localService.pushOnRemote(tokenOwnerLogin, toContext.token(), GITHUB_URL, repositoryName, tokenOwnerLogin, new File(path), isOverrideFlagEnabled, false);
 
             message = String.format("push status for repo %s: %S", repositoryName, isPushOk);
             callbackContainer.updateLogAndApplicationStatusMessage().accept(message);
-        } catch (IOException | GitAPIException | URISyntaxException e) {
+
+            if (!isPushOk) {
+                throw new RuntimeException(String.format("push status for repo %s: %S", repositoryName, isPushOk));
+            }
+        } catch (IOException | GitAPIException | URISyntaxException | RuntimeException e) {
             callbackContainer.updateLogAndApplicationStatusMessage().accept("Unable to push repository " + repositoryName);
             log.error("Unable to push repository {}", repositoryName, e);
             return;

@@ -4,11 +4,12 @@ import com.andreidodu.fromgtog.dto.CallbackContainer;
 import com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.records.RemoteExistsCheckCommandContext;
 import com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.records.StatusCommandContext;
 import com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.records.ThreadStopCommandContext;
+import com.andreidodu.fromgtog.util.ApplicationUtil;
 
 import java.io.File;
 
 public class CommandCommon {
-    final static String TEMP_DIRECTORY = System.getProperty("java.io.tmpdir");
+    final static String TEMP_DIRECTORY = ApplicationUtil.getTemporaryFolderName();
 
     public static String buildStagedPath(String repositoryName) {
         return TEMP_DIRECTORY + File.separator + repositoryName;

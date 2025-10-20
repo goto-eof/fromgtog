@@ -75,7 +75,7 @@ public class TrayIconHelper {
     private java.util.List<Tuple<String, Consumer<ActionEvent>>> buildTrayIconMenu(JFrame mainWindow) {
         return java.util.List.of(
                 new Tuple<>("Open", (e) -> SwingUtilities.invokeLater(() -> showWindow(mainWindow))),
-                new Tuple<>("About", (e) -> SwingUtilities.invokeLater(() -> displayInfo("FromGtoG", "FromGtoG 9.1.4 by Andrei Dodu"))),
+                new Tuple<>("About", (e) -> SwingUtilities.invokeLater(() -> displayInfo("FromGtoG", "FromGtoG 10.0.0 by Andrei Dodu"))),
                 new Tuple<>("Exit", (e) -> SwingUtilities.invokeLater(() -> System.exit(0)))
         );
     }
