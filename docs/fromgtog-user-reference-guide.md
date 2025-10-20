@@ -250,7 +250,7 @@ How to create a read-only PAT
 - click *Create personal access token* and copy the token immediately — you won’t be able to see it again
 
 > Note:
-> the UI paths and labels may vary slightly between Gitea versions.
+> the UI paths and labels may vary slightly between Gitlab versions.
 
 | Screenshot                                                                                 |
 |--------------------------------------------------------------------------------------------|
