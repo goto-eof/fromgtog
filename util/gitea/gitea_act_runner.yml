@@ -6,7 +6,7 @@ services:
       GITEA_INSTANCE_URL: [IP]
       GITEA_RUNNER_REGISTRATION_TOKEN: [REGISTRATION_TOKEN]
       GITEA_RUNNER_NAME: [RUNNER_NAME]
-      GITEA_RUNNER_LABELS: [RUNNER_LABELS]
+      GITEA_RUNNER_LABELS: [RUNNER_LABELSS]
     volumes:
       - ./runner-config:/config
       - ./data:/data
