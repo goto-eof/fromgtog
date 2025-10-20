@@ -1,9 +1,9 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.andreidodu</groupId>
+    <groupId>org.andreidodu</groupId>
     <artifactId>fromgtog</artifactId>
-    <version>10.0.1</version>
+    <version>10.0.2</version>
     <name>fromgtog</name>
     <url>https://andre-i.eu</url>
     <packaging>jar</packaging>
@@ -126,7 +126,7 @@
                             </descriptorRefs>
                             <archive>
                                 <manifest>
-                                    <mainClass>com.andreidodu.fromgtog.Main</mainClass>
+                                    <mainClass>org.andreidodu.fromgtog.Main</mainClass>
                                 </manifest>
                                 <manifestEntries>
                                     <Multi-Release>true</Multi-Release>

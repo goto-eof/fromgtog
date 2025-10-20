@@ -1,5 +1,5 @@
 <h1 align="center"><img src="images/fromgtog_header.webp" alt="header" /></h1>
-<h1 align="right" id="title">FromGtoG v. 10.0.1</h1>
+<h1 align="right" id="title">FromGtoG v. 10.0.2</h1>
 
 <h2 id="index">Index</h2>
 
@@ -10,7 +10,7 @@
 > `User Reference Guide` includes also how to generate read/write tokens on all platforms with which FromGtoG interacts.
 > Most common issues are related to the token permissions.
 
-- [Download FromGtoG 10.0.1](#download)
+- [Download FromGtoG 10.0.2](#download)
 - [Screenshot](#screenshot)
 - [Technologies](#technologies)
 - [My Dev Notes about FromGtoG](#my-dev-notes)
@@ -18,7 +18,7 @@
 
 <h2 id="introduction">Introduction</h2>
 
-# FromGtoG 10.0.1: Advanced Git Repository Backup and Migration Utility
+# FromGtoG 10.0.2: Advanced Git Repository Backup and Migration Utility
 
 This application is an essential **cross-platform desktop
 utility** for developers.
@@ -128,14 +128,14 @@ The application supports robust, two-way cloning and secure migration across all
   processes to prevent being banned by remote servers.
 * **Detailed Logging:** Produces a comprehensive **log file** for detailed analysis and verification of every operation.
 
-<h2 id="download">Download FromGtoG 10.0.1</h2>
+<h2 id="download">Download FromGtoG 10.0.2</h2>
 
 | Platform           | AMD64 Installer                                                                                                            | ARM64 Installer                                                                                                                  | Other Installation Method(s)                                                                                                                                 |
 |:-------------------|:---------------------------------------------------------------------------------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **MacOS**          | [Installer ZIP](https://github.com/goto-eof/fromgtog/releases/download/10.0.1/fromgtog-MacOS-10.0.1-amd64-Installer.zip)   | [Installer ZIP](https://github.com/goto-eof/fromgtog/releases/download/10.0.1/fromgtog-MacOS-10.0.1-arm64-Installer.zip)         | N/A                                                                                                                                                          |
-| **Windows**        | [Installer ZIP](https://github.com/goto-eof/fromgtog/releases/download/10.0.1/fromgtog-Windows-10.0.1-amd64-Installer.zip) | N/A                                                                                                                              | N/A                                                                                                                                                          |
-| **Debian/Linux**   | [Installer ZIP](https://github.com/goto-eof/fromgtog/releases/download/10.0.1/fromgtog-Linux-10.0.1-amd64-Installer.zip)   | **Snap Store (AMD64/ARM64):** [Install Link](https://snapcraft.io/fromgtog)<br>**Comment:** Or run `sudo snap install fromgtog`. | N/A                                                                                                                                                          |
-| **Cross-Platform** | N/A                                                                                                                        | N/A                                                                                                                              | **Jar file:** [Download Link](https://github.com/goto-eof/fromgtog/releases/download/10.0.1/fromgtog.jar)<br>**Comment:** Run with `java -jar fromgtog.jar`. |
+| **MacOS**          | [Installer ZIP](https://github.com/goto-eof/fromgtog/releases/download/10.0.2/fromgtog-MacOS-10.0.2-amd64-Installer.zip)   | [Installer ZIP](https://github.com/goto-eof/fromgtog/releases/download/10.0.2/fromgtog-MacOS-10.0.2-arm64-Installer.zip)         | N/A                                                                                                                                                          |
+| **Windows**        | [Installer ZIP](https://github.com/goto-eof/fromgtog/releases/download/10.0.2/fromgtog-Windows-10.0.2-amd64-Installer.zip) | N/A                                                                                                                              | N/A                                                                                                                                                          |
+| **Debian/Linux**   | [Installer ZIP](https://github.com/goto-eof/fromgtog/releases/download/10.0.2/fromgtog-Linux-10.0.2-amd64-Installer.zip)   | **Snap Store (AMD64/ARM64):** [Install Link](https://snapcraft.io/fromgtog)<br>**Comment:** Or run `sudo snap install fromgtog`. | N/A                                                                                                                                                          |
+| **Cross-Platform** | N/A                                                                                                                        | N/A                                                                                                                              | **Jar file:** [Download Link](https://github.com/goto-eof/fromgtog/releases/download/10.0.2/fromgtog.jar)<br>**Comment:** Run with `java -jar fromgtog.jar`. |
 
 <h2 id="screenshot">Screenshot</h2>
 
@@ -156,7 +156,7 @@ JDK 21, Intellij UI Designer (plugin for Intellij), Slf4J, Lombok, Apache Common
 
 <h2 id="my-dev-notes">My Dev Notes about FromGtoG</h2>
 
-- 2025/10/20 - published the version 10.0.1, which introduces the deep cloning feature (all repository branches and
+- 2025/10/20 - published the version 10.0.2, which introduces the deep cloning feature (all repository branches and
   tags) and fixed some bugs.
 - 2025/10/14
     - implemented the backup all repositories scheduled job and now FromGtoG has it's Tray Icon

@@ -71,7 +71,7 @@ jobs:
             --vendor "Andrei Dodu" \
             --app-version "$RELEASE_TAG" \
             --main-jar "$MAIN_JAR" \
-            --main-class com.andreidodu.fromgtog.Main \
+            --main-class org.andreidodu.fromgtog.Main \
             --icon "$ICON_PATH" \
             --type pkg \
             --java-options "-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true" \

@@ -1,0 +1,124 @@
+package org.andreidodu.fromgtog.service.factory.from.engines;
+
+import org.andreidodu.fromgtog.constants.ApplicationConstants;
+import org.andreidodu.fromgtog.dto.*;
+import org.andreidodu.fromgtog.dto.*;
+import org.andreidodu.fromgtog.mapper.GitlabRepositoryMapper;
+import org.andreidodu.fromgtog.service.GitlabService;
+import org.andreidodu.fromgtog.service.factory.from.AbstractSourceEngine;
+import org.andreidodu.fromgtog.service.impl.GitlabServiceImpl;
+import org.andreidodu.fromgtog.type.EngineOptionsType;
+import org.andreidodu.fromgtog.type.EngineType;
+import org.andreidodu.fromgtog.util.StringUtil;
+import org.gitlab4j.api.models.Project;
+
+import java.util.List;
+import java.util.Optional;
+
+public class GitlabSourceEngine extends AbstractSourceEngine {
+
+    private final static EngineType SOURCE_ENGINE_TYPE = EngineType.GITLAB;
+
+    private static List<RepositoryDTO> mapToResultDTO(CallbackContainer callbackContainer, List<Project> giteaRepositoryDTOList) {
+        GitlabRepositoryMapper mapper = new GitlabRepositoryMapper();
+
+        List<RepositoryDTO> repositoryDTOList = giteaRepositoryDTOList
+                .stream()
+                .map(mapper::toDTO)
+                .toList();
+
+        callbackContainer.updateLogAndApplicationStatusMessage().accept("All repositories information were retrieved.");
+
+        return repositoryDTOList;
+    }
+
+    @Override
+    public EngineType getEngineType() {
+        return SOURCE_ENGINE_TYPE;
+    }
+
+    @Override
+    public List<RepositoryDTO> retrieveRepositoryList(EngineContext engineContext) {
+        GitlabService gitlabService = new GitlabServiceImpl();
+        FromContext fromContext = engineContext.fromContext();
+        CallbackContainer callbackContainer = engineContext.callbackContainer();
+
+        callbackContainer.updateLogAndApplicationStatusMessage().accept("Retrieving repositories information...");
+
+
+        if (EngineOptionsType.FILTER.equals(fromContext.engineOptionsType())) {
+            List<RepositoryDTO> repositoryDTOList = retrieveFilteredRepositoryList(gitlabService, fromContext, callbackContainer);
+            callbackContainer.updateLogAndApplicationStatusMessage().accept("Repositories retrieved and filtered by filters with success");
+            return repositoryDTOList;
+        }
+
+        if (EngineOptionsType.FILE.equals(fromContext.engineOptionsType())) {
+            List<RepositoryDTO> repostoryDTOList = retrieveRepositoryListFromCustomList(gitlabService, fromContext, callbackContainer);
+            callbackContainer.updateLogAndApplicationStatusMessage().accept("Repositories retrieved and filtered by file with success");
+            return repostoryDTOList;
+        }
+
+        throw new RuntimeException("Engine options type not valid. Please contact the developer for a fix (:");
+    }
+
+    private List<RepositoryDTO> retrieveRepositoryListFromCustomList(GitlabService gitlabService, FromContext fromContext, CallbackContainer callbackContainer) {
+        String filename = fromContext.includeRepoNameFileNameList();
+        List<String> fileContentList = fileContentToList(filename);
+        List<Project> giteaRepositoryDTOList = gitlabService.tryToRetrieveUserRepositories(
+                        buildRetrieveAllFilter(fromContext),
+                        fromContext.url(),
+                        fromContext.token()
+                )
+                .stream()
+                .filter(project -> fileContentList.contains(project.getName().trim().toLowerCase()))
+                .toList();
+        return mapToResultDTO(callbackContainer, giteaRepositoryDTOList);
+    }
+
+    private List<RepositoryDTO> retrieveFilteredRepositoryList(GitlabService gitlabService, FromContext fromContext, CallbackContainer callbackContainer) {
+        List<Project> giteaRepositoryDTOList = gitlabService.tryToRetrieveUserRepositories(
+                buildUserRepoFilterInput(fromContext),
+                fromContext.url(),
+                fromContext.token()
+        );
+
+        return mapToResultDTO(callbackContainer, giteaRepositoryDTOList);
+    }
+
+    private Filter buildUserRepoFilterInput(FromContext fromContext) {
+        return Filter.builder()
+                .starredFlag(fromContext.cloneStarredReposFlag())
+                .privateFlag(fromContext.clonePrivateReposFlag())
+                .archivedFlag(fromContext.cloneArchivedReposFlag())
+                .forkedFlag(fromContext.cloneForkedReposFlag())
+                .publicFlag(fromContext.clonePublicReposFlag())
+                .organizationFlag(fromContext.cloneBelongingToOrganizationsReposFlag())
+                .excludedOrganizations(getExcludedOrganizations(fromContext))
+                .excludeRepoNameList(getExcludedRepoNameList(fromContext))
+                .build();
+    }
+
+    private Filter buildRetrieveAllFilter(FromContext fromContext) {
+        return Filter.builder()
+                .starredFlag(true)
+                .privateFlag(true)
+                .archivedFlag(true)
+                .forkedFlag(true)
+                .publicFlag(true)
+                .organizationFlag(true)
+                .excludedOrganizations(new String[]{})
+                .excludeRepoNameList(new String[]{})
+                .build();
+    }
+
+    private String[] getExcludedRepoNameList(FromContext fromContext) {
+        return StringUtil.stringSeparatedByCommaToArray(Optional.ofNullable(fromContext.excludeRepoNameList())
+                .orElseGet(() -> ""), ApplicationConstants.LIST_ITEM_SEPARATOR);
+    }
+
+    private String[] getExcludedOrganizations(FromContext fromContext) {
+        return StringUtil.stringSeparatedByCommaToArray(Optional.ofNullable(fromContext.excludeOrganizations())
+                .orElseGet(() -> ""), ApplicationConstants.LIST_ITEM_SEPARATOR);
+    }
+
+}

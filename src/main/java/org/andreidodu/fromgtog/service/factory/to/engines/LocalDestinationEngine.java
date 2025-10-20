@@ -1,0 +1,25 @@
+package org.andreidodu.fromgtog.service.factory.to.engines;
+
+import org.andreidodu.fromgtog.service.factory.to.AbstractDestinationEngine;
+import org.andreidodu.fromgtog.service.factory.to.engines.strategies.common.DestinationEngineStrategy;
+import org.andreidodu.fromgtog.service.factory.to.engines.strategies.local.LocalDestinationEngineFromLocalStrategy;
+import org.andreidodu.fromgtog.service.factory.to.engines.strategies.local.LocalDestinationEngineFromRemoteStrategy;
+import org.andreidodu.fromgtog.type.EngineType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.List;
+
+public class LocalDestinationEngine extends AbstractDestinationEngine {
+    public static final List<DestinationEngineStrategy> STRATEGIES_LIST = List.of(new LocalDestinationEngineFromRemoteStrategy(), new LocalDestinationEngineFromLocalStrategy());
+    private final static EngineType DESTINATION_ENGINE_TYPE = EngineType.LOCAL;
+    private final static Logger log = LoggerFactory.getLogger(LocalDestinationEngine.class);
+
+    public EngineType getDestinationEngineType() {
+        return DESTINATION_ENGINE_TYPE;
+    }
+
+    public List<DestinationEngineStrategy> getStrategies() {
+        return STRATEGIES_LIST;
+    }
+}

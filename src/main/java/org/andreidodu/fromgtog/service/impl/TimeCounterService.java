@@ -1,0 +1,54 @@
+package org.andreidodu.fromgtog.service.impl;
+
+import org.andreidodu.fromgtog.util.CustomThreadFactory;
+import org.andreidodu.fromgtog.util.TimeUtil;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Consumer;
+
+import static org.andreidodu.fromgtog.constants.ApplicationConstants.TICKER_THREAD_NAME_PREFIX;
+
+public class TimeCounterService {
+
+    private static final AtomicBoolean timeEnabled = new AtomicBoolean(false);
+    @Getter
+    @Setter
+    private ScheduledExecutorService timeExecutorService;
+    private Long startTime = 0L;
+
+    public TimeCounterService(Consumer<String> updateTimeLabel) {
+        CustomThreadFactory customThreadFactory = new CustomThreadFactory(TICKER_THREAD_NAME_PREFIX);
+        ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor(customThreadFactory);
+        this.setTimeExecutorService(scheduledExecutorService);
+        runTimeCounter(updateTimeLabel);
+        reset(updateTimeLabel);
+    }
+
+
+    private void reset(Consumer<String> updateTimeLabel) {
+        this.startTime = System.currentTimeMillis();
+        timeEnabled.set(true);
+        updateTimeLabel.accept(String.format("%s", "00:00:00"));
+    }
+
+    private void runTimeCounter(Consumer<String> updateTimeLabel) {
+        ScheduledFuture<?> future = this.getTimeExecutorService().scheduleAtFixedRate(() -> {
+            if (timeEnabled.get()) {
+                updateTimeLabel.accept(String.format("%s", TimeUtil.formatMillis(System.currentTimeMillis() - startTime)));
+            }
+        }, 0, 1000, TimeUnit.MILLISECONDS);
+    }
+
+    public void stopCounter() {
+        timeEnabled.set(false);
+        timeExecutorService.shutdown();
+    }
+
+
+}
