@@ -1,0 +1,14 @@
+services:
+  runner:
+    image: vegardit/gitea-act-runner:latest
+    environment:
+      CONFIG_FILE: config.yaml
+      GITEA_INSTANCE_URL: [IP]
+      GITEA_RUNNER_REGISTRATION_TOKEN: [REG_TOKEN]
+      GITEA_RUNNER_NAME: [RUNNER_NAME]
+      GITEA_RUNNER_LABELS: [RUNNER_LABELS]
+    volumes:
+      - ./runner-config:/config
+      - ./data:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: always
