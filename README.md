@@ -4,12 +4,12 @@
 <h2 id="index">Index</h2>
 
 - [Introduction](#introduction)
+- [Features](#features)
 - [User Reference Guide](./docs/fromgtog-user-reference-guide.md)
 
 > `User Reference Guide` includes also how to generate read/write tokens on all platforms with which FromGtoG interacts.
 > Most common issues are related to the token permissions.
 
-- [Features](#features)
 - [Download FromGtoG 10.0.0](#download)
 - [Screenshot](#screenshot)
 - [Technologies](#technologies)
