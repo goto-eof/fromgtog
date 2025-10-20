@@ -10,6 +10,7 @@ import org.eclipse.jgit.api.ListBranchCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -92,10 +93,24 @@ public class LocalServiceImpl implements LocalService {
                 .setDirectory(new File(localTemporaryRepoPath))
                 .setCredentialsProvider(new UsernamePasswordCredentialsProvider(login, token))
                 .call()) {
-            String masterBranch = localGitRepository.getRepository().getBranch();
-            log.debug("master: {}", masterBranch);
-            cloneAllRepositoryBranches(localGitRepository, masterBranch);
+            Repository repository = localGitRepository.getRepository();
+
+            log.info("HEAD 1: {}", repository.findRef("HEAD").getTarget().getName());
+            log.info("HEAD ID 1: {}", repository.resolve("HEAD").getName());
+
+            String mainBranchName = repository.getBranch();
+            log.info("master 1: {}", mainBranchName);
+            cloneAllRepositoryBranches(localGitRepository, mainBranchName);
             cloneAllRepositoryTags(localGitRepository);
+            removeAllRemoteURL(localGitRepository);
+
+            localGitRepository.checkout()
+                    .setName(mainBranchName)
+                    .call();
+            log.info("master 2: {}", repository.getBranch());
+            log.info("HEAD 2: {}", repository.findRef("HEAD").getTarget().getName());
+            log.info("HEAD ID 2: {}", repository.resolve("HEAD").getName());
+
             return true;
         } catch (TransportException | RuntimeException e) {
             log.error("Unable to clone repository {}...", cloneUrl, e);
@@ -177,6 +192,11 @@ public class LocalServiceImpl implements LocalService {
         log.debug("pushOnRemote {}", remoteUrl);
         Git localGit = Git.open(localTemporaryRepoPath);
 
+        Repository repository = localGit.getRepository();
+        log.info("master 3: {}", repository.getBranch());
+        log.info("HEAD 3: {}", repository.findRef("HEAD").getTarget().getName());
+        log.info("HEAD ID 3: {}", repository.resolve("HEAD").getName());
+
         final String GIT_REMOTE = "fromgtog";
         localGit.remoteAdd()
                 .setName(GIT_REMOTE)
@@ -198,7 +218,7 @@ public class LocalServiceImpl implements LocalService {
                 .setCredentialsProvider(new UsernamePasswordCredentialsProvider(login, token))
                 .setPushAll()
                 .setPushTags()
-                .setRefSpecs(new RefSpec("refs/*:refs/*"))
+                .setRefSpecs(new RefSpec("refs/heads/*:refs/heads/*"))
                 .setAtomic(true)
                 .setForce(forceFlag)
                 .call();

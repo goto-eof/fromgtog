@@ -127,7 +127,10 @@ public class GenericDestinationEngineFromRemoteStrategy<ServiceType extends Dele
             message = String.format("push status for repo %s: %S", repositoryName, isPushOk);
             callbackContainer.updateLogAndApplicationStatusMessage().accept(message);
 
-        } catch (IOException | GitAPIException | URISyntaxException | InterruptedException e) {
+            if (!isPushOk) {
+                throw new RuntimeException(String.format("push status for repo %s: %S", repositoryName, isPushOk));
+            }
+        } catch (IOException | GitAPIException | URISyntaxException | InterruptedException | RuntimeException e) {
             callbackContainer.updateLogAndApplicationStatusMessage().accept("Unable to push repository " + repositoryName);
             log.error("Unable to push repository {}", repositoryName, e);
             return;

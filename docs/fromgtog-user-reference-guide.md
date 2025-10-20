@@ -155,8 +155,12 @@ npm install -g fromgtog
 - in the *Repository access* section select *All repositories*
 - in the *Permissions* section, click on the *Add permission* button
     - add the *Contents* permission
-        - set it to readonly if it is the source platform (because we are not going to write on the source platform)
-        - set it to read and write if is the destination platform
+        - set it to `read` if it is the source platform (because we are not going to write on the source platform)
+        - set it to `read and write` if the token is for the destination platform
+    - add the **Administration** permission
+        - set it to `read and write` if the token is for the destination platform
+    - add the **Workflows** permission
+        - set it to `read and write` if the token is for the destination platform
     - click on *Update* button
     - copy the new generated token and copy the token immediately — you won’t be able to see it again
 
@@ -221,7 +225,7 @@ How to create a read-only PAT
     - *name* → e.g., read-only-token
     - *expiry date* → optional but recommended
     - *scopes* → select only the minimum needed:
-        - *read_user* → read profile info
+        - **api** → in order to update the repository privacy
         - *read_api* → list projects the user has access to (personal + group projects)
         - *read_repository* → if is the source platform
         - *write_repository* → if is the destination platform
