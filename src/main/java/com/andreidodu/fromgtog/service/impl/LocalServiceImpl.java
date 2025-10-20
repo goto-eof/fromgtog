@@ -103,10 +103,8 @@ public class LocalServiceImpl implements LocalService {
             cloneAllRepositoryBranches(localGitRepository, mainBranchName);
             cloneAllRepositoryTags(localGitRepository);
             removeAllRemoteURL(localGitRepository);
+            ensureMainBranchCheckedOut(localGitRepository, mainBranchName);
 
-            localGitRepository.checkout()
-                    .setName(mainBranchName)
-                    .call();
             log.info("master 2: {}", repository.getBranch());
             log.info("HEAD 2: {}", repository.findRef("HEAD").getTarget().getName());
             log.info("HEAD ID 2: {}", repository.resolve("HEAD").getName());
@@ -124,6 +122,19 @@ public class LocalServiceImpl implements LocalService {
             log.error("Unable to clone repository {}...", cloneUrl, e);
             throw new RuntimeException(e);
         }
+    }
+
+    private static void setBranch(Git localGitRepository, String mainBranchName) throws GitAPIException {
+        localGitRepository.checkout()
+                .setName(mainBranchName)
+                .call();
+    }
+
+    private static void ensureMainBranchCheckedOut(Git localGitRepository, String mainBranchName) throws GitAPIException {
+        localGitRepository.checkout()
+                .setName(mainBranchName)
+                .setForced(true)
+                .call();
     }
 
     private static void removeAllRemoteURL(Git localGitRepository) throws GitAPIException {
@@ -152,9 +163,7 @@ public class LocalServiceImpl implements LocalService {
     private static void cloneAllRepositoryTags(Git localGitRepository) throws GitAPIException {
         for (Ref tag : localGitRepository.tagList().call()) {
             String tagName = tag.getName().replace("refs/tags/", "");
-            localGitRepository.checkout()
-                    .setName(tagName)
-                    .call();
+            setBranch(localGitRepository, tagName);
         }
     }
 
