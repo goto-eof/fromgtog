@@ -12,7 +12,10 @@
 
 
 - [Installation](#installation)
-> The user must carefully configure the permissions for their token; otherwise, the application will not function correctly.
+
+> The user must carefully configure the permissions for their token; otherwise, the application will not function
+> correctly.
+
 - [Generating a GitHub Token](#token-generation-github)
 - [Generating a Gitea Token](#token-generation-gitea)
 - [Generating a Gitlab Token](#token-generation-gitlab)
@@ -155,14 +158,21 @@ npm install -g fromgtog
 - go to *Settings* → *Developer Settings* → *Fine-grained tokens* → *Generate new token*
 - in the *Repository access* section select *All repositories*
 - in the *Permissions* section, click on the *Add permission* button
-    - add the *Contents* permission
-        - set it to `read` if it is the source platform (because we are not going to write on the source platform)
-        - set it to `read and write` if the token is for the destination platform
-    - add the **Administration** permission
-        - set it to `read and write` if the token is for the destination platform
-    - add the **Workflows** permission
-        - set it to `read and write` if the token is for the destination platform
-    - click on *Update* button
+    - Read Only Token - if the token is for the **source** platform
+        - add the *Contents* permission
+            - set it to `read`
+        - add the **Metadata** permission
+            - set it to `read`
+    - Read and Write Token - if the token is for the **destination** platform
+        - add the *Contents* permission
+            - set it to `read and write` if the token is for the destination platform
+        - add the *Metadata* permission if not present
+            - set it to `read`
+        - add the **Administration** permission
+            - set it to `read and write`
+        - add the **Workflows** permission
+            - set it to `read and write`
+- click on *Update* button
     - copy the new generated token and copy the token immediately — you won’t be able to see it again
 
 > Note:
@@ -191,10 +201,12 @@ npm install -g fromgtog
 - give it a name
 - select *All (public, private, and limited)*
 - select read scopes only:
-    - *user* → read (allows to read user profile info necessary for FromGtoG)
-    - *repo*
-        - read → read if is the source platform
-        - read and write → if is the destination platform
+    - Read Only Token - if the token is for the **source** platform
+        - *user* → read (allows to read user profile info necessary for FromGtoG)
+        - *repo* → read
+    - Read and Write Token - if the token is for the **destination** platform
+        - *user* → read (allows to read user profile info necessary for FromGtoG)
+        - *repo* → read and write → if is the destination platform
 - click *Generate Token* and copy the token immediately — you won’t be able to see it again
 
 > Note:
@@ -226,10 +238,15 @@ How to create a read-only PAT
     - *name* → e.g., read-only-token
     - *expiry date* → optional but recommended
     - *scopes* → select only the minimum needed:
-        - **api** → in order to update the repository privacy; if the token is for the destination platform
-        - *read_api* → list projects the user has access to (personal + group projects);  if the token is for the source platform
-        - *read_repository* → if the token is for the source platform
-        - *write_repository* → if the token is for the destination platform
+        - Read Only Token - if the token is for the **source** platform
+            - *read_api* → list projects the user has access to (personal + group projects)
+              platform
+            - *read_repository*
+        - Read and Write Token - if the token is for the **destination** platform
+            - *api* → in order to update the repository privacy
+            - *read_api* → list projects the user has access to (personal + group projects)
+            - *read_repository*
+            - *write_repository*
 - click *Create personal access token* and copy the token immediately — you won’t be able to see it again
 
 > Note:
