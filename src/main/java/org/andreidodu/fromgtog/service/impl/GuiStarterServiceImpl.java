@@ -109,17 +109,24 @@ public class GuiStarterServiceImpl implements GuiStarterService {
 
     @Override
     public void start() {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    applyPreferredTheme();
-                } catch (Exception e) {
-                    log.error("GUI error: {}", e.getMessage());
-                    tryToApplyDefaultTheme();
+        com.formdev.flatlaf.FlatDarkLaf.setup();
+        try {
+            UIManager.setLookAndFeel(new com.formdev.flatlaf.FlatDarculaLaf());
+        } catch (Exception e) {
+            log.error("Failed to apply theme: {}", THEME_GTK_PLUS);
+            SwingUtilities.invokeLater(new Runnable() {
+                public void run() {
+                    try {
+                        applyPreferredTheme();
+                    } catch (Exception e) {
+                        log.error("GUI error: {}", e.getMessage());
+                        tryToApplyDefaultTheme();
+                    }
                 }
-                new ApplicationGUI();
-            }
-        });
+            });
+        } finally {
+            new ApplicationGUI();
+        }
     }
 
     private void tryToApplyDefaultTheme() {
@@ -138,6 +145,17 @@ public class GuiStarterServiceImpl implements GuiStarterService {
     }
 
     private void applyPreferredTheme() {
+        try {
+            UIManager.setLookAndFeel(new com.formdev.flatlaf.FlatDarculaLaf());
+        } catch (Exception e) {
+            log.error("Failed to apply theme: {}", e.getMessage());
+            applyDefault();
+        }
+
+
+    }
+
+    private void applyDefault() {
         UIManager.LookAndFeelInfo[] installedLookAndFeels = UIManager.getInstalledLookAndFeels();
         JSONObject settings = SettingsServiceImpl.getInstance().load();
         Optional.ofNullable(settings.optString("theme"))
