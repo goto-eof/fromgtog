@@ -38,6 +38,8 @@ apps:
       - unity7
       - wayland
       - x11
+      - desktop
+      - desktop-legacy
     slots:
       - fromgtog-dbus
 platforms:
