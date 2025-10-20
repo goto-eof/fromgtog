@@ -156,6 +156,9 @@ public class GenericDestinationEngineFromLocalStrategy<ServiceType extends Delet
         try {
             log.debug("updating repository privacy...");
             boolean result = service.updateRepositoryPrivacy(toContext.token(), destinationTokenOwnerLogin, toContext.url(), repositoryName, false, RepoPrivacyType.ALL_PRIVATE.equals(toContext.repositoryPrivacy()));
+            if (!result) {
+                throw new RuntimeException(String.format("update repository privacy for repo %s: %s", repositoryName, result));
+            }
         } catch (Exception e) {
             callbackContainer.updateLogAndApplicationStatusMessage().accept("Unable to push repository " + repositoryName);
             log.error("Unable to push repository {}", repositoryName, e);
