@@ -1,7 +1,7 @@
 <h2 align="center">FromGtoG</h2>
 <h1  id="index" align="center">User Reference Guide (v10.0+)</h1>
-<div align='right'>Document revision version: 1.0</div>
-<div align='right'>Last update: 19/10/2025</div>
+<div align='right'>Document revision version: 1.2</div>
+<div align='right'>Last update: 20/10/2025</div>
 <div align='right'>Author: Andrei Dodu</div>
 
 ## Index
@@ -42,9 +42,11 @@
 
 <h1 id="document-revision-history">Document Revision History</h1>
 
-| revision | date       | description                         |
-|:---------|:-----------|:------------------------------------|
-| 1.0      | 18/10/2025 | Valid for FromGtoG version 10.0.0+. |
+| revision | date       | description                |
+|:---------|:-----------|:---------------------------|
+| 1.0      | 18/10/2025 | initial draft              |
+| 1.1      | 19/10/2025 | completion of the document |
+| 1.2      | 20/10/2025 | added some clarifications  |
 
 [Go to Top](#index)
 
