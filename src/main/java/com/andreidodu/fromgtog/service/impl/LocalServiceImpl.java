@@ -211,26 +211,67 @@ public class LocalServiceImpl implements LocalService {
                 .setName(GIT_REMOTE)
                 .setUri(new URIish(remoteUrl))
                 .call();
-        Iterable<PushResult> pushResult = pushAll(login, token, forceFlag, localGit, GIT_REMOTE);
+
+        String mainBranch = repository.getBranch();
+
+        List<Iterable<PushResult>> result = new ArrayList<>();
+
+        Iterable<PushResult> pushResult = pushMainBranch(login, token, forceFlag, localGit, GIT_REMOTE, mainBranch);
+        result.add(pushResult);
+        List<Iterable<PushResult>> pushAllOtherBranches = pushAllOtherBranches(login, token, forceFlag, localGit, GIT_REMOTE, mainBranch);
+        result.addAll(pushAllOtherBranches);
+        Iterable<PushResult> pushAllTags = pushAllTags(login, token, forceFlag, localGit, GIT_REMOTE, mainBranch);
+        result.add(pushAllTags);
+
         localGit.remoteRemove().setRemoteName(GIT_REMOTE).call();
         // delete temporary directory
         if (deleteLocalDirectory) {
             deleteDirectoryIfNecessary(localTemporaryRepoPath.getAbsolutePath());
         }
 
-        return isPushOK(pushResult);
+        return isPushOK(result);
     }
 
-    private static Iterable<PushResult> pushAll(String login, String token, boolean forceFlag, Git localGit, String GIT_REMOTE) throws GitAPIException {
+    private static Iterable<PushResult> pushMainBranch(String login, String token, boolean forceFlag, Git localGit, String GIT_REMOTE, String mainBranch) throws GitAPIException {
         return localGit.push()
                 .setRemote(GIT_REMOTE)
                 .setCredentialsProvider(new UsernamePasswordCredentialsProvider(login, token))
-                .setPushAll()
-                .setPushTags()
-                .setRefSpecs(new RefSpec("refs/heads/*:refs/heads/*"))
+                .setRefSpecs(new RefSpec("refs/heads/" + mainBranch + ":refs/heads/" + mainBranch))
                 .setAtomic(true)
                 .setForce(forceFlag)
                 .call();
+    }
+
+    private Iterable<PushResult> pushAllTags(String login, String token, boolean forceFlag, Git localGit, String GIT_REMOTE, String mainBranch) throws GitAPIException {
+        return localGit.push()
+                .setRemote(GIT_REMOTE)
+                .setCredentialsProvider(new UsernamePasswordCredentialsProvider(login, token))
+                .setPushTags()
+                .setAtomic(true)
+                .call();
+    }
+
+    private List<Iterable<PushResult>> pushAllOtherBranches(String login, String token, boolean forceFlag, Git localGit, String GIT_REMOTE, String mainBranch) throws GitAPIException {
+        return localGit.branchList().call().stream()
+                .filter(b -> !b.getName().equals("refs/heads/" + mainBranch))
+                .map(b -> {
+                    try {
+                        return localGit.push()
+                                .setRemote(GIT_REMOTE)
+                                .setCredentialsProvider(new UsernamePasswordCredentialsProvider(login, token))
+                                .setRefSpecs(new RefSpec(b.getName() + ":" + b.getName()))
+                                .setAtomic(true)
+                                .setForce(forceFlag)
+                                .call();
+                    } catch (GitAPIException e) {
+                        throw new RuntimeException(e);
+                    }
+                }).toList();
+    }
+
+    private boolean isPushOK(List<Iterable<PushResult>> result) {
+        return result.stream()
+                .allMatch(this::isPushOK);
     }
 
     private boolean isPushOK(Iterable<PushResult> pushResults) {
