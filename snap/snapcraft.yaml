@@ -24,7 +24,12 @@ apps:
   fromgtog:
     environment:
       ALSA_CONFIG_PATH: $SNAP/etc/asound.conf
-      LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$SNAP_DESKTOP_RUNTIME/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libproxy:$SNAP_DESKTOP_RUNTIME/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/gio/modules
+      LD_LIBRARY_PATH: |
+        $LD_LIBRARY_PATH:
+        $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR:
+        $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/alsa-lib:
+        $SNAP_DESKTOP_RUNTIME/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libproxy:
+        $SNAP_DESKTOP_RUNTIME/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/gio/modules
     command: executor
     extensions: [ gnome ]
     plugs:
@@ -38,8 +43,6 @@ apps:
       - unity7
       - wayland
       - x11
-      - desktop
-      - desktop-legacy
     slots:
       - fromgtog-dbus
 platforms:
