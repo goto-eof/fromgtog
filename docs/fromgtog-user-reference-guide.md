@@ -12,6 +12,7 @@
 
 
 - [Installation](#installation)
+> The user must carefully configure the permissions for their token; otherwise, the application will not function correctly.
 - [Generating a GitHub Token](#token-generation-github)
 - [Generating a Gitea Token](#token-generation-gitea)
 - [Generating a Gitlab Token](#token-generation-gitlab)
@@ -225,10 +226,10 @@ How to create a read-only PAT
     - *name* → e.g., read-only-token
     - *expiry date* → optional but recommended
     - *scopes* → select only the minimum needed:
-        - **api** → in order to update the repository privacy
-        - *read_api* → list projects the user has access to (personal + group projects)
-        - *read_repository* → if is the source platform
-        - *write_repository* → if is the destination platform
+        - **api** → in order to update the repository privacy; if the token is for the destination platform
+        - *read_api* → list projects the user has access to (personal + group projects);  if the token is for the source platform
+        - *read_repository* → if the token is for the source platform
+        - *write_repository* → if the token is for the destination platform
 - click *Create personal access token* and copy the token immediately — you won’t be able to see it again
 
 > Note:
