@@ -113,7 +113,7 @@ public class GuiStarterServiceImpl implements GuiStarterService {
         try {
             UIManager.setLookAndFeel(new com.formdev.flatlaf.FlatDarculaLaf());
         } catch (Exception e) {
-            log.error("Failed to apply theme: {}", THEME_GTK_PLUS);
+            log.error("Failed to apply theme: {}", "Dracula");
             SwingUtilities.invokeLater(new Runnable() {
                 public void run() {
                     try {
