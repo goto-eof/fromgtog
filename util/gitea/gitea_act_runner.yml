@@ -1,6 +1,6 @@
 services:
   runner:
-    image: vegardit/gitea-act-runner:dind-latest
+    image: vegardit/gitea-act-runner:latest
     environment:
       CONFIG_FILE: config.yaml
       GITEA_INSTANCE_URL: [IP]
@@ -12,3 +12,4 @@ services:
       - ./data:/data
       - /var/run/docker.sock:/var/run/docker.sock
     restart: always
+    privileged: true
