@@ -10,6 +10,14 @@ jobs:
   build_and_test:
     runs-on: atena
     steps:
+      - name: Install Node.js
+        run: |
+          apt-get update && apt-get install -y curl gnupg
+          curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
+          apt-get install -y nodejs
+          node -v
+          npm -v
+
       - name: Checkout code
         uses: actions/checkout@v3
 
