@@ -36,6 +36,7 @@ The application currently supports robust two-way cloning and backup across:
 
 FromGtoG goes beyond simple batch operations, offering advanced filtering and performance capabilities:
 
+* **Deep Cloning**: Ensures the **complete replication** of the repository by **cloning all branches and tags**.
 * **Scheduled Backup Jobs (Toggleable):** Take control of your workflow by automating complete backup and migration
   tasks using **Quartz Cron Expressions**. Users can define a schedule and **easily activate or deactivate** the job as
   needed. **If the cron job is enabled, the application will start as a daemon**; the user can open the app window by
