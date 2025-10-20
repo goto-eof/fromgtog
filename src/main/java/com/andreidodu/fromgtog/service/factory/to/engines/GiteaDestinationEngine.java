@@ -5,7 +5,6 @@ import com.andreidodu.fromgtog.service.factory.to.AbstractDestinationEngine;
 import com.andreidodu.fromgtog.service.factory.to.engines.strategies.common.DestinationEngineStrategy;
 import com.andreidodu.fromgtog.service.factory.to.engines.strategies.generic.GenericDestinationEngineFromLocalStrategy;
 import com.andreidodu.fromgtog.service.factory.to.engines.strategies.generic.GenericDestinationEngineFromRemoteStrategy;
-import com.andreidodu.fromgtog.service.factory.to.engines.strategies.generic.GenericDestinationEngineFromStrategyService;
 import com.andreidodu.fromgtog.service.impl.GiteaServiceImpl;
 import com.andreidodu.fromgtog.type.EngineType;
 import org.slf4j.Logger;

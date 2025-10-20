@@ -9,7 +9,8 @@ import org.json.JSONObject;
 import java.util.function.Predicate;
 
 import static com.andreidodu.fromgtog.gui.controller.constants.GuiKeys.FROM_LOCAL_ROOT_PATH;
-import static com.andreidodu.fromgtog.gui.validator.composite.factory.util.FactoryUtil.*;
+import static com.andreidodu.fromgtog.gui.validator.composite.factory.util.FactoryUtil.isFromMainTabIndexEqualTo;
+import static com.andreidodu.fromgtog.gui.validator.composite.factory.util.FactoryUtil.isMandatoryDirPathValid;
 
 public class FromLocalTabFactory implements ComponentValidatorFactory {
     @Override
