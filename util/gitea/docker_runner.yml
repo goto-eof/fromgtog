@@ -1,6 +1,6 @@
 services:
   runner:
-    image: vegardit/gitea-act-runner:latest
+    image: vegardit/gitea-act-runner:dind-latest
     environment:
       CONFIG_FILE: config.yaml
       GITEA_INSTANCE_URL: [IP]
