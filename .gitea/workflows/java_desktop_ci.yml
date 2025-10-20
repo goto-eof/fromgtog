@@ -1,0 +1,27 @@
+name: Java CI on PR and Push
+
+on:
+  pull_request:
+    branches: [ main, master ]
+  push:
+    branches: [ main, master ]
+
+jobs:
+  build_and_test:
+    runs-on: atena
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21'
+          distribution: temurin
+          cache: maven
+
+      - name: Compile and test
+        run: mvn -B verify --file pom.xml
+
+      - name: Build JAR
+        run: mvn -B package --file pom.xml
