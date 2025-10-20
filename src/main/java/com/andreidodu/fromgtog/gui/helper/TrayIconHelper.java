@@ -18,8 +18,8 @@ import java.util.Objects;
 import java.util.function.Consumer;
 
 public class TrayIconHelper {
-    public static final String TRAY_ICON_IMAGE = "/images/xm/icon-64x64.png";
-    public static final String TRAY_ICON_IMAGE_SECONDARY = "/images/xm/icon-red-64x64.png";
+    public static final String TRAY_ICON_IMAGE = "images/xm/icon-64x64.png";
+    public static final String TRAY_ICON_IMAGE_SECONDARY = "images/xm/icon-red-64x64.png";
     private final static SystemTrayCoordinatorImpl strategyFinder = new SystemTrayCoordinatorImpl();
 
 
@@ -75,7 +75,7 @@ public class TrayIconHelper {
     private java.util.List<Tuple<String, Consumer<ActionEvent>>> buildTrayIconMenu(JFrame mainWindow) {
         return java.util.List.of(
                 new Tuple<>("Open", (e) -> SwingUtilities.invokeLater(() -> showWindow(mainWindow))),
-                new Tuple<>("About", (e) -> SwingUtilities.invokeLater(() -> displayInfo("FromGtoG", "FromGtoG 10.0.0 by Andrei Dodu"))),
+                new Tuple<>("About", (e) -> SwingUtilities.invokeLater(() -> displayInfo("FromGtoG", "FromGtoG 10.0.1 by Andrei Dodu"))),
                 new Tuple<>("Exit", (e) -> SwingUtilities.invokeLater(() -> System.exit(0)))
         );
     }
@@ -98,11 +98,11 @@ public class TrayIconHelper {
         );
     }
 
-    private static Image loadImage(String resourcePath, int size) {
+    private Image loadImage(String resourcePath, int size) {
         try {
             log.debug("Loading image from {}", resourcePath);
             log.debug("size: {}x{}", size, size);
-            Image image = ImageIO.read(Objects.requireNonNull(TrayIconHelper.class.getResourceAsStream(resourcePath)));
+            Image image = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(resourcePath)));
             return image.getScaledInstance(size, size, Image.SCALE_SMOOTH);
         } catch (Exception e) {
             return null;
@@ -130,7 +130,7 @@ public class TrayIconHelper {
         strategyFinder.getSystemTrayStrategy().setImage(image);
     }
 
-    private static Image loadImage(final String imgFile) {
+    private Image loadImage(final String imgFile) {
         Image image = loadImage(imgFile, strategyFinder.getSystemTrayStrategy().getTrayIconSize());
         if (image == null) {
             image = createFallbackImage();

@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.sound.sampled.*;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.Map;
 import java.util.Objects;
@@ -83,7 +82,6 @@ public class SoundPlayer {
 
     private Clip loadClip(String soundFilename) {
         try {
-            InputStream soundStream = SoundPlayer.class.getResourceAsStream(soundFilename);
             URL soundURL = getClass().getClassLoader().getResource(soundFilename);
             if (soundURL == null) {
                 logger.error("File not found: {}", soundFilename);
