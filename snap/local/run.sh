@@ -2,7 +2,7 @@
 
 set -eux
 
-exec $SNAP/usr/lib/jvm/custom-jre/bin/java \
+exec $SNAP/bin/java \
     -Djava.util.prefs.userRoot="$SNAP_USER_DATA" \
     -Dawt.useSystemAAFontSettings=on \
     -Dswing.aatext=true \
