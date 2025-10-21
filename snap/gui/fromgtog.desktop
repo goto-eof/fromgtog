@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=FromGtoG
-Comment=Helps to migrate all repositories from GitHub on Gitea
-Exec=fromgtog
+Comment=Helps to migrate all repositories from a git platform to another one
+Exec=${SNAP}/bin/fromgtog
 Icon=${SNAP}/meta/gui/icon.png
 Terminal=false
 Type=Application

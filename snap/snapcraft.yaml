@@ -24,12 +24,13 @@ apps:
   fromgtog:
     environment:
       ALSA_CONFIG_PATH: $SNAP/etc/asound.conf
+      GIO_MODULE_DIR: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/gio/modules:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libproxy
       LD_LIBRARY_PATH: |
-        $LD_LIBRARY_PATH:
         $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR:
         $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/alsa-lib:
-        $SNAP_DESKTOP_RUNTIME/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libproxy:
-        $SNAP_DESKTOP_RUNTIME/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/gio/modules
+        $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/gio/modules:
+        $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libproxy:
+        $LD_LIBRARY_PATH
     command: run.sh
     extensions: [ gnome ]
     plugs:
@@ -57,8 +58,15 @@ parts:
     source-type: local
     override-build: |
       snapcraftctl build
-      chmod +x $SNAPCRAFT_PART_INSTALL/build.sh
-      chmod +x $SNAPCRAFT_PART_INSTALL/prime.sh
+      chmod +x build.sh prime.sh run.sh
+#    prime:
+#      - build.sh
+#      - prime.sh
+#      - run.sh
+#    organize:
+#      build.sh: build.sh
+#      prime.sh: prime.sh
+#      run.sh: run.sh
   alsa-config:
     plugin: dump
     source: snap/local/asound.conf
@@ -74,9 +82,15 @@ parts:
       - openjdk-21-jdk
       - maven
       - sed
+    after:
+      - wrapper
+      - alsa-config
+#    organize:
+#      usr/lib/jvm: usr/lib/jvm
     override-build: |
       snapcraftctl build
-      $SNAPCRAFT_PART_BUILD/build.sh
+      [ ! -f "$SNAPCRAFT_PART_BUILD/build.sh" ] && exit 0
+      . "$SNAPCRAFT_PART_BUILD/build.sh"
     stage-packages:
       - glib-networking
       - libgtk-3-0
@@ -85,10 +99,11 @@ parts:
       - libasound2-plugins
       - alsa-utils
       - libappindicator3-1
-    after:
-      - alsa-config
+      - libgdk-pixbuf2.0-0
+      - libproxy1-plugin-networkmanager
+      - libproxy1v5
+      - librsvg2-2
     override-prime: |
       snapcraftctl prime
-      $SNAPCRAFT_PART_BUILD/prime.sh
-
-
+      [ ! -f "$SNAPCRAFT_PART_INSTALL/prime.sh" ] && exit 0
+      . "$SNAPCRAFT_PART_INSTALL/prime.sh"

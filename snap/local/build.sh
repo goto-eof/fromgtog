@@ -1,5 +1,14 @@
 #!/bin/bash
 
+MARKER_FILE="$SNAPCRAFT_PART_INSTALL/built_marker"
+
+if [ -f "$MARKER_FILE" ]; then
+  echo "Build already completed, skipping."
+  exit 0
+fi
+
+touch "$MARKER_FILE"
+
 getProxy () {
   host=$(echo "$1" | sed -E 's|https?://([^:/]*):?[0-9]*/?|\1|')
   port=$(echo "$1" | sed -E 's|https?://[^:/]*:?([0-9]*)/?|\1|')
@@ -38,7 +47,7 @@ fi
 
 export MAVEN_OPTS="$http $https"
 
-mvn clean install -DskipTests
+mvn clean install -DskipTests -T 8
 
 APP_JAR_NAME="fromgtog.jar"
 APP_JAR_PATH="$SNAPCRAFT_PART_BUILD/target/$APP_JAR_NAME"
