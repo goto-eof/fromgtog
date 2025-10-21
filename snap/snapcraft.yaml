@@ -59,14 +59,6 @@ parts:
     override-build: |
       snapcraftctl build
       chmod +x build.sh prime.sh run.sh
-#    prime:
-#      - build.sh
-#      - prime.sh
-#      - run.sh
-#    organize:
-#      build.sh: build.sh
-#      prime.sh: prime.sh
-#      run.sh: run.sh
   alsa-config:
     plugin: dump
     source: snap/local/asound.conf
@@ -85,8 +77,9 @@ parts:
     after:
       - wrapper
       - alsa-config
-#    organize:
-#      usr/lib/jvm: usr/lib/jvm
+    organize:
+      usr/lib/jvm: usr/lib/jvm
+      jar: jar
     override-build: |
       snapcraftctl build
       [ ! -f "$SNAPCRAFT_PART_BUILD/build.sh" ] && exit 0

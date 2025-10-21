@@ -9,8 +9,8 @@ fi
 
 touch "$MARKER_FILE"
 
-cp -r "$SNAPCRAFT_PART_INSTALL/usr/lib/jvm" "$SNAPCRAFT_PART_PRIME/usr/lib/"
-cp -r "$SNAPCRAFT_PART_INSTALL/jar" "$SNAPCRAFT_PART_PRIME/"
+#cp -r "$SNAPCRAFT_PART_INSTALL/usr/lib/jvm" "$SNAPCRAFT_PART_PRIME/usr/lib/"
+#cp -r "$SNAPCRAFT_PART_INSTALL/jar" "$SNAPCRAFT_PART_PRIME/"
 
 LIB_DIR=$(find "$SNAPCRAFT_PART_PRIME/usr/lib/" -maxdepth 1 -type d -name "*-linux-gnu" -print -quit)
 
