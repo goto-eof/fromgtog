@@ -31,7 +31,7 @@ apps:
         $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/gio/modules:
         $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libproxy:
         $LD_LIBRARY_PATH
-    command: run.sh
+    command: $SNAPCRAFT_PROJECT_DIR/$SNAPCRAFT_PROJECT_NAME/usr/bin/run.sh
     extensions: [ gnome ]
     plugs:
       - audio-playback
@@ -56,33 +56,27 @@ parts:
     plugin: dump
     source: snap/local
     source-type: local
-    override-build: |
-      snapcraftctl build
-      chmod +x build.sh prime.sh run.sh
-  alsa-config:
-    plugin: dump
-    source: snap/local/asound.conf
-    source-type: file
     organize:
-      asound.conf: etc/asound.conf
+      build.sh: $SNAPCRAFT_PROJECT_DIR/$SNAPCRAFT_PROJECT_NAME/usr/local/build.sh
+      prime.sh: $SNAPCRAFT_PROJECT_DIR/$SNAPCRAFT_PROJECT_NAME/usr/local/prime.sh
+      run.sh: $SNAPCRAFT_PROJECT_DIR/$SNAPCRAFT_PROJECT_NAME/usr/bin/run.sh
+      asound.conf: $SNAPCRAFT_PROJECT_DIR/$SNAPCRAFT_PROJECT_NAME/etc/asound.conf
     prime:
-      - etc/asound.conf
+      - build.sh
+      - prime.sh
+      - run.sh
+      - asound.conf
   application:
     plugin: maven
     source: .
     build-packages:
       - openjdk-21-jdk
       - maven
-      - sed
     after:
       - wrapper
-      - alsa-config
-    organize:
-      usr/lib/jvm: usr/lib/jvm
     override-build: |
+      . $SNAPCRAFT_PROJECT_DIR/$SNAPCRAFT_PROJECT_NAME/usr/local/build.sh
       snapcraftctl build
-      [ ! -f "$SNAPCRAFT_PART_BUILD/build.sh" ] && exit 0
-      . "$SNAPCRAFT_PART_BUILD/build.sh"
     stage-packages:
       - glib-networking
       - libgtk-3-0
@@ -92,10 +86,7 @@ parts:
       - alsa-utils
       - libappindicator3-1
       - libgdk-pixbuf2.0-0
-      - libproxy1-plugin-networkmanager
-      - libproxy1v5
       - librsvg2-2
     override-prime: |
       snapcraftctl prime
-      [ ! -f "$SNAPCRAFT_PART_INSTALL/prime.sh" ] && exit 0
-      . "$SNAPCRAFT_PART_INSTALL/prime.sh"
+      . $SNAPCRAFT_PROJECT_DIR/$SNAPCRAFT_PROJECT_NAME/usr/local/prime.sh
