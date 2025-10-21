@@ -1,18 +1,6 @@
 #!/bin/bash
 
-set -ux
-
-MARKER_FILE="$SNAPCRAFT_PART_INSTALL/prime_marker"
-
-if [ -f "$MARKER_FILE" ]; then
-  echo "Prime already completed, skipping."
-  exit 0
-fi
-
-touch "$MARKER_FILE"
-
-#cp -r "$SNAPCRAFT_PART_INSTALL/usr/lib/jvm" "$SNAPCRAFT_PART_PRIME/usr/lib/"
-#cp -r "$SNAPCRAFT_PART_INSTALL/jar" "$SNAPCRAFT_PART_PRIME/"
+set -eux
 
 LIB_DIR=$(find "$SNAPCRAFT_PART_PRIME/usr/lib/" -maxdepth 1 -type d -name "*-linux-gnu" -print -quit)
 
