@@ -18,8 +18,8 @@ import java.util.Objects;
 import java.util.function.Consumer;
 
 public class TrayIconHelper {
-    public static final String TRAY_ICON_IMAGE = "images/xm/icon-32x32.png";
-    public static final String TRAY_ICON_IMAGE_SECONDARY = "images/xm/icon-red-32x32.png";
+    public static final String TRAY_ICON_IMAGE = "images/xm/icon-64x64.png";
+    public static final String TRAY_ICON_IMAGE_SECONDARY = "images/xm/icon-red-64x64.png";
     private final static SystemTrayCoordinatorImpl strategyFinder = new SystemTrayCoordinatorImpl();
 
 
