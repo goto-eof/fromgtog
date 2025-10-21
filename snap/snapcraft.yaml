@@ -87,9 +87,9 @@ parts:
       - alsa-config
     override-build: |
       snapcraftctl build
-       $SNAPCRAFT_PART_BUILD/build.sh
+      $SNAPCRAFT_PART_BUILD/build.sh
     override-prime: |
       snapcraftctl prime
-       $SNAPCRAFT_PART_BUILD/prime.sh
+      $SNAPCRAFT_PART_BUILD/prime.sh
 
 
