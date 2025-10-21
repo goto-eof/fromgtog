@@ -74,6 +74,9 @@ parts:
       - openjdk-21-jdk
       - maven
       - sed
+    override-build: |
+      snapcraftctl build
+      $SNAPCRAFT_PART_BUILD/build.sh
     stage-packages:
       - glib-networking
       - libgtk-3-0
@@ -84,8 +87,6 @@ parts:
       - libappindicator3-1
     after:
       - alsa-config
-    override-build: |
-      $SNAPCRAFT_PART_BUILD/build.sh
     override-prime: |
       snapcraftctl prime
       $SNAPCRAFT_PART_BUILD/prime.sh
