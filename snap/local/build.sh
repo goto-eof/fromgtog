@@ -18,7 +18,7 @@ echo "Starting to build FromGtoG at $(date)"
 START_TIME=$(date +%s)
 echo "Start building FromGtoG at $(date)"
 
-set -eux
+# set -eux
 JLINK_JDK_PATH="/usr/lib/jvm/java-21-openjdk-$(dpkg-architecture -q DEB_BUILD_MULTIARCH)"
 REQUIRED_MODULES="java.base,java.desktop,java.net.http,java.naming,java.sql,java.management,java.security.jgss,java.xml,java.logging,jdk.crypto.ec,java.security.sasl"
 
