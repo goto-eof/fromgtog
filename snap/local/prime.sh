@@ -2,7 +2,7 @@
 
 set -eux
 
-LIB_DIR=$(find "$SNAPCRAFT_PART_PRIME/usr/lib/" -maxdepth 1 -type d -name "*-linux-gnu" -print -quit)
+LIB_DIR=$(find "$SNAPCRAFT_PRIME/usr/lib/" -maxdepth 1 -type d -name "*-linux-gnu" -print -quit)
 
 if [ -d "$LIB_DIR" ]; then
   (cd "$LIB_DIR" && {
