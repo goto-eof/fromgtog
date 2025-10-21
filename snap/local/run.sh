@@ -1,10 +1,9 @@
 #!/bin/bash
-#
-# Script is a wrapper which runs application in a bash script with the needed options
-#
+
 exec $SNAP/usr/lib/jvm/custom-jre/bin/java \
     -Djava.util.prefs.userRoot="$SNAP_USER_DATA" \
-    -Dawt.useSystemAAFontSettings=on -Dswing.aatext=true \
+    -Dawt.useSystemAAFontSettings=on \
+    -Dswing.aatext=true \
     -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel \
     -Djava.desktop.appName=$SNAP/meta/gui/fromgtog.desktop \
     -Dswing.crossplatformlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel \
