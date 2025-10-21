@@ -43,7 +43,6 @@ apps:
       - wayland
       - x11
       - desktop
-      - desktop-legacy
 platforms:
   amd64:
     build-on: [ amd64 ]
@@ -86,7 +85,6 @@ parts:
     after:
       - alsa-config
     override-build: |
-      snapcraftctl build
       $SNAPCRAFT_PART_BUILD/build.sh
     override-prime: |
       snapcraftctl prime
