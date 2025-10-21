@@ -90,4 +90,4 @@ parts:
       - librsvg2-2
     override-prime: |
       snapcraftctl prime
-      . $SNAPCRAFT_PART_INSTALL/usr/lib/prime.sh
+      . $SNAPCRAFT_STAGE/usr/lib/prime.sh
