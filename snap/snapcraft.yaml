@@ -74,11 +74,11 @@ parts:
       - maven
     after:
       - copy-required-files
-    override-build: |
-      snapcraftctl build
-      . $SNAPCRAFT_STAGE/usr/lib/build.sh
+    #    override-build: |
+    #      snapcraftctl build
+    #      . $SNAPCRAFT_STAGE/usr/lib/build.sh
     stage-packages:
-      - openjdk-21-jdk
+      - openjdk-21-jre
       - glib-networking
       - libgtk-3-0
       - xdg-utils
