@@ -52,7 +52,7 @@ platforms:
     build-on: [ arm64 ]
     build-for: [ arm64 ]
 parts:
-  wrapper:
+  copy-required-files:
     plugin: dump
     source: snap/local
     source-type: local
@@ -61,6 +61,11 @@ parts:
       prime.sh: usr/lib/prime.sh
       run.sh: usr/bin/run.sh
       asound.conf: etc/asound.conf
+    prime:
+      - usr/lib/build.sh
+      - usr/lib/prime.sh
+      - usr/bin/run.sh
+      - etc/asound.conf
   application:
     plugin: maven
     source: .
@@ -68,11 +73,12 @@ parts:
       - openjdk-21-jdk
       - maven
     after:
-      - wrapper
+      - copy-required-files
     override-build: |
-      . $SNAPCRAFT_STAGE/usr/lib/build.sh
       snapcraftctl build
+      . $SNAPCRAFT_STAGE/usr/lib/build.sh
     stage-packages:
+      - openjdk-21-jdk
       - glib-networking
       - libgtk-3-0
       - xdg-utils
