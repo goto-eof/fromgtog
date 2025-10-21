@@ -31,7 +31,7 @@ apps:
         $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/gio/modules:
         $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libproxy:
         $LD_LIBRARY_PATH
-    command: $SNAPCRAFT_PROJECT_DIR/$SNAPCRAFT_PROJECT_NAME/usr/bin/run.sh
+    command: usr/bin/run.sh
     extensions: [ gnome ]
     plugs:
       - audio-playback
@@ -57,15 +57,10 @@ parts:
     source: snap/local
     source-type: local
     organize:
-      build.sh: $SNAPCRAFT_PROJECT_DIR/$SNAPCRAFT_PROJECT_NAME/usr/local/build.sh
-      prime.sh: $SNAPCRAFT_PROJECT_DIR/$SNAPCRAFT_PROJECT_NAME/usr/local/prime.sh
-      run.sh: $SNAPCRAFT_PROJECT_DIR/$SNAPCRAFT_PROJECT_NAME/usr/bin/run.sh
-      asound.conf: $SNAPCRAFT_PROJECT_DIR/$SNAPCRAFT_PROJECT_NAME/etc/asound.conf
-    prime:
-      - build.sh
-      - prime.sh
-      - run.sh
-      - asound.conf
+      build.sh: usr/lib/build.sh
+      prime.sh: usr/lib/prime.sh
+      run.sh: usr/bin/run.sh
+      asound.conf: etc/asound.conf
   application:
     plugin: maven
     source: .
@@ -75,7 +70,7 @@ parts:
     after:
       - wrapper
     override-build: |
-      . $SNAPCRAFT_PROJECT_DIR/$SNAPCRAFT_PROJECT_NAME/usr/local/build.sh
+      . $SNAPCRAFT_STAGE/usr/lib/build.sh
       snapcraftctl build
     stage-packages:
       - glib-networking
@@ -89,4 +84,4 @@ parts:
       - librsvg2-2
     override-prime: |
       snapcraftctl prime
-      . $SNAPCRAFT_PROJECT_DIR/$SNAPCRAFT_PROJECT_NAME/usr/local/prime.sh
+      . $SNAPCRAFT_PART_INSTALL/usr/lib/prime.sh
