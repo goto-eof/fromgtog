@@ -79,7 +79,6 @@ parts:
       - alsa-config
     organize:
       usr/lib/jvm: usr/lib/jvm
-      jar: jar
     override-build: |
       snapcraftctl build
       [ ! -f "$SNAPCRAFT_PART_BUILD/build.sh" ] && exit 0
