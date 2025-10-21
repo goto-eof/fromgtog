@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -ux
+
 exec $SNAP/usr/lib/jvm/custom-jre/bin/java \
     -Djava.util.prefs.userRoot="$SNAP_USER_DATA" \
     -Dawt.useSystemAAFontSettings=on \

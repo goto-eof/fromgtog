@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -ux
+
 MARKER_FILE="$SNAPCRAFT_PART_INSTALL/prime_marker"
 
 if [ -f "$MARKER_FILE" ]; then
