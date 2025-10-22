@@ -27,6 +27,8 @@ apps:
       LD_LIBRARY_PATH: |
         $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR:
         $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/alsa-lib:
+        $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/gdk-pixbuf-2.0/2.10.0/loaders:
+        $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/gio/modules:
         $LD_LIBRARY_PATH
     command: usr/bin/run.sh
     extensions: [ gnome ]
@@ -79,7 +81,10 @@ parts:
       - libgtk-3-0
       - xdg-utils
       - alsa-utils
-      - liboss4-salsa-asound2
+      - libasound2-plugins
+      - libasound2
+#      - liboss4-salsa-asound2
+      - libgdk-pixbuf2.0-0
       - libappindicator3-1
     override-prime: |
       snapcraftctl prime
