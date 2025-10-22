@@ -1,11 +1,9 @@
 package org.andreidodu.fromgtog.gui.helper.systemtray.strategy;
 
-import org.andreidodu.fromgtog.gui.helper.systemtray.strategy.common.ClassicSystemTrayStrategyImpl;
+import org.andreidodu.fromgtog.gui.helper.systemtray.strategy.common.ModernSystemTrayStrategyImpl;
 import org.andreidodu.fromgtog.util.OsUtil;
 
-import java.awt.*;
-
-public class LinuxSystemTrayStrategyImpl extends ClassicSystemTrayStrategyImpl implements SystemTrayStrategy {
+public class LinuxSystemTrayStrategyImpl extends ModernSystemTrayStrategyImpl implements SystemTrayStrategy {
 
     @Override
     public boolean accept() {
