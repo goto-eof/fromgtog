@@ -5,8 +5,6 @@ set -eux
 ##########################################
 # workaround
 ##########################################
-SOURCE="/root"
-DESTINATION="$SNAPCRAFT_PRIME/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR"
 
 copy_lib_with_new_name() {
     local source_path="$1"
@@ -28,6 +26,7 @@ copy_lib_with_new_name() {
     fi
 }
 
+SOURCE="/root"
 DESTINATION="$SNAPCRAFT_PRIME/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR"
 
 copy_lib_with_new_name "$SOURCE" "$DESTINATION" "libappindicator3.so*" "libappindicator3.so"
