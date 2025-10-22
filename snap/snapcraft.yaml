@@ -24,11 +24,9 @@ apps:
   fromgtog:
     environment:
       ALSA_CONFIG_PATH: $SNAP/etc/asound.conf
-      GIO_MODULE_DIR: $GIO_MODULE_DIR:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/gio/modules
       LD_LIBRARY_PATH: |
         $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR:
         $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/alsa-lib:
-        $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/gio/modules:
         $LD_LIBRARY_PATH
     command: usr/bin/run.sh
     extensions: [ gnome ]
@@ -80,11 +78,9 @@ parts:
       - glib-networking
       - libgtk-3-0
       - xdg-utils
-      - libasound2
-      - libasound2-plugins
       - alsa-utils
+      - liboss4-salsa-asound2
       - libappindicator3-1
-      - libgdk-pixbuf2.0-0
       - librsvg2-2
     override-prime: |
       snapcraftctl prime
