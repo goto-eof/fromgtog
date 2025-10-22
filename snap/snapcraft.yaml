@@ -24,12 +24,11 @@ apps:
   fromgtog:
     environment:
       ALSA_CONFIG_PATH: $SNAP/etc/asound.conf
-      GIO_MODULE_DIR: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/gio/modules:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libproxy
+      GIO_MODULE_DIR: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/gio/modules
       LD_LIBRARY_PATH: |
         $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR:
         $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/alsa-lib:
         $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/gio/modules:
-        $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libproxy:
         $LD_LIBRARY_PATH
     command: usr/bin/run.sh
     extensions: [ gnome ]
