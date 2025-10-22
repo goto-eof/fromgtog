@@ -5,9 +5,8 @@ set -eux
 ##########################################
 # This is for local env
 ##########################################
-ARCH_LIB_DIR="$CRAFT_ARCH_TRIPLET_BUILD_FOR"
 STAGE_LIB_DIR="/root"
-PRIME_LIB_DIR="$SNAPCRAFT_PRIME/usr/lib/$ARCH_LIB_DIR"
+PRIME_LIB_DIR="$SNAPCRAFT_PRIME/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR"
 
 mkdir -p "$PRIME_LIB_DIR"
 
@@ -51,7 +50,7 @@ create_symlink_if_necessary() {
     local link_path="$lib_dir/$link_name"
 
     if [ ! -d "$lib_dir" ]; then
-        echo "Directory $lib_dir not found -> skipping."
+        echo "Directory $lib_dir not found -> skipping symlink creation."
         return 0
     fi
 
@@ -65,9 +64,15 @@ create_symlink_if_necessary() {
         return 0
     fi
 
+    if [ -f "$link_path" ]; then
+        echo "A regular file already exists at $link_path -> skipping symlink creation."
+        return 0
+    fi
+
     echo "Creating symlink: $link_path -> $target_lib"
     (cd "$lib_dir" && ln -s "$(basename "$target_lib")" "$link_name")
 }
 
-create_symlink_if_necessary "libappindicator3.so.1.0.0" "libappindicator3.so" "$PRIME_LIB_DIR"
-create_symlink_if_necessary "liboss4-salsa.so.2.0.0" "libasound.so" "$PRIME_LIB_DIR"
+STAGE_LIB_DIR_SL="$SNAPCRAFT_STAGE/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR"
+create_symlink_if_necessary "libappindicator3.so.1.0.0" "libappindicator3.so" "$STAGE_LIB_DIR_SL"
+create_symlink_if_necessary "liboss4-salsa.so.2.0.0" "libasound.so" "$STAGE_LIB_DIR_SL"
