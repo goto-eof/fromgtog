@@ -73,6 +73,6 @@ create_symlink_if_necessary() {
     (cd "$lib_dir" && ln -s "$(basename "$target_lib")" "$link_name")
 }
 
-STAGE_LIB_DIR_SL="$SNAPCRAFT_STAGE/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR"
+STAGE_LIB_DIR_SL="$SNAPCRAFT_PROJECT_DIR/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR"
 create_symlink_if_necessary "libappindicator3.so.1.0.0" "libappindicator3.so" "$STAGE_LIB_DIR_SL"
 create_symlink_if_necessary "liboss4-salsa.so.2.0.0" "libasound.so" "$STAGE_LIB_DIR_SL"
