@@ -2,39 +2,16 @@
 
 set -eux
 
-ARCH_LIB_DIR="$CRAFT_ARCH_TRIPLET_BUILD_FOR"
-STAGE_LIB_DIR="$SNAPCRAFT_STAGE/usr/lib/$ARCH_LIB_DIR"
-PRIME_LIB_DIR="$SNAPCRAFT_PRIME/usr/lib/$ARCH_LIB_DIR"
+SOURCE_DIR="$SNAPCRAFT_STAGE/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR"
+DESTINATION_DIR="$SNAPCRAFT_PRIME/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR"
 
-mkdir -p "$PRIME_LIB_DIR"
-
-for lib in "$STAGE_LIB_DIR"/libappindicator3.so*; do
-  [ -e "$lib" ] || continue
-  DEST="$PRIME_LIB_DIR/$(basename "$lib")"
+mkdir -p "$DESTINATION_DIR"
+# I am looking for libappindicator3.so in the destination dir, if it does not exists then copy.
+# this because snapcraft skips some libraries, including the one that I want libappindicator3.so
+for lib in "$SOURCE_DIR"/libappindicator3.so*; do
   BASENAME="$(basename "$lib")"
   SHORTNAME="${BASENAME%%.so*}.so"
-  if [ ! -f "$PRIME_LIB_DIR/$SHORTNAME" ]; then
-    cp -L "$lib" "$PRIME_LIB_DIR/$SHORTNAME"
+  if [ ! -f "$DESTINATION_DIR/$SHORTNAME" ]; then
+    cp -L "$lib" "$DESTINATION_DIR/$SHORTNAME"
   fi
 done
-
-
-#GNOME_STAGE_LIB_DIR="$SNAPCRAFT_STAGE/gnome-platform/usr/lib/$ARCH_LIB_DIR"
-#
-#for lib in "$GNOME_STAGE_LIB_DIR"/libappindicator3.so*; do
-#  DEST="$PRIME_LIB_DIR/$(basename "$lib")"
-#  if [ -f "$lib" ] && [ ! -L "$lib" ] && [ ! -e "$DEST" ]; then
-#      cp "$lib" "$PRIME_LIB_DIR/"
-#  fi
-#done
-
-
-
-# gnome-platform/usr/lib
-#LIB_PIX_BUF="$LIB_DIR/gdk-pixbuf-2.0/2.10.0/loaders"
-#
-#if [ -d "$LIB_PIX_BUF" ]; then
-#    (cd "$LIB_PIX_BUF" && {
-#        ln -sf  "$LIB_DIR/librsvg-2.so.2" "libpixbufloader_svg.so"
-#    })
-#fi
