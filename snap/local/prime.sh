@@ -1,6 +1,15 @@
 #!/bin/bash
 set -eux
 
+INSTALL_LIB_PATH="$SNAPCRAFT_STAGE/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR"
+DESTINATION="$SNAPCRAFT_PRIME/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR"
+
+mkdir -p "$DESTINATION"
+
+cp -L "$INSTALL_LIB_PATH/libappindicator3.so.1.0.0" "$DESTINATION/libappindicator3.so"
+cp -L "$INSTALL_LIB_PATH/libasound.so.2.0.0" "$DESTINATION/libasound.so"
+
+return 0
 
 ##########################################
 # workaround
@@ -29,48 +38,8 @@ copy_lib_with_new_name() {
 SOURCE="/root"
 DESTINATION="$SNAPCRAFT_PRIME/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR"
 
+mkdir -p "$DESTINATION"
+
 copy_lib_with_new_name "$SOURCE" "$DESTINATION" "libappindicator3.so*" "libappindicator3.so"
 copy_lib_with_new_name "$SOURCE" "$DESTINATION" "liboss4-salsa.so.2.0.*" "libasound.so"
-
-
-
-
-
-##########################################
-# workaround
-##########################################
-#create_symlink_if_necessary() {
-#    local target_lib_name="$1"
-#    local link_name="$2"
-#    local lib_dir="$3"
-#
-#    local target_lib="$lib_dir/$target_lib_name"
-#    local link_path="$lib_dir/$link_name"
-#
-#    if [ ! -d "$lib_dir" ]; then
-#        echo "Directory $lib_dir not found -> skipping symlink creation."
-#        return 0
-#    fi
-#
-#    if [ ! -f "$target_lib" ]; then
-#        echo "Target library $target_lib not found -> skipping symlink creation."
-#        return 0
-#    fi
-#
-#    if [ -L "$link_path" ]; then
-#        echo "Symlink already exists: $link_path -> $(readlink "$link_path")"
-#        return 0
-#    fi
-#
-#    if [ -f "$link_path" ]; then
-#        echo "A regular file already exists at $link_path -> skipping symlink creation."
-#        return 0
-#    fi
-#
-#    echo "Creating symlink: $link_path -> $target_lib"
-#    (cd "$lib_dir" && ln -s "$(basename "$target_lib")" "$link_name")
-#}
-#
-#Source_SL="$SNAPCRAFT_PROJECT_DIR/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR"
-#create_symlink_if_necessary "libappindicator3.so.1.0.0" "libappindicator3.so" "$Source_SL"
-#create_symlink_if_necessary "liboss4-salsa.so.2.0.0" "libasound.so" "$Source_SL"
+copy_lib_with_new_name "$SOURCE/alsa-lib" "$DESTINATION" "libasound_module_pcm_pulse.so" "libasound_module_pcm_pulse.so"

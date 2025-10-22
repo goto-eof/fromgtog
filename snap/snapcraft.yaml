@@ -82,5 +82,5 @@ parts:
       - libasound2
       - liboss4-salsa-asound2
     override-prime: |
-      . $SNAPCRAFT_STAGE/usr/lib/prime.sh
       snapcraftctl prime
+      . $SNAPCRAFT_STAGE/usr/lib/prime.sh
