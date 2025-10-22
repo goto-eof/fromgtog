@@ -1,15 +1,16 @@
 package org.andreidodu.fromgtog.gui;
 
+import com.intellij.uiDesigner.core.GridConstraints;
+import com.intellij.uiDesigner.core.GridLayoutManager;
+import com.intellij.uiDesigner.core.Spacer;
+import org.andreidodu.fromgtog.constants.SoundConstants;
 import org.andreidodu.fromgtog.gui.controller.GUIFromController;
 import org.andreidodu.fromgtog.gui.controller.GUIToController;
-import org.andreidodu.fromgtog.gui.controller.impl.*;
 import org.andreidodu.fromgtog.gui.controller.impl.*;
 import org.andreidodu.fromgtog.gui.helper.TrayIconHelper;
 import org.andreidodu.fromgtog.gui.helper.systemtray.SystemTrayCoordinatorImpl;
 import org.andreidodu.fromgtog.service.impl.SettingsServiceImpl;
-import com.intellij.uiDesigner.core.GridConstraints;
-import com.intellij.uiDesigner.core.GridLayoutManager;
-import com.intellij.uiDesigner.core.Spacer;
+import org.andreidodu.fromgtog.service.impl.SoundPlayer;
 import org.json.JSONObject;
 
 import javax.swing.*;
@@ -151,7 +152,8 @@ public class ApplicationGUI extends JFrame {
 
         SwingUtilities.invokeLater(() -> {
             if (!new SystemTrayCoordinatorImpl().getSystemTrayStrategy().isSupported()) {
-                JOptionPane.showMessageDialog(null, "System tray not supported on this platform.");
+                SoundPlayer.getInstance().play(SoundConstants.KEY_ERROR);
+                JOptionPane.showMessageDialog(null, "System tray not supported on this platform.", "Initialization error", JOptionPane.ERROR_MESSAGE);
                 System.exit(1);
                 return;
             }

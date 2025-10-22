@@ -81,7 +81,6 @@ parts:
       - alsa-utils
       - liboss4-salsa-asound2
       - libappindicator3-1
-      - librsvg2-2
     override-prime: |
       snapcraftctl prime
       . $SNAPCRAFT_STAGE/usr/lib/prime.sh
