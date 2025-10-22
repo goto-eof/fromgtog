@@ -26,7 +26,7 @@ apps:
       ALSA_CONFIG_PATH: $SNAP/etc/asound.conf
       GIO_EXTRA_MODULES: $GIO_EXTRA_MODULES:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/gio/modules
       LD_LIBRARY_PATH: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/alsa-lib:$LD_LIBRARY_PATH
-    command: usr/bin/run.sh
+    command: bin/run.sh
     extensions: [ gnome ]
     plugs:
       - audio-playback
@@ -53,12 +53,12 @@ parts:
     organize:
       build.sh: usr/lib/build.sh
       prime.sh: usr/lib/prime.sh
-      run.sh: usr/bin/run.sh
+      run.sh: bin/run.sh
       asound.conf: etc/asound.conf
     prime:
       - usr/lib/build.sh
       - usr/lib/prime.sh
-      - usr/bin/run.sh
+      - bin/run.sh
       - etc/asound.conf
   application:
     plugin: maven
