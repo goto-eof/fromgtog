@@ -8,6 +8,7 @@ if [ -d "$LIB_DIR" ]; then
   (cd "$LIB_DIR" && {
       ln -sf libappindicator3.so libappindicator3.so.1.0.0
 #      ln -sf libasound.so liboss4-salsa.so.2.0.0
+#      ln -sf libasound.so libasound.so.2.0.0
 #      ls -sf libpixbufloader-svg.so librsvg-2.so.2
   })
 fi
