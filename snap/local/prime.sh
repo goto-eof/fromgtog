@@ -9,15 +9,12 @@ PRIME_LIB_DIR="$SNAPCRAFT_PRIME/usr/lib/$ARCH_LIB_DIR"
 mkdir -p "$PRIME_LIB_DIR"
 
 for lib in "$STAGE_LIB_DIR"/libappindicator3.so*; do
+  [ -e "$lib" ] || continue
   DEST="$PRIME_LIB_DIR/$(basename "$lib")"
   BASENAME="$(basename "$lib")"
   SHORTNAME="${BASENAME%%.so*}.so"
-
-  if [ -f "$lib" ] && [ ! -L "$lib" ] && [ ! -e "$DEST" ]; then
-      cp "$lib" "$PRIME_LIB_DIR/"
-      if [ ! -e "$PRIME_LIB_DIR/$SHORTNAME" ]; then
-                  ln -sf "$BASENAME" "$PRIME_LIB_DIR/$SHORTNAME"
-      fi
+  if [ ! -f "$PRIME_LIB_DIR/$SHORTNAME" ]; then
+    cp -L "$lib" "$PRIME_LIB_DIR/$SHORTNAME"
   fi
 done
 
