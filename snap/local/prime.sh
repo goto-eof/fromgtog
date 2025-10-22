@@ -1,17 +1,17 @@
 #!/bin/bash
-
 set -eux
 
-SOURCE_DIR="gnome-platform/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR"
-DESTINATION_DIR="$SNAPCRAFT_PRIME/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR"
+ARCH_LIB_DIR="$CRAFT_ARCH_TRIPLET_BUILD_FOR"
+STAGE_LIB_DIR="/root"
+PRIME_LIB_DIR="$SNAPCRAFT_PRIME/usr/lib/$ARCH_LIB_DIR"
 
-mkdir -p "$DESTINATION_DIR"
-# WORKAROUND
-# I am looking for libappindicator3.so in the destination dir, if it does not exists then copy.
-# this because snapcraft skips some libraries, including the one that I need, libappindicator3.so,
-# otherwise the system tray not works and the application does not start
-for lib in "$SOURCE_DIR"/libappindicator3.so*; do
-  if [ ! -f "$DESTINATION_DIR/libappindicator3.so" ]; then
-    cp -L "$lib" "$DESTINATION_DIR/libappindicator3.so"
-  fi
+mkdir -p "$PRIME_LIB_DIR"
+
+find "$STAGE_LIB_DIR" -type f -name "libappindicator3.so*" | while read -r lib; do
+    DEST="$PRIME_LIB_DIR/libappindicator3.so"
+    echo "Copying library:"
+    echo "  Source:      $lib"
+    echo "  Destination: $DEST"
+    cp -L "$lib" "$DEST"
+    break
 done

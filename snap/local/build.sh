@@ -1,5 +1,4 @@
 #!/bin/bash
-
 set -eux
 
 JLINK_JDK_PATH="/usr/lib/jvm/java-21-openjdk-$(dpkg-architecture -q DEB_BUILD_MULTIARCH)/bin/jlink"
