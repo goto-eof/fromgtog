@@ -2,17 +2,38 @@
 
 set -eux
 
-LIB_DIR=$(find "$SNAPCRAFT_PRIME/usr/lib/" -maxdepth 1 -type d -name "*-linux-gnu" -print -quit)
+ARCH_LIB_DIR="$CRAFT_ARCH_TRIPLET_BUILD_FOR"
+STAGE_LIB_DIR="$SNAPCRAFT_STAGE/usr/lib/$ARCH_LIB_DIR"
+PRIME_LIB_DIR="$SNAPCRAFT_PRIME/usr/lib/$ARCH_LIB_DIR"
 
-if [ -f "$LIB_DIR/libappindicator3.so.1.0.0" ]; then
-  (cd "$LIB_DIR" && {
-      ln -sf libappindicator3.so libappindicator3.so.1.0.0
-#      ln -sf libasound.so libasound.so.2.0.0
-#      ln -sf libasound.so liboss4-salsa.so.2.0.0
-#      ls -sf libpixbufloader-svg.so librsvg-2.so.2
-  })
-fi
+mkdir -p "$PRIME_LIB_DIR"
 
+for lib in "$STAGE_LIB_DIR"/libappindicator3.so*; do
+  DEST="$PRIME_LIB_DIR/$(basename "$lib")"
+  BASENAME="$(basename "$lib")"
+  SHORTNAME="${BASENAME%%.so*}.so"
+
+  if [ -f "$lib" ] && [ ! -L "$lib" ] && [ ! -e "$DEST" ]; then
+      cp "$lib" "$PRIME_LIB_DIR/"
+      if [ ! -e "$PRIME_LIB_DIR/$SHORTNAME" ]; then
+                  ln -sf "$BASENAME" "$PRIME_LIB_DIR/$SHORTNAME"
+      fi
+  fi
+done
+
+
+#GNOME_STAGE_LIB_DIR="$SNAPCRAFT_STAGE/gnome-platform/usr/lib/$ARCH_LIB_DIR"
+#
+#for lib in "$GNOME_STAGE_LIB_DIR"/libappindicator3.so*; do
+#  DEST="$PRIME_LIB_DIR/$(basename "$lib")"
+#  if [ -f "$lib" ] && [ ! -L "$lib" ] && [ ! -e "$DEST" ]; then
+#      cp "$lib" "$PRIME_LIB_DIR/"
+#  fi
+#done
+
+
+
+# gnome-platform/usr/lib
 #LIB_PIX_BUF="$LIB_DIR/gdk-pixbuf-2.0/2.10.0/loaders"
 #
 #if [ -d "$LIB_PIX_BUF" ]; then

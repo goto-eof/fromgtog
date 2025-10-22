@@ -25,11 +25,7 @@ apps:
     environment:
       ALSA_CONFIG_PATH: $SNAP/etc/asound.conf
       GIO_EXTRA_MODULES: $GIO_EXTRA_MODULES:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/gio/modules
-      GDK_PIXBUF_MODULEDIR: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/gdk-pixbuf-2.0/2.10.0/loaders
-      LD_LIBRARY_PATH: |
-        $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR:
-        $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/alsa-lib:
-        $LD_LIBRARY_PATH
+      LD_LIBRARY_PATH: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/alsa-lib:$LD_LIBRARY_PATH
     command: usr/bin/run.sh
     extensions: [ gnome ]
     plugs:
@@ -78,21 +74,22 @@ parts:
     stage-packages:
       - openjdk-21-jre
       - glib-networking
+      # os actions like open browser
+#      - libgtk-3-0
       - xdg-utils
       # app indicator
-#      - libatk-bridge2.0-0
-      - libgdk-pixbuf2.0-0
-#      - librsvg2-common
-      - libappindicator3-1
-#      - libgtk-3-0
-      - libglib2.0-0
-      # os actions like open browser
-
+#      - libappindicator3-1
+#      - libgdk-pixbuf2.0-0
+      - librsvg2-common
+      #      - libatk-bridge2.0-0
+      #      - libgdk-pixbuf2.0-0
+      #      - libgtk-3-0
+      #      - libglib2.0-0
       # sound
       - alsa-utils
       - libasound2-plugins
       - libasound2
       - liboss4-salsa-asound2
     override-prime: |
-      snapcraftctl prime
       . $SNAPCRAFT_STAGE/usr/lib/prime.sh
+      snapcraftctl prime
