@@ -216,32 +216,3 @@ JDK 21, Intellij UI Designer (plugin for Intellij), Slf4J, Lombok, Apache Common
 If you find this project helpful, consider [sponsoring me](https://github.com/sponsors/goto-eof) 💚
 
 [![Sponsor](https://img.shields.io/badge/Sponsor-❤️-brightgreen)](https://github.com/sponsors/goto-eof)
-
-| Label        | Description                                                                                                                                                                                                                                                                     | 
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **name**         | FromGtoG                                                                                                                                                                                                                                                                        |        
-| **description**  | Advanced cross-platform utility for Git backup and bulk migration                                                                                                                                                                                                               |         
-| **snapcraft**    | https://snapcraft.io/fromgtog                                                                                                                                                                                                                                                   |     
-| **upstream**     | https://github.com/goto-eof/fromgtog                                                                                                                                                                                                                                            |      
-| **interfaces**   | removable-media                                                                                                                                                                                                                                                                 |        
-| **request type** | auto-connect                                                                                                                                                                                                                                                                    |        
-| **reasoning**    | Since FromGtoG does remote-to-local cloning, I'd like to allow the user to clone from a remote source directly to a USB device. Therefore, I kindly ask if auto-connect for the removable-media interface could be enabled for my application.                                  |        
-
-Thank you,
-
-Andrei
-
-
-| Label        | Description                                                                                                                                                                                                                                 | 
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **name**         | NoCloud Bulk Image Converter                                                                                                                                                                                                                |        
-| **description**  | Simple, Fast, and no-cloud bulk image converter                                                                                                                                                                    |         
-| **snapcraft**    | https://snapcraft.io/noc-convert                                                                                                                                                                                                          |     
-| **upstream**     | https://github.com/goto-eof/noc-convert                                                                                                                                                                                                  |      
-| **interfaces**   | removable-media                                                                                                                                                                                                                             |        
-| **request type** | auto-connect                                                                                                                                                                                                                                |        
-| **reasoning**    | Since NoCloud Bulk Image Converter has the function of converting images from one format to another, and therefore we are talking about managing multimedia files, it would be useful to have the auto-connect of the removable-media interface for the application. |        
-
-Thanks in advance,
-
-Andrei
