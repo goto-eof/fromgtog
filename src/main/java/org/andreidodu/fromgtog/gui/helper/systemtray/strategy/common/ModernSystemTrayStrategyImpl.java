@@ -1,8 +1,9 @@
 package org.andreidodu.fromgtog.gui.helper.systemtray.strategy.common;
 
+import dorkbox.systemTray.SystemTray;
 import org.andreidodu.fromgtog.dto.Tuple;
 import org.andreidodu.fromgtog.gui.helper.systemtray.strategy.SystemTrayStrategy;
-import dorkbox.systemTray.SystemTray;
+import org.andreidodu.fromgtog.util.OsUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,6 +19,9 @@ public abstract class ModernSystemTrayStrategyImpl implements SystemTrayStrategy
 
     @Override
     public int getTrayIconSize() {
+        if (OsUtil.isLinux()) {
+            return 16;
+        }
         return SystemTray.get().getTrayImageSize();
     }
 

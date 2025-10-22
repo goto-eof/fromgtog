@@ -7,7 +7,7 @@ DESTINATION="$SNAPCRAFT_PRIME/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR"
 mkdir -p "$DESTINATION"
 
 cp -L "$INSTALL_LIB_PATH/libappindicator3.so.1.0.0" "$DESTINATION/libappindicator3.so"
-cp -L "$INSTALL_LIB_PATH/libasound.so.2.0.0" "$DESTINATION/libasound.so"
+# cp -L "$INSTALL_LIB_PATH/libasound.so.2.0.0" "$DESTINATION/libasound.so"
 
 return 0
 
