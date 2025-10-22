@@ -11,10 +11,10 @@ if [ -d "$LIB_DIR" ]; then
   })
 fi
 
-LIB_PIX_BUF="$LIB_DIR/gdk-pixbuf-2.0/2.10.0/loaders"
-
-if [ -d "$LIB_PIX_BUF" ]; then
-    (cd "$LIB_PIX_BUF" && {
-        ln -sf  "$LIB_DIR/librsvg-2.so.2" "libpixbufloader_svg.so"
-    })
-fi
+#LIB_PIX_BUF="$LIB_DIR/gdk-pixbuf-2.0/2.10.0/loaders"
+#
+#if [ -d "$LIB_PIX_BUF" ]; then
+#    (cd "$LIB_PIX_BUF" && {
+#        ln -sf  "$LIB_DIR/librsvg-2.so.2" "libpixbufloader_svg.so"
+#    })
+#fi
