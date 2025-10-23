@@ -1,44 +1,44 @@
 #!/bin/bash
 set -eux
-
+# temporary directory for the snap
 mkdir -p "$SNAP_USER_DATA/tmp"
 
-INSTALL_LIB_PATH="$SNAPCRAFT_STAGE/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR"
-DESTINATION="$SNAPCRAFT_PRIME/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR"
-
-mkdir -p "$DESTINATION"
 
 # Tray Icon
+INSTALL_LIB_PATH="$SNAPCRAFT_STAGE/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR"
+DESTINATION="$SNAPCRAFT_PRIME/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR"
+mkdir -p "$DESTINATION"
 cp -L "$INSTALL_LIB_PATH/libappindicator3.so.1.0.0" "$DESTINATION/libappindicator3.so"
 
-# Sound
-cp -L "$INSTALL_LIB_PATH/liboss4-salsa.so.2.0.0" "$DESTINATION/libasound.so"
-lib="libasound_module_conf_pulse.so"
-cp -L "$INSTALL_LIB_PATH/alsa-lib/$lib" "$DESTINATION/$lib"
-lib="libasound_module_ctl_arcam_av.so"
-cp -L "$INSTALL_LIB_PATH/alsa-lib/$lib" "$DESTINATION/$lib"
-lib="libasound_module_ctl_oss.so"
-cp -L "$INSTALL_LIB_PATH/alsa-lib/$lib" "$DESTINATION/$lib"
-lib="libasound_module_ctl_pulse.so"
-cp -L "$INSTALL_LIB_PATH/alsa-lib/$lib" "$DESTINATION/$lib"
-lib="libasound_module_pcm_a52.so"
-cp -L "$INSTALL_LIB_PATH/alsa-lib/$lib" "$DESTINATION/$lib"
-lib="libasound_module_pcm_jack.so"
-cp -L "$INSTALL_LIB_PATH/alsa-lib/$lib" "$DESTINATION/$lib"
-lib="libasound_module_pcm_oss.so"
-cp -L "$INSTALL_LIB_PATH/alsa-lib/$lib" "$DESTINATION/$lib"
-lib="libasound_module_pcm_pulse.so"
-cp -L "$INSTALL_LIB_PATH/alsa-lib/$lib" "$DESTINATION/$lib"
-lib="libasound_module_pcm_speex.so"
-cp -L "$INSTALL_LIB_PATH/alsa-lib/$lib" "$DESTINATION/$lib"
-lib="libasound_module_pcm_upmix.so"
-cp -L "$INSTALL_LIB_PATH/alsa-lib/$lib" "$DESTINATION/$lib"
-lib="libasound_module_pcm_usb_stream.so"
-cp -L "$INSTALL_LIB_PATH/alsa-lib/$lib" "$DESTINATION/$lib"
-lib="libasound_module_pcm_vdownmix.so"
-cp -L "$INSTALL_LIB_PATH/alsa-lib/$lib" "$DESTINATION/$lib"
 
-return 0
+## Sound
+#cp -L "$INSTALL_LIB_PATH/liboss4-salsa.so.2.0.0" "$DESTINATION/libasound.so"
+#lib="libasound_module_conf_pulse.so"
+#cp -L "$INSTALL_LIB_PATH/alsa-lib/$lib" "$DESTINATION/$lib"
+#lib="libasound_module_ctl_arcam_av.so"
+#cp -L "$INSTALL_LIB_PATH/alsa-lib/$lib" "$DESTINATION/$lib"
+#lib="libasound_module_ctl_oss.so"
+#cp -L "$INSTALL_LIB_PATH/alsa-lib/$lib" "$DESTINATION/$lib"
+#lib="libasound_module_ctl_pulse.so"
+#cp -L "$INSTALL_LIB_PATH/alsa-lib/$lib" "$DESTINATION/$lib"
+#lib="libasound_module_pcm_a52.so"
+#cp -L "$INSTALL_LIB_PATH/alsa-lib/$lib" "$DESTINATION/$lib"
+#lib="libasound_module_pcm_jack.so"
+#cp -L "$INSTALL_LIB_PATH/alsa-lib/$lib" "$DESTINATION/$lib"
+#lib="libasound_module_pcm_oss.so"
+#cp -L "$INSTALL_LIB_PATH/alsa-lib/$lib" "$DESTINATION/$lib"
+#lib="libasound_module_pcm_pulse.so"
+#cp -L "$INSTALL_LIB_PATH/alsa-lib/$lib" "$DESTINATION/$lib"
+#lib="libasound_module_pcm_speex.so"
+#cp -L "$INSTALL_LIB_PATH/alsa-lib/$lib" "$DESTINATION/$lib"
+#lib="libasound_module_pcm_upmix.so"
+#cp -L "$INSTALL_LIB_PATH/alsa-lib/$lib" "$DESTINATION/$lib"
+#lib="libasound_module_pcm_usb_stream.so"
+#cp -L "$INSTALL_LIB_PATH/alsa-lib/$lib" "$DESTINATION/$lib"
+#lib="libasound_module_pcm_vdownmix.so"
+#cp -L "$INSTALL_LIB_PATH/alsa-lib/$lib" "$DESTINATION/$lib"
+#
+#return 0
 
 ##########################################
 # workaround

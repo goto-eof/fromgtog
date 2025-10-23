@@ -1,5 +1,5 @@
 name: fromgtog
-version: '10.0.12'
+version: '10.0.13'
 summary: Advanced utility for Git backup and bulk migration(GitHub,Gitea,GitLab,Local)
 description: |
   Advanced cross-platform utility for Git backup and bulk migration.
@@ -23,7 +23,7 @@ slots:
 apps:
   fromgtog:
     environment:
-      ALSA_CONFIG_PATH: $SNAP/etc/asound.conf
+#      ALSA_CONFIG_PATH: $SNAP/etc/asound.conf
       GIO_EXTRA_MODULES: $GIO_EXTRA_MODULES:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/gio/modules
       LD_LIBRARY_PATH: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/alsa-lib:$LD_LIBRARY_PATH
     command: bin/run.sh
@@ -54,12 +54,12 @@ parts:
       build.sh: usr/lib/build.sh
       prime.sh: usr/lib/prime.sh
       run.sh: bin/run.sh
-      asound.conf: etc/asound.conf
+#      asound.conf: etc/asound.conf
     prime:
       - usr/lib/build.sh
       - usr/lib/prime.sh
       - bin/run.sh
-      - etc/asound.conf
+#      - etc/asound.conf
   application:
     plugin: maven
     source: .
@@ -77,10 +77,11 @@ parts:
       - librsvg2-common
       - libappindicator3-1
       # sound
-      - alsa-utils
+#      - alsa-utils
       - libasound2-plugins
       - libasound2
-      - liboss4-salsa-asound2
+      - libpulse0
+#      - liboss4-salsa-asound2
     override-prime: |
       . $SNAPCRAFT_STAGE/usr/lib/prime.sh
       snapcraftctl prime
