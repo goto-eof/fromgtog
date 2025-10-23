@@ -1,6 +1,7 @@
 package org.andreidodu.fromgtog.service.impl;
 
 
+import dorkbox.systemTray.SystemTray;
 import org.andreidodu.fromgtog.gui.ApplicationGUI;
 import org.andreidodu.fromgtog.service.GuiStarterService;
 import org.json.JSONObject;
@@ -125,6 +126,8 @@ public class GuiStarterServiceImpl implements GuiStarterService {
                 }
             });
         } finally {
+            SystemTray.DEBUG = true;
+            System.setProperty("dorkbox.systemTray.DEBUG", "true");
             new ApplicationGUI();
         }
     }

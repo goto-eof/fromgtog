@@ -2,6 +2,7 @@ package org.andreidodu.fromgtog.gui.helper.systemtray.strategy.common;
 
 import org.andreidodu.fromgtog.dto.Tuple;
 import org.andreidodu.fromgtog.gui.helper.systemtray.strategy.SystemTrayStrategy;
+import org.andreidodu.fromgtog.util.OsUtil;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -17,6 +18,9 @@ public abstract class ClassicSystemTrayStrategyImpl implements SystemTrayStrateg
 
     @Override
     public int getTrayIconSize() {
+        if (OsUtil.isLinux()) {
+            return 16;
+        }
         return (int) SystemTray.getSystemTray().getTrayIconSize().getWidth();
     }
 

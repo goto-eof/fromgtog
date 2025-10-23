@@ -2,8 +2,6 @@ package org.andreidodu.fromgtog.gui.helper;
 
 import org.andreidodu.fromgtog.dto.Tuple;
 import org.andreidodu.fromgtog.gui.helper.systemtray.SystemTrayCoordinatorImpl;
-import org.andreidodu.fromgtog.util.OsUtil;
-import dorkbox.systemTray.SystemTray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,9 +27,10 @@ public class TrayIconHelper {
     public TrayIconHelper(JFrame mainWindow, final boolean isWindowVisible) {
         try {
 
-            Image image = loadImage(TRAY_ICON_IMAGE, strategyFinder.getSystemTrayStrategy().getTrayIconSize());
+            int trayIconSize = strategyFinder.getSystemTrayStrategy().getTrayIconSize();
+            Image image = loadImage(TRAY_ICON_IMAGE, trayIconSize);
             if (image == null) {
-                image = createFallbackImage();
+                image = createFallbackImage(trayIconSize);
             }
 
             java.util.List<Tuple<String, Consumer<ActionEvent>>> trayMenu = buildTrayIconMenu(mainWindow);
@@ -55,13 +54,6 @@ public class TrayIconHelper {
                 SwingUtilities.invokeLater(() -> hideWindow(mainWindow));
             }
         });
-    }
-
-    private static int getTrayIconSize(SystemTray tray) {
-        if (OsUtil.isLinux()) {
-            return 16;
-        }
-        return tray.getTrayImageSize();
     }
 
     private void hideWindow(JFrame mainWindow) {
@@ -131,19 +123,19 @@ public class TrayIconHelper {
     }
 
     private Image loadImage(final String imgFile) {
-        Image image = loadImage(imgFile, strategyFinder.getSystemTrayStrategy().getTrayIconSize());
+        int trayIconSize = strategyFinder.getSystemTrayStrategy().getTrayIconSize();
+        Image image = loadImage(imgFile, trayIconSize);
         if (image == null) {
-            image = createFallbackImage();
+            image = createFallbackImage(trayIconSize);
         }
         return image;
     }
 
-    private static Image createFallbackImage() {
-        int size = 16;
-        Image img = new BufferedImage(size, size, BufferedImage.TYPE_INT_ARGB);
+    private static Image createFallbackImage(int size) {
+        Image img = new BufferedImage(size, size, BufferedImage.TYPE_INT_RGB);
         Graphics2D g = (Graphics2D) img.getGraphics();
         g.setColor(Color.GREEN);
-        g.fillOval(0, 0, size, size);
+        g.fillRect(0, 0, size, size);
         g.dispose();
         return img;
     }
