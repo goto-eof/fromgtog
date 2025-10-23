@@ -447,7 +447,7 @@ public class ApplicationGUI extends JFrame {
     private void $$$setupUI$$$() {
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayoutManager(5, 1, new Insets(0, 0, 0, 0), -1, -1));
-        mainPanel.setPreferredSize(new Dimension(1350, 800));
+        mainPanel.setPreferredSize(new Dimension(1350, 750));
         mainTabbedPane = new JTabbedPane();
         mainTabbedPane.setTabPlacement(3);
         mainPanel.add(mainTabbedPane, new GridConstraints(0, 0, 5, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
