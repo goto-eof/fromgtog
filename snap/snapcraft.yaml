@@ -25,7 +25,7 @@ apps:
     environment:
       ALSA_CONFIG_PATH: $SNAP/etc/asound.conf
       GIO_EXTRA_MODULES: $GIO_EXTRA_MODULES:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/gio/modules
-      LD_LIBRARY_PATH: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/alsa-lib:$LD_LIBRARY_PATH
+      LD_LIBRARY_PATH: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/alsa-lib:$LD_LIBRARY_PATH
     command: bin/run.sh
     extensions: [ gnome ]
     plugs:
