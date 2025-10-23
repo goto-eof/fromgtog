@@ -25,6 +25,6 @@
         <appender-ref ref="CONSOLE"/>
     </root>
 
-    <logger name="org.andreidodu" level="INFO"/>
+    <logger name="org.andreidodu" level="DEBUG"/>
     <logger name="dorkbox.systemTray" level="DEBUG"/>
 </configuration>
