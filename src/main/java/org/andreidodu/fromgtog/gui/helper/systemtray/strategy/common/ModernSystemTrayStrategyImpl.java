@@ -23,9 +23,6 @@ public abstract class ModernSystemTrayStrategyImpl implements SystemTrayStrategy
 
     @Override
     public int getTrayIconSize() {
-        if (OsUtil.isInsideLinuxSnap()) {
-            return 16;
-        }
         return SystemTray.get().getTrayImageSize();
     }
 
