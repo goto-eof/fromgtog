@@ -4,6 +4,8 @@ import dorkbox.systemTray.SystemTray;
 import org.andreidodu.fromgtog.dto.Tuple;
 import org.andreidodu.fromgtog.gui.helper.systemtray.strategy.SystemTrayStrategy;
 import org.andreidodu.fromgtog.util.OsUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,6 +14,8 @@ import java.util.function.Consumer;
 
 public abstract class ModernSystemTrayStrategyImpl implements SystemTrayStrategy {
 
+    private final static Logger log = LoggerFactory.getLogger(ClassicSystemTrayStrategyImpl.class);
+
     @Override
     public boolean isSupported() {
         return SystemTray.get() != null;
@@ -19,7 +23,7 @@ public abstract class ModernSystemTrayStrategyImpl implements SystemTrayStrategy
 
     @Override
     public int getTrayIconSize() {
-        if (OsUtil.isLinux()) {
+        if (OsUtil.isInsideLinuxSnap()) {
             return 16;
         }
         return SystemTray.get().getTrayImageSize();
@@ -27,6 +31,7 @@ public abstract class ModernSystemTrayStrategyImpl implements SystemTrayStrategy
 
     @Override
     public void setMenu(Image image, java.util.List<Tuple<String, Consumer<ActionEvent>>> menuList) {
+        log.debug("Setting modern menu...");
         JMenu menu = new JMenu("FromGtoG System Tray");
         menuList.stream().map(item -> {
                     JMenuItem menuItem = new JMenuItem(item.a());
@@ -43,6 +48,7 @@ public abstract class ModernSystemTrayStrategyImpl implements SystemTrayStrategy
 
     @Override
     public void setImage(Image image) {
+        log.debug("Setting modern image...");
         SystemTray.get().setImage(image);
     }
 

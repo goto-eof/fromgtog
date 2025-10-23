@@ -16,4 +16,8 @@ public class OsUtil {
         final String osName = System.getProperty("os.name").toLowerCase();
         return osName.contains("nix") || osName.contains("nux") || osName.startsWith("linux");
     }
+
+    public static boolean isInsideLinuxSnap() {
+        return System.getenv("SNAP") != null;
+    }
 }

@@ -10,9 +10,4 @@ public class LinuxSystemTrayStrategyImpl extends ModernSystemTrayStrategyImpl im
         return OsUtil.isLinux();
     }
 
-    @Override
-    public int getTrayIconSize() {
-        return 16;
-    }
-
 }

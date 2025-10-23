@@ -3,6 +3,8 @@ package org.andreidodu.fromgtog.gui.helper.systemtray.strategy.common;
 import org.andreidodu.fromgtog.dto.Tuple;
 import org.andreidodu.fromgtog.gui.helper.systemtray.strategy.SystemTrayStrategy;
 import org.andreidodu.fromgtog.util.OsUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -11,6 +13,8 @@ import java.util.function.Consumer;
 
 public abstract class ClassicSystemTrayStrategyImpl implements SystemTrayStrategy {
 
+    private final static Logger log = LoggerFactory.getLogger(ClassicSystemTrayStrategyImpl.class);
+
     @Override
     public boolean isSupported() {
         return SystemTray.isSupported();
@@ -18,7 +22,7 @@ public abstract class ClassicSystemTrayStrategyImpl implements SystemTrayStrateg
 
     @Override
     public int getTrayIconSize() {
-        if (OsUtil.isLinux()) {
+        if (OsUtil.isInsideLinuxSnap()) {
             return 16;
         }
         return (int) SystemTray.getSystemTray().getTrayIconSize().getWidth();
@@ -26,6 +30,7 @@ public abstract class ClassicSystemTrayStrategyImpl implements SystemTrayStrateg
 
     @Override
     public void setMenu(Image image, java.util.List<Tuple<String, Consumer<ActionEvent>>> menuList) {
+        log.debug("Setting classic menu...");
         PopupMenu menu = new PopupMenu("FromGtoG System Tray");
         menuList.stream()
                 .map(item -> {
@@ -40,12 +45,13 @@ public abstract class ClassicSystemTrayStrategyImpl implements SystemTrayStrateg
         try {
             SystemTray.getSystemTray().add(trayIcon);
         } catch (AWTException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
         }
     }
 
     @Override
     public void setImage(Image image) {
+        log.debug("Setting classic image...");
         Arrays.stream(SystemTray.getSystemTray().getTrayIcons())
                 .findFirst()
                 .ifPresent(systemTrayIcon -> systemTrayIcon.setImage(image));
