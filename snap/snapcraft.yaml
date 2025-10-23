@@ -1,5 +1,5 @@
 name: fromgtog
-version: '10.0.10'
+version: '10.0.11'
 summary: Advanced utility for Git backup and bulk migration(GitHub,Gitea,GitLab,Local)
 description: |
   Advanced cross-platform utility for Git backup and bulk migration.

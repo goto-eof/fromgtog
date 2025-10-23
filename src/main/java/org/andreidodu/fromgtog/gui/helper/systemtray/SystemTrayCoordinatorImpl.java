@@ -4,6 +4,7 @@ import org.andreidodu.fromgtog.gui.helper.systemtray.strategy.LinuxSystemTrayStr
 import org.andreidodu.fromgtog.gui.helper.systemtray.strategy.MacOsSystemTrayStrategyImpl;
 import org.andreidodu.fromgtog.gui.helper.systemtray.strategy.SystemTrayStrategy;
 import org.andreidodu.fromgtog.gui.helper.systemtray.strategy.WindowsSystemTrayStrategyImpl;
+import org.andreidodu.fromgtog.gui.helper.systemtray.strategy.common.ClassicSystemTrayStrategyImpl;
 
 import java.util.List;
 
@@ -19,8 +20,14 @@ public class SystemTrayCoordinatorImpl {
     public SystemTrayStrategy getSystemTrayStrategy() {
         return systemTrayStrategyList.stream()
                 .filter(SystemTrayStrategy::accept)
+                .filter(SystemTrayStrategy::isSupported)
                 .findFirst()
-                .orElseThrow(() -> new IllegalStateException("System tray strategy not found"));
+                .orElseGet(() -> new ClassicSystemTrayStrategyImpl() {
+                    @Override
+                    public boolean accept() {
+                        return true;
+                    }
+                });
     }
 
 }
