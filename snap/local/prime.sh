@@ -1,74 +1,38 @@
 #!/bin/bash
+
 set -eux
+
+. "$SNAPCRAFT_PRIME/usr/lib/functions.sh"
+
+########################################################################
 # temporary directory for the snap
+# I am overriding the java temporary dir path env var in run.sh
+# so I need to create the temporary directory in the $SNAP dir
+########################################################################
 mkdir -p "$SNAP_USER_DATA/tmp"
 
-
-# Tray Icon
+########################################################################
+# Fix for Tray Icon Issue
+########################################################################
 INSTALL_LIB_PATH="$SNAPCRAFT_STAGE/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR"
 DESTINATION="$SNAPCRAFT_PRIME/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR"
 mkdir -p "$DESTINATION"
 cp -L "$INSTALL_LIB_PATH/libappindicator3.so.1.0.0" "$DESTINATION/libappindicator3.so"
 
+########################################################################
+# Fix for Play Sound Issue
+########################################################################
+DESTINATION_DIR="$SNAPCRAFT_PRIME/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR"
+SOURCE_DIR="$SNAPCRAFT_STAGE/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR"
 
-## Sound
-#cp -L "$INSTALL_LIB_PATH/liboss4-salsa.so.2.0.0" "$DESTINATION/libasound.so"
-#lib="libasound_module_conf_pulse.so"
-#cp -L "$INSTALL_LIB_PATH/alsa-lib/$lib" "$DESTINATION/$lib"
-#lib="libasound_module_ctl_arcam_av.so"
-#cp -L "$INSTALL_LIB_PATH/alsa-lib/$lib" "$DESTINATION/$lib"
-#lib="libasound_module_ctl_oss.so"
-#cp -L "$INSTALL_LIB_PATH/alsa-lib/$lib" "$DESTINATION/$lib"
-#lib="libasound_module_ctl_pulse.so"
-#cp -L "$INSTALL_LIB_PATH/alsa-lib/$lib" "$DESTINATION/$lib"
-#lib="libasound_module_pcm_a52.so"
-#cp -L "$INSTALL_LIB_PATH/alsa-lib/$lib" "$DESTINATION/$lib"
-#lib="libasound_module_pcm_jack.so"
-#cp -L "$INSTALL_LIB_PATH/alsa-lib/$lib" "$DESTINATION/$lib"
-#lib="libasound_module_pcm_oss.so"
-#cp -L "$INSTALL_LIB_PATH/alsa-lib/$lib" "$DESTINATION/$lib"
-#lib="libasound_module_pcm_pulse.so"
-#cp -L "$INSTALL_LIB_PATH/alsa-lib/$lib" "$DESTINATION/$lib"
-#lib="libasound_module_pcm_speex.so"
-#cp -L "$INSTALL_LIB_PATH/alsa-lib/$lib" "$DESTINATION/$lib"
-#lib="libasound_module_pcm_upmix.so"
-#cp -L "$INSTALL_LIB_PATH/alsa-lib/$lib" "$DESTINATION/$lib"
-#lib="libasound_module_pcm_usb_stream.so"
-#cp -L "$INSTALL_LIB_PATH/alsa-lib/$lib" "$DESTINATION/$lib"
-#lib="libasound_module_pcm_vdownmix.so"
-#cp -L "$INSTALL_LIB_PATH/alsa-lib/$lib" "$DESTINATION/$lib"
-#
-#return 0
+SOURCE_FILE="$SOURCE_DIR/libpulse.so.0.24.2"
+create_symlink_following_real_file "$SOURCE_FILE" "$DESTINATION_DIR" "libpulse.so"
 
-##########################################
-# workaround
-##########################################
-#
-#copy_lib_with_new_name() {
-#    local source_path="$1"
-#    local destination_path="$2"
-#    local source_lib_pattern="$3"
-#    local destination_lib_name="$4"
-#
-#    mkdir -p "$destination_path"
-#
-#    lib=$(find "$source_path" -type f -name "$source_lib_pattern" | head -n1)
-#
-#    if [ -f "$lib" ]; then
-#        echo "Copying library:"
-#        echo "  SOURCE:      $lib"
-#        echo "  Destination: $destination_path/$destination_lib_name"
-#        cp -L "$lib" "$destination_path/$destination_lib_name"
-#    else
-#        echo "No library matching $source_lib_pattern found in $source_path."
-#    fi
-#}
-#
-#SOURCE="/root"
-#DESTINATION="$SNAPCRAFT_PRIME/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR"
-#
-#mkdir -p "$DESTINATION"
-#
-#copy_lib_with_new_name "$SOURCE" "$DESTINATION" "libappindicator3.so*" "libappindicator3.so"
-#copy_lib_with_new_name "$SOURCE" "$DESTINATION" "liboss4-salsa.so.2.0.*" "libasound.so"
-#copy_lib_with_new_name "$SOURCE/alsa-lib" "$DESTINATION" "libasound_module_pcm_pulse.so" "libasound_module_pcm_pulse.so"
+SOURCE_FILE="$SOURCE_DIR/libasound.so.2.0.0"
+create_symlink_following_real_file "$SOURCE_FILE" "$DESTINATION_DIR" "libasound.so"
+
+########################################################################
+# Deleting useless files
+########################################################################
+rm "$SNAPCRAFT_PRIME/usr/lib/functions.sh"
+rm "$SNAPCRAFT_PRIME/usr/lib/prime.sh"

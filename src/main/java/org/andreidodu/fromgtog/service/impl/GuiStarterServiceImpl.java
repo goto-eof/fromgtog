@@ -114,22 +114,24 @@ public class GuiStarterServiceImpl implements GuiStarterService {
         try {
             UIManager.setLookAndFeel(new com.formdev.flatlaf.FlatDarculaLaf());
         } catch (Exception e) {
-            log.error("Failed to apply theme: {}", "Dracula");
-            SwingUtilities.invokeLater(new Runnable() {
-                public void run() {
-                    try {
-                        applyPreferredTheme();
-                    } catch (Exception e) {
-                        log.error("GUI error: {}", e.getMessage());
-                        tryToApplyDefaultTheme();
-                    }
-                }
-            });
+            log.error("Failed to apply theme: {}", e.getMessage(), e);
+            applyJavaTheme();
         } finally {
-            SystemTray.DEBUG = true;
-            System.setProperty("dorkbox.systemTray.DEBUG", "true");
             new ApplicationGUI();
         }
+    }
+
+    private void applyJavaTheme() {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    applyPreferredTheme();
+                } catch (Exception e) {
+                    log.error("GUI error: {}", e.getMessage());
+                    tryToApplyDefaultTheme();
+                }
+            }
+        });
     }
 
     private void tryToApplyDefaultTheme() {

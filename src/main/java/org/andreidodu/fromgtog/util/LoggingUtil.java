@@ -13,6 +13,8 @@ public class LoggingUtil {
         System.setProperty(ENV_LOG_FILE_PATH, logDir.getAbsolutePath());
         System.setProperty(ENV_LOG_FILENAME, LOG_FILENAME);
         prepareLogFile(logDir);
+
+        SystemTrayUtil.enableDorkboxSystemTrayDebugMode();
     }
 
     private static void prepareLogFile(File logDir) {
